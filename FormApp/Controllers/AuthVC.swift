@@ -16,7 +16,7 @@ class AuthVC: UIViewController {
     //MARK: - Properties
     var isFromUnautherized = false
     //MARK: - Life cycle
-    private let context = LAContext()
+    
     
     
     override func viewDidLoad() {
@@ -34,8 +34,11 @@ class AuthVC: UIViewController {
     }
     
     private func AuthorizeFaceID(){
-        if isFaceIdSupported(){
-            let reason = "please authorize with touch id! "
+        var error:NSError?=nil
+        let context = LAContext()
+        let reason = "please authorize with touch id! "
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error){
+           
             context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) {[weak self] success, error in
                 DispatchQueue.main.async {
                     guard success,error == nil else{
@@ -46,12 +49,21 @@ class AuthVC: UIViewController {
                     }
                     self?.goToHomeVC()
                 }
-                
             }
         }else{
-            let alert = UIAlertController(title: "un available ", message: "you can't use this feature", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel,handler:nil))
-            self.present(alert, animated: true)
+            context.evaluatePolicy(LAPolicy.deviceOwnerAuthentication,
+                                       localizedReason: reason,
+                                       reply: { (success, error) in
+                DispatchQueue.main.async {
+                    if success{
+                        self.goToHomeVC()
+                    }else{
+                        let alert = UIAlertController(title: "Failed to Authenticate ", message: "please try Again", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel,handler:nil))
+                        self.present(alert, animated: true)
+                    }
+                }
+            })
         }
     }
     
@@ -62,11 +74,7 @@ class AuthVC: UIViewController {
         nav1.navigationBar.isHidden = true
         sceneDelegate?.setRootVC(vc: nav1)
     }
-    
-    private func isFaceIdSupported()->Bool{
-        var error:NSError?=nil
-        return context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
-    }
+
     
 }
 extension AuthVC{
