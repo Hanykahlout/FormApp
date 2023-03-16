@@ -1,0 +1,402 @@
+//
+//  QCFormVC.swift
+//  FormApp
+//
+//  Created by heba isaa on 25/01/2023.
+//
+
+import UIKit
+import SVProgressHUD
+
+class QCFormVC: UIViewController {
+    //MARK: - Outlet
+    
+    @IBOutlet weak var formTypeNoteTableview: UITableView!
+    
+    @IBOutlet weak var jobView: UIViewDesignable!
+
+    @IBOutlet weak var companyBtn: UIButton!
+    @IBOutlet weak var jobBtn: UIButton!
+    @IBOutlet weak var divisionBtn: UIButton!
+    @IBOutlet weak var formTypeBtn: UIButton!
+
+    @IBOutlet weak var diviosnLeaderData: UITextField!
+    @IBOutlet weak var formTypeData: UITextField!
+    @IBOutlet weak var jobData: UITextField!
+    @IBOutlet weak var companiesData: UITextField!
+    
+    @IBOutlet weak var backBtn: UIButton!
+    @IBOutlet weak var submitBtn: UIButton!
+    
+    //MARK: - Properties
+    
+    private let presenter = AppPresenter()
+    private var companies:[DataDetails]=[]
+    private var jobs:[DataDetails]=[]
+    private var searchedJobs:[DataDetails]=[]
+    private var division:[DataDetails]=[]
+    private var forms:[DataDetails]=[]
+    private var formsItem:[DataDetails]=[]
+    
+    private var companyID=0
+    private var formTypeID=0
+    private var jobID=0
+    private var divisionID=0
+    
+    private var selectedIndex = -1
+    
+    private var formData:[String : Any] = [:]
+    private var requestSubmitted:Bool = false
+    
+    
+    //MARK: - Life cycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        BindButtons()
+        BtnStatus()
+        
+        SVProgressHUD.setBackgroundColor(.white)
+        SVProgressHUD.show(withStatus: "please wait")
+        
+        presenter.delegate=self
+        presenter.getCompaniesFromDB()
+        presenter.getDivisionFromDB()
+        presenter.getFormsFromDB()
+        setupTableview()
+    }
+
+    
+    func BtnStatus(){
+        formTypeBtn.isEnabled=false
+        companyBtn.isEnabled=false
+        jobBtn.isEnabled=false
+        divisionBtn.isEnabled=false
+        
+        jobView.backgroundColor = .systemGray5
+        
+        diviosnLeaderData.isEnabled=false
+        jobData.isEnabled=false
+        companiesData.isEnabled=false
+        formTypeData.isEnabled=false
+        
+    }
+    
+    func setupTableview(){
+        formTypeNoteTableview.register(FormTypeNoteCell.self)
+        formTypeNoteTableview.delegate=self
+        formTypeNoteTableview.dataSource = self
+        
+    }
+    
+    
+    
+    
+    @IBAction func companyAction(_ sender: Any) {
+        let vc = PickerVC.instantiate()
+        vc.arr_data = companies.map{$0.title ?? ""}
+        
+        vc.searchBarHiddenStatus = true
+        
+        vc.isModalInPresentation = true
+        vc.modalPresentationStyle = .overFullScreen
+        vc.definesPresentationContext = true
+        vc.delegate = {name , index in
+            // Selection Action Here
+            print("Selected Value:",name)
+            print("Selected Index:",index)
+            self.companiesData.text = name
+            self.companyID = self.companies[index].id ?? 0
+            
+            self.jobView.backgroundColor = .black
+            
+            self.jobs = []
+            self.jobData.text=""
+            self.presenter.getJobsFromDB(companyID: "\(self.companyID)", search: "")
+        }
+        self.present(vc, animated: true, completion: nil)
+    }
+    
+    
+    @IBAction func jobAction(_ sender: Any) {
+        let vc = PickerVC.instantiate()
+        vc.arr_data = jobs.map{$0.title ?? ""}
+        vc.companyId = self.companyID
+        vc.searchResults = { result in
+            self.searchedJobs = result
+        }
+        vc.searchOffline = { text in
+            var result = [DataDetails]()
+            for job in self.jobs {
+                if job.title?.lowercased().hasPrefix(text.lowercased()) ?? false{
+                    result.append(job)
+                }
+            }
+            self.searchedJobs = result
+            return result
+        }
+        vc.searchBarHiddenStatus = false
+        vc.isModalInPresentation = true
+        vc.modalPresentationStyle = .overFullScreen
+        vc.definesPresentationContext = true
+        vc.delegate = {name , index in
+            // Selection Action Here
+            print("Selected Value:",name)
+            print("Selected Index:",index)
+            if vc.searchBar.text == ""{
+                self.jobData.text = self.jobs[index].title ?? ""
+                self.jobID = self.jobs[index].id ?? 0
+            }else{
+                self.jobData.text = self.searchedJobs[index].title ?? ""
+                self.jobID = self.searchedJobs[index].id ?? 0
+            }
+        }
+        self.present(vc, animated: true, completion: nil)
+    }
+    
+    @IBAction func divisionLeaderAction(_ sender: Any) {
+        let vc = PickerVC.instantiate()
+        vc.arr_data = division.map{$0.title ?? ""}
+        vc.searchBarHiddenStatus = true
+        vc.isModalInPresentation = true
+        vc.modalPresentationStyle = .overFullScreen
+        vc.definesPresentationContext = true
+        vc.delegate = {name , index in
+            // Selection Action Here
+            print("Selected Value:",name)
+            print("Selected Index:",index)
+            self.diviosnLeaderData.text = name
+            self.divisionID = self.division[index].id ?? 0
+            
+            
+        }
+        self.present(vc, animated: true, completion: nil)
+    }
+    
+    @IBAction func FormTypeAction(_ sender: Any) {
+        let vc = PickerVC.instantiate()
+        vc.arr_data = forms.map{$0.title ?? ""}
+        vc.searchBarHiddenStatus = true
+        vc.isModalInPresentation = true
+        vc.modalPresentationStyle = .overFullScreen
+        vc.definesPresentationContext = true
+        vc.delegate = {name , index in
+            // Selection Action Here
+            print("Selected Value:",name)
+            print("Selected Index:",index)
+            self.formTypeData.text = name
+            self.formTypeID = self.forms[index].id ?? 0
+            self.presenter.getFormItemFromDB(formTypeID:"\(self.formTypeID)" )
+        }
+        self.present(vc, animated: true, completion: nil)
+        
+    }
+    
+    
+}
+extension QCFormVC{
+    
+    //MARK: - Binding
+    
+    func BindButtons(){
+        submitBtn.addTarget(self, action: #selector(ButtonWasTapped), for: .touchUpInside)
+        backBtn.addTarget(self, action: #selector(ButtonWasTapped), for: .touchUpInside)
+    }
+    
+    @objc func AddFormData( _ sender:UITextField){
+        let indexPath = NSIndexPath(row: sender.tag, section: 0)
+        formsItem[indexPath.row].note = sender.text ?? ""
+        
+    }
+    
+
+}
+
+extension QCFormVC{
+    
+    @objc func ButtonWasTapped(btn:UIButton){
+        switch btn{
+            
+        case submitBtn:
+            do{
+                
+                _ = try diviosnLeaderData.validatedText(validationType: .requiredField(field: " Select Division leader please"))
+                _ = try formTypeData.validatedText(validationType: .requiredField(field: "Select form type please"))
+                _ = try jobData.validatedText(validationType: .requiredField(field: "Select job please"))
+                _ = try companiesData.validatedText(validationType: .requiredField(field: "Select company please"))
+                
+                Alert.showAlert(viewController: self, title: "Do you  want to send the form", message: "") { Value in
+                   
+                    if Value == true{
+                        if self.isThereSubmtionForFormItems(){
+                            SVProgressHUD.setBackgroundColor(.white)
+                            SVProgressHUD.show(withStatus: "please wait")
+                            self.submitForm(formsDetails: self.formDetailsParameter())
+                        }else{
+                            Alert.showErrorAlert(message:  "Add your form Item Data,You have at least to choose status for every item" )
+                        }
+                    }
+
+                }
+                
+                
+            }catch{
+                Alert.showErrorAlert(message: (error as! ValidationError).message)
+                
+            }
+
+        case backBtn :
+            navigationController?.popViewController(animated: true)
+            
+        default:
+            print("")
+        }
+        
+    }
+    
+    private func isThereSubmtionForFormItems() -> Bool{
+        for item in formsItem{
+            if item.status == nil{
+                return false
+            }
+        }
+        return true
+    }
+    
+}
+
+extension QCFormVC:Storyboarded{
+    static var storyboardName: StoryboardName = .main
+    
+}
+
+extension QCFormVC:UITableViewDelegate, UITableViewDataSource{
+    func numberOfSections(in tableView: UITableView) -> Int {
+        1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        formsItem.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell:FormTypeNoteCell = tableView.dequeueReusableCell(for: indexPath)
+        cell.configureCell(obj: formsItem[indexPath.row])
+        cell.delegate = self
+        cell.indexPath = indexPath
+        
+        cell.formTitleNote.addTarget(self, action: #selector(AddFormData), for: .editingDidEnd)
+        cell.formTitleNote.tag=indexPath.row
+
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedIndex = indexPath.row
+    }
+    
+    
+}
+
+// MARK: - Table View Cell Delegate
+extension QCFormVC:FormTypeNoteCellDelegate{
+    func statusPickerAction(data:[String],indexPath: IndexPath) {
+        let vc = PickerVC.instantiate()
+        vc.arr_data = data
+        vc.searchBarHiddenStatus = true
+        vc.isModalInPresentation = true
+        vc.modalPresentationStyle = .overFullScreen
+        vc.definesPresentationContext = true
+        vc.delegate = {name , index in
+            self.formsItem[indexPath.row].status = name
+            self.formTypeNoteTableview.reloadRows(at: [indexPath], with: .automatic)
+        }
+        self.present(vc, animated: true, completion: nil)
+    }
+    
+    
+}
+
+extension QCFormVC:FormDelegate{
+    
+    func clearFields(){
+        formsItem=[]
+        formTypeNoteTableview.reloadData()
+        companiesData.text=""
+        jobData.text=""
+        diviosnLeaderData.text=""
+        formTypeData.text=""
+        jobBtn.isEnabled=false
+        jobView.backgroundColor = .systemGray5
+    }
+    
+    func getUserData(user: User) {}
+    
+    func getCompanyData(data: CompaniesData) {
+        companies.removeAll()
+        companies=data.companies
+        companyBtn.isEnabled=true
+        SVProgressHUD.dismiss()
+    }
+    
+    func getJobData(data: JobData) {
+        jobs.removeAll()
+        jobs=data.jobs
+        jobBtn.isEnabled=true
+    }
+
+    func getFormsData(data: FormsData) {
+        forms.removeAll()
+        forms=data.forms
+        formTypeBtn.isEnabled=true
+        SVProgressHUD.dismiss()
+
+    }
+    
+    func getDivition(data: DiviosnData) {
+        division.removeAll()
+        division=data.divisions
+        divisionBtn.isEnabled=true
+        SVProgressHUD.dismiss()
+        
+    }
+    
+    func getFormItemsData(data: FormItemData) {
+        formsItem.removeAll()
+        formsItem=data.form_items
+        formTypeNoteTableview.reloadData()
+        
+    }
+    
+    
+}
+
+extension QCFormVC{
+    func submitForm(formsDetails:[String:Any]){
+        presenter.submitFormData(isFormNewOnline: false,formsDetails: formsDetails)
+    }
+    
+    func formDetailsParameter() -> [String:Any]{
+        
+        
+        formData["company_id"] = "\(companyID)"
+        formData["job_id"] = "\(jobID)"
+        formData["division_id"] = "\(divisionID)"
+        formData["form_type_id"] = "\(formTypeID)"
+        
+        
+        for index in 0 ..< formsItem.count{
+            formData["form_items[\(index)][item_id]"] = formsItem[index].id ?? 0
+            
+            let status = formsItem[index].status ?? ""
+            formData["form_items[\(index)][pass]"] = status == "N/A" ? "" : status
+            
+            formData["form_items[\(index)][notes]"] = formsItem[index].note ?? ""
+        }
+        
+        
+        return formData
+    }
+    
+}
