@@ -59,7 +59,9 @@ extension HomeVC{
     @objc func ButtonWasTapped(btn:UIButton){
         switch btn{
         case qcFormBtn:
-            let vc = OptionsVC.instantiate()
+            
+//            let vc = OptionsVC.instantiate()
+            let vc = QCFormVC.instantiate()
             navigationController?.pushViewController(vc, animated: true)
         case emailSupportBtn:
             self.sendEmail(email: "blowe@cpnhinc.com")
