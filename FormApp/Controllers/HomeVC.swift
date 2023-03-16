@@ -30,8 +30,10 @@ class HomeVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         AppManager.shared.monitorNetwork {
-            SVProgressHUD.show(withStatus: "Submit all stored forms")
-            self.presenter.callAllRealmRequests()
+            DispatchQueue.main.async {
+                SVProgressHUD.show(withStatus: "Submit all stored forms")
+                self.presenter.callAllRealmRequests()
+            }
         } notConectedAction: {}
     }
     
