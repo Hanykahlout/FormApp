@@ -17,17 +17,20 @@ class AuthVC: UIViewController {
     var isFromUnautherized = false
     //MARK: - Life cycle
     private let context = LAContext()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         BindButtons()
-        if isFromUnautherized{
-            faceIdButton.isHidden = true
-        }else{
-            faceIdButton.isHidden = !isFaceIdSupported()
-            if faceIdButton.isHidden{
-                goToHomeVC()
-            }
-        }
+//        if {
+            faceIdButton.isHidden = isFromUnautherized
+//        }
+//        else{
+//            faceIdButton.isHidden = !isFaceIdSupported()
+//            if faceIdButton.isHidden{
+//                goToHomeVC()
+//            }
+//        }
     }
     
     private func AuthorizeFaceID(){

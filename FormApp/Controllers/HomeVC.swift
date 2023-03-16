@@ -38,7 +38,7 @@ class HomeVC: UIViewController {
 }
 
 extension HomeVC{
-    
+
     //MARK: - Binding
     
     func BindButtons(){
@@ -60,8 +60,7 @@ extension HomeVC{
         switch btn{
         case qcFormBtn:
             
-//            let vc = OptionsVC.instantiate()
-            let vc = QCFormVC.instantiate()
+            let vc = OptionsVC.instantiate()
             navigationController?.pushViewController(vc, animated: true)
         case emailSupportBtn:
             self.sendEmail(email: "blowe@cpnhinc.com")
