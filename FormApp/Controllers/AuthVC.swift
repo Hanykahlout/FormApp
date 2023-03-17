@@ -31,26 +31,27 @@ class AuthVC: UIViewController {
 //                goToHomeVC()
 //            }
 //        }
+        
     }
     
     private func AuthorizeFaceID(){
-        var error:NSError?=nil
+//        var error:NSError?=nil
         let context = LAContext()
         let reason = "please authorize with touch id! "
-        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error){
-           
-            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) {[weak self] success, error in
-                DispatchQueue.main.async {
-                    guard success,error == nil else{
-                        let alert = UIAlertController(title: "Failed to Authenticate ", message: "please try Again", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel,handler:nil))
-                        self?.present(alert, animated: true)
-                        return
-                    }
-                    self?.goToHomeVC()
-                }
-            }
-        }else{
+//        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error){
+//
+//            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) {[weak self] success, error in
+//                DispatchQueue.main.async {
+//                    guard success,error == nil else{
+//                        let alert = UIAlertController(title: "Failed to Authenticate ", message: "please try Again", preferredStyle: .alert)
+//                        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel,handler:nil))
+//                        self?.present(alert, animated: true)
+//                        return
+//                    }
+//                    self?.goToHomeVC()
+//                }
+//            }
+//        }else{
             context.evaluatePolicy(LAPolicy.deviceOwnerAuthentication,
                                        localizedReason: reason,
                                        reply: { (success, error) in
@@ -64,7 +65,7 @@ class AuthVC: UIViewController {
                     }
                 }
             })
-        }
+//        }
     }
     
     private func goToHomeVC(){
