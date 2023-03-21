@@ -91,10 +91,9 @@ class QCFormVC: UIViewController {
             diviosnLeaderData.text = editData.division?.title ?? ""
             
             for item in editData.items ?? []{
-                formsItem.append(.init(id: item.id ?? -1, title: item.title ?? "", status: item.pass ?? "", note: item.notes ?? ""))
+                formsItem.append(.init(id: Int(item.item_id ?? "-1")!, title: item.item?.title ?? "", status: item.pass ?? "", note: item.notes ?? ""))
                 formTypeNoteTableview.reloadData()
             }
-            
         }
     }
     
@@ -270,8 +269,8 @@ extension QCFormVC{
         default:
             print("")
         }
-        
     }
+
     
     private func isThereSubmtionForFormItems() -> Bool{
         for item in formsItem{

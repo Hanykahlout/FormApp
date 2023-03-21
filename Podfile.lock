@@ -5,11 +5,11 @@ PODS:
     - Moya/Core (= 15.0.0)
   - Moya/Core (15.0.0):
     - Alamofire (~> 5.0)
-  - Realm (10.34.0):
-    - Realm/Headers (= 10.34.0)
-  - Realm/Headers (10.34.0)
-  - RealmSwift (10.34.0):
-    - Realm (= 10.34.0)
+  - Realm (10.37.0):
+    - Realm/Headers (= 10.37.0)
+  - Realm/Headers (10.37.0)
+  - RealmSwift (10.37.0):
+    - Realm (= 10.37.0)
   - SVProgressHUD (2.2.5)
 
 DEPENDENCIES:
@@ -31,10 +31,10 @@ SPEC CHECKSUMS:
   Alamofire: 4e95d97098eacb88856099c4fc79b526a299e48c
   IQKeyboardManagerSwift: a8228c257614af98743b4cd8584637025f36358f
   Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
-  Realm: 991e7c4d6d37f1d6470a48bb072782ef00b91b67
-  RealmSwift: 11e77934e4af6d011d2970645fe56e11fa0e3c2c
+  Realm: 9c5fc6f8f5cb70b299f2e3064d2b9f6cb0f1523d
+  RealmSwift: 7be7bb45911c16400dd1bfce3a01764ecb4cae7a
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: 77a8d5beeb4d407014766811a7258899e5245ace
+PODFILE CHECKSUM: 0fda69157b5f1cb9640bbc6d56eb21c4628bdc04
 
 COCOAPODS: 1.11.3

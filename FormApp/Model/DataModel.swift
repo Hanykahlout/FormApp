@@ -161,5 +161,13 @@ struct SubmittedFormItems:Decodable{
     let item_id:String?
     let pass:String?
     let notes:String?
-    let title:String?
+    let item:SubmittedFormItemData?
 }
+
+struct SubmittedFormItemData:Decodable{
+    let id:Int?
+    let title:String?
+    let form_type_id:String?
+    let created_at:String?
+}
+
