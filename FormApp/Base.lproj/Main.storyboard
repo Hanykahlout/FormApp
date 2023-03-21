@@ -673,7 +673,7 @@
                                             <constraint firstAttribute="height" constant="45" id="Ayz-qY-2E2"/>
                                         </constraints>
                                         <segments>
-                                            <segment title="Completed Padded Forms"/>
+                                            <segment title="Completed Passed Forms"/>
                                             <segment title="Incompleted Failed Forms"/>
                                         </segments>
                                         <color key="selectedSegmentTintColor" systemColor="systemOrangeColor"/>
@@ -688,7 +688,7 @@
                                             <userDefinedRuntimeAttribute type="string" keyPath="placeHolder" value="Search..."/>
                                         </userDefinedRuntimeAttributes>
                                     </view>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="jBW-cc-T3R">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="jBW-cc-T3R">
                                         <rect key="frame" x="0.0" y="110" width="373" height="588"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableView>

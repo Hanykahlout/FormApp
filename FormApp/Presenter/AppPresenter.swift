@@ -317,9 +317,15 @@ class AppPresenter:NSObject{
     
     
     func callAllRealmRequests(){
-        guard let email = try? KeychainWrapper.get(key: "email") else { return }
+        guard let email = try? KeychainWrapper.get(key: "email") else {
+            SVProgressHUD.dismiss()
+            return
+        }
         let predicate = NSPredicate(format: "email == %@", email)
-        guard let models = RealmManager.sharedInstance.fetchObjects(RequestModel.self,predicate: predicate) else { return }
+        guard let models = RealmManager.sharedInstance.fetchObjects(RequestModel.self,predicate: predicate) else {
+            SVProgressHUD.dismiss()
+            return
+        }
         for model in models {
             submitFormData(isEdit:model.isEdit ?? false,isFormNewOnline:true,formsDetails: convertStringToDic(string: model.body ?? ""))
             RealmManager.sharedInstance.removeObject(model)
