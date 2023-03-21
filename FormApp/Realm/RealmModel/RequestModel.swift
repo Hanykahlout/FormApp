@@ -15,6 +15,7 @@ class RequestModel: Object {
     @Persisted var headers:String?
     @Persisted var method:String?
     @Persisted var email:String?
+    @Persisted var isEdit:Bool?
     
     override class func primaryKey() -> String? {
         return "id"

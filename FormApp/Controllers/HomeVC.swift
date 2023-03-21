@@ -62,7 +62,7 @@ extension HomeVC{
         switch btn{
         case qcFormBtn:
             
-            let vc = OptionsVC.instantiate()
+            let vc = FormsVC.instantiate()
             navigationController?.pushViewController(vc, animated: true)
         case emailSupportBtn:
             self.sendEmail(email: "blowe@cpnhinc.com")

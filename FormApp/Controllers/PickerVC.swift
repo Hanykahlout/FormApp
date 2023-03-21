@@ -15,34 +15,32 @@ class PickerVC: UIViewController {
     @IBOutlet weak var picker: UIPickerView!
     
     @IBOutlet weak var searchBar: SearchView!
+    @IBOutlet weak var searchBarMainView: UIView!
     
     var arr_data:[String] = []
     var name:String = ""
     var index : Int = 0
     var companyId=0
     var delegate : ((_ name: String ,_ index:Int) -> Void)?
-    var searchResults : ((_ jobs: [DataDetails]) -> Void)?
-    var searchOffline: ((_ text:String) -> [DataDetails])?
-    
+    var searchAction: ((_ searchText:String) -> Void)?
     var searchBarHiddenStatus:Bool=false
     let presenter = AppPresenter()
-    
+    var searchText = ""
     //pickerDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configGUI()
-        searchBar.isHidden = searchBarHiddenStatus
+        searchBarMainView.isHidden = searchBarHiddenStatus
         searchBarStatus()
-        presenter.delegate=self
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if !arr_data.isEmpty{
             self.index = 0
         }
+        searchBar.text = searchText
     }
     
     
@@ -58,17 +56,8 @@ class PickerVC: UIViewController {
     }
 
     @objc func searchActioon(_ sender : UIButton ) {
-        self.searchBar.text = self.searchBar.text?.trimmingCharacters(in: .whitespaces)
-//        if UserDefaults.standard.bool(forKey: "internet_connection"){
-//            SVProgressHUD.setBackgroundColor(.white)
-//            SVProgressHUD.show(withStatus: "please wait")
-//            self.presenter.getJobs(companyID: "\(self.companyId)", search: self.searchBar.text!)
-//        }else{
-            let jobs = self.searchOffline?(self.searchBar.text ?? "") ?? []
-            self.arr_data = jobs.map({$0.title ?? ""})
-            self.picker.delegate=self
-            self.picker.dataSource=self
-//        }
+        searchBar.text = searchBar.text?.trimmingCharacters(in: .whitespaces)
+        searchAction?(searchBar.text!)
     }
 
     
@@ -171,30 +160,6 @@ extension PickerVC : UIPickerViewDelegate, UIPickerViewDataSource {
         }
         
     }
-}
-
-
-extension PickerVC:FormDelegate{
-    func showAlerts(title: String, message: String) {}
-    
-    func getUserData(user: User) {}
-    
-    func getCompanyData(data: CompaniesData) {}
-    
-    func getJobData(data: JobData) {
-        arr_data = data.jobs.map({$0.title ?? ""})
-        searchResults?(data.jobs)
-        SVProgressHUD.dismiss()
-        picker.delegate=self
-        picker.dataSource=self
-    }
-    
-    func getFormsData(data: FormsData) { }
-    
-    func getDivition(data: DiviosnData) {}
-    
-    func getFormItemsData(data: FormItemData) { }
-    
 }
 
 extension PickerVC:Storyboarded{

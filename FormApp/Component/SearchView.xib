@@ -17,23 +17,23 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="Tcd-cQ-dQ1">
-            <rect key="frame" x="0.0" y="0.0" width="462" height="83"/>
+            <rect key="frame" x="0.0" y="0.0" width="462" height="46"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MSh-GG-j8G" customClass="UIViewDesignable" customModule="FormApp" customModuleProvider="target">
-                    <rect key="frame" x="10" y="10" width="442" height="63"/>
+                    <rect key="frame" x="0.0" y="0.0" width="462" height="46"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rbE-kb-uZU">
-                            <rect key="frame" x="0.0" y="0.0" width="442" height="63"/>
+                            <rect key="frame" x="0.0" y="0.0" width="462" height="46"/>
                             <subviews>
                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="     What are you looking for?" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ctf-1P-FCj" customClass="BottomBorderTextField" customModule="FormApp" customModuleProvider="target">
-                                    <rect key="frame" x="4" y="4" width="409" height="55"/>
+                                    <rect key="frame" x="4" y="4" width="429" height="38"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute type="color" keyPath="placeholderTextColor">
-                                            <color key="value" white="0.66666666669999997" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="value" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </userDefinedRuntimeAttribute>
                                         <userDefinedRuntimeAttribute type="color" keyPath="LineColor">
                                             <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -41,7 +41,7 @@
                                     </userDefinedRuntimeAttributes>
                                 </textField>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g4H-3O-NHX">
-                                    <rect key="frame" x="413" y="4" width="25" height="55"/>
+                                    <rect key="frame" x="433" y="4" width="25" height="38"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="25" id="rqI-2h-hls"/>
                                     </constraints>
@@ -49,15 +49,18 @@
                                     <state key="normal" image="magnifyingglass" catalog="system"/>
                                 </button>
                             </subviews>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="46" id="VzV-lR-EU6"/>
+                            </constraints>
                             <directionalEdgeInsets key="directionalLayoutMargins" top="4" leading="4" bottom="4" trailing="4"/>
                         </stackView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="rbE-kb-uZU" secondAttribute="trailing" id="2Ui-lK-Pm9"/>
-                        <constraint firstItem="rbE-kb-uZU" firstAttribute="top" secondItem="MSh-GG-j8G" secondAttribute="top" id="A1y-aH-ZxW"/>
-                        <constraint firstItem="rbE-kb-uZU" firstAttribute="leading" secondItem="MSh-GG-j8G" secondAttribute="leading" id="T6e-c4-Pe6"/>
-                        <constraint firstAttribute="bottom" secondItem="rbE-kb-uZU" secondAttribute="bottom" id="ioa-ac-OId"/>
+                        <constraint firstItem="rbE-kb-uZU" firstAttribute="leading" secondItem="MSh-GG-j8G" secondAttribute="leading" id="5mJ-uh-84J"/>
+                        <constraint firstAttribute="trailing" secondItem="rbE-kb-uZU" secondAttribute="trailing" id="BQj-uy-8VD"/>
+                        <constraint firstItem="rbE-kb-uZU" firstAttribute="top" secondItem="MSh-GG-j8G" secondAttribute="top" id="lFA-Mf-EzQ"/>
+                        <constraint firstAttribute="bottom" secondItem="rbE-kb-uZU" secondAttribute="bottom" id="uPG-OI-4px"/>
                     </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -81,16 +84,13 @@
             <viewLayoutGuide key="safeArea" id="pm0-j3-2DI"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="pm0-j3-2DI" firstAttribute="trailing" secondItem="MSh-GG-j8G" secondAttribute="trailing" constant="10" id="0st-gY-Oxp"/>
-                <constraint firstItem="MSh-GG-j8G" firstAttribute="leading" secondItem="pm0-j3-2DI" secondAttribute="leading" constant="10" id="2O6-cS-HLE"/>
-                <constraint firstItem="MSh-GG-j8G" firstAttribute="top" secondItem="Tcd-cQ-dQ1" secondAttribute="top" constant="10" id="7hA-q6-EIY"/>
-                <constraint firstItem="MSh-GG-j8G" firstAttribute="top" secondItem="Tcd-cQ-dQ1" secondAttribute="top" constant="10" id="Dfy-7U-ov6"/>
-                <constraint firstAttribute="bottom" secondItem="MSh-GG-j8G" secondAttribute="bottom" constant="10" id="EHQ-3h-qHT"/>
-                <constraint firstAttribute="bottom" secondItem="MSh-GG-j8G" secondAttribute="bottom" constant="10" id="TwP-QI-CGz"/>
-                <constraint firstItem="MSh-GG-j8G" firstAttribute="leading" secondItem="pm0-j3-2DI" secondAttribute="leading" constant="10" id="vxI-ct-TyP"/>
+                <constraint firstAttribute="bottom" secondItem="MSh-GG-j8G" secondAttribute="bottom" id="CCT-DC-eSd"/>
+                <constraint firstItem="MSh-GG-j8G" firstAttribute="top" secondItem="Tcd-cQ-dQ1" secondAttribute="top" id="Mgq-UW-hLf"/>
+                <constraint firstItem="MSh-GG-j8G" firstAttribute="leading" secondItem="Tcd-cQ-dQ1" secondAttribute="leading" id="gZh-fu-gjd"/>
+                <constraint firstAttribute="trailing" secondItem="MSh-GG-j8G" secondAttribute="trailing" id="mGc-Bf-3gO"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-178.2608695652174" y="-279.57589285714283"/>
+            <point key="canvasLocation" x="-178.2608695652174" y="-292.63392857142856"/>
         </view>
     </objects>
     <designables>

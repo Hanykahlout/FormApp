@@ -14,12 +14,12 @@ class QCFormVC: UIViewController {
     @IBOutlet weak var formTypeNoteTableview: UITableView!
     
     @IBOutlet weak var jobView: UIViewDesignable!
-
+    
     @IBOutlet weak var companyBtn: UIButton!
     @IBOutlet weak var jobBtn: UIButton!
     @IBOutlet weak var divisionBtn: UIButton!
     @IBOutlet weak var formTypeBtn: UIButton!
-
+    
     @IBOutlet weak var diviosnLeaderData: UITextField!
     @IBOutlet weak var formTypeData: UITextField!
     @IBOutlet weak var jobData: UITextField!
@@ -47,7 +47,10 @@ class QCFormVC: UIViewController {
     
     private var formData:[String : Any] = [:]
     private var requestSubmitted:Bool = false
+    private var searchText = ""
+    private var jobPickerVC: PickerVC?
     
+    var editData: FormInfo?
     
     //MARK: - Life cycle
     
@@ -66,7 +69,34 @@ class QCFormVC: UIViewController {
         presenter.getFormsFromDB()
         setupTableview()
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let editData = editData{
+            companyID = editData.company?.id ?? 0
+            companyBtn.isEnabled = true
+            companiesData.text = editData.company?.title ?? ""
+            
+            jobID = editData.job?.id ?? 0
+            jobBtn.isEnabled = true
+            jobData.text = editData.job?.title ?? ""
+            jobView.backgroundColor = .black
+            
+            formTypeID = editData.form?.id ?? 0
+            formTypeBtn.isEnabled = true
+            formTypeData.text = editData.form?.title ?? ""
+            
+            divisionID = editData.division?.id ?? 0
+            divisionBtn.isEnabled = true
+            diviosnLeaderData.text = editData.division?.title ?? ""
+            
+            for item in editData.items ?? []{
+                formsItem.append(.init(id: item.id ?? -1, title: item.title ?? "", status: item.pass ?? "", note: item.notes ?? ""))
+                formTypeNoteTableview.reloadData()
+            }
+            
+        }
+    }
     
     func BtnStatus(){
         formTypeBtn.isEnabled=false
@@ -120,39 +150,27 @@ class QCFormVC: UIViewController {
     
     
     @IBAction func jobAction(_ sender: Any) {
-        let vc = PickerVC.instantiate()
-        vc.arr_data = jobs.map{$0.title ?? ""}
-        vc.companyId = self.companyID
-        vc.searchResults = { result in
-            self.searchedJobs = result
+        jobPickerVC = PickerVC.instantiate()
+        jobPickerVC!.searchText = searchText
+        jobPickerVC!.arr_data = jobs.map{$0.title ?? ""}
+        jobPickerVC!.companyId = self.companyID
+        jobPickerVC!.searchAction = { searchText in
+            self.searchText = searchText
+            self.presenter.getJobsFromDB(companyID: String(self.companyID), search: searchText)
         }
-        vc.searchOffline = { text in
-            var result = [DataDetails]()
-            for job in self.jobs {
-                if job.title?.lowercased().hasPrefix(text.lowercased()) ?? false{
-                    result.append(job)
-                }
-            }
-            self.searchedJobs = result
-            return result
-        }
-        vc.searchBarHiddenStatus = false
-        vc.isModalInPresentation = true
-        vc.modalPresentationStyle = .overFullScreen
-        vc.definesPresentationContext = true
-        vc.delegate = {name , index in
+        jobPickerVC!.searchBarHiddenStatus = false
+        jobPickerVC!.isModalInPresentation = true
+        jobPickerVC!.modalPresentationStyle = .overFullScreen
+        jobPickerVC!.definesPresentationContext = true
+        jobPickerVC!.delegate = {name , index in
             // Selection Action Here
             print("Selected Value:",name)
             print("Selected Index:",index)
-            if vc.searchBar.text == ""{
-                self.jobData.text = self.jobs[index].title ?? ""
-                self.jobID = self.jobs[index].id ?? 0
-            }else{
-                self.jobData.text = self.searchedJobs[index].title ?? ""
-                self.jobID = self.searchedJobs[index].id ?? 0
-            }
+            self.jobData.text = self.jobs[index].title ?? ""
+            self.jobID = self.jobs[index].id ?? 0
+            
         }
-        self.present(vc, animated: true, completion: nil)
+        self.present(jobPickerVC!, animated: true, completion: nil)
     }
     
     @IBAction func divisionLeaderAction(_ sender: Any) {
@@ -210,7 +228,7 @@ extension QCFormVC{
         
     }
     
-
+    
 }
 
 extension QCFormVC{
@@ -227,7 +245,7 @@ extension QCFormVC{
                 _ = try companiesData.validatedText(validationType: .requiredField(field: "Select company please"))
                 
                 Alert.showAlert(viewController: self, title: "Do you  want to send the form", message: "") { Value in
-                   
+                    
                     if Value == true{
                         if self.isThereSubmtionForFormItems(){
                             SVProgressHUD.setBackgroundColor(.white)
@@ -237,7 +255,7 @@ extension QCFormVC{
                             Alert.showErrorAlert(message:  "Add your form Item Data,You have at least to choose status for every item" )
                         }
                     }
-
+                    
                 }
                 
                 
@@ -245,7 +263,7 @@ extension QCFormVC{
                 Alert.showErrorAlert(message: (error as! ValidationError).message)
                 
             }
-
+            
         case backBtn :
             navigationController?.popViewController(animated: true)
             
@@ -264,6 +282,9 @@ extension QCFormVC{
         return true
     }
     
+    private func checkIfThereFieldItems()-> Bool{
+        return formsItem.contains(where: {$0.status == "fail"})
+    }
 }
 
 extension QCFormVC:Storyboarded{
@@ -288,7 +309,7 @@ extension QCFormVC:UITableViewDelegate, UITableViewDataSource{
         
         cell.formTitleNote.addTarget(self, action: #selector(AddFormData), for: .editingDidEnd)
         cell.formTitleNote.tag=indexPath.row
-
+        
         return cell
     }
     
@@ -321,6 +342,9 @@ extension QCFormVC:FormTypeNoteCellDelegate{
 extension QCFormVC:FormDelegate{
     
     func clearFields(){
+        if checkIfThereFieldItems(){
+            Alert.showSuccessAlert(title: "Alert", message: "Form has failed items. Please fix the failed items by going to incomplete failed forms")
+        }
         formsItem=[]
         formTypeNoteTableview.reloadData()
         companiesData.text=""
@@ -329,6 +353,7 @@ extension QCFormVC:FormDelegate{
         formTypeData.text=""
         jobBtn.isEnabled=false
         jobView.backgroundColor = .systemGray5
+        navigationController?.popViewController(animated: true)
     }
     
     func getUserData(user: User) {}
@@ -344,14 +369,21 @@ extension QCFormVC:FormDelegate{
         jobs.removeAll()
         jobs=data.jobs
         jobBtn.isEnabled=true
+        if let jobPickerVC = self.jobPickerVC{
+            jobPickerVC.arr_data = jobs.map{$0.title ?? ""}
+            jobPickerVC.picker.reloadAllComponents()
+            if !jobPickerVC.arr_data.isEmpty{
+                jobPickerVC.index = 0
+            }
+        }
     }
-
+    
     func getFormsData(data: FormsData) {
         forms.removeAll()
         forms=data.forms
         formTypeBtn.isEnabled=true
         SVProgressHUD.dismiss()
-
+        
     }
     
     func getDivition(data: DiviosnData) {
@@ -374,7 +406,7 @@ extension QCFormVC:FormDelegate{
 
 extension QCFormVC{
     func submitForm(formsDetails:[String:Any]){
-        presenter.submitFormData(isFormNewOnline: false,formsDetails: formsDetails)
+        presenter.submitFormData(isEdit:editData != nil ,isFormNewOnline: false,formsDetails: formsDetails)
     }
     
     func formDetailsParameter() -> [String:Any]{
@@ -385,6 +417,9 @@ extension QCFormVC{
         formData["division_id"] = "\(divisionID)"
         formData["form_type_id"] = "\(formTypeID)"
         
+        if editData != nil{
+            formData["submitted_form_id"] = editData!.id ?? -1
+        }
         
         for index in 0 ..< formsItem.count{
             formData["form_items[\(index)][item_id]"] = formsItem[index].id ?? 0

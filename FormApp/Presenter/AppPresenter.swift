@@ -19,6 +19,7 @@ protocol FormDelegate{
     func getFormItemsData(data:FormItemData)
     func clearFields()
     func checkUpdatedReuests(data:RequestsStatus)
+    func getSubmittedFormsData(data:SubmittedFormData)
 }
 
 extension FormDelegate{
@@ -31,6 +32,7 @@ extension FormDelegate{
     func getFormItemsData(data:FormItemData){}
     func clearFields(){}
     func checkUpdatedReuests(data:RequestsStatus){}
+    func getSubmittedFormsData(data:SubmittedFormData){}
 }
 typealias FormsDelegate = FormDelegate & UIViewController
 
@@ -103,13 +105,25 @@ class AppPresenter:NSObject{
         }
     }
     
+    
     func getAllDataAndStoreOnDB(data:RequestsStatus){
+        var normal = true
+        var uuid = ""
+        if UserDefaults.standard.bool(forKey: "FirstFetchDataDone"){
+            normal = false
+            uuid = UserDefaults.standard.string(forKey: "ApplicationSessionUUID") ?? ""
+        }else{
+            UserDefaults.standard.set(true, forKey: "FirstFetchDataDone")
+        }
         SVProgressHUD.show(withStatus: "Please wait until all data fetched from server")
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
         if data.company ?? false{
-            getCompanies { companies in
-                self.addToDBModels(models: companies , type: "companies")
+            getCompanies(normal: normal, uuid: uuid) { data in
+                self.addToDBModels(models: data?.companies ?? [] , type: "companies")
+                for deletedCompany in data?.companyDeleted ?? []{
+                    self.deleteDataDetailsFromRealmDB(id: deletedCompany.id ?? -1)
+                }
                 dispatchGroup.leave()
             }
         }else{
@@ -118,8 +132,11 @@ class AppPresenter:NSObject{
         
         dispatchGroup.enter()
         if data.job ?? false{
-            self.getJobs(companyID: "", search: "") { jobs in
-                self.addToDBModels(models: jobs , type: "jobs")
+            self.getJobs(normal: normal, uuid: uuid,companyID: "", search: "") { data in
+                self.addToDBModels(models: data?.jobs ?? [] , type: "jobs")
+                for deletedJob in data?.jobDeleted ?? []{
+                    self.deleteDataDetailsFromRealmDB(id: deletedJob.id ?? -1)
+                }
                 dispatchGroup.leave()
             }
         }else{
@@ -129,8 +146,11 @@ class AppPresenter:NSObject{
         
         dispatchGroup.enter()
         if data.division ?? false{
-            getDivision{ divisions in
-                self.addToDBModels(models: divisions , type: "divisions")
+            getDivision(normal: normal, uuid: uuid){ data in
+                self.addToDBModels(models: data?.divisions ?? [] , type: "divisions")
+                for deletedDivistion in data?.divisionDeleted ?? []{
+                    self.deleteDataDetailsFromRealmDB(id: deletedDivistion.id ?? -1)
+                }
                 dispatchGroup.leave()
             }
         }else{
@@ -139,20 +159,27 @@ class AppPresenter:NSObject{
         
         dispatchGroup.enter()
         if data.form ?? false{
-            getForms { forms in
-                self.addToDBModels(models: forms , type: "forms")
-                let formsGroup = DispatchGroup()
-                for form in forms {
-                    formsGroup.enter()
-                    self.getFormItem(formTypeID: String(form.id ?? 0)) { form_items , formTypeID in
-                        self.addToFormItemDBModels(models:form_items , type: "form_items",form_type_id: formTypeID)
-                        formsGroup.leave()
-                    }
+            getForms(normal: normal, uuid: uuid) { data in
+                self.addToDBModels(models: data?.forms ?? [] , type: "forms")
+                for deletedForm in data?.formDeleted ?? []{
+                    self.deleteDataDetailsFromRealmDB(id: deletedForm.id ?? -1)
                 }
-                formsGroup.notify(queue: .main) {
-                    dispatchGroup.leave()
-                }
+                dispatchGroup.leave()
             }
+        }else{
+            dispatchGroup.leave()
+        }
+        
+        dispatchGroup.enter()
+        if data.formItem ?? false{
+            self.getFormItem(formTypeID: "") { data in
+                self.addToFormItemDBModels(models:data?.form_items ?? [])
+                for itemDeleted in data?.itemDeleted ?? []{
+                    self.deleteFormItemRealmDB(id: itemDeleted.id ?? -1)
+                }
+                dispatchGroup.leave()
+            }
+            
         }else{
             dispatchGroup.leave()
         }
@@ -161,110 +188,99 @@ class AppPresenter:NSObject{
             UserDefaults.standard.set(true, forKey: "AddAllDataToRealm")
             SVProgressHUD.dismiss()
         }
-        
     }
     
     
-    private func getCompanies(completion:@escaping (_ companies:[DataDetails])->Void){
-        AppManager.shared.getCompanies { Response in
+    private func getCompanies(normal:Bool,uuid:String,completion:@escaping (_ data:CompaniesData?)->Void){
+        AppManager.shared.getCompanies(normal: normal, uuid: uuid) { Response in
             switch Response{
             case let .success(response):
                 if response.status == true{
-                    completion(response.data?.companies ?? [])
+                    completion(response.data)
                 }else{
-                    completion([])
-//                    Alert.showErrorAlert(message: response.message ?? "")
+                    completion(nil)
                 }
-            case  .failure(let error):
+            case  .failure(_):
                 DispatchQueue.main.async {
-                    completion([])
-//                    Alert.showErrorAlert(message: error.localizedDescription)
+                    completion(nil)
                 }
             }
         }
     }
     
-    private func getJobs(companyID:String,search:String,completion:@escaping(_ jobs:[DataDetails])->Void){
-        AppManager.shared.getJob(companyId:companyID,search:search ) { Response in
+    private func getJobs(normal:Bool,uuid:String,companyID:String,search:String,completion:@escaping(_ data:JobData?)->Void){
+        AppManager.shared.getJob(normal: normal, uuid: uuid,companyId:companyID,search:search ) { Response in
             switch Response{
             case let .success(response):
                 if response.status == true{
-                    completion(response.data?.jobs ?? [])
+                    completion(response.data)
                 }else{
-                    completion([])
-//                    Alert.showErrorAlert(message: response.message ?? "")
+                    completion(nil)
                 }
-            case  .failure(let error):
+            case  .failure(_):
                 DispatchQueue.main.async {
-                    completion([])
-//                    Alert.showErrorAlert(message: error.localizedDescription)
+                    completion(nil)
                 }
             }
         }
     }
     
-    private func getForms(completion:@escaping(_ forms:[DataDetails])->Void){
-        AppManager.shared.forms{ Response in
+    private func getForms(normal: Bool, uuid: String,completion:@escaping(_ data:FormsData?)->Void){
+        AppManager.shared.forms(normal: normal, uuid: uuid){ Response in
             switch Response{
             case let .success(response):
                 if response.status == true{
-                    completion(response.data?.forms ?? [])
+                    completion(response.data)
                 }else{
-                    completion([])
-//                    Alert.showErrorAlert(message: response.message ?? "")
+                    completion(nil)
                 }
-            case  .failure(let error):
+            case  .failure(_):
                 DispatchQueue.main.async {
-                    completion([])
-//                    Alert.showErrorAlert(message: error.localizedDescription)
+                    completion(nil)
                 }
             }
         }
     }
     
-    private func getDivision(compltion:@escaping (_ divisions:[DataDetails] )->Void){
-        AppManager.shared.division{ Response in
+    private func getDivision(normal: Bool, uuid: String,compltion:@escaping (_ data:DiviosnData?)->Void){
+        AppManager.shared.division(normal: normal, uuid: uuid){ Response in
             switch Response{
                 
             case let .success(response):
                 if response.status == true{
-                    compltion(response.data?.divisions ?? [])
+                    compltion(response.data)
                 }else{
-                    compltion([])
-//                    Alert.showErrorAlert(message: response.message ?? "")
+                    compltion(nil)
                 }
-            case  .failure(let error):
+            case  .failure(_):
                 DispatchQueue.main.async {
-                    compltion([])
-//                    Alert.showErrorAlert(message: error.localizedDescription)
+                    compltion(nil)
                 }
             }
         }
     }
     
-    private func getFormItem(formTypeID:String,compltion:@escaping (_ form_items:[DataDetails] ,_ formTypeID:String)->Void){
+    private func getFormItem(formTypeID:String,compltion:@escaping (_ data:FormItemData?)->Void){
         AppManager.shared.getFormItems(form_type_id:formTypeID ){ Response in
             switch Response{
             case let .success(response):
                 if response.status == true{
-                    compltion( response.data?.form_items ?? [],formTypeID)
+                    compltion( response.data)
                 }else{
-                    compltion([],"")
-//                    Alert.showErrorAlert(message: response.message ?? "")
+                    compltion(nil)
                 }
-            case  .failure(let error):
+            case  .failure(_):
                 DispatchQueue.main.async {
-                    compltion([],"")
-//                    Alert.showErrorAlert(message: error.localizedDescription)
+                    compltion(nil)
                 }
             }
         }
     }
     
-    func submitFormData(isFormNewOnline:Bool,formsDetails:[String : Any]){
+    func submitFormData(isEdit:Bool,isFormNewOnline:Bool,formsDetails:[String : Any]){
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
-        AppManager.shared.submitForms(formsDetails: formsDetails) { Response in
+        AppManager.shared.submitForms(isEdit:isEdit,formsDetails: formsDetails) { Response in
             dispatchGroup.leave()
             SVProgressHUD.dismiss()
             switch Response{
@@ -285,7 +301,7 @@ class AppPresenter:NSObject{
                         let url = "\(AppConfig.apiBaseUrl)submitForm"
                         let token = try? KeychainWrapper.get(key: AppData.email) ?? ""
                         let headers:[String:Any] = ["Authorization":token ?? "" ,"Accept":"application/json","Accept-Language":"en"]
-                        self.addRequestToRealm(url: url, body: formsDetails, header: headers, method: "post")
+                        self.addRequestToRealm(url: url, body: formsDetails, header: headers, method: "post",isEdit: isEdit)
                         self.delegate?.clearFields()
                     }
                 }
@@ -298,14 +314,14 @@ class AppPresenter:NSObject{
             }
         }
     }
-   
+    
     
     func callAllRealmRequests(){
         guard let email = try? KeychainWrapper.get(key: "email") else { return }
         let predicate = NSPredicate(format: "email == %@", email)
         guard let models = RealmManager.sharedInstance.fetchObjects(RequestModel.self,predicate: predicate) else { return }
         for model in models {
-            submitFormData(isFormNewOnline:true,formsDetails: convertStringToDic(string: model.body ?? ""))
+            submitFormData(isEdit:model.isEdit ?? false,isFormNewOnline:true,formsDetails: convertStringToDic(string: model.body ?? ""))
             RealmManager.sharedInstance.removeObject(model)
         }
         if models.isEmpty {
@@ -331,10 +347,26 @@ class AppPresenter:NSObject{
                 }
             case  .failure(_):
                 break
-//                Alert.showErrorAlert(message: "There is an unknown error")
             }
         }
     }
+    
+    func getSubmittedForms(search:String){
+        SVProgressHUD.show()
+        AppManager.shared.getSubmittedForms(searchText: search) { response in
+            SVProgressHUD.dismiss()
+            switch response {
+            case .success(let response):
+                if let data = response.data{
+                    self.delegate?.getSubmittedFormsData(data: data)
+                }
+            case .failure(_):
+                break
+            }
+        }
+    }
+    
+    
     
     // MARK: - Realm DB Actions
     
@@ -344,7 +376,7 @@ class AppPresenter:NSObject{
     }
     
     func getJobsFromDB(companyID:String,search:String){
-        self.delegate?.getJobData(data: JobData(jobs: self.getFromDBJobsModels(companyId: companyID)))
+        self.delegate?.getJobData(data: JobData(jobs: self.getFromDBJobsModels(companyId: companyID,searchText: search)))
     }
     
     func getFormsFromDB(){
@@ -377,8 +409,10 @@ class AppPresenter:NSObject{
     }
     
     
-    private func getFromDBJobsModels(companyId:String)->[DataDetails]{
-        let predicate = NSPredicate(format: "type == %@ AND company_id == %@","jobs",companyId)
+    private func getFromDBJobsModels(companyId:String,searchText:String)->[DataDetails]{
+        let searchQuery = "AND title CONTAINS[c] '\(searchText)'"
+        let predicate = NSPredicate(format: "type == %@ AND company_id == %@ \(searchText != "" ? searchQuery : "")","jobs",companyId)
+        
         guard let models = RealmManager.sharedInstance.fetchObjects(DataDetailsDBModel.self,predicate: predicate) else {return []}
         var result = [DataDetails]()
         for model in models {
@@ -402,7 +436,8 @@ class AppPresenter:NSObject{
             let id = model.id
             let title = model.title
             let created_at = model.created_at
-            let obj = DataDetails(id: id, title: title, created_at: created_at)
+            let form_type_id = model.form_type_id
+            let obj = DataDetails(id: id, title: title, created_at: created_at,form_type_id: form_type_id)
             result.append(obj)
         }
         return result
@@ -411,10 +446,11 @@ class AppPresenter:NSObject{
     
     // MARK: - Add Realm DB Actions
     
-    private func addRequestToRealm(url:String,body:[String:Any],header:[String:Any],method:String){
+    private func addRequestToRealm(url:String,body:[String:Any],header:[String:Any],method:String,isEdit:Bool){
         let request = RequestModel()
         request.id = UUID().uuidString
         request.url = url
+        request.isEdit = isEdit
         let bodyData = try? JSONSerialization.data(withJSONObject: body, options: .prettyPrinted)
         request.body = String(data: bodyData ?? Data(), encoding: .utf8)
         let headersData = try? JSONSerialization.data(withJSONObject: header, options: .prettyPrinted)
@@ -450,18 +486,29 @@ class AppPresenter:NSObject{
             RealmManager.sharedInstance.saveObject(dbModel)
         }
     }
-    private func addToFormItemDBModels(models:[DataDetails],type:String,form_type_id:String){
+    
+    private func addToFormItemDBModels(models:[DataDetails]){
         for model in models{
             let dbModel = FormItemDBModel()
             dbModel.id = model.id
             dbModel.title = model.title
             dbModel.created_at = model.created_at
-            dbModel.form_type_id = form_type_id
+            dbModel.form_type_id = model.form_type_id
             RealmManager.sharedInstance.saveObject(dbModel)
         }
     }
     
+    // MARK: - Remove Realm DB Actions
+    
+    private func deleteDataDetailsFromRealmDB(id:Int){
+        RealmManager.sharedInstance.removeWhere(column: "id", value: id, for: DataDetailsDBModel.self)
+    }
+    
+    private func deleteFormItemRealmDB(id:Int){
+        RealmManager.sharedInstance.removeWhere(column: "id", value: id, for: FormItemDBModel.self)
+    }
 }
+
 
 
 

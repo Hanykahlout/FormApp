@@ -121,7 +121,7 @@ public enum Alert {
             transform = CGAffineTransform(scaleX: 1, y: 1)
             alpha = 0
         }
-        alert.autoHideTime = 3
+        alert.autoHideTime = 5
         alert.hideAnimationDuration = 0.88
         let doneAction = CDAlertViewAction(title: "Ok")
         alert.add(action: doneAction)
@@ -137,7 +137,7 @@ public enum Alert {
             transform = CGAffineTransform(scaleX: 1, y: 1)
             alpha = 0
         }
-        alert.autoHideTime = 2
+        alert.autoHideTime = 5
         alert.hideAnimationDuration = 0.88
         let doneAction = CDAlertViewAction(title: "Ok")
         alert.add(action: doneAction)

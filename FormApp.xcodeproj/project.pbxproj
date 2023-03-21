@@ -57,13 +57,15 @@
 		27CC17A729A555BB007BADC0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CC17A629A555BB007BADC0 /* Extensions.swift */; };
 		56AA3C580E025EE1A3ACEF96 /* Pods_FormApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF08162BB8D1E1AEC258DA07 /* Pods_FormApp.framework */; };
 		CE08C9A929BF6EEB002434EB /* FormItemDBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE08C9A829BF6EEB002434EB /* FormItemDBModel.swift */; };
+		CE3A79C529C70A0500413E0B /* FormTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A79C329C70A0500413E0B /* FormTableViewCell.swift */; };
+		CE3A79C629C70A0500413E0B /* FormTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE3A79C429C70A0500413E0B /* FormTableViewCell.xib */; };
+		CE3A79C829C71B3B00413E0B /* FormsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A79C729C71B3B00413E0B /* FormsVC.swift */; };
 		CE42025C29B8880900517FCA /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE42025B29B8880900517FCA /* RealmManager.swift */; };
 		CE42025E29B8894D00517FCA /* RealmManagerInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE42025D29B8894D00517FCA /* RealmManagerInterface.swift */; };
 		CE42026229B88A0900517FCA /* DataDetailsDBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE42026129B88A0900517FCA /* DataDetailsDBModel.swift */; };
 		CE54B76829BDCE2C00C9C9F1 /* RequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE54B76729BDCE2C00C9C9F1 /* RequestModel.swift */; };
 		CE9DF3FF29B9FE2C00F07C37 /* CustomInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9DF3FE29B9FE2C00F07C37 /* CustomInterceptor.swift */; };
 		CEB9CB1329C31A8B0013F22A /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB9CB1229C31A8B0013F22A /* NetworkManager.swift */; };
-		CEEA58FA29C32DFF00F6D6A3 /* OptionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEA58F929C32DFF00F6D6A3 /* OptionsVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -120,13 +122,15 @@
 		51DECD008AA1B38BD035E23F /* Pods-FormApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FormApp.release.xcconfig"; path = "Target Support Files/Pods-FormApp/Pods-FormApp.release.xcconfig"; sourceTree = "<group>"; };
 		B611ED640CC1459035AF997F /* Pods-FormApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FormApp.debug.xcconfig"; path = "Target Support Files/Pods-FormApp/Pods-FormApp.debug.xcconfig"; sourceTree = "<group>"; };
 		CE08C9A829BF6EEB002434EB /* FormItemDBModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormItemDBModel.swift; sourceTree = "<group>"; };
+		CE3A79C329C70A0500413E0B /* FormTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTableViewCell.swift; sourceTree = "<group>"; };
+		CE3A79C429C70A0500413E0B /* FormTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FormTableViewCell.xib; sourceTree = "<group>"; };
+		CE3A79C729C71B3B00413E0B /* FormsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormsVC.swift; sourceTree = "<group>"; };
 		CE42025B29B8880900517FCA /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		CE42025D29B8894D00517FCA /* RealmManagerInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManagerInterface.swift; sourceTree = "<group>"; };
 		CE42026129B88A0900517FCA /* DataDetailsDBModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataDetailsDBModel.swift; sourceTree = "<group>"; };
 		CE54B76729BDCE2C00C9C9F1 /* RequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestModel.swift; sourceTree = "<group>"; };
 		CE9DF3FE29B9FE2C00F07C37 /* CustomInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInterceptor.swift; sourceTree = "<group>"; };
 		CEB9CB1229C31A8B0013F22A /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
-		CEEA58F929C32DFF00F6D6A3 /* OptionsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsVC.swift; sourceTree = "<group>"; };
 		FF08162BB8D1E1AEC258DA07 /* Pods_FormApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FormApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -215,7 +219,7 @@
 				277CABE629814E6F009C11CB /* LoginVC.swift */,
 				277CABE829814F05009C11CB /* HomeVC.swift */,
 				277CABEA29814F29009C11CB /* QCFormVC.swift */,
-				CEEA58F929C32DFF00F6D6A3 /* OptionsVC.swift */,
+				CE3A79C729C71B3B00413E0B /* FormsVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -239,6 +243,8 @@
 			children = (
 				277CABF6298199B6009C11CB /* FormTypeNoteCell.swift */,
 				277CABF7298199B6009C11CB /* FormTypeNoteCell.xib */,
+				CE3A79C329C70A0500413E0B /* FormTableViewCell.swift */,
+				CE3A79C429C70A0500413E0B /* FormTableViewCell.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -411,6 +417,7 @@
 				277CABF029814FD5009C11CB /* MainTF.xib in Resources */,
 				277CABD429813969009C11CB /* Main.storyboard in Resources */,
 				277CABF9298199B7009C11CB /* FormTypeNoteCell.xib in Resources */,
+				CE3A79C629C70A0500413E0B /* FormTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,7 +475,6 @@
 				CE54B76829BDCE2C00C9C9F1 /* RequestModel.swift in Sources */,
 				279404E729A2B8CC00742AD9 /* Validator.swift in Sources */,
 				27CC17A029A4058B007BADC0 /* UILableDesignable.swift in Sources */,
-				CEEA58FA29C32DFF00F6D6A3 /* OptionsVC.swift in Sources */,
 				277CABFE2981A202009C11CB /* TableViewHelper.swift in Sources */,
 				27CC17A329A4058B007BADC0 /* BottomBorderTextField.swift in Sources */,
 				279404F429A2BA1700742AD9 /* CDAlertHeaderView.swift in Sources */,
@@ -489,6 +495,7 @@
 				CE42026229B88A0900517FCA /* DataDetailsDBModel.swift in Sources */,
 				277CABF229815062009C11CB /* UIViewFromNIB.swift in Sources */,
 				279404CF29A0BC9A00742AD9 /* AppConfig.swift in Sources */,
+				CE3A79C529C70A0500413E0B /* FormTableViewCell.swift in Sources */,
 				27CC17A129A4058B007BADC0 /* CheckBox.swift in Sources */,
 				279404E529A2A22B00742AD9 /* AppPresenter.swift in Sources */,
 				272C869E29AE04C40028D1C1 /* PickerVC.swift in Sources */,
@@ -500,6 +507,7 @@
 				279404DE29A0C89C00742AD9 /* BaseResponse.swift in Sources */,
 				277CABFC2981A151009C11CB /* NibLoadableView.swift in Sources */,
 				279404F329A2BA1700742AD9 /* LayoutConstraintsExtension.swift in Sources */,
+				CE3A79C829C71B3B00413E0B /* FormsVC.swift in Sources */,
 				277CABF8298199B7009C11CB /* FormTypeNoteCell.swift in Sources */,
 				277CABE529814E57009C11CB /* SignUpVC.swift in Sources */,
 				27CC17A429A4058B007BADC0 /* UIButtonDesignable.swift in Sources */,
