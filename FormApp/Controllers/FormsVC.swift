@@ -125,9 +125,7 @@ extension UITextField{
 
 extension FormsVC:FormDelegate{
     func getSubmittedFormsData(data: SubmittedFormData) {
-        if formsData == nil {
-            formsData = data
-        }
+        formsData = data
         self.data = groupSegment.selectedSegmentIndex == 0 ? data.passForms : data.failForms
         self.tableView.reloadData()
         self.emptyDataStackView.isHidden = !self.data.isEmpty

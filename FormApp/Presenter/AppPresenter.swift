@@ -364,7 +364,9 @@ class AppPresenter:NSObject{
             switch response {
             case .success(let response):
                 if let data = response.data{
-                    self.delegate?.getSubmittedFormsData(data: data)
+                    DispatchQueue.main.async {
+                        self.delegate?.getSubmittedFormsData(data: data)
+                    }
                 }
             case .failure(_):
                 break
