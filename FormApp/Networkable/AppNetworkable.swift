@@ -13,10 +13,10 @@ protocol AppNetworkable:Networkable  {
 
     func signUpUser(fname:String,lname:String,email:String,password:String,completion: @escaping (Result<BaseResponse<User>, Error>)-> ())
     func login(email:String,password:String,completion: @escaping (Result<BaseResponse<User>, Error>)-> ())
-    func getCompanies(normal: Bool, uuid: String,completion: @escaping (Result<BaseResponse<CompaniesData>, Error>)-> ())
-    func getJob(normal: Bool, uuid: String,companyId:String,search:String,completion: @escaping (Result<BaseResponse<JobData>, Error>)-> ())
-    func forms(normal: Bool, uuid: String,completion: @escaping (Result<BaseResponse<FormsData>, Error>)-> ())
-    func division(normal: Bool, uuid: String,completion: @escaping (Result<BaseResponse<DiviosnData>, Error>)-> ())
+    func getCompanies(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<CompaniesData>, Error>)-> ())
+    func getJob(normal: Int, uuid: String,companyId:String,search:String,completion: @escaping (Result<BaseResponse<JobData>, Error>)-> ())
+    func forms(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<FormsData>, Error>)-> ())
+    func division(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<DiviosnData>, Error>)-> ())
     func logout(completion: @escaping (Result<BaseResponse<Empty>, Error>)-> ())
     func getFormItems(form_type_id:String,completion: @escaping (Result<BaseResponse<FormItemData>, Error>)-> ())
     func submitForms(isEdit:Bool,formsDetails:[String : Any],completion: @escaping (Result<BaseResponse<FormItemData>, Error>)-> ())
@@ -42,17 +42,17 @@ class AppManager: AppNetworkable {
     func login(email: String, password: String, completion: @escaping (Result<BaseResponse<User>, Error>) -> ()) {
         request(target: .login(email: email, password: password), completion: completion)
     }
-    func getCompanies(normal: Bool, uuid: String,completion: @escaping (Result<BaseResponse<CompaniesData>, Error>) -> ()) {
+    func getCompanies(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<CompaniesData>, Error>) -> ()) {
         request(target: .getCompanies(normal: normal, uuid: uuid), completion: completion)
     }
-    func getJob(normal: Bool, uuid: String,companyId: String,search:String, completion: @escaping (Result<BaseResponse<JobData>, Error>) -> ()) {
+    func getJob(normal: Int, uuid: String,companyId: String,search:String, completion: @escaping (Result<BaseResponse<JobData>, Error>) -> ()) {
         request(target: .getJob(normal: normal, uuid: uuid,companyId: companyId,search:search), completion: completion)
     }
-    func forms(normal: Bool, uuid: String,completion: @escaping (Result<BaseResponse<FormsData>, Error>) -> ()) {
+    func forms(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<FormsData>, Error>) -> ()) {
         request(target: .forms(normal: normal, uuid: uuid), completion: completion)
     }
     
-    func division(normal: Bool, uuid: String,completion: @escaping (Result<BaseResponse<DiviosnData>, Error>) -> ()) {
+    func division(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<DiviosnData>, Error>) -> ()) {
         request(target: .divisions(normal: normal, uuid: uuid), completion: completion)
     }
     

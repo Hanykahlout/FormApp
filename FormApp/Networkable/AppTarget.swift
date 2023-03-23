@@ -12,10 +12,10 @@ enum AppTarget:TargetType{
     
     case SignUp(fname:String,lname:String,email:String,password:String)
     case login(email:String,password:String)
-    case getCompanies(normal:Bool,uuid:String)
-    case getJob(normal:Bool,uuid:String,companyId:String,search:String)
-    case forms(normal:Bool,uuid:String)
-    case divisions(normal:Bool,uuid:String)
+    case getCompanies(normal:Int,uuid:String)
+    case getJob(normal:Int,uuid:String,companyId:String,search:String)
+    case forms(normal:Int,uuid:String)
+    case divisions(normal:Int,uuid:String)
     case getFormItems(form_type_id:String)
     case logout
     case submitForms(isEdit:Bool,formsDetails:[String : Any])
@@ -56,7 +56,7 @@ enum AppTarget:TargetType{
     var task: Task{
         switch self{
         case .getCompanies(let normal,_),.forms(let normal,_),.divisions(let normal,_):
-            if normal{
+            if normal == 1{
                 return .requestPlain
             }
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
@@ -94,12 +94,12 @@ enum AppTarget:TargetType{
         case .login(let email,let password):
             return ["email":email,"password":password]
         case .getJob(let normal,let uuid,let companyId,let search):
-            if normal{
+            if normal == 1{
                 return ["company_id":companyId,"search":search]
             }
             return ["normal":normal,"uuid":uuid,"company_id":companyId,"search":search]
         case .getCompanies(let normal,let uuid),.forms(let normal,let uuid),.divisions(let normal,let uuid):
-            if normal{
+            if normal == 1{
                 return [:]
             }
             return ["normal":normal,"uuid":uuid]

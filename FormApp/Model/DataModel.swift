@@ -22,48 +22,48 @@ struct Empty:Decodable{}
 struct CompaniesData:Decodable{
     
     let companies:[DataDetails]
-    let companyDeleted:[DataDetails]
+    let deletedCompanies:[DataDetails]
     
-    init(companies: [DataDetails],companyDeleted:[DataDetails] = []) {
+    init(companies: [DataDetails],deletedCompanies:[DataDetails] = []) {
         self.companies = companies
-        self.companyDeleted = companyDeleted
+        self.deletedCompanies = deletedCompanies
     }
 }
 
 struct JobData:Decodable{
     let jobs:[DataDetails]
-    let jobDeleted:[DataDetails]
-    init(jobs: [DataDetails],jobDeleted:[DataDetails] = []) {
+    let deletedJobs:[DataDetails]
+    init(jobs: [DataDetails],deletedJobs:[DataDetails] = []) {
         self.jobs = jobs
-        self.jobDeleted = jobDeleted
+        self.deletedJobs = deletedJobs
     }
 }
 
 struct FormsData:Decodable{
     let forms:[DataDetails]
-    let formDeleted:[DataDetails]
+    let deletedForms:[DataDetails]
     
-    init(forms: [DataDetails],formDeleted:[DataDetails] = []) {
+    init(forms: [DataDetails],deletedForms:[DataDetails] = []) {
         self.forms = forms
-        self.formDeleted = formDeleted
+        self.deletedForms = deletedForms
     }
 }
 
 struct DiviosnData:Decodable{
     let divisions:[DataDetails]
-    let divisionDeleted:[DataDetails]
-    init(divisions: [DataDetails],divisionDeleted:[DataDetails] = []) {
+    let deletedDivisions:[DataDetails]
+    init(divisions: [DataDetails],deletedDivisions:[DataDetails] = []) {
         self.divisions = divisions
-        self.divisionDeleted = divisionDeleted
+        self.deletedDivisions = deletedDivisions
     }
 }
 
 struct FormItemData:Decodable{
     let form_items:[DataDetails]
-    let itemDeleted:[DataDetails]
-    init(form_items: [DataDetails],itemDeleted:[DataDetails] = []) {
+    let deletedFormItems:[DataDetails]
+    init(form_items: [DataDetails],deletedFormItems:[DataDetails] = []) {
         self.form_items = form_items
-        self.itemDeleted = itemDeleted
+        self.deletedFormItems = deletedFormItems
     }
 }
 

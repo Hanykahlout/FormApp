@@ -107,10 +107,10 @@ class AppPresenter:NSObject{
     
     
     func getAllDataAndStoreOnDB(data:RequestsStatus){
-        var normal = true
+        var normal = 1
         var uuid = ""
         if UserDefaults.standard.bool(forKey: "FirstFetchDataDone"){
-            normal = false
+            normal = 0
             uuid = UserDefaults.standard.string(forKey: "ApplicationSessionUUID") ?? ""
         }else{
             UserDefaults.standard.set(true, forKey: "FirstFetchDataDone")
@@ -121,7 +121,7 @@ class AppPresenter:NSObject{
         if data.company ?? false{
             getCompanies(normal: normal, uuid: uuid) { data in
                 self.addToDBModels(models: data?.companies ?? [] , type: "companies")
-                for deletedCompany in data?.companyDeleted ?? []{
+                for deletedCompany in data?.deletedCompanies ?? []{
                     self.deleteDataDetailsFromRealmDB(id: deletedCompany.id ?? -1)
                 }
                 dispatchGroup.leave()
@@ -134,7 +134,7 @@ class AppPresenter:NSObject{
         if data.job ?? false{
             self.getJobs(normal: normal, uuid: uuid,companyID: "", search: "") { data in
                 self.addToDBModels(models: data?.jobs ?? [] , type: "jobs")
-                for deletedJob in data?.jobDeleted ?? []{
+                for deletedJob in data?.deletedJobs ?? []{
                     self.deleteDataDetailsFromRealmDB(id: deletedJob.id ?? -1)
                 }
                 dispatchGroup.leave()
@@ -148,7 +148,7 @@ class AppPresenter:NSObject{
         if data.division ?? false{
             getDivision(normal: normal, uuid: uuid){ data in
                 self.addToDBModels(models: data?.divisions ?? [] , type: "divisions")
-                for deletedDivistion in data?.divisionDeleted ?? []{
+                for deletedDivistion in data?.deletedDivisions ?? []{
                     self.deleteDataDetailsFromRealmDB(id: deletedDivistion.id ?? -1)
                 }
                 dispatchGroup.leave()
@@ -161,7 +161,7 @@ class AppPresenter:NSObject{
         if data.form ?? false{
             getForms(normal: normal, uuid: uuid) { data in
                 self.addToDBModels(models: data?.forms ?? [] , type: "forms")
-                for deletedForm in data?.formDeleted ?? []{
+                for deletedForm in data?.deletedForms ?? []{
                     self.deleteDataDetailsFromRealmDB(id: deletedForm.id ?? -1)
                 }
                 dispatchGroup.leave()
@@ -174,7 +174,7 @@ class AppPresenter:NSObject{
         if data.formItem ?? false{
             self.getFormItem(formTypeID: "") { data in
                 self.addToFormItemDBModels(models:data?.form_items ?? [])
-                for itemDeleted in data?.itemDeleted ?? []{
+                for itemDeleted in data?.deletedFormItems ?? []{
                     self.deleteFormItemRealmDB(id: itemDeleted.id ?? -1)
                 }
                 dispatchGroup.leave()
@@ -191,7 +191,7 @@ class AppPresenter:NSObject{
     }
     
     
-    private func getCompanies(normal:Bool,uuid:String,completion:@escaping (_ data:CompaniesData?)->Void){
+    private func getCompanies(normal:Int,uuid:String,completion:@escaping (_ data:CompaniesData?)->Void){
         AppManager.shared.getCompanies(normal: normal, uuid: uuid) { Response in
             switch Response{
             case let .success(response):
@@ -208,7 +208,7 @@ class AppPresenter:NSObject{
         }
     }
     
-    private func getJobs(normal:Bool,uuid:String,companyID:String,search:String,completion:@escaping(_ data:JobData?)->Void){
+    private func getJobs(normal:Int,uuid:String,companyID:String,search:String,completion:@escaping(_ data:JobData?)->Void){
         AppManager.shared.getJob(normal: normal, uuid: uuid,companyId:companyID,search:search ) { Response in
             switch Response{
             case let .success(response):
@@ -225,7 +225,7 @@ class AppPresenter:NSObject{
         }
     }
     
-    private func getForms(normal: Bool, uuid: String,completion:@escaping(_ data:FormsData?)->Void){
+    private func getForms(normal: Int, uuid: String,completion:@escaping(_ data:FormsData?)->Void){
         AppManager.shared.forms(normal: normal, uuid: uuid){ Response in
             switch Response{
             case let .success(response):
@@ -242,7 +242,7 @@ class AppPresenter:NSObject{
         }
     }
     
-    private func getDivision(normal: Bool, uuid: String,compltion:@escaping (_ data:DiviosnData?)->Void){
+    private func getDivision(normal: Int, uuid: String,compltion:@escaping (_ data:DiviosnData?)->Void){
         AppManager.shared.division(normal: normal, uuid: uuid){ Response in
             switch Response{
                 

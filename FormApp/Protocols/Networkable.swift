@@ -9,6 +9,7 @@ import Foundation
 import Moya
 import Network
 import Alamofire
+import SVProgressHUD
 protocol Networkable{
     associatedtype targetType:TargetType
     var provider: MoyaProvider<targetType> { get }
@@ -44,6 +45,8 @@ extension Networkable{
                             Alert.showError(title:"Unauthorized Access",message: "Please login", viewController: nav)
                         }
 
+                    }else  if response.statusCode == 503 || response.statusCode == 500 {
+                        Alert.showErrorAlert(message: "Server Error !!")
                     } else {
                         print(String(data: response.data, encoding: .utf8) ?? "Faild to Convert response to String")
                         do {
@@ -61,33 +64,6 @@ extension Networkable{
                 }
             }
     }
-    
-//    func requestRetrier<T:Decodable>(url:String,method:HTTPMethod,parameters:Parameters,headers:HTTPHeaders,completion: @escaping (Result<T, Error>) -> ()){
-//
-//        AF.request(url,method: method,parameters: parameters ,headers: headers,interceptor: CustomInterceptor()).responseJSON { result in
-//            switch result.result {
-//            case .success(_):
-//                if  result.response?.statusCode == 401 {
-//                    self.unauthorizedAction()
-//                }else {
-//                    do {
-//                        print(String(data: result.data ?? Data(), encoding: .utf8) ?? "Faild to Convert response to String")
-//                        let results = try JSONDecoder().decode(T.self, from: result.data ?? Data())
-//                        completion(.success(results))
-//                    } catch let error {
-//                        print(error)
-//                        completion(.failure(MoyaError.customError("something wrong try again")))
-//                    }
-//                }
-//
-//            case let .failure(error):
-//                print(error)
-//                completion(.failure(MoyaError.customError("something wrong try again")))
-//            }
-//        }
-//    }
-    
-    
     
     private func unauthorizedAction(){
         
