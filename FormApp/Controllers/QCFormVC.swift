@@ -395,7 +395,7 @@ extension QCFormVC:FormDelegate{
     
     func getFormItemsData(data: FormItemData) {
         formsItem.removeAll()
-        formsItem=data.form_items
+        formsItem=data.formItems
         formTypeNoteTableview.reloadData()
         
     }
@@ -409,8 +409,7 @@ extension QCFormVC{
     }
     
     func formDetailsParameter() -> [String:Any]{
-        
-        
+
         formData["company_id"] = "\(companyID)"
         formData["job_id"] = "\(jobID)"
         formData["division_id"] = "\(divisionID)"
@@ -434,3 +433,7 @@ extension QCFormVC{
     }
     
 }
+
+
+
+

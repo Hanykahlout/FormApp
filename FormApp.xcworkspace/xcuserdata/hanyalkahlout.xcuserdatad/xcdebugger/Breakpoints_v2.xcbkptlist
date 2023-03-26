@@ -3,4 +3,134 @@
    uuid = "C1BEB139-09A0-4254-8167-FDCB632B9DEB"
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6AB7D308-65B9-432F-8E78-55867B793BCB"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FormApp/Presenter/AppPresenter.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
+            landmarkName = "getAllDataAndStoreOnDB(data:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6C3B5A34-723A-4A7A-84AA-D40284F8FB1B"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FormApp/Presenter/AppPresenter.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
+            landmarkName = "getAllDataAndStoreOnDB(data:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0A390D4E-EACC-40AD-9991-D97826DE565B"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FormApp/Presenter/AppPresenter.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
+            landmarkName = "getAllDataAndStoreOnDB(data:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5FEE9B49-9D3B-46AB-A7FD-A30A3F31BB1B"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FormApp/Presenter/AppPresenter.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "195"
+            endingLineNumber = "195"
+            landmarkName = "getCompanies(normal:uuid:completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "5FEE9B49-9D3B-46AB-A7FD-A30A3F31BB1B - 5291253128e08560"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FormApp.AppPresenter.getCompanies(normal: Swift.Int, uuid: Swift.String, completion: (Swift.Optional&lt;FormApp.CompaniesData&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "FormApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hanyalkahlout/Desktop/Upwork%20Projects/Bryan%20Porject/FormApp/FormApp/Presenter/AppPresenter.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "195"
+                  endingLineNumber = "195"
+                  offsetFromSymbolStart = "88">
+               </Location>
+               <Location
+                  uuid = "5FEE9B49-9D3B-46AB-A7FD-A30A3F31BB1B - 8dceda70756bb56e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;FormApp.BaseResponse&lt;FormApp.CompaniesData&gt;, Swift.Error&gt;) -&gt; () in FormApp.AppPresenter.getCompanies(normal: Swift.Int, uuid: Swift.String, completion: (Swift.Optional&lt;FormApp.CompaniesData&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "FormApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hanyalkahlout/Desktop/Upwork%20Projects/Bryan%20Porject/FormApp/FormApp/Presenter/AppPresenter.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "197"
+                  endingLineNumber = "197"
+                  offsetFromSymbolStart = "296">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8A0CDC9B-8F48-4CC6-A2F2-63FE6AA2A956"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FormApp/Networkable/AppNetworkable.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
+            landmarkName = "getCompanies(normal:uuid:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0EBE25AD-1E24-4600-9CDA-91DFC3FBE062"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FormApp/Networkable/AppTarget.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "task"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

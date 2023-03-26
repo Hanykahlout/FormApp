@@ -47,6 +47,7 @@ extension Networkable{
 
                     }else  if response.statusCode == 503 || response.statusCode == 500 {
                         Alert.showErrorAlert(message: "Server Error !!")
+                        SVProgressHUD.dismiss()
                     } else {
                         print(String(data: response.data, encoding: .utf8) ?? "Faild to Convert response to String")
                         do {

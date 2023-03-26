@@ -16,7 +16,7 @@ enum AppTarget:TargetType{
     case getJob(normal:Int,uuid:String,companyId:String,search:String)
     case forms(normal:Int,uuid:String)
     case divisions(normal:Int,uuid:String)
-    case getFormItems(form_type_id:String)
+    case getFormItems(normal:Int,uuid:String,form_type_id:String)
     case logout
     case submitForms(isEdit:Bool,formsDetails:[String : Any])
     case checkDatabase(uuid:String)
@@ -103,8 +103,11 @@ enum AppTarget:TargetType{
                 return [:]
             }
             return ["normal":normal,"uuid":uuid]
-        case .getFormItems(let form_type_id):
-            return ["form_type_id":form_type_id]
+        case .getFormItems(let normal,let uuid,let form_type_id):
+            if normal == 1{
+                return ["form_type_id":form_type_id]
+            }
+            return ["normal":normal,"uuid":uuid,"form_type_id":form_type_id]
         case .submitForms(_,let formsDetails):
             return formsDetails
         case .editSubmittedForm(let submitted_form_id):

@@ -18,7 +18,7 @@ protocol AppNetworkable:Networkable  {
     func forms(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<FormsData>, Error>)-> ())
     func division(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<DiviosnData>, Error>)-> ())
     func logout(completion: @escaping (Result<BaseResponse<Empty>, Error>)-> ())
-    func getFormItems(form_type_id:String,completion: @escaping (Result<BaseResponse<FormItemData>, Error>)-> ())
+    func getFormItems(normal: Int, uuid: String,form_type_id:String,completion: @escaping (Result<BaseResponse<FormItemData>, Error>)-> ())
     func submitForms(isEdit:Bool,formsDetails:[String : Any],completion: @escaping (Result<BaseResponse<FormItemData>, Error>)-> ())
     
 }
@@ -60,8 +60,8 @@ class AppManager: AppNetworkable {
         request(target: .logout, completion: completion)
     }
     
-    func getFormItems(form_type_id: String, completion: @escaping (Result<BaseResponse<FormItemData>, Error>) -> ()) {
-        request(target:.getFormItems(form_type_id: form_type_id), completion: completion)
+    func getFormItems(normal: Int, uuid: String,form_type_id: String, completion: @escaping (Result<BaseResponse<FormItemData>, Error>) -> ()) {
+        request(target:.getFormItems(normal: normal, uuid: uuid,form_type_id: form_type_id), completion: completion)
     }
     
     func submitForms(isEdit:Bool,formsDetails: [String : Any], completion: @escaping (Result<BaseResponse<FormItemData>, Error>) -> ()) {

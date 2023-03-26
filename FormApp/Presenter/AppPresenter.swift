@@ -172,8 +172,8 @@ class AppPresenter:NSObject{
         
         dispatchGroup.enter()
         if data.formItem ?? false{
-            self.getFormItem(formTypeID: "") { data in
-                self.addToFormItemDBModels(models:data?.form_items ?? [])
+            self.getFormItem(normal: normal, uuid: uuid,formTypeID: "") { data in
+                self.addToFormItemDBModels(models:data?.formItems ?? [])
                 for itemDeleted in data?.deletedFormItems ?? []{
                     self.deleteFormItemRealmDB(id: itemDeleted.id ?? -1)
                 }
@@ -260,8 +260,8 @@ class AppPresenter:NSObject{
         }
     }
     
-    private func getFormItem(formTypeID:String,compltion:@escaping (_ data:FormItemData?)->Void){
-        AppManager.shared.getFormItems(form_type_id:formTypeID ){ Response in
+    private func getFormItem(normal: Int, uuid: String,formTypeID:String,compltion:@escaping (_ data:FormItemData?)->Void){
+        AppManager.shared.getFormItems(normal: normal, uuid: uuid,form_type_id:formTypeID ){ Response in
             switch Response{
             case let .success(response):
                 if response.status == true{
@@ -396,7 +396,7 @@ class AppPresenter:NSObject{
     }
     
     func getFormItemFromDB(formTypeID:String){
-        self.delegate?.getFormItemsData(data: FormItemData(form_items: self.getFromDBItemsModels(formTypeID: formTypeID)))
+        self.delegate?.getFormItemsData(data: FormItemData(formItems: self.getFromDBItemsModels(formTypeID: formTypeID)))
     }
     
     

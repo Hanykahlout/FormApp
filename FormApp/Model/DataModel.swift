@@ -59,10 +59,10 @@ struct DiviosnData:Decodable{
 }
 
 struct FormItemData:Decodable{
-    let form_items:[DataDetails]
+    let formItems:[DataDetails]
     let deletedFormItems:[DataDetails]
-    init(form_items: [DataDetails],deletedFormItems:[DataDetails] = []) {
-        self.form_items = form_items
+    init(formItems: [DataDetails],deletedFormItems:[DataDetails] = []) {
+        self.formItems = formItems
         self.deletedFormItems = deletedFormItems
     }
 }
