@@ -85,8 +85,8 @@ extension LoginVC {
             Alert.showErrorAlert(message: (error as! ValidationError).message)
             
         }
-        
     }
+    
 }
 
 extension LoginVC:FormDelegate {

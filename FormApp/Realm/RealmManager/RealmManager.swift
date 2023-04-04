@@ -88,4 +88,27 @@ class RealmManager: RealmManagerInterface {
         }
     }
     
+    private func getFormItemById(id:Int) -> FormItemDBModel?{
+        let predicate = NSPredicate(format: "id == \(id)")
+        return RealmManager.sharedInstance.fetchObjects(FormItemDBModel.self, predicate: predicate)?.first
+    }
+    
+    func addToFormItemReasonDBModels(models:[FailReasonData]){
+        for model in models{
+            if let formItemModel = getFormItemById(id: Int(model.form_item_id ?? "-1")!){
+                
+                let dbModel = FormItemReason()
+                dbModel.id = model.id
+                dbModel.title = model.title
+                dbModel.form_item_id = model.form_item_id
+                dbModel.created_at = model.created_at
+                if let realm = try? Realm() {
+                    try! realm.write {
+                        formItemModel.reasons.append(dbModel)
+                    }
+                }
+            }
+        }
+    }
+    
 }

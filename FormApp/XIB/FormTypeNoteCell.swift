@@ -9,6 +9,7 @@ import UIKit
 
 protocol FormTypeNoteCellDelegate{
     func statusPickerAction(data:[String],indexPath:IndexPath)
+    func reasonPickerAction(reasons:[FailReasonData],indexPath:IndexPath)
 }
 
 typealias FormTypeCellDelegate = FormTypeNoteCellDelegate & UIViewController
@@ -20,16 +21,20 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
     
     @IBOutlet weak var formTypeStatus: UITextField!
     @IBOutlet weak var formTitleNote: UITextField!
+    @IBOutlet weak var statusTitleLabel: UILabel!
+    @IBOutlet weak var reasonTextField: UITextField!
+    
     
     var indexPath:IndexPath?
     weak var delegate:FormTypeCellDelegate?
-    var status:[String] = ["N/A","pass","fail"]
-    
+    var status:[String] = []
+    private var statusGesture:UITapGestureRecognizer?
+    private var reasons:[FailReasonData]?
     override func awakeFromNib() {
         super.awakeFromNib()
-        //        formTypeStatus.pickerDelegate=self
-        //        formTypeStatus.dataSource=self
-        formTypeStatus.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(formTypeStatusAction)))
+        statusGesture = UITapGestureRecognizer(target: self, action: #selector(formTypeStatusAction))
+        formTypeStatus.addGestureRecognizer(statusGesture!)
+        reasonTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(reasonAction)))
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -37,15 +42,37 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
         
         // Configure the view for the selected state
     }
+    
     override func prepareForReuse() {
         // invoke superclass implementation
         super.prepareForReuse()
     }
     
     func  configureCell(obj:DataDetails){
+        let system = obj.system
+        reasons = obj.fail_reasons
         FormTypeSubtitle.text = obj.title ?? ""
-        formTypeStatus.text = obj.status ?? ""
+        formTypeStatus.text = system == "quantity" ? obj.qty ?? "" : obj.status ?? ""
         formTitleNote.text = obj.note ?? ""
+        reasonTextField.text = obj.reason ?? ""
+        reasonTextField.isHidden = obj.status != "fail"
+        switch system{
+        case "NA/pass/fail":
+            status = ["N/A","pass","fail"]
+            statusTitleLabel.text = "Select your status"
+        case "yes/no":
+            status = ["Yes","No"]
+            statusTitleLabel.text = "Select your status"
+        case "quantity":
+            if let statusGesture = statusGesture{
+                formTypeStatus.removeGestureRecognizer(statusGesture)
+            }
+            formTypeStatus.placeholder = "Quantity"
+            formTypeStatus.keyboardType = .numberPad
+            statusTitleLabel.text = "Enter your Quantity"
+        default:
+            break
+        }
     }
     
     @objc private func formTypeStatusAction(){
@@ -53,32 +80,11 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
         delegate?.statusPickerAction(data:status,indexPath: indexPath)
     }
     
+    @objc private func reasonAction(){
+        guard let indexPath = indexPath else { return }
+        delegate?.reasonPickerAction(reasons: reasons ?? [],indexPath: indexPath)
+    }
+    
+    
 }
-
-
-    //MARK: - confirm to DatePickerDelegate
-//}
-//extension FormTypeNoteCell:UITextFieldDataPickerDelegate,UITextFieldDataPickerDataSource{
-//
-//
-//    func textFieldDataPicker(_ textField: UITextFieldDataPicker, numberOfRowsInComponent component: Int) -> Int {
-//        status.count
-//    }
-//
-//    func textFieldDataPicker(_ textField: UITextFieldDataPicker, titleForRow row: Int, forComponent component: Int) -> String? {
-//        return status[row]
-//    }
-//
-//    func numberOfComponents(in textField: UITextFieldDataPicker) -> Int {
-//        1
-//    }
-//
-//    func textFieldDataPicker(_ textField: UITextFieldDataPicker, didSelectRow row: Int, inComponent component: Int) {
-//
-//        formTypeStatus.setTextFieldTitle(title: status[row])
-//
-//    }
-//
-//}
-
 

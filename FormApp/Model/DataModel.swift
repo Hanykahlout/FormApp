@@ -67,33 +67,51 @@ struct FormItemData:Decodable{
     }
 }
 
+struct FormItemReasons:Decodable{
+    let failReasons:[FailReasonData]
+    let deletedFailReason:[FailReasonData]
+    init(failReasons: [FailReasonData],deletedFailReason:[FailReasonData] = []) {
+        self.failReasons = failReasons
+        self.deletedFailReason = deletedFailReason
+    }
+}
+
 struct RequestsStatus:Decodable{
     let company: Bool?
     let job: Bool?
     let form: Bool?
     let division: Bool?
     let formItem: Bool?
-    init(company: Bool?, job: Bool?, form: Bool?, division: Bool?,formItem:Bool?) {
+    let failReason: Bool?
+    
+    init(company: Bool?, job: Bool?, form: Bool?, division: Bool?,formItem:Bool?,failReason:Bool?) {
         self.company = company
         self.job = job
         self.form = form
         self.division = division
         self.formItem = formItem
+        self.failReason = failReason
     }
+    
 }
 
-struct DataDetails:Codable{
+struct DataDetails:Decodable{
     
-    let id:Int?
-    let title:String?
-    let email:String?
-    let company_id:String?
-    let created_at:String?
-    let form_type_id:String?
+    var id:Int?
+    var title:String?
+    var email:String?
+    var company_id:String?
+    var created_at:String?
+    var form_type_id:String?
     var status: String?
+    var reason: String?
+    var reason_id: Int?
     var note: String?
-    
-    
+    var qty:String?
+    var project:String?
+    var system:String?
+    var development_title:String?
+    var fail_reasons: [FailReasonData]?
     
     init(id: Int?, title: String?, email: String?, company_id: String?, created_at: String?) {
         self.id = id
@@ -101,30 +119,29 @@ struct DataDetails:Codable{
         self.email = email
         self.company_id = company_id
         self.created_at = created_at
-        self.form_type_id = ""
     }
+     
     
-    
-    init(id: Int?, title: String?,created_at: String?,form_type_id:String?) {
+    init(id: Int?, title: String?,created_at: String?,form_type_id:String?,system:String?,fail_reasons:[FailReasonData]) {
         self.id = id
         self.title = title
-        self.email = ""
-        self.company_id = ""
         self.created_at = created_at
         self.form_type_id = form_type_id
+        self.system = system
+        self.fail_reasons = fail_reasons
     }
     
     
-    init(id: Int?, title: String?,status: String?,note:String?) {
+    init(id: Int?, title: String?,status: String?,note:String?,
+         system:String?,reasons:[FailReasonData]?,reason_id:Int?,reason:String?) {
         self.id = id
         self.title = title
         self.status = status
         self.note = note
-    
-        self.email = ""
-        self.company_id = ""
-        self.created_at = ""
-        self.form_type_id = ""
+        self.system = system
+        self.reason_id = reason_id
+        self.reason = reason
+        self.fail_reasons = reasons
     }
 }
 
@@ -152,22 +169,34 @@ struct FormInfo:Decodable{
     let division:DataDetails?
     let form:DataDetails?
     let items:[SubmittedFormItems]?
-    
 }
+
 
 struct SubmittedFormItems:Decodable{
     let id:Int?
     let form_id:String?
     let item_id:String?
-    let pass:String?
+    let value:String?
     let notes:String?
     let item:SubmittedFormItemData?
+    let fail_reason:FailReasonData?
 }
 
 struct SubmittedFormItemData:Decodable{
     let id:Int?
     let title:String?
+    let system:String?
     let form_type_id:String?
     let created_at:String?
+    let fail_reason_id: String?
+    let fail_reasons:[FailReasonData]?
 }
+
+struct FailReasonData:Decodable{
+    let id:Int?
+    let title:String?
+    let form_item_id:String?
+    let created_at:String?
+}
+
 

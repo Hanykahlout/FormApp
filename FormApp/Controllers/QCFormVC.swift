@@ -49,7 +49,7 @@ class QCFormVC: UIViewController {
     private var requestSubmitted:Bool = false
     private var searchText = ""
     private var jobPickerVC: PickerVC?
-    
+    private var selectedJobProject = ""
     var editData: FormInfo?
     
     //MARK: - Life cycle
@@ -91,11 +91,12 @@ class QCFormVC: UIViewController {
             diviosnLeaderData.text = editData.division?.title ?? ""
             
             for item in editData.items ?? []{
-                formsItem.append(.init(id: Int(item.item_id ?? "-1")!, title: item.item?.title ?? "", status: item.pass ?? "", note: item.notes ?? ""))
+                formsItem.append(.init(id: Int(item.item_id ?? "-1")!, title: item.item?.title ?? "", status: item.value ?? "", note: item.notes ?? "",system: item.item?.system,reasons: item.item?.fail_reasons,reason_id: item.fail_reason?.id,reason: item.fail_reason?.title))
                 formTypeNoteTableview.reloadData()
             }
         }
     }
+    
     
     func BtnStatus(){
         formTypeBtn.isEnabled=false
@@ -116,10 +117,7 @@ class QCFormVC: UIViewController {
         formTypeNoteTableview.register(FormTypeNoteCell.self)
         formTypeNoteTableview.delegate=self
         formTypeNoteTableview.dataSource = self
-        
     }
-    
-    
     
     
     @IBAction func companyAction(_ sender: Any) {
@@ -143,6 +141,10 @@ class QCFormVC: UIViewController {
             self.jobs = []
             self.jobData.text=""
             self.presenter.getJobsFromDB(companyID: "\(self.companyID)", search: "")
+            
+            self.presenter.getFormItemFromDB(project: self.selectedJobProject,
+                                             companyID:self.companyID,
+                                             formTypeID:"\(self.formTypeID)" )
         }
         self.present(vc, animated: true, completion: nil)
     }
@@ -167,10 +169,15 @@ class QCFormVC: UIViewController {
             print("Selected Index:",index)
             self.jobData.text = self.jobs[index].title ?? ""
             self.jobID = self.jobs[index].id ?? 0
+            self.selectedJobProject = self.jobs[index].project ?? ""
             
+            self.presenter.getFormItemFromDB(project: self.selectedJobProject,
+                                             companyID:self.companyID,
+                                             formTypeID:"\(self.formTypeID)" )
         }
         self.present(jobPickerVC!, animated: true, completion: nil)
     }
+    
     
     @IBAction func divisionLeaderAction(_ sender: Any) {
         let vc = PickerVC.instantiate()
@@ -191,6 +198,7 @@ class QCFormVC: UIViewController {
         self.present(vc, animated: true, completion: nil)
     }
     
+    
     @IBAction func FormTypeAction(_ sender: Any) {
         let vc = PickerVC.instantiate()
         vc.arr_data = forms.map{$0.title ?? ""}
@@ -204,7 +212,9 @@ class QCFormVC: UIViewController {
             print("Selected Index:",index)
             self.formTypeData.text = name
             self.formTypeID = self.forms[index].id ?? 0
-            self.presenter.getFormItemFromDB(formTypeID:"\(self.formTypeID)" )
+            self.presenter.getFormItemFromDB(project: self.selectedJobProject,
+                                             companyID:self.companyID,
+                                             formTypeID:"\(self.formTypeID)" )
         }
         self.present(vc, animated: true, completion: nil)
         
@@ -221,12 +231,17 @@ extension QCFormVC{
         backBtn.addTarget(self, action: #selector(ButtonWasTapped), for: .touchUpInside)
     }
     
-    @objc func AddFormData( _ sender:UITextField){
+    @objc func AddFormItemNote( _ sender:UITextField){
         let indexPath = NSIndexPath(row: sender.tag, section: 0)
         formsItem[indexPath.row].note = sender.text ?? ""
         
     }
     
+    
+    @objc func AddFormItemStatus( _ sender:UITextField){
+        let indexPath = NSIndexPath(row: sender.tag, section: 0)
+        formsItem[indexPath.row].qty = sender.text ?? ""
+    }
     
 }
 
@@ -246,7 +261,7 @@ extension QCFormVC{
                 Alert.showAlert(viewController: self, title: "Do you  want to send the form", message: "") { Value in
                     
                     if Value == true{
-                        if self.isThereSubmtionForFormItems(){
+                        if self.isAllFormItemsSelected(){
                             SVProgressHUD.setBackgroundColor(.white)
                             SVProgressHUD.show(withStatus: "please wait")
                             self.submitForm(formsDetails: self.formDetailsParameter())
@@ -254,13 +269,10 @@ extension QCFormVC{
                             Alert.showErrorAlert(message:  "Add your form Item Data,You have at least to choose status for every item" )
                         }
                     }
-                    
                 }
-                
                 
             }catch{
                 Alert.showErrorAlert(message: (error as! ValidationError).message)
-                
             }
             
         case backBtn :
@@ -269,12 +281,14 @@ extension QCFormVC{
         default:
             print("")
         }
+        
     }
-
     
-    private func isThereSubmtionForFormItems() -> Bool{
+    
+    private func isAllFormItemsSelected() -> Bool{
         for item in formsItem{
-            if item.status == nil{
+            let chechResult = item.system == "quantity" ? item.qty == "" : item.status == nil
+            if chechResult{
                 return false
             }
         }
@@ -288,7 +302,6 @@ extension QCFormVC{
 
 extension QCFormVC:Storyboarded{
     static var storyboardName: StoryboardName = .main
-    
 }
 
 extension QCFormVC:UITableViewDelegate, UITableViewDataSource{
@@ -306,8 +319,11 @@ extension QCFormVC:UITableViewDelegate, UITableViewDataSource{
         cell.delegate = self
         cell.indexPath = indexPath
         
-        cell.formTitleNote.addTarget(self, action: #selector(AddFormData), for: .editingDidEnd)
+        cell.formTitleNote.addTarget(self, action: #selector(AddFormItemNote), for: .editingDidEnd)
         cell.formTitleNote.tag=indexPath.row
+        
+        cell.formTypeStatus.addTarget(self, action: #selector(AddFormItemStatus), for: .editingDidEnd)
+        cell.formTypeStatus.tag=indexPath.row
         
         return cell
     }
@@ -315,7 +331,6 @@ extension QCFormVC:UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedIndex = indexPath.row
     }
-    
     
 }
 
@@ -331,10 +346,27 @@ extension QCFormVC:FormTypeNoteCellDelegate{
         vc.delegate = {name , index in
             self.formsItem[indexPath.row].status = name
             self.formTypeNoteTableview.reloadRows(at: [indexPath], with: .automatic)
+            let cell = self.formTypeNoteTableview.cellForRow(at: indexPath) as! FormTypeNoteCell
+            cell.reasonTextField.isHidden = name != "fail"
         }
         self.present(vc, animated: true, completion: nil)
     }
     
+    
+    func reasonPickerAction(reasons:[FailReasonData],indexPath: IndexPath) {
+        let vc = PickerVC.instantiate()
+        vc.arr_data = reasons.map{$0.title ?? "----"}
+        vc.searchBarHiddenStatus = true
+        vc.isModalInPresentation = true
+        vc.modalPresentationStyle = .overFullScreen
+        vc.definesPresentationContext = true
+        vc.delegate = {name , index in
+            self.formsItem[indexPath.row].reason = name
+            self.formsItem[indexPath.row].reason_id = reasons[index].id
+            self.formTypeNoteTableview.reloadRows(at: [indexPath], with: .automatic)
+        }
+        self.present(vc, animated: true, completion: nil)
+    }
     
 }
 
@@ -395,7 +427,7 @@ extension QCFormVC:FormDelegate{
     
     func getFormItemsData(data: FormItemData) {
         formsItem.removeAll()
-        formsItem=data.formItems
+        formsItem = data.formItems
         formTypeNoteTableview.reloadData()
         
     }
@@ -409,7 +441,7 @@ extension QCFormVC{
     }
     
     func formDetailsParameter() -> [String:Any]{
-
+        
         formData["company_id"] = "\(companyID)"
         formData["job_id"] = "\(jobID)"
         formData["division_id"] = "\(divisionID)"
@@ -420,14 +452,15 @@ extension QCFormVC{
         }
         
         for index in 0 ..< formsItem.count{
+            
             formData["form_items[\(index)][item_id]"] = formsItem[index].id ?? 0
             
             let status = formsItem[index].status ?? ""
-            formData["form_items[\(index)][pass]"] = status == "N/A" ? "" : status
+            formData["form_items[\(index)][value]"] = status == "N/A" ? "" : status.lowercased()
             
             formData["form_items[\(index)][notes]"] = formsItem[index].note ?? ""
+            formData["form_items[\(index)][fail_reason_id]"] = formsItem[index].reason_id
         }
-        
         
         return formData
     }

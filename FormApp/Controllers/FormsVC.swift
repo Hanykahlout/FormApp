@@ -38,7 +38,6 @@ class FormsVC: UIViewController {
     
     // MARK: - Private Functions
     
-    
 }
 
 // MARK: - Binding
@@ -66,7 +65,6 @@ extension FormsVC{
         default:
             print("")
         }
-        
     }
     
     @objc private func indexChanged(_ sender: UISegmentedControl) {

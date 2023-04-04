@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import SVProgressHUD
+
 protocol FormDelegate{
     
     func showAlerts(title:String,message:String)
@@ -184,6 +185,22 @@ class AppPresenter:NSObject{
             dispatchGroup.leave()
         }
         
+        dispatchGroup.enter()
+        if data.failReason ?? false{
+            self.getFormItemReasons(normal: normal, uuid: uuid) { data in
+                RealmManager.sharedInstance.addToFormItemReasonDBModels(models:data?.failReasons ?? [])
+                for deleteFailReason in data?.deletedFailReason ?? []{
+                    self.deleteFormFailReasons(id: deleteFailReason.id ?? -1)
+                }
+                dispatchGroup.leave()
+            }
+            
+        }else{
+            dispatchGroup.leave()
+        }
+        
+        
+        
         dispatchGroup.notify(queue: .main) {
             UserDefaults.standard.set(true, forKey: "AddAllDataToRealm")
             SVProgressHUD.dismiss()
@@ -276,6 +293,24 @@ class AppPresenter:NSObject{
             }
         }
     }
+    
+    private func getFormItemReasons(normal: Int, uuid: String,compltion:@escaping (_ data:FormItemReasons?)->Void){
+        AppManager.shared.getFormItemReasons(normal: normal, uuid: uuid){ Response in
+            switch Response{
+            case let .success(response):
+                if response.status == true{
+                    compltion( response.data)
+                }else{
+                    compltion(nil)
+                }
+            case  .failure(_):
+                DispatchQueue.main.async {
+                    compltion(nil)
+                }
+            }
+        }
+    }
+    
     
     func submitFormData(isEdit:Bool,isFormNewOnline:Bool,formsDetails:[String : Any]){
         let dispatchGroup = DispatchGroup()
@@ -395,8 +430,8 @@ class AppPresenter:NSObject{
         self.delegate?.getDivition(data: DiviosnData(divisions: self.getFromDBMdeols(type: "divisions")))
     }
     
-    func getFormItemFromDB(formTypeID:String){
-        self.delegate?.getFormItemsData(data: FormItemData(formItems: self.getFromDBItemsModels(formTypeID: formTypeID)))
+    func getFormItemFromDB(project:String,companyID:Int,formTypeID:String){
+        self.delegate?.getFormItemsData(data: FormItemData(formItems: self.getFromDBItemsModels(project:project,companyID:companyID,formTypeID: formTypeID)))
     }
     
     
@@ -436,20 +471,32 @@ class AppPresenter:NSObject{
     }
     
     
-    private func getFromDBItemsModels(formTypeID:String)->[DataDetails]{
-        let predicate = NSPredicate(format: "form_type_id == '\(formTypeID)'")
-        guard let models = RealmManager.sharedInstance.fetchObjects(FormItemDBModel.self,predicate: predicate) else {return []}
+    private func getFromDBItemsModels(project:String,companyID:Int,formTypeID:String)->[DataDetails]{
+        let predicate1 = NSPredicate(format: "form_type_id == '\(formTypeID)' AND company_id == '\(companyID)'")
+        let predicate2 = NSPredicate(format: "form_type_id == '\(formTypeID)' AND development_title == '\(project)'")
+        guard var firstFilter = RealmManager.sharedInstance.fetchObjects(FormItemDBModel.self,predicate: predicate1) else {return []}
+        guard let secondFilter = RealmManager.sharedInstance.fetchObjects(FormItemDBModel.self,predicate: predicate2) else {return []}
+        firstFilter.append(contentsOf: secondFilter)
+        let models = firstFilter
         var result = [DataDetails]()
         for model in models {
             let id = model.id
             let title = model.title
             let created_at = model.created_at
             let form_type_id = model.form_type_id
-            let obj = DataDetails(id: id, title: title, created_at: created_at,form_type_id: form_type_id)
+            let system = model.system
+            var reasons:[FailReasonData] = []
+            model.reasons.forEach{
+                reasons.append(FailReasonData(id: $0.id, title: $0.title, form_item_id: $0.form_item_id, created_at: $0.created_at))
+            }
+            let obj = DataDetails(id: id, title: title, created_at: created_at,form_type_id: form_type_id,system: system,fail_reasons: reasons)
             result.append(obj)
         }
         return result
     }
+    
+    
+    
     
     
     // MARK: - Add Realm DB Actions
@@ -491,6 +538,7 @@ class AppPresenter:NSObject{
             dbModel.company_id = model.company_id
             dbModel.created_at = model.created_at
             dbModel.type = type
+            dbModel.project = model.project
             RealmManager.sharedInstance.saveObject(dbModel)
         }
     }
@@ -502,9 +550,22 @@ class AppPresenter:NSObject{
             dbModel.title = model.title
             dbModel.created_at = model.created_at
             dbModel.form_type_id = model.form_type_id
+            dbModel.company_id = model.company_id
+            dbModel.system = model.system
+            dbModel.development_title = model.development_title
+            for reason in model.fail_reasons ?? []{
+                let dbReason = FormItemReason()
+                dbReason.id = reason.id
+                dbReason.title = reason.title
+                dbReason.created_at = reason.created_at
+                dbReason.form_item_id = reason.form_item_id
+                dbModel.reasons.append(dbReason)
+            }
             RealmManager.sharedInstance.saveObject(dbModel)
         }
     }
+    
+   
     
     // MARK: - Remove Realm DB Actions
     
@@ -515,8 +576,20 @@ class AppPresenter:NSObject{
     private func deleteFormItemRealmDB(id:Int){
         RealmManager.sharedInstance.removeWhere(column: "id", value: id, for: FormItemDBModel.self)
     }
+    
+    private func deleteFormFailReasons(id:Int){
+        RealmManager.sharedInstance.removeWhere(column: "id", value: id, for: FormItemReason.self)
+    }
 }
 
 
 
+import RealmSwift
 
+extension RealmCollection
+{
+  func toArray<T>() ->[T]
+  {
+    return self.compactMap{$0 as? T}
+  }
+}

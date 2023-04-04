@@ -20,6 +20,8 @@ protocol AppNetworkable:Networkable  {
     func logout(completion: @escaping (Result<BaseResponse<Empty>, Error>)-> ())
     func getFormItems(normal: Int, uuid: String,form_type_id:String,completion: @escaping (Result<BaseResponse<FormItemData>, Error>)-> ())
     func submitForms(isEdit:Bool,formsDetails:[String : Any],completion: @escaping (Result<BaseResponse<FormItemData>, Error>)-> ())
+    func getFormItemReasons(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<FormItemReasons>, Error>)-> ())
+
     
 }
 
@@ -76,6 +78,11 @@ class AppManager: AppNetworkable {
     func getSubmittedForms(searchText:String,completion: @escaping (Result<BaseResponse<SubmittedFormData>, Error>) -> ()){
         request(target: .submittedForms(search: searchText), completion: completion)
     }
+    
+    func getFormItemReasons(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<FormItemReasons>, Error>)-> ()) {
+        request(target: .formItemReasons(normal: normal, uuid: uuid), completion: completion)
+    }
+    
         
     func monitorNetwork(conectedAction:(()->Void)?,notConectedAction:(()->Void)?){
         let monitor = NWPathMonitor()

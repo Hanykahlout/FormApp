@@ -10,8 +10,7 @@ import SVProgressHUD
 class SignUpVC: UIViewController {
     
     //MARK: - Outlet
-    
-    
+
     @IBOutlet private weak var firstNameTf: MainTF!
     @IBOutlet private weak var lastNameTf: MainTF!
     @IBOutlet private weak var emailTf: MainTF!

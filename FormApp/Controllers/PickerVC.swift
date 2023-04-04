@@ -1,10 +1,7 @@
-//
-//  PickerVC.swift
-//  Almnabr
-//
-//  Created by MacBook on 20/04/2022.
-//  Copyright © 2022 Samar Akkila. All rights reserved.
-//
+
+
+
+
 
 import UIKit
 import SVProgressHUD
@@ -54,12 +51,11 @@ class PickerVC: UIViewController {
     func  setupSearchProperties(){
         searchBar.btnSearch.addTarget(self, action: #selector(searchActioon), for: .touchUpInside)
     }
-
+    
     @objc func searchActioon(_ sender : UIButton ) {
         searchBar.text = searchBar.text?.trimmingCharacters(in: .whitespaces)
         searchAction?(searchBar.text!)
     }
-
     
     //MARK: - Config GUI
     //------------------------------------------------------

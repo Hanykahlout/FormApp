@@ -22,6 +22,7 @@ enum AppTarget:TargetType{
     case checkDatabase(uuid:String)
     case editSubmittedForm(submitted_form_id:String)
     case submittedForms(search:String)
+    case formItemReasons(normal:Int,uuid:String)
     
     var baseURL: URL {
         return URL(string: "\(AppConfig.apiBaseUrl)")!
@@ -41,13 +42,14 @@ enum AppTarget:TargetType{
         case .checkDatabase:return "checkDatabase"
         case .editSubmittedForm:return "editSubmittedForm"
         case .submittedForms:return "submittedForms"
+        case .formItemReasons:return "failReasons"
         }
     }
     var method: Moya.Method {
         switch self{
         case .SignUp,.login,.logout,.submitForms:
             return .post
-        case .getCompanies,.getJob,.forms,.divisions,.getFormItems,.checkDatabase,.editSubmittedForm,.submittedForms:
+        case .getCompanies,.getJob,.forms,.divisions,.getFormItems,.checkDatabase,.editSubmittedForm,.submittedForms,.formItemReasons:
             return .get
        
         }
@@ -55,7 +57,7 @@ enum AppTarget:TargetType{
     
     var task: Task{
         switch self{
-        case .getCompanies(let normal,_),.forms(let normal,_),.divisions(let normal,_):
+        case .getCompanies(let normal,_),.forms(let normal,_),.divisions(let normal,_),.formItemReasons(let normal,_):
             if normal == 1{
                 return .requestPlain
             }
@@ -73,7 +75,7 @@ enum AppTarget:TargetType{
         switch self{
         case .submittedForms,.getCompanies,.getJob,
              .forms,.divisions,.getFormItems,.logout,
-             .submitForms,.checkDatabase,.editSubmittedForm:
+             .submitForms,.checkDatabase,.editSubmittedForm,.formItemReasons:
             
             do {
                 let token = try KeychainWrapper.get(key: AppData.email) ?? ""
@@ -98,7 +100,7 @@ enum AppTarget:TargetType{
                 return ["company_id":companyId,"search":search]
             }
             return ["normal":normal,"uuid":uuid,"company_id":companyId,"search":search]
-        case .getCompanies(let normal,let uuid),.forms(let normal,let uuid),.divisions(let normal,let uuid):
+        case .getCompanies(let normal,let uuid),.forms(let normal,let uuid),.divisions(let normal,let uuid),.formItemReasons(let normal,let uuid):
             if normal == 1{
                 return [:]
             }

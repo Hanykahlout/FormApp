@@ -8,7 +8,6 @@
 import UIKit
 import SVProgressHUD
 class HomeVC: UIViewController {
-    
     //MARK: - Outlet
     @IBOutlet weak var qcFormBtn: UIButton!
     @IBOutlet weak var emailSupportBtn: UIButton!
@@ -36,11 +35,10 @@ class HomeVC: UIViewController {
             }
         } notConectedAction: {}
     }
-    
 }
 
 extension HomeVC{
-
+    
     //MARK: - Binding
     
     func BindButtons(){
@@ -67,17 +65,17 @@ extension HomeVC{
         case emailSupportBtn:
             self.sendEmail(email: "blowe@cpnhinc.com")
             
-//        case logoutBtn:
-//            do{
-//                try KeychainWrapper.set(value:"" , key: self.email )
-//                AppData.email = self.email
-//                self.presenter.logout()
-//                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NavigationController")
-//                self.sceneDelegate?.setRootVC(vc: vc)
-//
-//            } catch let error {
-//                print(error)
-//            }
+            //        case logoutBtn:
+            //            do{
+            //                try KeychainWrapper.set(value:"" , key: self.email )
+            //                AppData.email = self.email
+            //                self.presenter.logout()
+            //                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NavigationController")
+            //                self.sceneDelegate?.setRootVC(vc: vc)
+            //
+            //            } catch let error {
+            //                print(error)
+            //            }
         default:
             print("")
         }
