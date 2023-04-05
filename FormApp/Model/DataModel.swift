@@ -107,7 +107,6 @@ struct DataDetails:Decodable{
     var reason: String?
     var reason_id: Int?
     var note: String?
-    var qty:String?
     var project:String?
     var system:String?
     var development_title:String?

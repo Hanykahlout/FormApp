@@ -199,8 +199,6 @@ class AppPresenter:NSObject{
             dispatchGroup.leave()
         }
         
-        
-        
         dispatchGroup.notify(queue: .main) {
             UserDefaults.standard.set(true, forKey: "AddAllDataToRealm")
             SVProgressHUD.dismiss()
@@ -471,8 +469,8 @@ class AppPresenter:NSObject{
     }
     
     
-    private func getFromDBItemsModels(project:String,companyID:Int,formTypeID:String)->[DataDetails]{
-        let predicate1 = NSPredicate(format: "form_type_id == '\(formTypeID)' AND company_id == '\(companyID)'")
+    private func getFromDBItemsModels(project:String,companyID:Int,formTypeID:String)->[DataDetails] {
+        let predicate1 = NSPredicate(format: "form_type_id == '\(formTypeID)' AND company_id == '\(companyID)' AND development_title == '\(project)'")
         let predicate2 = NSPredicate(format: "form_type_id == '\(formTypeID)' AND development_title == '\(project)'")
         guard var firstFilter = RealmManager.sharedInstance.fetchObjects(FormItemDBModel.self,predicate: predicate1) else {return []}
         guard let secondFilter = RealmManager.sharedInstance.fetchObjects(FormItemDBModel.self,predicate: predicate2) else {return []}
@@ -494,11 +492,8 @@ class AppPresenter:NSObject{
         }
         return result
     }
-    
-    
-    
-    
-    
+
+
     // MARK: - Add Realm DB Actions
     
     private func addRequestToRealm(url:String,body:[String:Any],header:[String:Any],method:String,isEdit:Bool){

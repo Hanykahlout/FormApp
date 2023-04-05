@@ -240,7 +240,7 @@ extension QCFormVC{
     
     @objc func AddFormItemStatus( _ sender:UITextField){
         let indexPath = NSIndexPath(row: sender.tag, section: 0)
-        formsItem[indexPath.row].qty = sender.text ?? ""
+        formsItem[indexPath.row].status = sender.text ?? ""
     }
     
 }
@@ -287,7 +287,7 @@ extension QCFormVC{
     
     private func isAllFormItemsSelected() -> Bool{
         for item in formsItem{
-            let chechResult = item.system == "quantity" ? item.qty == "" : item.status == nil
+            let chechResult = item.status == nil
             if chechResult{
                 return false
             }

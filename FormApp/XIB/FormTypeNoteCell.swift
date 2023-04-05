@@ -52,7 +52,7 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
         let system = obj.system
         reasons = obj.fail_reasons
         FormTypeSubtitle.text = obj.title ?? ""
-        formTypeStatus.text = system == "quantity" ? obj.qty ?? "" : obj.status ?? ""
+        formTypeStatus.text = obj.status ?? ""
         formTitleNote.text = obj.note ?? ""
         reasonTextField.text = obj.reason ?? ""
         reasonTextField.isHidden = obj.status != "fail"
