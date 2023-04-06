@@ -112,12 +112,13 @@ struct DataDetails:Decodable{
     var development_title:String?
     var fail_reasons: [FailReasonData]?
     
-    init(id: Int?, title: String?, email: String?, company_id: String?, created_at: String?) {
+    init(id: Int?, title: String?, email: String?, company_id: String?, created_at: String?,project:String?) {
         self.id = id
         self.title = title
         self.email = email
         self.company_id = company_id
         self.created_at = created_at
+        self.project = project
     }
      
     
