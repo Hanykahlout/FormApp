@@ -470,12 +470,8 @@ class AppPresenter:NSObject{
     
     
     private func getFromDBItemsModels(project:String,companyID:Int,formTypeID:String)->[DataDetails] {
-        let predicate1 = NSPredicate(format: "form_type_id == '\(formTypeID)' AND company_id == '\(companyID)'")
-        let predicate2 = NSPredicate(format: "development_title == '\(project)'")
-        guard var firstFilter = RealmManager.sharedInstance.fetchObjects(FormItemDBModel.self,predicate: predicate1) else {return []}
-        guard let secondFilter = RealmManager.sharedInstance.fetchObjects(FormItemDBModel.self,predicate: predicate2) else {return []}
-        firstFilter.append(contentsOf: secondFilter)
-        let models = firstFilter
+        let predicate = NSPredicate(format: "form_type_id == '\(formTypeID)' AND company_id == '\(companyID)' AND (development_title == '\(project)' OR  development_title == null)")
+        guard var models = RealmManager.sharedInstance.fetchObjects(FormItemDBModel.self,predicate: predicate) else {return []}
         var result = [DataDetails]()
         for model in models {
             let id = model.id
