@@ -463,6 +463,7 @@ class AppPresenter:NSObject{
             let email = model.email
             let company_id = model.company_id
             let created_at = model.created_at
+            
             let project = model.project
             let obj = DataDetails(id: id, title: title, email: email, company_id: company_id, created_at: created_at,project:project)
             result.append(obj)
@@ -473,7 +474,7 @@ class AppPresenter:NSObject{
     
     private func getFromDBItemsModels(project:String,companyID:Int,formTypeID:String)->[DataDetails] {
         let predicate1 = NSPredicate(format: "(form_type_id == '\(formTypeID)' AND company_id == '\(companyID)' AND development_title == null) OR (development_title == '\(project)' AND development_title != null)")
-        guard var models = RealmManager.sharedInstance.fetchObjects(FormItemDBModel.self,predicate: predicate1) else {return []}
+        guard let models = RealmManager.sharedInstance.fetchObjects(FormItemDBModel.self,predicate: predicate1) else {return []}
         var result = [DataDetails]()
         for model in models {
             let id = model.id

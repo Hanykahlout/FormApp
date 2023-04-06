@@ -58,14 +58,13 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
         reasonTextField.isHidden = obj.status != "fail"
         switch system{
         case "NA/pass/fail":
-            status = ["N/A","pass","fail"]
-            statusTitleLabel.text = "Select your status"
+            defualtCellSystem(withArr:["N/A","pass","fail"])
         case "yes/no":
-            status = ["Yes","No"]
-            statusTitleLabel.text = "Select your status"
+            defualtCellSystem(withArr:["Yes","No"])
         case "quantity":
             if let statusGesture = statusGesture{
                 formTypeStatus.removeGestureRecognizer(statusGesture)
+                self.statusGesture = nil
             }
             formTypeStatus.placeholder = "Quantity"
             formTypeStatus.keyboardType = .numberPad
@@ -73,6 +72,17 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
         default:
             break
         }
+    }
+    
+    private func defualtCellSystem(withArr arr:[String]){
+        if statusGesture == nil{
+            statusGesture = UITapGestureRecognizer(target: self, action: #selector(formTypeStatusAction))
+            formTypeStatus.addGestureRecognizer(statusGesture!)
+            formTypeStatus.placeholder = "Status"
+            statusGesture = nil
+        }
+        status = arr
+        statusTitleLabel.text = "Select your status"
     }
     
     @objc private func formTypeStatusAction(){

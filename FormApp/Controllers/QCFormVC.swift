@@ -390,14 +390,12 @@ extension QCFormVC:FormDelegate{
     func getUserData(user: User) {}
     
     func getCompanyData(data: CompaniesData) {
-        companies.removeAll()
         companies=data.companies
         companyBtn.isEnabled=true
         SVProgressHUD.dismiss()
     }
     
     func getJobData(data: JobData) {
-        jobs.removeAll()
         jobs=data.jobs
         jobBtn.isEnabled=true
         if let jobPickerVC = self.jobPickerVC{
@@ -410,7 +408,6 @@ extension QCFormVC:FormDelegate{
     }
     
     func getFormsData(data: FormsData) {
-        forms.removeAll()
         forms=data.forms
         formTypeBtn.isEnabled=true
         SVProgressHUD.dismiss()
@@ -418,7 +415,6 @@ extension QCFormVC:FormDelegate{
     }
     
     func getDivition(data: DiviosnData) {
-        division.removeAll()
         division=data.divisions
         divisionBtn.isEnabled=true
         SVProgressHUD.dismiss()
@@ -426,7 +422,6 @@ extension QCFormVC:FormDelegate{
     }
     
     func getFormItemsData(data: FormItemData) {
-        formsItem.removeAll()
         formsItem = data.formItems
         formTypeNoteTableview.reloadData()
         
