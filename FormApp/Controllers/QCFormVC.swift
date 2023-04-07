@@ -13,7 +13,10 @@ class QCFormVC: UIViewController {
     
     @IBOutlet weak var formTypeNoteTableview: UITableView!
     
+    @IBOutlet weak var companyView: UIViewDesignable!
     @IBOutlet weak var jobView: UIViewDesignable!
+    @IBOutlet weak var divisionView: UIViewDesignable!
+    @IBOutlet weak var formTypeView: UIViewDesignable!
     
     @IBOutlet weak var companyBtn: UIButton!
     @IBOutlet weak var jobBtn: UIButton!
@@ -47,8 +50,14 @@ class QCFormVC: UIViewController {
     
     private var formData:[String : Any] = [:]
     private var requestSubmitted:Bool = false
-    private var searchText = ""
+    private var companySearchText = ""
+    private var jobSearchText = ""
+    private var divitionSearchText = ""
+    private var formTypeSearchText = ""
+    private var companyPickerVC: PickerVC?
     private var jobPickerVC: PickerVC?
+    private var divitionPickerVC: PickerVC?
+    private var formTypePickerVC: PickerVC?
     private var selectedJobProject = ""
     var editData: FormInfo?
     
@@ -64,9 +73,7 @@ class QCFormVC: UIViewController {
         SVProgressHUD.show(withStatus: "please wait")
         
         presenter.delegate=self
-        presenter.getCompaniesFromDB()
-        presenter.getDivisionFromDB()
-        presenter.getFormsFromDB()
+        presenter.getCompaniesFromDB(search: "")
         setupTableview()
     }
     
@@ -75,19 +82,23 @@ class QCFormVC: UIViewController {
         if let editData = editData{
             companyID = editData.company?.id ?? 0
             companyBtn.isEnabled = true
+            companyView.backgroundColor = .black
             companiesData.text = editData.company?.title ?? ""
             
             jobID = editData.job?.id ?? 0
             jobBtn.isEnabled = true
+            jobView.backgroundColor = .black
             jobData.text = editData.job?.title ?? ""
             jobView.backgroundColor = .black
             
             formTypeID = editData.form?.id ?? 0
             formTypeBtn.isEnabled = true
+            formTypeView.backgroundColor = .black
             formTypeData.text = editData.form?.title ?? ""
             
             divisionID = editData.division?.id ?? 0
             divisionBtn.isEnabled = true
+            divisionView.backgroundColor = .black
             diviosnLeaderData.text = editData.division?.title ?? ""
             
             for item in editData.items ?? []{
@@ -104,7 +115,12 @@ class QCFormVC: UIViewController {
         jobBtn.isEnabled=false
         divisionBtn.isEnabled=false
         
+        companyView.backgroundColor = .systemGray5
         jobView.backgroundColor = .systemGray5
+        divisionView.backgroundColor = .systemGray5
+        formTypeView.backgroundColor = .systemGray5
+        
+        
         
         diviosnLeaderData.isEnabled=false
         jobData.isEnabled=false
@@ -112,6 +128,7 @@ class QCFormVC: UIViewController {
         formTypeData.isEnabled=false
         
     }
+    
     
     func setupTableview(){
         formTypeNoteTableview.register(FormTypeNoteCell.self)
@@ -121,42 +138,46 @@ class QCFormVC: UIViewController {
     
     
     @IBAction func companyAction(_ sender: Any) {
-        let vc = PickerVC.instantiate()
-        vc.arr_data = companies.map{$0.title ?? ""}
-        
-        vc.searchBarHiddenStatus = true
-        
-        vc.isModalInPresentation = true
-        vc.modalPresentationStyle = .overFullScreen
-        vc.definesPresentationContext = true
-        vc.delegate = {name , index in
+        companyPickerVC = PickerVC.instantiate()
+        companyPickerVC!.arr_data = companies.map{$0.title ?? ""}
+        companyPickerVC!.searchText = companySearchText
+        companyPickerVC!.searchBarHiddenStatus = false
+        companyPickerVC!.searchAction = { searchText in
+            self.companySearchText = searchText
+            self.presenter.getCompaniesFromDB(search: searchText)
+        }
+        companyPickerVC!.isModalInPresentation = true
+        companyPickerVC!.modalPresentationStyle = .overFullScreen
+        companyPickerVC!.definesPresentationContext = true
+        companyPickerVC!.delegate = {name , index in
             // Selection Action Here
             print("Selected Value:",name)
             print("Selected Index:",index)
-            self.companiesData.text = name
+            self.companiesData.text = self.companies[index].title ?? ""
             self.companyID = self.companies[index].id ?? 0
-            
-            self.jobView.backgroundColor = .black
-            
             self.jobs = []
+            self.division = []
+            self.forms = []
             self.jobData.text=""
+            self.diviosnLeaderData.text = ""
+            self.formTypeData.text = ""
             self.presenter.getJobsFromDB(companyID: "\(self.companyID)", search: "")
-            
+            self.presenter.getDivisionFromDB(companyID: "\(self.companyID)", search: "")
+            self.presenter.getFormsFromDB(companyID: "\(self.companyID)", search: "")
             self.presenter.getFormItemFromDB(project: self.selectedJobProject,
                                              companyID:self.companyID,
                                              formTypeID:"\(self.formTypeID)" )
         }
-        self.present(vc, animated: true, completion: nil)
+        self.present(companyPickerVC!, animated: true, completion: nil)
     }
     
     
     @IBAction func jobAction(_ sender: Any) {
         jobPickerVC = PickerVC.instantiate()
-        jobPickerVC!.searchText = searchText
+        jobPickerVC!.searchText = jobSearchText
         jobPickerVC!.arr_data = jobs.map{$0.title ?? ""}
-        jobPickerVC!.companyId = self.companyID
         jobPickerVC!.searchAction = { searchText in
-            self.searchText = searchText
+            self.jobSearchText = searchText
             self.presenter.getJobsFromDB(companyID: String(self.companyID), search: searchText)
         }
         jobPickerVC!.searchBarHiddenStatus = false
@@ -180,43 +201,52 @@ class QCFormVC: UIViewController {
     
     
     @IBAction func divisionLeaderAction(_ sender: Any) {
-        let vc = PickerVC.instantiate()
-        vc.arr_data = division.map{$0.title ?? ""}
-        vc.searchBarHiddenStatus = true
-        vc.isModalInPresentation = true
-        vc.modalPresentationStyle = .overFullScreen
-        vc.definesPresentationContext = true
-        vc.delegate = {name , index in
+        divitionPickerVC = PickerVC.instantiate()
+        divitionPickerVC!.arr_data = division.map{$0.title ?? ""}
+        divitionPickerVC!.searchText = divitionSearchText
+        divitionPickerVC!.searchBarHiddenStatus = false
+        divitionPickerVC!.searchAction = { searchText in
+            self.divitionSearchText = searchText
+            self.presenter.getDivisionFromDB(companyID: String(self.companyID), search: searchText)
+        }
+        divitionPickerVC!.isModalInPresentation = true
+        divitionPickerVC!.modalPresentationStyle = .overFullScreen
+        divitionPickerVC!.definesPresentationContext = true
+        divitionPickerVC!.delegate = {name , index in
             // Selection Action Here
             print("Selected Value:",name)
             print("Selected Index:",index)
-            self.diviosnLeaderData.text = name
+            self.diviosnLeaderData.text = self.division[index].title ?? ""
             self.divisionID = self.division[index].id ?? 0
-            
-            
+
         }
-        self.present(vc, animated: true, completion: nil)
+        self.present(divitionPickerVC!, animated: true, completion: nil)
     }
     
     
     @IBAction func FormTypeAction(_ sender: Any) {
-        let vc = PickerVC.instantiate()
-        vc.arr_data = forms.map{$0.title ?? ""}
-        vc.searchBarHiddenStatus = true
-        vc.isModalInPresentation = true
-        vc.modalPresentationStyle = .overFullScreen
-        vc.definesPresentationContext = true
-        vc.delegate = {name , index in
+        formTypePickerVC = PickerVC.instantiate()
+        formTypePickerVC!.arr_data = forms.map{$0.title ?? ""}
+        formTypePickerVC!.searchText = formTypeSearchText
+        formTypePickerVC!.searchBarHiddenStatus = false
+        formTypePickerVC!.searchAction = { searchText in
+            self.formTypeSearchText = searchText
+            self.presenter.getFormsFromDB(companyID: String(self.companyID), search: searchText)
+        }
+        formTypePickerVC!.isModalInPresentation = true
+        formTypePickerVC!.modalPresentationStyle = .overFullScreen
+        formTypePickerVC!.definesPresentationContext = true
+        formTypePickerVC!.delegate = {name , index in
             // Selection Action Here
             print("Selected Value:",name)
             print("Selected Index:",index)
-            self.formTypeData.text = name
+            self.formTypeData.text = self.forms[index].title ?? ""
             self.formTypeID = self.forms[index].id ?? 0
             self.presenter.getFormItemFromDB(project: self.selectedJobProject,
                                              companyID:self.companyID,
                                              formTypeID:"\(self.formTypeID)" )
         }
-        self.present(vc, animated: true, completion: nil)
+        self.present(formTypePickerVC!, animated: true, completion: nil)
         
     }
     
@@ -325,6 +355,9 @@ extension QCFormVC:UITableViewDelegate, UITableViewDataSource{
         cell.formTypeStatus.addTarget(self, action: #selector(AddFormItemStatus), for: .editingDidEnd)
         cell.formTypeStatus.tag=indexPath.row
         
+        cell.statusWithoutSelectionTextField.addTarget(self, action: #selector(AddFormItemStatus), for: .editingDidEnd)
+        cell.statusWithoutSelectionTextField.tag=indexPath.row
+        
         return cell
     }
     
@@ -368,6 +401,14 @@ extension QCFormVC:FormTypeNoteCellDelegate{
         self.present(vc, animated: true, completion: nil)
     }
     
+    func datePickerAction(indexPath:IndexPath) {
+        let vc = DatePickerVC.instantiate()
+        vc.dateSelected = { selectedDate in
+            self.formsItem[indexPath.row].status = selectedDate
+            self.formTypeNoteTableview.reloadRows(at: [indexPath], with: .automatic)
+        }
+        self.present(vc, animated: true, completion: nil)
+    }
 }
 
 extension QCFormVC:FormDelegate{
@@ -392,12 +433,21 @@ extension QCFormVC:FormDelegate{
     func getCompanyData(data: CompaniesData) {
         companies=data.companies
         companyBtn.isEnabled=true
+        self.companyView.backgroundColor = .black
         SVProgressHUD.dismiss()
+        if let companyPickerVC = self.companyPickerVC{
+            companyPickerVC.arr_data = companies.map{$0.title ?? ""}
+            companyPickerVC.picker.reloadAllComponents()
+            if !companyPickerVC.arr_data.isEmpty{
+                companyPickerVC.index = 0
+            }
+        }
     }
     
     func getJobData(data: JobData) {
         jobs=data.jobs
         jobBtn.isEnabled=true
+        self.jobView.backgroundColor = .black
         if let jobPickerVC = self.jobPickerVC{
             jobPickerVC.arr_data = jobs.map{$0.title ?? ""}
             jobPickerVC.picker.reloadAllComponents()
@@ -410,15 +460,32 @@ extension QCFormVC:FormDelegate{
     func getFormsData(data: FormsData) {
         forms=data.forms
         formTypeBtn.isEnabled=true
+        self.formTypeView.backgroundColor = .black
         SVProgressHUD.dismiss()
-        
+
+        if let formTypePickerVC = self.formTypePickerVC{
+            formTypePickerVC.arr_data = forms.map{$0.title ?? ""}
+            formTypePickerVC.picker.reloadAllComponents()
+            if !formTypePickerVC.arr_data.isEmpty{
+                formTypePickerVC.index = 0
+            }
+        }
+
     }
     
     func getDivition(data: DiviosnData) {
         division=data.divisions
         divisionBtn.isEnabled=true
+        self.divisionView.backgroundColor = .black
         SVProgressHUD.dismiss()
-        
+
+        if let divitionPickerVC = self.divitionPickerVC{
+            divitionPickerVC.arr_data = division.map{$0.title ?? ""}
+            divitionPickerVC.picker.reloadAllComponents()
+            if !divitionPickerVC.arr_data.isEmpty{
+                divitionPickerVC.index = 0
+            }
+        }
     }
     
     func getFormItemsData(data: FormItemData) {

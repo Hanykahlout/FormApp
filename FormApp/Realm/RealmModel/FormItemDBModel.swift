@@ -15,6 +15,8 @@ class FormItemDBModel: Object {
     @Persisted var form_type_id:String?
     @Persisted var company_id:String?
     @Persisted var system:String?
+    @Persisted var price:String?
+    @Persisted var show_price:String?
     @Persisted var development_title:String?
     @Persisted var reasons:List<FormItemReason>
     

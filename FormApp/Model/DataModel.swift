@@ -103,6 +103,8 @@ struct DataDetails:Decodable{
     var company_id:String?
     var created_at:String?
     var form_type_id:String?
+    var price:String?
+    var show_price:String?
     var status: String?
     var reason: String?
     var reason_id: Int?
@@ -122,13 +124,15 @@ struct DataDetails:Decodable{
     }
      
     
-    init(id: Int?, title: String?,created_at: String?,form_type_id:String?,system:String?,fail_reasons:[FailReasonData]) {
+    init(id: Int?, title: String?,created_at: String?,form_type_id:String?,system:String?,fail_reasons:[FailReasonData],price:String?,show_price:String?) {
         self.id = id
         self.title = title
         self.created_at = created_at
         self.form_type_id = form_type_id
         self.system = system
         self.fail_reasons = fail_reasons
+        self.price = price
+        self.show_price = show_price
     }
     
     

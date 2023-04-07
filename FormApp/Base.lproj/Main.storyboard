@@ -1184,11 +1184,14 @@
                         <outlet property="backBtn" destination="yvr-oR-462" id="sm2-Sc-IWc"/>
                         <outlet property="companiesData" destination="0fM-b2-QOL" id="6cR-Mc-RDh"/>
                         <outlet property="companyBtn" destination="iR2-XG-WiM" id="aDN-ap-R6D"/>
+                        <outlet property="companyView" destination="I7u-Hq-0pK" id="ytX-Vq-PgX"/>
                         <outlet property="diviosnLeaderData" destination="KSo-kX-1ea" id="Wal-4O-WBv"/>
                         <outlet property="divisionBtn" destination="dcx-1i-W1F" id="0Qu-dv-EU6"/>
+                        <outlet property="divisionView" destination="agC-fG-wyh" id="haQ-FL-7Ug"/>
                         <outlet property="formTypeBtn" destination="h3q-aJ-GBm" id="4nf-lX-U0t"/>
                         <outlet property="formTypeData" destination="Z8E-kc-zSk" id="fLD-Hi-e7e"/>
                         <outlet property="formTypeNoteTableview" destination="1yd-WP-voe" id="DmX-Fp-W3h"/>
+                        <outlet property="formTypeView" destination="4tc-WS-gGw" id="QTu-ft-msp"/>
                         <outlet property="jobBtn" destination="5cB-Wc-bDW" id="K4S-Wp-U4I"/>
                         <outlet property="jobData" destination="ko8-h7-3NR" id="EQZ-BJ-nn1"/>
                         <outlet property="jobView" destination="tPp-yV-myB" id="Amw-H5-NZL"/>
@@ -1335,6 +1338,101 @@
             </objects>
             <point key="canvasLocation" x="2440" y="816"/>
         </scene>
+        <!--Date PickerVC-->
+        <scene sceneID="ANV-4m-GXb">
+            <objects>
+                <viewController storyboardIdentifier="DatePickerVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="uwB-lD-j6d" customClass="DatePickerVC" customModule="FormApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hKK-rt-e11">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KDc-Jj-ZMH">
+                                <rect key="frame" x="0.0" y="542" width="393" height="310"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="4zX-PU-pHS">
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="310"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="top" spacing="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="t3x-gS-jXs">
+                                                <rect key="frame" x="0.0" y="0.0" width="393" height="50"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hFh-JR-rhn">
+                                                        <rect key="frame" x="0.0" y="0.0" width="196.33333333333334" height="40"/>
+                                                        <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="40" id="E7P-UB-gNT"/>
+                                                        </constraints>
+                                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal" title="Done"/>
+                                                        <connections>
+                                                            <action selector="doneAction:" destination="uwB-lD-j6d" eventType="touchUpInside" id="UT8-D4-xDs"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o8X-Su-hLh">
+                                                        <rect key="frame" x="197" y="0.0" width="196" height="40"/>
+                                                        <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="40" id="FHH-T3-K6m"/>
+                                                        </constraints>
+                                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal" title="Cancel"/>
+                                                        <connections>
+                                                            <action selector="cancelAction:" destination="uwB-lD-j6d" eventType="touchUpInside" id="kLN-Pr-uZP"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="039-ue-eAL"/>
+                                                </constraints>
+                                            </stackView>
+                                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="wheels" translatesAutoresizingMaskIntoConstraints="NO" id="9WI-0C-iMh">
+                                                <rect key="frame" x="0.0" y="50" width="393" height="260"/>
+                                            </datePicker>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="t3x-gS-jXs" firstAttribute="leading" secondItem="4zX-PU-pHS" secondAttribute="leading" id="AxJ-Dc-yHg"/>
+                                            <constraint firstAttribute="trailing" secondItem="t3x-gS-jXs" secondAttribute="trailing" id="FnP-3T-2FI"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="4zX-PU-pHS" secondAttribute="trailing" id="4TK-e6-cGl"/>
+                                    <constraint firstAttribute="bottom" secondItem="4zX-PU-pHS" secondAttribute="bottom" id="PjJ-d4-ZfV"/>
+                                    <constraint firstItem="4zX-PU-pHS" firstAttribute="top" secondItem="KDc-Jj-ZMH" secondAttribute="top" id="cb9-JK-LIA"/>
+                                    <constraint firstAttribute="height" constant="310" id="enm-a5-2Hr"/>
+                                    <constraint firstItem="4zX-PU-pHS" firstAttribute="leading" secondItem="KDc-Jj-ZMH" secondAttribute="leading" id="yjp-F9-y6d"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r4P-HB-jpQ">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="542"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <connections>
+                                    <action selector="btnCancel_Click:" destination="uwB-lD-j6d" eventType="touchUpInside" id="g3b-hc-2UE"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="TtI-IK-9Er"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="KDc-Jj-ZMH" firstAttribute="leading" secondItem="hKK-rt-e11" secondAttribute="leading" id="1H4-Gt-tWQ"/>
+                            <constraint firstItem="KDc-Jj-ZMH" firstAttribute="trailing" secondItem="TtI-IK-9Er" secondAttribute="trailing" id="2di-tu-JLx"/>
+                            <constraint firstItem="KDc-Jj-ZMH" firstAttribute="top" secondItem="r4P-HB-jpQ" secondAttribute="bottom" id="Qpy-B1-n14"/>
+                            <constraint firstAttribute="bottom" secondItem="KDc-Jj-ZMH" secondAttribute="bottom" id="dZP-si-Y6b"/>
+                            <constraint firstItem="r4P-HB-jpQ" firstAttribute="trailing" secondItem="TtI-IK-9Er" secondAttribute="trailing" id="lKy-SG-56e"/>
+                            <constraint firstItem="r4P-HB-jpQ" firstAttribute="leading" secondItem="TtI-IK-9Er" secondAttribute="leading" id="o57-w2-Sku"/>
+                            <constraint firstItem="r4P-HB-jpQ" firstAttribute="top" secondItem="hKK-rt-e11" secondAttribute="top" id="oNS-oY-7ss"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="datePicker" destination="9WI-0C-iMh" id="bT4-em-Bhe"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0uO-PP-ZLC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3163" y="815"/>
+        </scene>
     </scenes>
     <designables>
         <designable name="2BW-SL-5jZ">
@@ -1349,13 +1447,13 @@
     </designables>
     <resources>
         <image name="Back" width="38.666667938232422" height="38.666667938232422"/>
-        <image name="chevron.down" catalog="system" width="128" height="70"/>
+        <image name="chevron.down" catalog="system" width="32" height="32"/>
         <image name="empty-folder" width="170.66667175292969" height="170.66667175292969"/>
-        <image name="envelope" catalog="system" width="128" height="93"/>
-        <image name="faceid" catalog="system" width="128" height="115"/>
-        <image name="lock" catalog="system" width="125" height="128"/>
-        <image name="person.fill" catalog="system" width="128" height="120"/>
-        <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="envelope" catalog="system" width="32" height="32"/>
+        <image name="faceid" catalog="system" width="32" height="32"/>
+        <image name="lock" catalog="system" width="32" height="32"/>
+        <image name="person.fill" catalog="system" width="32" height="32"/>
+        <image name="plus" catalog="system" width="32" height="32"/>
         <namedColor name="ButtonColor">
             <color red="0.32899999618530273" green="0.32400000095367432" blue="0.4779999852180481" alpha="0.33000001309999999" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

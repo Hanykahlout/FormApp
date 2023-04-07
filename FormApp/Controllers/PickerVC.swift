@@ -17,7 +17,6 @@ class PickerVC: UIViewController {
     var arr_data:[String] = []
     var name:String = ""
     var index : Int = 0
-    var companyId=0
     var delegate : ((_ name: String ,_ index:Int) -> Void)?
     var searchAction: ((_ searchText:String) -> Void)?
     var searchBarHiddenStatus:Bool=false

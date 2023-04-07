@@ -44,7 +44,7 @@ class AppPresenter:NSObject{
     func signup(firstName:String,lastName:String,email:String,password:String){
         AppManager.shared.signUpUser(fname: firstName, lname: lastName, email: email, password: password) { Response in
             switch Response{
-                
+
             case let .success(response):
                 if response.status == true{
                     self.delegate?.getUserData(user: response.data!)
@@ -412,20 +412,20 @@ class AppPresenter:NSObject{
     // MARK: - Realm DB Actions
     
     // MARK: - Fetch Realm DB Actions
-    func getCompaniesFromDB(){
-        self.delegate?.getCompanyData(data: CompaniesData(companies: self.getFromDBMdeols(type: "companies")))
+    func getCompaniesFromDB(search:String){
+        self.delegate?.getCompanyData(data: CompaniesData(companies: self.getFromDBModels(type: "companies",searchText: search)))
     }
     
     func getJobsFromDB(companyID:String,search:String){
-        self.delegate?.getJobData(data: JobData(jobs: self.getFromDBJobsModels(companyId: companyID,searchText: search)))
+        self.delegate?.getJobData(data: JobData(jobs: self.getFromDBModels(type:"jobs",companyId: companyID,searchText: search)))
     }
     
-    func getFormsFromDB(){
-        self.delegate?.getFormsData(data: FormsData(forms: self.getFromDBMdeols(type: "forms")))
+    func getFormsFromDB(companyID:String,search:String){
+        self.delegate?.getFormsData(data: FormsData(forms: self.getFromDBModels(type:"forms",companyId: companyID,searchText: search)))
     }
     
-    func getDivisionFromDB(){
-        self.delegate?.getDivition(data: DiviosnData(divisions: self.getFromDBMdeols(type: "divisions")))
+    func getDivisionFromDB(companyID:String,search:String){
+        self.delegate?.getDivition(data: DiviosnData(divisions: self.getFromDBModels(type:"divisions",companyId: companyID,searchText: search)))
     }
     
     func getFormItemFromDB(project:String,companyID:Int,formTypeID:String){
@@ -433,8 +433,9 @@ class AppPresenter:NSObject{
     }
     
     
-    private func getFromDBMdeols(type:String)->[DataDetails]{
-        let predicate = NSPredicate(format: "type == %@", type)
+    private func getFromDBModels(type:String,searchText:String)->[DataDetails]{
+        let searchQuery = "AND title CONTAINS[c] '\(searchText)'"
+        let predicate = NSPredicate(format: "type == %@ \(searchText != "" ? searchQuery : "")", type)
         guard let models = RealmManager.sharedInstance.fetchObjects(DataDetailsDBModel.self,predicate: predicate) else {return []}
         var result = [DataDetails]()
         for model in models {
@@ -451,9 +452,9 @@ class AppPresenter:NSObject{
     }
     
     
-    private func getFromDBJobsModels(companyId:String,searchText:String)->[DataDetails]{
+    private func getFromDBModels(type:String,companyId:String,searchText:String)->[DataDetails]{
         let searchQuery = "AND title CONTAINS[c] '\(searchText)'"
-        let predicate = NSPredicate(format: "type == %@ AND company_id == %@ \(searchText != "" ? searchQuery : "")","jobs",companyId)
+        let predicate = NSPredicate(format: "type == '\(type)' AND company_id == '\(companyId)' \(searchText != "" ? searchQuery : "")")
         
         guard let models = RealmManager.sharedInstance.fetchObjects(DataDetailsDBModel.self,predicate: predicate) else {return []}
         var result = [DataDetails]()
@@ -473,7 +474,7 @@ class AppPresenter:NSObject{
     
     
     private func getFromDBItemsModels(project:String,companyID:Int,formTypeID:String)->[DataDetails] {
-        let predicate1 = NSPredicate(format: "(form_type_id == '\(formTypeID)' AND company_id == '\(companyID)' AND development_title == null) OR (development_title == '\(project)' AND development_title != null)")
+        let predicate1 = NSPredicate(format: "(form_type_id == '\(formTypeID)' AND company_id == '\(companyID)' AND development_title == null) OR (form_type_id == '\(formTypeID)' AND development_title == '\(project)' AND development_title != null)")
         guard let models = RealmManager.sharedInstance.fetchObjects(FormItemDBModel.self,predicate: predicate1) else {return []}
         var result = [DataDetails]()
         for model in models {
@@ -482,11 +483,13 @@ class AppPresenter:NSObject{
             let created_at = model.created_at
             let form_type_id = model.form_type_id
             let system = model.system
+            let price = model.price ?? ""
+            let show_price = model.show_price ?? ""
             var reasons:[FailReasonData] = []
             model.reasons.forEach{
                 reasons.append(FailReasonData(id: $0.id, title: $0.title, form_item_id: $0.form_item_id, created_at: $0.created_at))
             }
-            let obj = DataDetails(id: id, title: title, created_at: created_at,form_type_id: form_type_id,system: system,fail_reasons: reasons)
+            let obj = DataDetails(id: id, title: title, created_at: created_at,form_type_id: form_type_id,system: system,fail_reasons: reasons,price: price,show_price: show_price)
             result.append(obj)
         }
         
@@ -548,6 +551,10 @@ class AppPresenter:NSObject{
             dbModel.form_type_id = model.form_type_id
             dbModel.company_id = model.company_id
             dbModel.system = model.system
+            dbModel.price = model.price
+            dbModel.show_price = model.show_price
+            
+            
             dbModel.development_title = model.development_title
             for reason in model.fail_reasons ?? []{
                 let dbReason = FormItemReason()

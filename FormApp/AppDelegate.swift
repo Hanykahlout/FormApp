@@ -17,11 +17,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         // Set up the Realm configuration
-        let config = Realm.Configuration(
-            schemaVersion: 1
-        )
-        
-        Realm.Configuration.defaultConfiguration = config
+//        let config = Realm.Configuration(
+//            schemaVersion: 2) { migration, oldSchemaVersion in
+//                if oldSchemaVersion < 2 {
+//                    migration.enumerateObjects(ofType: FormItemDBModel.className()) { oldObject, newObject in
+//                        newObject!["price"] = ""
+//                        newObject!["show_price"] = ""
+//                    }
+//                }
+//            }
+//        
+//        Realm.Configuration.defaultConfiguration = config
         
         IQKeyboardManager.shared.enable = true
         return true
