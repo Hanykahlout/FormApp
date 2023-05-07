@@ -102,8 +102,8 @@
                                                             <constraint firstAttribute="width" constant="60" id="3QK-M7-PVU"/>
                                                         </constraints>
                                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <state key="normal" title="Button"/>
-                                                        <buttonConfiguration key="configuration" style="plain" image="faceid" catalog="system"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal" image="faceid" catalog="system"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="color" keyPath="bgColor">
                                                                 <color key="value" name="ButtonColor"/>
@@ -2887,7 +2887,7 @@
     </scenes>
     <designables>
         <designable name="2BW-SL-5jZ">
-            <size key="intrinsicContentSize" width="50" height="34.333333333333336"/>
+            <size key="intrinsicContentSize" width="26" height="25"/>
         </designable>
         <designable name="gtd-rG-4pT">
             <size key="intrinsicContentSize" width="92.666666666666671" height="37.333333333333336"/>

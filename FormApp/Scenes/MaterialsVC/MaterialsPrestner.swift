@@ -45,7 +45,6 @@ class MaterialsPresetner{
     init(){
         getMaterialsFromAPI()
         companies = RealmController.shared.getFromDBModels(type: "companies",searchText: "")
-        getPhaseSpecialFromAPI()
     }
     
     
