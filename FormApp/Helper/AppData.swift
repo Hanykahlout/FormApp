@@ -34,7 +34,5 @@ struct AppData {
     
     @Storage(key: "email", defaultValue: "")
     static var email: String
-   
-    
 
 }

@@ -1,15 +1,14 @@
 //
 //  Storyboarded.swift
-//  GoodLifeApplocation
+//  FormApp
 //
-//  Created by heba isaa on 14/08/2022.
+//  Created by Hany Alkahlout on 14/08/2022.
 //
 
 import Foundation
 import UIKit
 enum StoryboardName: String {
    case main = "Main"
-
 
 }
 
@@ -34,3 +33,9 @@ extension Storyboarded where Self: UIViewController {
    }
    
 }
+
+
+
+
+
+

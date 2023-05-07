@@ -2,7 +2,7 @@
 //  AppTarget.swift
 //  FormApp
 //
-//  Created by heba isaa on 18/02/2023.
+//  Created by Hany Alkahlout on 18/02/2023.
 //
 
 import Foundation
@@ -23,6 +23,9 @@ enum AppTarget:TargetType{
     case editSubmittedForm(submitted_form_id:String)
     case submittedForms(search:String)
     case formItemReasons(normal:Int,uuid:String)
+    case getPhaseSpecial
+    case getHouseMaterials(company_id:Int,job_id:Int,phase:String,special:String)
+    case createHouseMaterial(houseMaterialData:[String:Any])
     
     var baseURL: URL {
         return URL(string: "\(AppConfig.apiBaseUrl)")!
@@ -43,31 +46,38 @@ enum AppTarget:TargetType{
         case .editSubmittedForm:return "editSubmittedForm"
         case .submittedForms:return "submittedForms"
         case .formItemReasons:return "failReasons"
+        case .getPhaseSpecial:return "getPhaseSpecial"
+        case .getHouseMaterials:return "getHouseMaterials"
+        case .createHouseMaterial:return "createHouseMaterial"
         }
     }
+    
     var method: Moya.Method {
         switch self{
-        case .SignUp,.login,.logout,.submitForms:
+        case .SignUp,.login,.logout,.submitForms,.createHouseMaterial:
             return .post
-        case .getCompanies,.getJob,.forms,.divisions,.getFormItems,.checkDatabase,.editSubmittedForm,.submittedForms,.formItemReasons:
+        case .getCompanies,.getJob,.forms,.divisions,.getFormItems,.checkDatabase,.editSubmittedForm,.submittedForms,.formItemReasons,.getPhaseSpecial,.getHouseMaterials:
             return .get
        
         }
     }
     
+    
     var task: Task{
         switch self{
+        case .getPhaseSpecial:
+            return .requestPlain
         case .getCompanies(let normal,_),.forms(let normal,_),.divisions(let normal,_),.formItemReasons(let normal,_):
             if normal == 1{
                 return .requestPlain
             }
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
-        case .SignUp,.login,.logout,.submitForms:
+        case .SignUp,.login,.logout,.submitForms,.createHouseMaterial:
             return .requestParameters(parameters: param, encoding: URLEncoding.httpBody)
-        case .getJob,.getFormItems,.editSubmittedForm,.checkDatabase,.submittedForms:
+        case .getJob,.getFormItems,.editSubmittedForm,.checkDatabase,.submittedForms,.getHouseMaterials:
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
-
         }
+        
     }
     
     
@@ -75,7 +85,8 @@ enum AppTarget:TargetType{
         switch self{
         case .submittedForms,.getCompanies,.getJob,
              .forms,.divisions,.getFormItems,.logout,
-             .submitForms,.checkDatabase,.editSubmittedForm,.formItemReasons:
+             .submitForms,.checkDatabase,.editSubmittedForm,
+             .formItemReasons,.getPhaseSpecial,.getHouseMaterials,.createHouseMaterial:
             
             do {
                 let token = try KeychainWrapper.get(key: AppData.email) ?? ""
@@ -88,6 +99,7 @@ enum AppTarget:TargetType{
             return ["Accept":"application/json","Accept-Language":"en"]
         }
     }
+    
     
     var param: [String : Any]{
         switch self {
@@ -119,10 +131,16 @@ enum AppTarget:TargetType{
             return ["uuid":uuid]
         case .submittedForms(let search):
             return ["search":search]
+        case .getHouseMaterials(let company_id,let job_id,let phase,let special) :
+            return ["company_id":company_id,"job_id":job_id,"phase":phase,"special":special]
+        case .createHouseMaterial(let houseMaterialData):
+            return houseMaterialData
         default:
             return [ : ]
         }
         
     }
+    
+    
     
 }

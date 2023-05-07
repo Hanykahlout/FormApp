@@ -1,8 +1,8 @@
 //
 //  Networkable.swift
-//  GoodLifeApplocation
+//  FormApp
 //
-//  Created by heba isaa on 27/08/2022.
+//  Created by Hany Alkahlout on 27/08/2022.
 //
 
 import Foundation
@@ -10,6 +10,8 @@ import Moya
 import Network
 import Alamofire
 import SVProgressHUD
+
+
 protocol Networkable{
     associatedtype targetType:TargetType
     var provider: MoyaProvider<targetType> { get }
@@ -19,8 +21,6 @@ protocol Networkable{
 
 
 extension Networkable{
-    
-    
     
     func request<T: Decodable>(target: targetType, completion: @escaping (Result<T, Error>) -> ()) {
         

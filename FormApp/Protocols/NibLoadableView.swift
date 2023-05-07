@@ -1,8 +1,8 @@
 //
 //  NibLoadableView.swift
-//  GoodLifeApplocation
+//  FormApp
 //
-//  Created by heba isaa on 08/08/2022.
+//  Created by Hany Alkahlout on 08/08/2022.
 //
 
 import Foundation
@@ -17,3 +17,5 @@ public extension NibLoadableView where Self: UIView {
         return String(describing: self)
     }
 }
+
+
