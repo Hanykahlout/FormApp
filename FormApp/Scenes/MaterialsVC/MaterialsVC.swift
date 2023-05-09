@@ -62,7 +62,8 @@ extension MaterialsVC:UITableViewDelegate,UITableViewDataSource{
     private func setUpTableView(){
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(.init(nibName: "FormTableViewCell", bundle: nil), forCellReuseIdentifier: "FormTableViewCell")
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.register(.init(nibName: "MaterialTableViewCell", bundle: nil), forCellReuseIdentifier: "MaterialTableViewCell")
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -71,10 +72,32 @@ extension MaterialsVC:UITableViewDelegate,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "FormTableViewCell", for: indexPath) as! FormTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MaterialTableViewCell", for: indexPath) as! MaterialTableViewCell
         cell.setData(data: presenter.getMaterials()[indexPath.row])
         return cell
     }
+    
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MaterialTableViewCell") as! MaterialTableViewCell
+        
+        cell.setData(data: presenter.getMaterials()[indexPath.row])
+        
+        let contentSize = cell.contentView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+        let cellHeight = contentSize.height + 10
+        
+        return cellHeight
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = MaterialsDetailsVC.instantiate()
+        vc.material = presenter.getMaterials()[indexPath.row]
+        let nav = UINavigationController(rootViewController: vc)
+        nav.isNavigationBarHidden = true
+        nav.modalPresentationStyle = .overCurrentContext
+        navigationController?.present(nav, animated: true)
+    }
+    
 }
 
 
@@ -102,6 +125,7 @@ extension MaterialsVC{
             specialsAction()
         case addMaterialButton:
             let vc = CreateMaterialVC.instantiate()
+            vc.presenter.setPhases(phases: presenter.getPhases())
             navigationController?.pushViewController(vc, animated: true)
         case backButton:
             navigationController?.popViewController(animated: true)
@@ -264,7 +288,7 @@ extension MaterialsVC:MaterialsPresetnerDelegate{
             phasePickerVC.arr_data = presenter.phasesSearchText == "" ? presenter.getPhases() : presenter.getSearchedPhases()
             phasePickerVC.picker.reloadAllComponents()
             if !phasePickerVC.arr_data.isEmpty{
-                phasePickerVC.index = presenter.selectedJobIndex
+                phasePickerVC.index = presenter.selectedPhasesIndex
             }
         }
     }
@@ -283,7 +307,7 @@ extension MaterialsVC:MaterialsPresetnerDelegate{
             specialPickerVC.arr_data = presenter.specialsSearchText == "" ? presenter.getSpecials() : presenter.getSearchedSpecials()
             specialPickerVC.picker.reloadAllComponents()
             if !specialPickerVC.arr_data.isEmpty{
-                specialPickerVC.index = presenter.selectedJobIndex
+                specialPickerVC.index = presenter.selectedSpecialsIndex
             }
         }
     }

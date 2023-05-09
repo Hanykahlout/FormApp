@@ -76,6 +76,9 @@
 		CE9F7A0B2A02C7B400C04F40 /* MaterialsPrestner.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9F7A0A2A02C7B400C04F40 /* MaterialsPrestner.swift */; };
 		CEA0B7BE29F573D800F7316C /* PORequestPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA0B7BD29F573D800F7316C /* PORequestPresenter.swift */; };
 		CEA0B7C029F5757D00F7316C /* RealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA0B7BF29F5757D00F7316C /* RealmController.swift */; };
+		CEA6F52B2A0A70CE00C6A7A0 /* MaterialTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA6F5292A0A70CE00C6A7A0 /* MaterialTableViewCell.swift */; };
+		CEA6F52C2A0A70CE00C6A7A0 /* MaterialTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEA6F52A2A0A70CE00C6A7A0 /* MaterialTableViewCell.xib */; };
+		CEA6F5302A0A76D400C6A7A0 /* MaterialsDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA6F52E2A0A76D400C6A7A0 /* MaterialsDetailsVC.swift */; };
 		CEC08E6A29E0A51A00FC8CBF /* DatePickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC08E6829E0A51A00FC8CBF /* DatePickerVC.swift */; };
 		CEF2BB352A018E3600D4DBA1 /* ViewCustomExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF2BB252A018E3600D4DBA1 /* ViewCustomExtension.swift */; };
 		CEF2BB362A018E3600D4DBA1 /* UIViewCustomCornerRadiusWithGraidentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF2BB272A018E3600D4DBA1 /* UIViewCustomCornerRadiusWithGraidentView.swift */; };
@@ -167,6 +170,9 @@
 		CE9F7A0A2A02C7B400C04F40 /* MaterialsPrestner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaterialsPrestner.swift; sourceTree = "<group>"; };
 		CEA0B7BD29F573D800F7316C /* PORequestPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PORequestPresenter.swift; sourceTree = "<group>"; };
 		CEA0B7BF29F5757D00F7316C /* RealmController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmController.swift; sourceTree = "<group>"; };
+		CEA6F5292A0A70CE00C6A7A0 /* MaterialTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaterialTableViewCell.swift; sourceTree = "<group>"; };
+		CEA6F52A2A0A70CE00C6A7A0 /* MaterialTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MaterialTableViewCell.xib; sourceTree = "<group>"; };
+		CEA6F52E2A0A76D400C6A7A0 /* MaterialsDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaterialsDetailsVC.swift; sourceTree = "<group>"; };
 		CEC08E6829E0A51A00FC8CBF /* DatePickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerVC.swift; sourceTree = "<group>"; };
 		CEF2BB252A018E3600D4DBA1 /* ViewCustomExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewCustomExtension.swift; sourceTree = "<group>"; };
 		CEF2BB272A018E3600D4DBA1 /* UIViewCustomCornerRadiusWithGraidentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewCustomCornerRadiusWithGraidentView.swift; sourceTree = "<group>"; };
@@ -367,6 +373,7 @@
 		CE5D7EF029F1D70B00A7D212 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				CEA6F52D2A0A76BC00C6A7A0 /* MaterialsDetailsVC */,
 				CE8169DE2A05850C00CBF0AD /* CreateMaterialVC */,
 				CEF2BB4D2A01A65A00D4DBA1 /* MaterialsVC */,
 				CE5D7EF929F1D79A00A7D212 /* PORequestVC */,
@@ -543,6 +550,23 @@
 			path = CreateMaterialVC;
 			sourceTree = "<group>";
 		};
+		CEA6F5282A0A70B100C6A7A0 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				CEA6F5292A0A70CE00C6A7A0 /* MaterialTableViewCell.swift */,
+				CEA6F52A2A0A70CE00C6A7A0 /* MaterialTableViewCell.xib */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		CEA6F52D2A0A76BC00C6A7A0 /* MaterialsDetailsVC */ = {
+			isa = PBXGroup;
+			children = (
+				CEA6F52E2A0A76D400C6A7A0 /* MaterialsDetailsVC.swift */,
+			);
+			path = MaterialsDetailsVC;
+			sourceTree = "<group>";
+		};
 		CEF2BB242A018E3600D4DBA1 /* Extenstions+Designables */ = {
 			isa = PBXGroup;
 			children = (
@@ -583,6 +607,7 @@
 		CEF2BB4D2A01A65A00D4DBA1 /* MaterialsVC */ = {
 			isa = PBXGroup;
 			children = (
+				CEA6F5282A0A70B100C6A7A0 /* Cells */,
 				CEF2BB4E2A01A68000D4DBA1 /* MaterialsVC.swift */,
 				CE9F7A0A2A02C7B400C04F40 /* MaterialsPrestner.swift */,
 			);
@@ -652,6 +677,7 @@
 				277CABD92981396A009C11CB /* LaunchScreen.storyboard in Resources */,
 				277CABD62981396A009C11CB /* Assets.xcassets in Resources */,
 				272C86A229AE04D50028D1C1 /* SearchView.xib in Resources */,
+				CEA6F52C2A0A70CE00C6A7A0 /* MaterialTableViewCell.xib in Resources */,
 				277CABF029814FD5009C11CB /* MainTF.xib in Resources */,
 				277CABD429813969009C11CB /* Main.storyboard in Resources */,
 				CEF2BB4C2A018EB400D4DBA1 /* HomeVCTableViewCell.xib in Resources */,
@@ -711,10 +737,12 @@
 			files = (
 				279404F929A2BA1700742AD9 /* CDAlertView.swift in Sources */,
 				CE9F7A0B2A02C7B400C04F40 /* MaterialsPrestner.swift in Sources */,
+				CEA6F5302A0A76D400C6A7A0 /* MaterialsDetailsVC.swift in Sources */,
 				279404CA29A0BC2B00742AD9 /* AppTarget.swift in Sources */,
 				CE54B76829BDCE2C00C9C9F1 /* RequestModel.swift in Sources */,
 				279404E729A2B8CC00742AD9 /* Validator.swift in Sources */,
 				277CABFE2981A202009C11CB /* TableViewHelper.swift in Sources */,
+				CEA6F52B2A0A70CE00C6A7A0 /* MaterialTableViewCell.swift in Sources */,
 				27CC17A329A4058B007BADC0 /* BottomBorderTextField.swift in Sources */,
 				279404F429A2BA1700742AD9 /* CDAlertHeaderView.swift in Sources */,
 				277CABD129813969009C11CB /* AuthVC.swift in Sources */,

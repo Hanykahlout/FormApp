@@ -38,6 +38,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="in-app_logo" width="66" height="66"/>
+        <image name="in-app_logo" width="66.666664123535156" height="66.666664123535156"/>
     </resources>
 </document>

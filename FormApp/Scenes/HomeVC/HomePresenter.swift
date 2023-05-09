@@ -11,7 +11,7 @@ import SVProgressHUD
 enum HomeAction:String {
     case Forms="Forms"
     case PORequest="PO Request"
-    case Materials="Materials"
+    case Materials="Material List"
 }
 
 protocol HomePresenterDelegate{

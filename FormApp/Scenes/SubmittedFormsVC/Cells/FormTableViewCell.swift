@@ -28,10 +28,6 @@ class FormTableViewCell: UITableViewCell ,NibLoadableView{
         jobNameLabel.text = data.job?.title ?? "----"
         formTypeLabel.text = data.form?.title ?? "----"
     }
-    
-    func setData(data:Material){
-        jobNameLabel.text = data.quantity ?? "----"
-        formTypeLabel.text = data.name ?? "----"
-    }
+
     
 }
