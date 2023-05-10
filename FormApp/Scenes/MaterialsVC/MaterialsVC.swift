@@ -41,16 +41,17 @@ class MaterialsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpTableView()
         presenter = MaterialsPresetner()
         presenter.delegate = self
+        setUpTableView()
+        
         BindingAction()
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        presenter.getMaterialsFromAPI()
         presenter.getPhaseSpecialFromAPI()
         
     }
@@ -74,6 +75,7 @@ extension MaterialsVC:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MaterialTableViewCell", for: indexPath) as! MaterialTableViewCell
         cell.setData(data: presenter.getMaterials()[indexPath.row])
+        cell.delegate = self
         return cell
     }
     
@@ -98,6 +100,16 @@ extension MaterialsVC:UITableViewDelegate,UITableViewDataSource{
         navigationController?.present(nav, animated: true)
     }
     
+}
+
+// MARK: - Material Table View Cell Delegate
+extension MaterialsVC:MaterialCellDelegate{
+    func editMaterialAction(material: Material) {
+        let vc = CreateMaterialVC.instantiate()
+        vc.data = material
+        vc.presenter.setSelectionData(selectionData: presenter.selectionData)
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 
@@ -125,7 +137,7 @@ extension MaterialsVC{
             specialsAction()
         case addMaterialButton:
             let vc = CreateMaterialVC.instantiate()
-            vc.presenter.setPhases(phases: presenter.getPhases())
+            vc.presenter.setSelectionData(selectionData: presenter.selectionData)
             navigationController?.pushViewController(vc, animated: true)
         case backButton:
             navigationController?.popViewController(animated: true)

@@ -25,12 +25,13 @@ enum AppTarget:TargetType{
     case formItemReasons(normal:Int,uuid:String)
     case getPhaseSpecial
     case getHouseMaterials(company_id:Int,job_id:Int,phase:String,special:String)
-    case createHouseMaterial(houseMaterialData:[String:Any])
+    case createHouseMaterial(isEdit:Bool,houseMaterialData:[String:Any])
     
     var baseURL: URL {
         return URL(string: "\(AppConfig.apiBaseUrl)")!
     }
-  
+    
+        
     var path: String {
         switch self {
         case .SignUp:return "signUp"
@@ -48,9 +49,10 @@ enum AppTarget:TargetType{
         case .formItemReasons:return "failReasons"
         case .getPhaseSpecial:return "getPhaseSpecial"
         case .getHouseMaterials:return "getHouseMaterials"
-        case .createHouseMaterial:return "createHouseMaterial"
+        case .createHouseMaterial(let isEdit,_):return isEdit ? "updateHouseMaterial" : "createHouseMaterial"
         }
     }
+    
     
     var method: Moya.Method {
         switch self{
@@ -58,7 +60,6 @@ enum AppTarget:TargetType{
             return .post
         case .getCompanies,.getJob,.forms,.divisions,.getFormItems,.checkDatabase,.editSubmittedForm,.submittedForms,.formItemReasons,.getPhaseSpecial,.getHouseMaterials:
             return .get
-       
         }
     }
     
@@ -84,10 +85,9 @@ enum AppTarget:TargetType{
     var headers: [String : String]?{
         switch self{
         case .submittedForms,.getCompanies,.getJob,
-             .forms,.divisions,.getFormItems,.logout,
-             .submitForms,.checkDatabase,.editSubmittedForm,
-             .formItemReasons,.getPhaseSpecial,.getHouseMaterials,.createHouseMaterial:
-            
+                .forms,.divisions,.getFormItems,.logout,
+                .submitForms,.checkDatabase,.editSubmittedForm,
+                .formItemReasons,.getPhaseSpecial,.getHouseMaterials,.createHouseMaterial:
             do {
                 let token = try KeychainWrapper.get(key: AppData.email) ?? ""
                 return ["Authorization":token ,"Accept":"application/json","Accept-Language":"en"]
@@ -126,14 +126,13 @@ enum AppTarget:TargetType{
             return formsDetails
         case .editSubmittedForm(let submitted_form_id):
             return ["submitted_form_id": submitted_form_id]
- 
         case .checkDatabase(let uuid):
             return ["uuid":uuid]
         case .submittedForms(let search):
             return ["search":search]
         case .getHouseMaterials(let company_id,let job_id,let phase,let special) :
             return ["company_id":company_id,"job_id":job_id,"phase":phase,"special":special]
-        case .createHouseMaterial(let houseMaterialData):
+        case .createHouseMaterial(_,let houseMaterialData):
             return houseMaterialData
         default:
             return [ : ]

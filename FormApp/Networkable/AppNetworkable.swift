@@ -24,7 +24,7 @@ protocol AppNetworkable:Networkable  {
     func getFormItemReasons(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<FormItemReasons>, Error>)-> ())
     func getPhaseSpecial(completion: @escaping (Result<BaseResponse<SpecialPhase>, Error>)-> ())
     func getHouseMaterials(company_id: Int, job_id: Int, phase: String, special: String,completion: @escaping (Result<BaseResponse<MaterialsData>, Error>)-> ())
-    func createHouseMaterial(houseMaterialData:[String:Any],completion: @escaping (Result<BaseResponse<Material>, Error>)-> ())
+    func createHouseMaterial(isEdit:Bool,houseMaterialData:[String:Any],completion: @escaping (Result<BaseResponse<Material>, Error>)-> ())
     
 }
 
@@ -93,12 +93,14 @@ class AppManager: AppNetworkable {
         request(target: .getPhaseSpecial, completion: completion)
     }
     
+    
     func getHouseMaterials(company_id: Int, job_id: Int, phase: String, special: String,completion: @escaping (Result<BaseResponse<MaterialsData>, Error>) -> ()) {
         request(target: .getHouseMaterials(company_id: company_id, job_id: job_id, phase: phase, special: special), completion: completion)
     }
     
-    func createHouseMaterial(houseMaterialData: [String : Any], completion: @escaping (Result<BaseResponse<Material>, Error>) -> ()) {
-        request(target: .createHouseMaterial(houseMaterialData: houseMaterialData), completion: completion)
+    
+    func createHouseMaterial(isEdit:Bool,houseMaterialData: [String : Any], completion: @escaping (Result<BaseResponse<Material>, Error>) -> ()) {
+        request(target: .createHouseMaterial(isEdit:isEdit,houseMaterialData: houseMaterialData), completion: completion)
     }
     
     

@@ -10,6 +10,7 @@ import UIKit
 class CreateMaterialVC: UIViewController {
     
     
+    @IBOutlet weak var headerTitleLabel: UILabel!
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var backButton: UIButton!
     
@@ -21,18 +22,28 @@ class CreateMaterialVC: UIViewController {
     @IBOutlet weak var phaseTextfield: UITextField!
     @IBOutlet weak var specialTextField: UITextField!
     @IBOutlet weak var quantityTextField: UITextField!
-
     
-     let presenter = CreateMaterialPresenter()
+    
+    let presenter = CreateMaterialPresenter()
     private var builderPickerVC: PickerVC?
     private var communityPickerVC: PickerVC?
     private var phasePickerVC: PickerVC?
-    
+    var data:Material?
     override func viewDidLoad() {
         super.viewDidLoad()
         binding()
         presenter.delegate = self
-        // Do any additional setup after loading the view.
+        headerTitleLabel.text = data == nil ? "Create Material" : "Update Material"
+        if let data = data{
+            itemNoTextFeld.text = data.item_no ?? ""
+            nameTextField.text = data.name ?? ""
+            builderTextField.text = data.builder ?? ""
+            communityTextField.text = data.community ?? ""
+            modelTypeTextField.text = data.model_type ?? ""
+            phaseTextfield.text = data.phase ?? ""
+            specialTextField.text = data.special ?? ""
+            quantityTextField.text = data.quantity ?? ""
+        }
     }
     
 }
@@ -42,11 +53,11 @@ extension CreateMaterialVC{
     private func binding(){
         submitButton.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
         backButton.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
-//        builderTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(builderSelectionAction)))
-//        communityTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(communitySelectionAction)))
+        builderTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(builderSelectionAction)))
+        communityTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(communitySelectionAction)))
         phaseTextfield.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(phaseSelectionAction)))
     }
-
+    
     
     @objc private func bindingAction(_ sender:UIView){
         switch sender{
@@ -67,7 +78,7 @@ extension CreateMaterialVC{
     
     private func submitAction(){
         if validation(){
-            presenter.createMaterial(itemNo: itemNoTextFeld.text!, name: nameTextField.text!,
+            presenter.createMaterial(data:data,itemNo: itemNoTextFeld.text!, name: nameTextField.text!,
                                      builder: builderTextField.text!, community: communityTextField.text!,
                                      modelType: modelTypeTextField.text!, phase: phaseTextfield.text!,
                                      special: specialTextField.text!, quantity: quantityTextField.text!)
@@ -88,18 +99,54 @@ extension CreateMaterialVC{
     }
     
     @objc private func builderSelectionAction(){
-//        builderPickerVC
         
+        builderPickerVC = PickerVC.instantiate()
+        builderPickerVC!.arr_data = presenter.builderSearchText == "" ? presenter.getBuilders() : presenter.getSearchedBuilders()
+        builderPickerVC!.searchText = presenter.builderSearchText
+        builderPickerVC!.index = presenter.selectedBuilderIndex
+        builderPickerVC!.searchBarHiddenStatus = false
+        builderPickerVC!.searchAction = { searchText in
+            self.presenter.builderSearchText = searchText
+            self.presenter.selectedBuilderIndex = 0
+            self.presenter.searchBuilders(search: searchText)
+        }
+        builderPickerVC!.isModalInPresentation = true
+        builderPickerVC!.modalPresentationStyle = .overFullScreen
+        builderPickerVC!.definesPresentationContext = true
+        builderPickerVC!.delegate = {name , index in
+            // Selection Action Here
+            self.builderTextField.text = self.presenter.builderSearchText == "" ? self.presenter.getBuilders(at:index) : self.presenter.getSearchedBuilders(at:index)
+            self.presenter.selectedBuilderIndex = index
+        }
+        self.present(builderPickerVC!, animated: true, completion: nil)
         
     }
     
     @objc private func communitySelectionAction(){
-//        communityPickerVC
         
+        communityPickerVC = PickerVC.instantiate()
+        communityPickerVC!.arr_data = presenter.communitySearchText == "" ? presenter.getCommunities() : presenter.getSearchedCommunities()
+        communityPickerVC!.searchText = presenter.communitySearchText
+        communityPickerVC!.index = presenter.selectedCommunityIndex
+        communityPickerVC!.searchBarHiddenStatus = false
+        communityPickerVC!.searchAction = { searchText in
+            self.presenter.communitySearchText = searchText
+            self.presenter.selectedCommunityIndex = 0
+            self.presenter.searchCommunities(search: searchText)
+        }
+        communityPickerVC!.isModalInPresentation = true
+        communityPickerVC!.modalPresentationStyle = .overFullScreen
+        communityPickerVC!.definesPresentationContext = true
+        communityPickerVC!.delegate = {name , index in
+            // Selection Action Here
+            self.communityTextField.text = self.presenter.communitySearchText == "" ? self.presenter.getCommunities(at:index) : self.presenter.getSearchedCommunities(at:index)
+            self.presenter.selectedCommunityIndex = index
+        }
+        self.present(communityPickerVC!, animated: true, completion: nil)
     }
     
     @objc private func phaseSelectionAction(){
-//        phasePickerVC
+        //        phasePickerVC
         phasePickerVC = PickerVC.instantiate()
         phasePickerVC!.arr_data = presenter.phasesSearchText == "" ? presenter.getPhases() : presenter.getSearchedPhases()
         phasePickerVC!.searchText = presenter.phasesSearchText
@@ -125,6 +172,7 @@ extension CreateMaterialVC{
 }
 
 extension CreateMaterialVC:CreateMaterialPresenterDelegate{
+    
     func successSubmtion() {
         navigationController?.popViewController(animated: true)
     }
@@ -135,6 +183,26 @@ extension CreateMaterialVC:CreateMaterialPresenterDelegate{
             phasePickerVC.picker.reloadAllComponents()
             if !phasePickerVC.arr_data.isEmpty{
                 phasePickerVC.index = presenter.selectedPhasesIndex
+            }
+        }
+    }
+    
+    func updateBuildersUI() {
+        if let builderPickerVC = builderPickerVC{
+            builderPickerVC.arr_data = presenter.builderSearchText == "" ? presenter.getBuilders() : presenter.getSearchedBuilders()
+            builderPickerVC.picker.reloadAllComponents()
+            if !builderPickerVC.arr_data.isEmpty{
+                builderPickerVC.index = presenter.selectedBuilderIndex
+            }
+        }
+    }
+    
+    func updateCommunitiesUI() {
+        if let communityPickerVC = communityPickerVC{
+            communityPickerVC.arr_data = presenter.communitySearchText == "" ? presenter.getCommunities() : presenter.getSearchedCommunities()
+            communityPickerVC.picker.reloadAllComponents()
+            if !communityPickerVC.arr_data.isEmpty{
+                communityPickerVC.index = presenter.selectedCommunityIndex
             }
         }
     }

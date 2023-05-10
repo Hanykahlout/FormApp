@@ -41,6 +41,7 @@ class MaterialsPresetner{
     var jobID = -1
     var phase = ""
     var special = ""
+    var selectionData:SpecialPhase?
     
     init(){
         getMaterialsFromAPI()
@@ -142,6 +143,7 @@ class MaterialsPresetner{
             switch result{
             case let .success(response):
                 if response.status == true{
+                    self.selectionData = response.data
                     self.phases = response.data?.phase ?? []
                     self.specials = response.data?.special ?? []
                     self.delegate?.updatePhasesUI()

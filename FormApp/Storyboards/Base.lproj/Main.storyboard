@@ -1199,7 +1199,7 @@
                                                         </subviews>
                                                     </stackView>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="abO-eQ-GUc">
-                                                        <rect key="frame" x="0.0" y="27" width="341" height="0.33333333333333215"/>
+                                                        <rect key="frame" x="0.0" y="27" width="341" height="0.3333333333333286"/>
                                                         <color key="backgroundColor" systemColor="systemGray5Color"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="0.5" id="LO9-T1-4vW"/>
@@ -2589,12 +2589,23 @@
                                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                                 <textInputTraits key="textInputTraits"/>
                                                                             </textField>
+                                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron.down" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="JKY-a5-rqH">
+                                                                                <rect key="frame" x="139.66666666666666" y="18.000000000000018" width="20" height="9.9999999999999964"/>
+                                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                                <color key="tintColor" systemColor="systemOrangeColor"/>
+                                                                                <constraints>
+                                                                                    <constraint firstAttribute="width" constant="20" id="Ke9-C0-KUK"/>
+                                                                                    <constraint firstAttribute="height" constant="20" id="rzv-W4-zp6"/>
+                                                                                </constraints>
+                                                                            </imageView>
                                                                         </subviews>
                                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <constraints>
                                                                             <constraint firstItem="b8O-bm-7cR" firstAttribute="top" secondItem="5vc-4v-cUe" secondAttribute="top" id="FCB-Ub-mOh"/>
                                                                             <constraint firstItem="b8O-bm-7cR" firstAttribute="leading" secondItem="5vc-4v-cUe" secondAttribute="leading" id="jah-IN-wBO"/>
                                                                             <constraint firstAttribute="bottom" secondItem="b8O-bm-7cR" secondAttribute="bottom" id="lzW-95-kWm"/>
+                                                                            <constraint firstItem="JKY-a5-rqH" firstAttribute="centerY" secondItem="5vc-4v-cUe" secondAttribute="centerY" id="nh1-17-ngY"/>
+                                                                            <constraint firstAttribute="trailing" secondItem="JKY-a5-rqH" secondAttribute="trailing" constant="8" id="nsc-7Y-MjO"/>
                                                                             <constraint firstAttribute="trailing" secondItem="b8O-bm-7cR" secondAttribute="trailing" id="wI8-eq-nCi"/>
                                                                         </constraints>
                                                                         <userDefinedRuntimeAttributes>
@@ -2648,6 +2659,15 @@
                                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                                 <textInputTraits key="textInputTraits"/>
                                                                             </textField>
+                                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron.down" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="gpz-Rb-X56">
+                                                                                <rect key="frame" x="139.33333333333334" y="18.000000000000018" width="20" height="9.9999999999999964"/>
+                                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                                <color key="tintColor" systemColor="systemOrangeColor"/>
+                                                                                <constraints>
+                                                                                    <constraint firstAttribute="height" constant="20" id="tWh-AM-nI1"/>
+                                                                                    <constraint firstAttribute="width" constant="20" id="uVE-nQ-cOc"/>
+                                                                                </constraints>
+                                                                            </imageView>
                                                                         </subviews>
                                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <constraints>
@@ -2655,6 +2675,8 @@
                                                                             <constraint firstAttribute="trailing" secondItem="5wT-Ac-gAp" secondAttribute="trailing" id="EGg-xi-ogv"/>
                                                                             <constraint firstItem="5wT-Ac-gAp" firstAttribute="top" secondItem="Uhg-SW-KwR" secondAttribute="top" id="ZXQ-NG-fTY"/>
                                                                             <constraint firstAttribute="bottom" secondItem="5wT-Ac-gAp" secondAttribute="bottom" id="e2c-df-EMv"/>
+                                                                            <constraint firstItem="gpz-Rb-X56" firstAttribute="centerY" secondItem="Uhg-SW-KwR" secondAttribute="centerY" id="qGY-VR-cXg"/>
+                                                                            <constraint firstAttribute="trailing" secondItem="gpz-Rb-X56" secondAttribute="trailing" constant="8" id="xHZ-Rk-ZSL"/>
                                                                         </constraints>
                                                                         <userDefinedRuntimeAttributes>
                                                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -3000,6 +3022,7 @@
                         <outlet property="backButton" destination="wkN-rc-Uty" id="xIo-nD-l8r"/>
                         <outlet property="builderTextField" destination="b8O-bm-7cR" id="ESr-Le-JWB"/>
                         <outlet property="communityTextField" destination="5wT-Ac-gAp" id="af6-aw-kVG"/>
+                        <outlet property="headerTitleLabel" destination="Tup-0M-hOe" id="rJR-J5-0A8"/>
                         <outlet property="itemNoTextFeld" destination="57m-tW-20u" id="Ikm-aK-Fhq"/>
                         <outlet property="modelTypeTextField" destination="Y5q-vG-E4b" id="8Im-y5-VOo"/>
                         <outlet property="nameTextField" destination="d6e-vp-8L5" id="PCR-BZ-nBF"/>

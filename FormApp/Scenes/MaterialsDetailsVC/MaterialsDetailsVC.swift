@@ -12,6 +12,7 @@ class MaterialsDetailsVC: UIViewController {
     @IBOutlet weak var qtyLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var closeButton: UIButton!
+    
     var material:Material?
     
     override func viewDidLoad() {
@@ -21,8 +22,8 @@ class MaterialsDetailsVC: UIViewController {
         binding()
     }
 
-
 }
+
 // MARK: - Binding
 extension MaterialsDetailsVC{
     private func binding(){
@@ -37,9 +38,10 @@ extension MaterialsDetailsVC{
             break
         }
     }
+    
+    
+
 }
-                                    
-                                    
                                     
 extension MaterialsDetailsVC:Storyboarded{
     static var storyboardName: StoryboardName = .main
