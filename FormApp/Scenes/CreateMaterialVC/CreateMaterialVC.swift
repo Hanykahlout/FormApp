@@ -14,27 +14,38 @@ class CreateMaterialVC: UIViewController {
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var backButton: UIButton!
     
-    @IBOutlet weak var itemNoTextFeld: UITextField!
-    @IBOutlet weak var nameTextField: UITextField!
-    @IBOutlet weak var builderTextField: UITextField!
-    @IBOutlet weak var communityTextField: UITextField!
-    @IBOutlet weak var modelTypeTextField: UITextField!
-    @IBOutlet weak var phaseTextfield: UITextField!
-    @IBOutlet weak var specialTextField: UITextField!
-    @IBOutlet weak var quantityTextField: UITextField!
+    @IBOutlet weak var itemNoTextFeld: UIPaddedTextField!
+    @IBOutlet weak var nameTextField: UIPaddedTextField!
+    @IBOutlet weak var builderTextField: UIPaddedTextField!
+    @IBOutlet weak var communityTextField: UIPaddedTextField!
+    @IBOutlet weak var modelTypeTextField: UIPaddedTextField!
+    @IBOutlet weak var phaseTextfield: UIPaddedTextField!
+    @IBOutlet weak var specialTextField: UIPaddedTextField!
+    @IBOutlet weak var quantityTextField: UIPaddedTextField!
     
     
     let presenter = CreateMaterialPresenter()
     private var builderPickerVC: PickerVC?
     private var communityPickerVC: PickerVC?
     private var phasePickerVC: PickerVC?
-    var data:Material?
+    var phase = ""
+    var special = ""
+    var builder = ""
+    var community = ""
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         binding()
         presenter.delegate = self
-        headerTitleLabel.text = data == nil ? "Create Material" : "Update Material"
-        if let data = data{
+        headerTitleLabel.text = presenter.getMaterial() == nil ? "Create Material" : "Update Material"
+        
+        phaseTextfield.text = phase
+        specialTextField.text = special
+        builderTextField.text = builder
+        communityTextField.text = community
+        
+        if let data = presenter.getMaterial(){
             itemNoTextFeld.text = data.item_no ?? ""
             nameTextField.text = data.name ?? ""
             builderTextField.text = data.builder ?? ""
@@ -78,7 +89,7 @@ extension CreateMaterialVC{
     
     private func submitAction(){
         if validation(){
-            presenter.createMaterial(data:data,itemNo: itemNoTextFeld.text!, name: nameTextField.text!,
+            presenter.createMaterial(data:presenter.getMaterial(),itemNo: itemNoTextFeld.text!, name: nameTextField.text!,
                                      builder: builderTextField.text!, community: communityTextField.text!,
                                      modelType: modelTypeTextField.text!, phase: phaseTextfield.text!,
                                      special: specialTextField.text!, quantity: quantityTextField.text!)
@@ -88,8 +99,7 @@ extension CreateMaterialVC{
     }
     
     private func validation()->Bool{
-        return !itemNoTextFeld.text!.isEmpty &&
-        !nameTextField.text!.isEmpty &&
+        return !nameTextField.text!.isEmpty &&
         !builderTextField.text!.isEmpty &&
         !communityTextField.text!.isEmpty &&
         !modelTypeTextField.text!.isEmpty &&

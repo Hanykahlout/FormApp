@@ -25,7 +25,8 @@ class CreateMaterialPresenter{
     var selectedBuilderIndex = 0
     var selectedCommunityIndex = 0
     var selectedPhasesIndex = 0
-
+    var material:Material?
+    
     private var phases:[String] = []
     private var searchedPhases:[String] = []
     private var builders:[String] = []
@@ -57,8 +58,12 @@ class CreateMaterialPresenter{
             SVProgressHUD.dismiss()
             switch result {
             case .success(let response):
-                Alert.showSuccessAlert(message: response.message ?? "")
-                self.delegate?.successSubmtion()
+                if response.status ?? false{
+                    Alert.showSuccessAlert(message: response.message ?? "")
+                    self.delegate?.successSubmtion()
+                }else{
+                    Alert.showErrorAlert(message: response.message ?? "")
+                }
             case .failure(let error):
                 Alert.showErrorAlert(message: error.localizedDescription)
             }
@@ -91,6 +96,14 @@ class CreateMaterialPresenter{
         return communities
     }
     
+    func setMaterial(material:Material){
+        self.material = material
+    }
+    
+    func getMaterial()-> Material?{
+        return material
+    }
+    
     func setSelectionData(selectionData:SpecialPhase?){
         self.phases = selectionData?.phase ?? []
         self.builders = selectionData?.builders ?? []
@@ -99,7 +112,7 @@ class CreateMaterialPresenter{
     }
     
     func searchPhases(search:String){
-        self.searchedPhases = phases.filter{$0.hasPrefix(search)}
+        self.searchedPhases = phases.filter{$0.lowercased().hasPrefix(search.lowercased())}
         self.delegate?.updatePhasesUI()
     }
     
@@ -117,7 +130,7 @@ class CreateMaterialPresenter{
     
     
     func searchBuilders(search:String){
-        self.searchedBuilders = builders.filter{$0.hasPrefix(search)}
+        self.searchedBuilders = builders.filter{$0.lowercased().hasPrefix(search.lowercased())}
         self.delegate?.updateBuildersUI()
     }
     
@@ -134,7 +147,7 @@ class CreateMaterialPresenter{
     }
     
     func searchCommunities(search:String){
-        self.searchedCommunities = communities.filter{$0.hasPrefix(search)}
+        self.searchedCommunities = communities.filter{$0.lowercased().hasPrefix(search.lowercased())}
         self.delegate?.updateCommunitiesUI()
     }
     

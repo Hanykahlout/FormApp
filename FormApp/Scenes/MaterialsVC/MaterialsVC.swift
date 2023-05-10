@@ -106,7 +106,7 @@ extension MaterialsVC:UITableViewDelegate,UITableViewDataSource{
 extension MaterialsVC:MaterialCellDelegate{
     func editMaterialAction(material: Material) {
         let vc = CreateMaterialVC.instantiate()
-        vc.data = material
+        vc.presenter.setMaterial(material: material)
         vc.presenter.setSelectionData(selectionData: presenter.selectionData)
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -138,6 +138,10 @@ extension MaterialsVC{
         case addMaterialButton:
             let vc = CreateMaterialVC.instantiate()
             vc.presenter.setSelectionData(selectionData: presenter.selectionData)
+            vc.phase = phaseTextField.text!
+            vc.special = specialTextField.text!
+            vc.builder = presenter.selectedjob?.customer ?? ""
+            vc.community = presenter.selectedjob?.project ?? ""
             navigationController?.pushViewController(vc, animated: true)
         case backButton:
             navigationController?.popViewController(animated: true)
@@ -191,6 +195,7 @@ extension MaterialsVC{
             // Selection Action Here
             self.jobsTextField.text = self.presenter.getJobs(at: index).title ?? ""
             self.presenter.jobID = self.presenter.getJobs(at: index).id ?? 0
+            self.presenter.selectedjob = self.presenter.getJobs(at: index)
             self.presenter.selectedJobIndex = index
             self.presenter.getMaterialsFromAPI()
         }

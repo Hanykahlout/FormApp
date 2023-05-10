@@ -76,8 +76,10 @@ class HomePresenter{
             UserDefaults.standard.set(true, forKey: "FirstFetchDataDone")
         }
         SVProgressHUD.show(withStatus: "Please wait until all data fetched from server")
+        
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
+        
         if data.company ?? false{
             getCompanies(normal: normal, uuid: uuid) { data in
                 RealmController.shared.addToDBModels(models: data?.companies ?? [] , type: "companies")

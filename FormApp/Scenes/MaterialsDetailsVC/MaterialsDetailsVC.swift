@@ -21,7 +21,7 @@ class MaterialsDetailsVC: UIViewController {
         descriptionLabel.text = material?.name ?? "----"
         binding()
     }
-
+    
 }
 
 // MARK: - Binding

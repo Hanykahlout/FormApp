@@ -22,6 +22,7 @@ class MaterialsPresetner{
     
     private var companies:[DataDetails]=[]
     private var jobs:[DataDetails]=[]
+    var selectedjob:DataDetails?
     private var phases:[String] = []
     private var searchedPhases:[String] = []
     private var specials:[String] = []
@@ -78,7 +79,7 @@ class MaterialsPresetner{
     }
     
     func searchPhases(search:String){
-        self.searchedPhases = phases.filter{$0.hasPrefix(search)}
+        self.searchedPhases = phases.filter{$0.lowercased().hasPrefix(search.lowercased())}
         self.delegate?.updatePhasesUI()
     }
     
@@ -92,7 +93,7 @@ class MaterialsPresetner{
     
     
     func searchSpecials(search:String){
-        self.searchedSpecials = specials.filter{$0.hasPrefix(search)}
+        self.searchedSpecials = specials.filter{$0.lowercased().hasPrefix(search.lowercased())}
         self.delegate?.updateSpecialsUI()
     }
     

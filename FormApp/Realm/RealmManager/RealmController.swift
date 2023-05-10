@@ -29,7 +29,8 @@ class RealmController{
             let company_id = model.company_id
             let created_at = model.created_at
             let project = model.project
-            let obj = DataDetails(id: id, title: title, email: email, company_id: company_id, created_at: created_at,project:project)
+            let cusomter = model.customer
+            let obj = DataDetails(id: id, title: title, email: email, company_id: company_id, created_at: created_at,project:project,customer: cusomter)
             result.append(obj)
         }
         return result
@@ -48,9 +49,9 @@ class RealmController{
             let email = model.email
             let company_id = model.company_id
             let created_at = model.created_at
-            
+            let customer = model.customer
             let project = model.project
-            let obj = DataDetails(id: id, title: title, email: email, company_id: company_id, created_at: created_at,project:project)
+            let obj = DataDetails(id: id, title: title, email: email, company_id: company_id, created_at: created_at,project:project,customer: customer)
             result.append(obj)
         }
         return result
@@ -110,6 +111,7 @@ class RealmController{
             dbModel.created_at = model.created_at
             dbModel.type = type
             dbModel.project = model.project
+            dbModel.customer = model.customer
             RealmManager.sharedInstance.saveObject(dbModel)
         }
     }
