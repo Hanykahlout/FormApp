@@ -13,7 +13,6 @@ class CreateMaterialVC: UIViewController {
     @IBOutlet weak var headerTitleLabel: UILabel!
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var backButton: UIButton!
-    
     @IBOutlet weak var itemNoTextFeld: UIPaddedTextField!
     @IBOutlet weak var nameTextField: UIPaddedTextField!
     @IBOutlet weak var builderTextField: UIPaddedTextField!

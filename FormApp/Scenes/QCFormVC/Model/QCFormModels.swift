@@ -128,8 +128,7 @@ struct DataDetails:Decodable{
     }
 }
 
-struct SpecialPhase:Decodable{
-    var special:[String]
+struct PhasesBuilders:Decodable{
     var phase:[String]
     var builders:[String]
     var communities:[String]
@@ -150,4 +149,9 @@ struct Material:Decodable{
    var special:String?
    var quantity:String?
 
+}
+
+struct SpecialList:Decodable{
+    var special:[String]
+    
 }

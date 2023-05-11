@@ -60,10 +60,10 @@ class MaterialsVC: UIViewController {
 
 // MARK: - SetUp TableView Delegate And DataSource
 extension MaterialsVC:UITableViewDelegate,UITableViewDataSource{
+    
     private func setUpTableView(){
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.rowHeight = UITableView.automaticDimension
         tableView.register(.init(nibName: "MaterialTableViewCell", bundle: nil), forCellReuseIdentifier: "MaterialTableViewCell")
     }
     
@@ -79,17 +79,6 @@ extension MaterialsVC:UITableViewDelegate,UITableViewDataSource{
         return cell
     }
     
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MaterialTableViewCell") as! MaterialTableViewCell
-        
-        cell.setData(data: presenter.getMaterials()[indexPath.row])
-        
-        let contentSize = cell.contentView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
-        let cellHeight = contentSize.height + 10
-        
-        return cellHeight
-    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = MaterialsDetailsVC.instantiate()
@@ -198,6 +187,7 @@ extension MaterialsVC{
             self.presenter.selectedjob = self.presenter.getJobs(at: index)
             self.presenter.selectedJobIndex = index
             self.presenter.getMaterialsFromAPI()
+            self.presenter.getSpecialFromAPI()
         }
         self.present(jobPickerVC!, animated: true, completion: nil)
     }

@@ -25,13 +25,13 @@
                                 <rect key="frame" x="5" y="5" width="398" height="79"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rTK-Hr-4dQ">
-                                        <rect key="frame" x="0.0" y="0.0" width="276" height="79"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="263" height="79"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" systemColor="systemOrangeColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="15y-a0-7vX">
-                                        <rect key="frame" x="286" y="0.0" width="80" height="79"/>
+                                        <rect key="frame" x="273" y="0.0" width="80" height="79"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="80" id="OKi-69-ZSL"/>
                                         </constraints>
@@ -40,9 +40,9 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KQo-bx-Ek7">
-                                        <rect key="frame" x="376" y="0.0" width="22" height="79"/>
+                                        <rect key="frame" x="363" y="0.0" width="35" height="79"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="22" id="lUc-90-QNR"/>
+                                            <constraint firstAttribute="width" constant="35" id="lUc-90-QNR"/>
                                         </constraints>
                                         <color key="tintColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>

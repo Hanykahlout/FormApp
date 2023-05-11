@@ -42,7 +42,7 @@ class MaterialsPresetner{
     var jobID = -1
     var phase = ""
     var special = ""
-    var selectionData:SpecialPhase?
+    var selectionData:PhasesBuilders?
     
     init(){
         getMaterialsFromAPI()
@@ -146,9 +146,7 @@ class MaterialsPresetner{
                 if response.status == true{
                     self.selectionData = response.data
                     self.phases = response.data?.phase ?? []
-                    self.specials = response.data?.special ?? []
                     self.delegate?.updatePhasesUI()
-                    self.delegate?.updateSpecialsUI()
                 }else{
                     Alert.showErrorAlert(message: response.message ?? "")
                 }
@@ -171,5 +169,20 @@ class MaterialsPresetner{
             }
         }
     }
+    
+    func getSpecialFromAPI(){
+        SVProgressHUD.show()
+        AppManager.shared.getSpecialList(jobId: String(selectedjob?.id ?? 0)) { result in
+            SVProgressHUD.dismiss()
+            switch result{
+            case let .success(response):
+                self.specials = response.data?.special ?? []
+                self.delegate?.updateSpecialsUI()
+            case  .failure(let error):
+                Alert.showErrorAlert(message: error.localizedDescription)
+            }
+        }
+    }
+    
     
 }

@@ -104,7 +104,7 @@ class CreateMaterialPresenter{
         return material
     }
     
-    func setSelectionData(selectionData:SpecialPhase?){
+    func setSelectionData(selectionData:PhasesBuilders?){
         self.phases = selectionData?.phase ?? []
         self.builders = selectionData?.builders ?? []
         self.communities = selectionData?.communities ?? []

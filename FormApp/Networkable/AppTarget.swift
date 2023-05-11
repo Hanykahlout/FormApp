@@ -23,7 +23,8 @@ enum AppTarget:TargetType{
     case editSubmittedForm(submitted_form_id:String)
     case submittedForms(search:String)
     case formItemReasons(normal:Int,uuid:String)
-    case getPhaseSpecial
+    case getLists
+    case getSpecialList(job_id:String)
     case getHouseMaterials(company_id:Int,job_id:Int,phase:String,special:String)
     case createHouseMaterial(isEdit:Bool,houseMaterialData:[String:Any])
     
@@ -47,7 +48,8 @@ enum AppTarget:TargetType{
         case .editSubmittedForm:return "editSubmittedForm"
         case .submittedForms:return "submittedForms"
         case .formItemReasons:return "failReasons"
-        case .getPhaseSpecial:return "getPhaseSpecial"
+        case .getLists:return "getLists"
+        case .getSpecialList:return "getSpecialList"
         case .getHouseMaterials:return "getHouseMaterials"
         case .createHouseMaterial(let isEdit,_):return isEdit ? "updateHouseMaterial" : "createHouseMaterial"
         }
@@ -58,7 +60,7 @@ enum AppTarget:TargetType{
         switch self{
         case .SignUp,.login,.logout,.submitForms,.createHouseMaterial:
             return .post
-        case .getCompanies,.getJob,.forms,.divisions,.getFormItems,.checkDatabase,.editSubmittedForm,.submittedForms,.formItemReasons,.getPhaseSpecial,.getHouseMaterials:
+        case .getCompanies,.getJob,.forms,.divisions,.getFormItems,.checkDatabase,.editSubmittedForm,.submittedForms,.formItemReasons,.getLists,.getHouseMaterials,.getSpecialList:
             return .get
         }
     }
@@ -66,7 +68,7 @@ enum AppTarget:TargetType{
     
     var task: Task{
         switch self{
-        case .getPhaseSpecial:
+        case .getLists:
             return .requestPlain
         case .getCompanies(let normal,_),.forms(let normal,_),.divisions(let normal,_),.formItemReasons(let normal,_):
             if normal == 1{
@@ -75,7 +77,7 @@ enum AppTarget:TargetType{
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         case .SignUp,.login,.logout,.submitForms,.createHouseMaterial:
             return .requestParameters(parameters: param, encoding: URLEncoding.httpBody)
-        case .getJob,.getFormItems,.editSubmittedForm,.checkDatabase,.submittedForms,.getHouseMaterials:
+        case .getJob,.getFormItems,.editSubmittedForm,.checkDatabase,.submittedForms,.getHouseMaterials,.getSpecialList:
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         }
         
@@ -87,7 +89,7 @@ enum AppTarget:TargetType{
         case .submittedForms,.getCompanies,.getJob,
                 .forms,.divisions,.getFormItems,.logout,
                 .submitForms,.checkDatabase,.editSubmittedForm,
-                .formItemReasons,.getPhaseSpecial,.getHouseMaterials,.createHouseMaterial:
+                .formItemReasons,.getLists,.getHouseMaterials,.createHouseMaterial,.getSpecialList:
             do {
                 let token = try KeychainWrapper.get(key: AppData.email) ?? ""
                 return ["Authorization":token ,"Accept":"application/json","Accept-Language":"en"]
@@ -134,6 +136,8 @@ enum AppTarget:TargetType{
             return ["company_id":company_id,"job_id":job_id,"phase":phase,"special":special]
         case .createHouseMaterial(_,let houseMaterialData):
             return houseMaterialData
+        case .getSpecialList(let job_id):
+            return ["job_id":job_id]
         default:
             return [ : ]
         }
