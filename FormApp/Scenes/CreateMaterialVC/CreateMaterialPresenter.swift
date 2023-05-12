@@ -199,7 +199,7 @@ class CreateMaterialPresenter{
     
     func getSpecialFromAPI(){
         SVProgressHUD.show()
-        AppManager.shared.getSpecialList(jobId: "0",builder: builders[selectedBuilderIndex]) { result in
+        AppManager.shared.getSpecialList(jobId: "0",builder: builderSearchText == "" ?builders[selectedBuilderIndex]:searchedBuilders[selectedBuilderIndex]) { result in
             SVProgressHUD.dismiss()
             switch result{
             case let .success(response):
