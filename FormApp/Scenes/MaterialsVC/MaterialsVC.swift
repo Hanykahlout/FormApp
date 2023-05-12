@@ -128,7 +128,6 @@ extension MaterialsVC{
             let vc = CreateMaterialVC.instantiate()
             vc.presenter.setSelectionData(selectionData: presenter.selectionData)
             vc.phase = phaseTextField.text!
-            vc.special = specialTextField.text!
             vc.builder = presenter.selectedjob?.customer ?? ""
             vc.community = presenter.selectedjob?.project ?? ""
             navigationController?.pushViewController(vc, animated: true)
@@ -258,6 +257,7 @@ extension MaterialsVC:MaterialsPresetnerDelegate{
             }else{
                 self.companyView.backgroundColor = .systemGray5
                 self.companyButton.isEnabled = false
+                self.companyTextField.text = ""
             }
         }
     }
@@ -269,6 +269,7 @@ extension MaterialsVC:MaterialsPresetnerDelegate{
         }else{
             self.jobsView.backgroundColor = .systemGray5
             self.jobsButton.isEnabled = false
+            jobsTextField.text = ""
         }
         
         if let jobPickerVC = self.jobPickerVC{
@@ -288,6 +289,7 @@ extension MaterialsVC:MaterialsPresetnerDelegate{
         }else{
             phaseView.backgroundColor = .systemGray5
             phaseButton.isEnabled = false
+            phaseTextField.text = ""
         }
         
         
@@ -308,6 +310,7 @@ extension MaterialsVC:MaterialsPresetnerDelegate{
         }else{
             specialView.backgroundColor = .systemGray5
             specialButton.isEnabled = false
+            specialTextField.text = ""
         }
         
         if let specialPickerVC = specialPickerVC{

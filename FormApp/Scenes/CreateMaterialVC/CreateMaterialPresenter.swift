@@ -13,6 +13,7 @@ protocol CreateMaterialPresenterDelegate{
     func updatePhasesUI()
     func updateBuildersUI()
     func updateCommunitiesUI()
+    func updateSpecialsUI()
 }
 
 typealias CreateMaterialDelegate = CreateMaterialPresenterDelegate & UIViewController
@@ -22,15 +23,22 @@ class CreateMaterialPresenter{
     var builderSearchText = ""
     var communitySearchText = ""
     var phasesSearchText = ""
+    var specialSearchText = ""
     var selectedBuilderIndex = 0
     var selectedCommunityIndex = 0
     var selectedPhasesIndex = 0
+    var selectedSpecialIndex = 0
     var material:Material?
     
+    private var specials:[String] = []
+    private var searchedSpecials:[String] = []
+
     private var phases:[String] = []
     private var searchedPhases:[String] = []
+
     private var builders:[String] = []
     private var searchedBuilders:[String] = []
+
     private var communities:[String] = []
     private var searchedCommunities:[String] = []
     
@@ -161,6 +169,46 @@ class CreateMaterialPresenter{
     
     func getSearchedCommunities(at index:Int)->String{
         return searchedCommunities[index]
+    }
+    
+    func setSpecials(specials:[String]){
+        self.specials = specials
+    }
+    
+    func getSpecials()->[String]{
+        return specials
+    }
+    
+    func searchSpecials(search:String){
+        self.searchedSpecials = specials.filter{$0.lowercased().hasPrefix(search.lowercased())}
+        self.delegate?.updateSpecialsUI()
+    }
+    
+    func getSpecials(at index:Int)->String{
+        return specials[index]
+    }
+    
+    func getSearchedSpecials()->[String]{
+        return searchedSpecials
+    }
+    
+    func getSearchedSpecials(at index:Int)->String{
+        return searchedSpecials[index]
+    }
+    
+    
+    func getSpecialFromAPI(){
+        SVProgressHUD.show()
+        AppManager.shared.getSpecialList(jobId: "0",builder: builders[selectedBuilderIndex]) { result in
+            SVProgressHUD.dismiss()
+            switch result{
+            case let .success(response):
+                self.specials = response.data?.special ?? []
+                self.delegate?.updateSpecialsUI()
+            case  .failure(let error):
+                Alert.showErrorAlert(message: error.localizedDescription)
+            }
+        }
     }
     
     

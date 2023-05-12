@@ -19,6 +19,7 @@ class MaterialTableViewCell: UITableViewCell {
     @IBOutlet weak var amountLabel: UILabel!
     weak var delegate:MaterialTableViewCellDelegate?
     private var material:Material?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

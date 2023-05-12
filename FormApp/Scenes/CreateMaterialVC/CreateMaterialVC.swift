@@ -9,7 +9,6 @@ import UIKit
 
 class CreateMaterialVC: UIViewController {
     
-    
     @IBOutlet weak var headerTitleLabel: UILabel!
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var backButton: UIButton!
@@ -27,8 +26,8 @@ class CreateMaterialVC: UIViewController {
     private var builderPickerVC: PickerVC?
     private var communityPickerVC: PickerVC?
     private var phasePickerVC: PickerVC?
+    private var specialPickerVC: PickerVC?
     var phase = ""
-    var special = ""
     var builder = ""
     var community = ""
     
@@ -40,7 +39,6 @@ class CreateMaterialVC: UIViewController {
         headerTitleLabel.text = presenter.getMaterial() == nil ? "Create Material" : "Update Material"
         
         phaseTextfield.text = phase
-        specialTextField.text = special
         builderTextField.text = builder
         communityTextField.text = community
         
@@ -66,6 +64,8 @@ extension CreateMaterialVC{
         builderTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(builderSelectionAction)))
         communityTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(communitySelectionAction)))
         phaseTextfield.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(phaseSelectionAction)))
+        
+        specialTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(specialSelectionAction)))
     }
     
     
@@ -126,6 +126,7 @@ extension CreateMaterialVC{
             // Selection Action Here
             self.builderTextField.text = self.presenter.builderSearchText == "" ? self.presenter.getBuilders(at:index) : self.presenter.getSearchedBuilders(at:index)
             self.presenter.selectedBuilderIndex = index
+            self.presenter.getSpecialFromAPI()
         }
         self.present(builderPickerVC!, animated: true, completion: nil)
         
@@ -175,13 +176,34 @@ extension CreateMaterialVC{
             self.presenter.selectedPhasesIndex = index
         }
         self.present(phasePickerVC!, animated: true, completion: nil)
-        
     }
+    
+    @objc private func specialSelectionAction(){
+        specialPickerVC = PickerVC.instantiate()
+        specialPickerVC!.arr_data = presenter.specialSearchText == "" ? presenter.getSpecials() : presenter.getSearchedSpecials()
+        specialPickerVC!.searchText = presenter.specialSearchText
+        specialPickerVC!.index = presenter.selectedSpecialIndex
+        specialPickerVC!.searchBarHiddenStatus = false
+        specialPickerVC!.searchAction = { searchText in
+            self.presenter.specialSearchText = searchText
+            self.presenter.selectedSpecialIndex = 0
+            self.presenter.searchSpecials(search: searchText)
+        }
+        specialPickerVC!.isModalInPresentation = true
+        specialPickerVC!.modalPresentationStyle = .overFullScreen
+        specialPickerVC!.definesPresentationContext = true
+        specialPickerVC!.delegate = {name , index in
+            // Selection Action Here
+            self.specialTextField.text = self.presenter.specialSearchText == "" ? self.presenter.getSpecials(at:index) : self.presenter.getSearchedSpecials(at:index)
+            self.presenter.selectedSpecialIndex = index
+        }
+        self.present(specialPickerVC!, animated: true, completion: nil)
+    }
+    
     
 }
 
 extension CreateMaterialVC:CreateMaterialPresenterDelegate{
-    
     func successSubmtion() {
         navigationController?.popViewController(animated: true)
     }
@@ -195,6 +217,17 @@ extension CreateMaterialVC:CreateMaterialPresenterDelegate{
             }
         }
     }
+    
+    func updateSpecialsUI() {
+        if let specialPickerVC = specialPickerVC{
+            specialPickerVC.arr_data = presenter.specialSearchText == "" ? presenter.getSpecials() : presenter.getSearchedSpecials()
+            specialPickerVC.picker.reloadAllComponents()
+            if !specialPickerVC.arr_data.isEmpty{
+                specialPickerVC.index = presenter.selectedSpecialIndex
+            }
+        }
+    }
+    
     
     func updateBuildersUI() {
         if let builderPickerVC = builderPickerVC{

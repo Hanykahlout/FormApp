@@ -172,7 +172,7 @@ class MaterialsPresetner{
     
     func getSpecialFromAPI(){
         SVProgressHUD.show()
-        AppManager.shared.getSpecialList(jobId: String(selectedjob?.id ?? 0)) { result in
+        AppManager.shared.getSpecialList(jobId: String(selectedjob?.id ?? 0),builder: "0") { result in
             SVProgressHUD.dismiss()
             switch result{
             case let .success(response):

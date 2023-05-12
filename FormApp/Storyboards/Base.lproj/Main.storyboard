@@ -2868,12 +2868,23 @@
                                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                                 <textInputTraits key="textInputTraits"/>
                                                                             </textField>
+                                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron.down" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="dmD-Wa-gzK">
+                                                                                <rect key="frame" x="139.66666666666666" y="17.999999999999961" width="20" height="9.9999999999999964"/>
+                                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                                <color key="tintColor" systemColor="systemOrangeColor"/>
+                                                                                <constraints>
+                                                                                    <constraint firstAttribute="width" constant="20" id="QyK-5X-rtO"/>
+                                                                                    <constraint firstAttribute="height" constant="20" id="j8U-uF-onT"/>
+                                                                                </constraints>
+                                                                            </imageView>
                                                                         </subviews>
                                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="bottom" secondItem="Zl4-1R-7jY" secondAttribute="bottom" id="8hs-XE-ZWW"/>
+                                                                            <constraint firstAttribute="trailing" secondItem="dmD-Wa-gzK" secondAttribute="trailing" constant="8" id="Pho-gJ-3He"/>
                                                                             <constraint firstAttribute="trailing" secondItem="Zl4-1R-7jY" secondAttribute="trailing" id="e2e-dW-End"/>
                                                                             <constraint firstItem="Zl4-1R-7jY" firstAttribute="top" secondItem="40k-wI-rGP" secondAttribute="top" id="gWZ-jj-5B1"/>
+                                                                            <constraint firstItem="dmD-Wa-gzK" firstAttribute="centerY" secondItem="40k-wI-rGP" secondAttribute="centerY" id="jWo-VB-ReS"/>
                                                                             <constraint firstItem="Zl4-1R-7jY" firstAttribute="leading" secondItem="40k-wI-rGP" secondAttribute="leading" id="zUT-xz-Yaj"/>
                                                                         </constraints>
                                                                         <userDefinedRuntimeAttributes>

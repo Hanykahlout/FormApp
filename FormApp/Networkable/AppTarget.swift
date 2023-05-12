@@ -24,7 +24,7 @@ enum AppTarget:TargetType{
     case submittedForms(search:String)
     case formItemReasons(normal:Int,uuid:String)
     case getLists
-    case getSpecialList(job_id:String)
+    case getSpecialList(job_id:String,builder:String)
     case getHouseMaterials(company_id:Int,job_id:Int,phase:String,special:String)
     case createHouseMaterial(isEdit:Bool,houseMaterialData:[String:Any])
     
@@ -136,8 +136,8 @@ enum AppTarget:TargetType{
             return ["company_id":company_id,"job_id":job_id,"phase":phase,"special":special]
         case .createHouseMaterial(_,let houseMaterialData):
             return houseMaterialData
-        case .getSpecialList(let job_id):
-            return ["job_id":job_id]
+        case .getSpecialList(let job_id,let builder):
+            return ["job_id":job_id,"builder":builder]
         default:
             return [ : ]
         }
