@@ -9,6 +9,7 @@ import UIKit
 
 class CreateMaterialVC: UIViewController {
     
+    @IBOutlet weak var communitySwitch: UISwitch!
     @IBOutlet weak var headerTitleLabel: UILabel!
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var backButton: UIButton!
@@ -34,7 +35,12 @@ class CreateMaterialVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        defer{
+            communitySwitch.setOn(communityTextField.text!.lowercased() == "all", animated: true)
+        }
         binding()
+        communitySwitch.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
         presenter.delegate = self
         headerTitleLabel.text = presenter.getMaterial() == nil ? "Create Material" : "Update Material"
         
@@ -64,10 +70,9 @@ extension CreateMaterialVC{
         builderTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(builderSelectionAction)))
         communityTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(communitySelectionAction)))
         phaseTextfield.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(phaseSelectionAction)))
-        
         specialTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(specialSelectionAction)))
+        communitySwitch.addTarget(self, action: #selector(bindingAction), for: .valueChanged)
     }
-    
     
     @objc private func bindingAction(_ sender:UIView){
         switch sender{
@@ -81,7 +86,8 @@ extension CreateMaterialVC{
             communitySelectionAction()
         case phaseTextfield:
             phaseSelectionAction()
-            
+        case communitySwitch:
+            communityTextField.text = communitySwitch.isOn ? "All" : ""
         default:break
         }
     }
