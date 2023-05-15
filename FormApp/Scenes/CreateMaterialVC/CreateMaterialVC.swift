@@ -21,13 +21,14 @@ class CreateMaterialVC: UIViewController {
     @IBOutlet weak var phaseTextfield: UIPaddedTextField!
     @IBOutlet weak var specialTextField: UIPaddedTextField!
     @IBOutlet weak var quantityTextField: UIPaddedTextField!
-    
+    @IBOutlet weak var supplierTextField: UIPaddedTextField!
     
     let presenter = CreateMaterialPresenter()
     private var builderPickerVC: PickerVC?
     private var communityPickerVC: PickerVC?
     private var phasePickerVC: PickerVC?
     private var specialPickerVC: PickerVC?
+    private var supplierPickerVC: PickerVC?
     var phase = ""
     var builder = ""
     var community = ""
@@ -38,6 +39,10 @@ class CreateMaterialVC: UIViewController {
         
         defer{
             communitySwitch.setOn(communityTextField.text!.lowercased() == "all", animated: true)
+            if !builderTextField.text!.isEmpty{
+                presenter.selectedBuilderIndex = presenter.getBuilders().firstIndex(of: builderTextField.text!) ?? 0
+                presenter.getSpecialFromAPI()
+            }
         }
         binding()
         communitySwitch.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
@@ -57,7 +62,10 @@ class CreateMaterialVC: UIViewController {
             phaseTextfield.text = data.phase ?? ""
             specialTextField.text = data.special ?? ""
             quantityTextField.text = data.quantity ?? ""
+            supplierTextField.text = data.supplier?.name ?? ""
+            presenter.selectedSupplier = data.supplier
         }
+        
     }
     
 }
@@ -71,6 +79,7 @@ extension CreateMaterialVC{
         communityTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(communitySelectionAction)))
         phaseTextfield.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(phaseSelectionAction)))
         specialTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(specialSelectionAction)))
+        supplierTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(supplierSelectionAction)))
         communitySwitch.addTarget(self, action: #selector(bindingAction), for: .valueChanged)
     }
     
@@ -97,7 +106,7 @@ extension CreateMaterialVC{
             presenter.createMaterial(data:presenter.getMaterial(),itemNo: itemNoTextFeld.text!, name: nameTextField.text!,
                                      builder: builderTextField.text!, community: communityTextField.text!,
                                      modelType: modelTypeTextField.text!, phase: phaseTextfield.text!,
-                                     special: specialTextField.text!, quantity: quantityTextField.text!)
+                                     special: specialTextField.text!, quantity: quantityTextField.text!,supplier_id: String(presenter.selectedSupplier?.id ?? -1))
         }else{
             Alert.showErrorAlert(message:  "Invalid inputs, Please enter all field" )
         }
@@ -110,7 +119,8 @@ extension CreateMaterialVC{
         !modelTypeTextField.text!.isEmpty &&
         !phaseTextfield.text!.isEmpty &&
         !specialTextField.text!.isEmpty &&
-        !quantityTextField.text!.isEmpty
+        !quantityTextField.text!.isEmpty &&
+        !supplierTextField.text!.isEmpty
     }
     
     @objc private func builderSelectionAction(){
@@ -133,9 +143,9 @@ extension CreateMaterialVC{
             self.builderTextField.text = self.presenter.builderSearchText == "" ? self.presenter.getBuilders(at:index) : self.presenter.getSearchedBuilders(at:index)
             self.presenter.selectedBuilderIndex = index
             self.presenter.getSpecialFromAPI()
+            self.specialTextField.text = "" 
         }
         self.present(builderPickerVC!, animated: true, completion: nil)
-        
     }
     
     @objc private func communitySelectionAction(){
@@ -157,6 +167,7 @@ extension CreateMaterialVC{
             // Selection Action Here
             self.communityTextField.text = self.presenter.communitySearchText == "" ? self.presenter.getCommunities(at:index) : self.presenter.getSearchedCommunities(at:index)
             self.presenter.selectedCommunityIndex = index
+            self.communitySwitch.setOn(self.communityTextField.text!.lowercased() == "all", animated: true)
         }
         self.present(communityPickerVC!, animated: true, completion: nil)
     }
@@ -206,6 +217,30 @@ extension CreateMaterialVC{
         self.present(specialPickerVC!, animated: true, completion: nil)
     }
     
+    @objc private func supplierSelectionAction(){
+        supplierPickerVC = PickerVC.instantiate()
+        supplierPickerVC!.arr_data = presenter.supplierSearchText == "" ? presenter.getSuppliers().map{$0.name ?? ""} : presenter.getSearchedSuppliers().map{$0.name ?? ""}
+        supplierPickerVC!.searchText = presenter.supplierSearchText
+        supplierPickerVC!.index = presenter.selectedSupplierIndex
+        supplierPickerVC!.searchBarHiddenStatus = false
+        supplierPickerVC!.searchAction = { searchText in
+            self.presenter.supplierSearchText = searchText
+            self.presenter.selectedSupplierIndex = 0
+            self.presenter.searchSuppliers(search: searchText)
+        }
+        supplierPickerVC!.isModalInPresentation = true
+        supplierPickerVC!.modalPresentationStyle = .overFullScreen
+        supplierPickerVC!.definesPresentationContext = true
+        supplierPickerVC!.delegate = {name , index in
+            // Selection Action Here
+            self.supplierTextField.text = self.presenter.supplierSearchText == "" ? self.presenter.getSuppliers(at:index).name ?? "" : self.presenter.getSearchedSuppliers(at:index).name ?? ""
+            self.presenter.selectedSupplierIndex = index
+            self.presenter.selectedSupplier = self.presenter.supplierSearchText == "" ? self.presenter.getSuppliers(at:index) : self.presenter.getSearchedSuppliers(at:index)
+        }
+        self.present(supplierPickerVC!, animated: true, completion: nil)
+    }
+    
+    
     
 }
 
@@ -234,7 +269,6 @@ extension CreateMaterialVC:CreateMaterialPresenterDelegate{
         }
     }
     
-    
     func updateBuildersUI() {
         if let builderPickerVC = builderPickerVC{
             builderPickerVC.arr_data = presenter.builderSearchText == "" ? presenter.getBuilders() : presenter.getSearchedBuilders()
@@ -251,6 +285,16 @@ extension CreateMaterialVC:CreateMaterialPresenterDelegate{
             communityPickerVC.picker.reloadAllComponents()
             if !communityPickerVC.arr_data.isEmpty{
                 communityPickerVC.index = presenter.selectedCommunityIndex
+            }
+        }
+    }
+    
+    func updateSuppliersUI() {
+        if let supplierPickerVC = supplierPickerVC{
+            supplierPickerVC.arr_data = presenter.supplierSearchText == "" ? presenter.getSuppliers().map{$0.name ?? ""} : presenter.getSearchedSuppliers().map{$0.name ?? ""}
+            supplierPickerVC.picker.reloadAllComponents()
+            if !supplierPickerVC.arr_data.isEmpty{
+                supplierPickerVC.index = presenter.selectedSupplierIndex
             }
         }
     }

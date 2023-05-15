@@ -133,12 +133,15 @@ class RealmController{
             
             dbModel.development_title = model.development_title
             for reason in model.fail_reasons ?? []{
-                let dbReason = FormItemReason()
-                dbReason.id = reason.id
-                dbReason.title = reason.title
-                dbReason.created_at = reason.created_at
-                dbReason.form_item_id = reason.form_item_id
-                dbModel.reasons.append(dbReason)
+                let exists = (model.fail_reasons ?? []).contains(where: { $0.id == reason.id })
+                if !exists{
+                    let dbReason = FormItemReason()
+                    dbReason.id = reason.id
+                    dbReason.title = reason.title
+                    dbReason.created_at = reason.created_at
+                    dbReason.form_item_id = reason.form_item_id
+                    dbModel.reasons.append(dbReason)
+                }
             }
             RealmManager.sharedInstance.saveObject(dbModel)
         }

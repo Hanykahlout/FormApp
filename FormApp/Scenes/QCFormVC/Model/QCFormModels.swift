@@ -132,6 +132,7 @@ struct PhasesBuilders:Decodable{
     var phase:[String]
     var builders:[String]
     var communities:[String]
+    var suppliers:[Supplier]
 }
 
 struct MaterialsData:Decodable{
@@ -148,7 +149,13 @@ struct Material:Decodable{
    var phase:String?
    var special:String?
    var quantity:String?
+   var supplier:Supplier?
 
+}
+
+struct Supplier:Decodable{
+    var id:Int?
+    var name:String?
 }
 
 struct SpecialList:Decodable{
