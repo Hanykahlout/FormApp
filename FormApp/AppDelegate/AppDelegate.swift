@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  FormApp
 //
-//  Created by heba isaa on 25/01/2023.
+//  Created by Hany Alkahlout on 25/01/2023.
 //
 
 import UIKit
@@ -15,6 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        UNUserNotificationCenter.current().requestAuthorization(options: .badge) { (granted, error) in}
         
         // Set up the Realm configuration
 //        let config = Realm.Configuration(
@@ -28,7 +29,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            }
 //        
 //        Realm.Configuration.defaultConfiguration = config
-        
+        AppManager.shared.monitorNetwork {
+            UserDefaults.standard.set(true, forKey: "internet_connection")
+        } notConectedAction: {
+            UserDefaults.standard.set(false, forKey: "internet_connection")
+        }
         IQKeyboardManager.shared.enable = true
         return true
     }

@@ -7,11 +7,15 @@
 
 import UIKit
 import SVProgressHUD
+import CoreTelephony
+import SystemConfiguration
+
 class HomeVC: UIViewController {
     //MARK: - Outlet
     
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var airplaneNoteLabel: UILabel!
     
     //MARK: - Properties
     
@@ -25,21 +29,59 @@ class HomeVC: UIViewController {
         setUpTableView()
         presenter.delegate = self
         tableView.delegate = self
+        binding()
+        
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         presenter.checkDatabase()
-        AppManager.shared.monitorNetwork {
+        checkUnsubmittedForms()
+        
+    }
+    
+    
+    private func checkUnsubmittedForms(){
+        if UserDefaults.standard.bool(forKey: "internet_connection"){
             DispatchQueue.main.async {
                 SVProgressHUD.show(withStatus: "Submit all stored forms")
                 self.presenter.callAllRealmRequests()
             }
-        } notConectedAction: {}
+        }
     }
+    
+    
 }
 
+// MARK: - Binding
+extension HomeVC{
+    private func binding(){
+        airplaneNoteLabel.isUserInteractionEnabled = true
+        airplaneNoteLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(airplaneAction)))
+        
+        let attributedString = NSMutableAttributedString(string: "Please keep your Airplane mode off from here so you can take advantage of the app's services")
+        
+        // Add attributes to the specific word
+        let range = (attributedString.string as NSString).range(of: "here")
+        attributedString.addAttribute(.foregroundColor, value: UIColor.blue, range: range)
+        attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: range)
+        
+        airplaneNoteLabel.attributedText = attributedString
+    }
+    
+    @objc private func airplaneAction(){
+       
+        if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+            if UIApplication.shared.canOpenURL(settingsURL) {
+                UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+            }
+        }
+
+    }
+    
+    
+}
 
 extension HomeVC:Storyboarded{
     static var storyboardName: StoryboardName = .main

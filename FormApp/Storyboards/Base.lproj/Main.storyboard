@@ -550,19 +550,29 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please keep your Airplane mode off from here so you can take advantage of the app's services" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F9n-qq-Jzt">
+                                <rect key="frame" x="10" y="769.33333333333337" width="373" height="28.666666666666629"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="xQj-Wz-Dln"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="uXG-nE-t3G" firstAttribute="leading" secondItem="xQj-Wz-Dln" secondAttribute="leading" id="1QT-Hs-8Po"/>
+                            <constraint firstItem="xQj-Wz-Dln" firstAttribute="trailing" secondItem="F9n-qq-Jzt" secondAttribute="trailing" constant="10" id="8gz-Uj-Jn2"/>
                             <constraint firstItem="uXG-nE-t3G" firstAttribute="trailing" secondItem="xQj-Wz-Dln" secondAttribute="trailing" id="HbF-jN-M25"/>
                             <constraint firstItem="O0F-5Q-ZSq" firstAttribute="leading" secondItem="xQj-Wz-Dln" secondAttribute="leading" constant="16" id="WV6-NF-fRr"/>
+                            <constraint firstItem="xQj-Wz-Dln" firstAttribute="bottom" secondItem="F9n-qq-Jzt" secondAttribute="bottom" constant="20" id="WV9-rk-m7d"/>
                             <constraint firstItem="O0F-5Q-ZSq" firstAttribute="top" secondItem="uXG-nE-t3G" secondAttribute="bottom" constant="20" id="YZK-Dd-URJ"/>
+                            <constraint firstItem="F9n-qq-Jzt" firstAttribute="leading" secondItem="xQj-Wz-Dln" secondAttribute="leading" constant="10" id="g7e-WQ-Cb1"/>
                             <constraint firstItem="uXG-nE-t3G" firstAttribute="top" secondItem="gfd-ID-R61" secondAttribute="top" id="iCn-sT-J7S"/>
                             <constraint firstItem="xQj-Wz-Dln" firstAttribute="trailing" secondItem="O0F-5Q-ZSq" secondAttribute="trailing" constant="16" id="uSB-yh-rDa"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="airplaneNoteLabel" destination="F9n-qq-Jzt" id="hMt-zx-tmO"/>
                         <outlet property="tableView" destination="O0F-5Q-ZSq" id="ya6-9a-Hks"/>
                         <outlet property="tableViewHeight" destination="Ke1-GM-UcW" id="tHL-7o-yvw"/>
                     </connections>

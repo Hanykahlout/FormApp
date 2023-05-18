@@ -13,7 +13,6 @@ class FormItemDBModel: Object {
     @Persisted var title:String?
     @Persisted var created_at:String?
     @Persisted var form_type_id:String?
-    @Persisted var company_id:String?
     @Persisted var system:String?
     @Persisted var price:String?
     @Persisted var show_price:String?

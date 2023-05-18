@@ -57,8 +57,7 @@ class HomePresenter{
             return
         }
         for model in models {
-            submitFormData(isEdit:model.isEdit ?? false,formsDetails: convertStringToDic(string: model.body ?? ""))
-            RealmManager.sharedInstance.removeObject(model)
+            submitFormData(model:model,isEdit:model.isEdit ?? false,formsDetails: convertStringToDic(string: model.body ?? ""))
         }
         if models.isEmpty {
             SVProgressHUD.dismiss()
@@ -258,6 +257,7 @@ class HomePresenter{
         }
     }
     
+    
     private func getFormItemReasons(normal: Int, uuid: String,compltion:@escaping (_ data:FormItemReasons?)->Void){
         AppManager.shared.getFormItemReasons(normal: normal, uuid: uuid){ Response in
             switch Response{
@@ -275,7 +275,8 @@ class HomePresenter{
         }
     }
     
-    func submitFormData(isEdit:Bool,formsDetails:[String : Any]){
+    
+    private func submitFormData(model: RequestModel,isEdit:Bool,formsDetails:[String : Any]){
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
         AppManager.shared.submitForms(isEdit:isEdit,formsDetails: formsDetails) { Response in
@@ -284,6 +285,8 @@ class HomePresenter{
             case let .success(response):
                 if response.status == false{
                     Alert.showErrorAlert(message: response.message ?? "")
+                }else{
+                    RealmManager.sharedInstance.removeObject(model)
                 }
             case  .failure(let error):
                 DispatchQueue.main.async {

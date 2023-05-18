@@ -163,7 +163,6 @@ class QCFormVC: UIViewController {
             self.presenter.getDivisionFromDB(companyID: "\(self.companyID)", search: "")
             self.presenter.getFormsFromDB(companyID: "\(self.companyID)", search: "")
             self.presenter.getFormItemFromDB(project: self.selectedJobProject,
-                                             companyID:self.companyID,
                                              formTypeID:"\(self.formTypeID)" )
         }
         self.present(companyPickerVC!, animated: true, completion: nil)
@@ -191,7 +190,6 @@ class QCFormVC: UIViewController {
             self.selectedJobProject = self.jobs[index].project ?? ""
             
             self.presenter.getFormItemFromDB(project: self.selectedJobProject,
-                                             companyID:self.companyID,
                                              formTypeID:"\(self.formTypeID)" )
         }
         self.present(jobPickerVC!, animated: true, completion: nil)
@@ -241,7 +239,6 @@ class QCFormVC: UIViewController {
             self.formTypeData.text = self.forms[index].title ?? ""
             self.formTypeID = self.forms[index].id ?? 0
             self.presenter.getFormItemFromDB(project: self.selectedJobProject,
-                                             companyID:self.companyID,
                                              formTypeID:"\(self.formTypeID)" )
         }
         self.present(formTypePickerVC!, animated: true, completion: nil)

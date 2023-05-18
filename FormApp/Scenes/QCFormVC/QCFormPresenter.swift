@@ -39,8 +39,8 @@ class QCFormPresenter{
         self.delegate?.getDivition(data: DiviosnData(divisions: RealmController.shared.getFromDBModels(type:"divisions",companyId: companyID,searchText: search)))
     }
     
-    func getFormItemFromDB(project:String,companyID:Int,formTypeID:String){
-        self.delegate?.getFormItemsData(data: FormItemData(formItems: RealmController.shared.getFromDBItemsModels(project:project,companyID:companyID,formTypeID: formTypeID)))
+    func getFormItemFromDB(project:String,formTypeID:String){
+        self.delegate?.getFormItemsData(data: FormItemData(formItems: RealmController.shared.getFromDBItemsModels(project:project,formTypeID: formTypeID)))
     }
     
     

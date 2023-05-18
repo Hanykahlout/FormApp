@@ -58,8 +58,8 @@ class RealmController{
     }
     
     
-    func getFromDBItemsModels(project:String,companyID:Int,formTypeID:String)->[DataDetails] {
-        let predicate1 = NSPredicate(format: "(form_type_id == '\(formTypeID)' AND company_id == '\(companyID)' AND development_title == null) OR (form_type_id == '\(formTypeID)' AND development_title == '\(project)' AND development_title != null)")
+    func getFromDBItemsModels(project:String,formTypeID:String)->[DataDetails] {
+        let predicate1 = NSPredicate(format: "(form_type_id == '\(formTypeID)' AND development_title == null) OR (form_type_id == '\(formTypeID)' AND development_title == '\(project)' AND development_title != null)")
         guard let models = RealmManager.sharedInstance.fetchObjects(FormItemDBModel.self,predicate: predicate1) else {return []}
         var result = [DataDetails]()
         for model in models {
@@ -125,7 +125,6 @@ class RealmController{
             dbModel.title = model.title
             dbModel.created_at = model.created_at
             dbModel.form_type_id = model.form_type_id
-            dbModel.company_id = model.company_id
             dbModel.system = model.system
             dbModel.price = model.price
             dbModel.show_price = model.show_price

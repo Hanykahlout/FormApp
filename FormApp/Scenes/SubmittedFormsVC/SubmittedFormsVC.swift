@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import SVProgressHUD
 class SubmittedFormsVC: UIViewController {
     
     @IBOutlet weak var createButton: UIButton!
@@ -34,6 +34,16 @@ class SubmittedFormsVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         presnter.getSubmittedForms(search: "")
+        checkUnsubmittedForms()
+    }
+    
+    private func checkUnsubmittedForms(){
+        if UserDefaults.standard.bool(forKey: "internet_connection"){
+            DispatchQueue.main.async {
+                SVProgressHUD.show(withStatus: "Submit all stored forms")
+                self.presnter.callAllRealmRequests()
+            }
+        }
     }
     
     // MARK: - Private Functions
