@@ -145,27 +145,25 @@ class HomePresenter{
             dispatchGroup.leave()
         }
         
-        dispatchGroup.enter()
-        if data.failReason ?? false{
-            self.getFormItemReasons(normal: normal, uuid: uuid) { data in
-                RealmManager.sharedInstance.addToFormItemReasonDBModels(models:data?.failReasons ?? [])
-                for deleteFailReason in data?.deletedFailReason ?? []{
-                    RealmController.shared.deleteFormFailReasons(id: deleteFailReason.id ?? -1)
-                }
-                dispatchGroup.leave()
-            }
-            
-        }else{
-            dispatchGroup.leave()
-        }
-        
-        
-        
+       
         
         
         dispatchGroup.notify(queue: .main) {
-            UserDefaults.standard.set(true, forKey: "AddAllDataToRealm")
-            SVProgressHUD.dismiss()
+            if data.failReason ?? false{
+                self.getFormItemReasons(normal: normal, uuid: uuid) { data in
+                    RealmManager.sharedInstance.addToFormItemReasonDBModels(models:data?.failReasons ?? [])
+                    for deleteFailReason in data?.deletedFailReason ?? []{
+                        RealmController.shared.deleteFormFailReasons(id: deleteFailReason.id ?? -1)
+                    }
+                    UserDefaults.standard.set(true, forKey: "AddAllDataToRealm")
+                    SVProgressHUD.dismiss()
+                }
+                
+            }else{
+                UserDefaults.standard.set(true, forKey: "AddAllDataToRealm")
+                SVProgressHUD.dismiss()
+            }
+            
         }
         
     }

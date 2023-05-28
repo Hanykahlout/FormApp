@@ -27,17 +27,21 @@ class QCFormPresenter{
         self.delegate?.getCompanyData(data: CompaniesData(companies: RealmController.shared.getFromDBModels(type: "companies",searchText: search)))
     }
     
+    
     func getJobsFromDB(companyID:String,search:String){
         self.delegate?.getJobData(data: JobData(jobs: RealmController.shared.getFromDBModels(type:"jobs",companyId: companyID,searchText: search)))
     }
+    
     
     func getFormsFromDB(companyID:String,search:String){
         self.delegate?.getFormsData(data: FormsData(forms: RealmController.shared.getFromDBModels(type:"forms",companyId: companyID,searchText: search)))
     }
     
+    
     func getDivisionFromDB(companyID:String,search:String){
         self.delegate?.getDivition(data: DiviosnData(divisions: RealmController.shared.getFromDBModels(type:"divisions",companyId: companyID,searchText: search)))
     }
+    
     
     func getFormItemFromDB(project:String,formTypeID:String){
         self.delegate?.getFormItemsData(data: FormItemData(formItems: RealmController.shared.getFromDBItemsModels(project:project,formTypeID: formTypeID)))

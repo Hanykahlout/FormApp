@@ -36,7 +36,11 @@ struct SubmittedFormItems:Decodable{
     let id:Int?
     let form_id:String?
     let item_id:String?
+    let name:String?
     let value:String?
+    let price:String?
+    let withPrice:String?
+    var new_item_type:NewFormItemType? = .text
     let notes:String?
     let item:SubmittedFormItemData?
     let fail_reason:FailReasonData?
@@ -46,9 +50,15 @@ struct SubmittedFormItemData:Decodable{
     let id:Int?
     let title:String?
     let system:String?
+    let system_type:String?
+    let system_list:[String]?
+    let price:String?
+    let show_price:String?
+    let value:String?
     let form_type_id:String?
     let created_at:String?
     let fail_reason_id: String?
     let fail_reasons:[FailReasonData]?
+    
 }
 

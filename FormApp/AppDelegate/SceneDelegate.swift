@@ -30,33 +30,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window?.makeKeyAndVisible()
 
     }
-//
-//
-//    func saveLogin(){
-//
-//        do {
-//
-//            let token = try KeychainWrapper.get(key: AppData.email) ?? ""
-//            print(token)
-//            if token == ""{
-//                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NavigationController")
-//                self.setRootVC(vc: vc)
-//            } else {
-//                let nav1 = UINavigationController()
-//                let mainView = HomeVC.instantiate()
-//                nav1.viewControllers = [mainView]
-//                nav1.navigationBar.isHidden = true
-//                setRootVC(vc: nav1)
-//
-//            }
-//
-//        }
-//        catch{
-//
-//            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NavigationController")
-//            self.setRootVC(vc: vc)
-//        }
-//    }
     
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.

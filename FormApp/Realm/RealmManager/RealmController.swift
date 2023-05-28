@@ -68,13 +68,19 @@ class RealmController{
             let created_at = model.created_at
             let form_type_id = model.form_type_id
             let system = model.system
+            let system_type = model.system_type
+            let system_list = Array(model.system_list)
             let price = model.price ?? ""
             let show_price = model.show_price ?? ""
             var reasons:[FailReasonData] = []
+            var newBoxs:[NewBoxData] = []
             model.reasons.forEach{
                 reasons.append(FailReasonData(id: $0.id, title: $0.title, form_item_id: $0.form_item_id, created_at: $0.created_at))
             }
-            let obj = DataDetails(id: id, title: title, created_at: created_at,form_type_id: form_type_id,system: system,fail_reasons: reasons,price: price,show_price: show_price)
+            model.new_box.forEach{
+                newBoxs.append(NewBoxData(title: $0.title,box_type: $0.box_type))
+            }
+            let obj = DataDetails(id: id, title: title, created_at: created_at,form_type_id: form_type_id,system: system,system_type: system_type,system_list: system_list,fail_reasons: reasons,new_boxes: newBoxs,price: price,show_price: show_price)
             result.append(obj)
         }
         
@@ -117,7 +123,6 @@ class RealmController{
     }
     
     
-    
     func addToFormItemDBModels(models:[DataDetails]){
         for model in models{
             let dbModel = FormItemDBModel()
@@ -126,10 +131,10 @@ class RealmController{
             dbModel.created_at = model.created_at
             dbModel.form_type_id = model.form_type_id
             dbModel.system = model.system
+            dbModel.system_type = model.system_type
+            dbModel.system_list.append(objectsIn: model.system_list ?? [])
             dbModel.price = model.price
             dbModel.show_price = model.show_price
-            
-            
             dbModel.development_title = model.development_title
             for reason in model.fail_reasons ?? []{
                 let exists = (model.fail_reasons ?? []).contains(where: { $0.id == reason.id })
@@ -141,6 +146,12 @@ class RealmController{
                     dbReason.form_item_id = reason.form_item_id
                     dbModel.reasons.append(dbReason)
                 }
+            }
+            for new_box in model.new_boxes ?? []{
+                let newBox = FormItemNewBox()
+                newBox.title = new_box.title
+                newBox.box_type = new_box.box_type
+                dbModel.new_box.append(newBox)
             }
             RealmManager.sharedInstance.saveObject(dbModel)
         }

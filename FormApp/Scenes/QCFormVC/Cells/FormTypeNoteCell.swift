@@ -18,6 +18,9 @@ typealias FormTypeCellDelegate = FormTypeNoteCellDelegate & UIViewController
 
 class FormTypeNoteCell: UITableViewCell,NibLoadableView {
     
+    @IBOutlet weak var customFieldTextField: UITextField!
+    @IBOutlet weak var customFieldTitleLabel: UILabel!
+    @IBOutlet weak var customFiledStackView: UIStackView!
     @IBOutlet weak var FormTypeSubtitle: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var statusWithoutSelectionView: UIView!
@@ -38,6 +41,7 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
     var status:[String] = []
     private var statusGesture:UITapGestureRecognizer?
     private var reasons:[FailReasonData]?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         statusGesture = UITapGestureRecognizer(target: self, action: #selector(formTypeStatusAction))
@@ -92,12 +96,13 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
             statusWithoutSelectionTextField.placeholder = "Text"
             statusWithoutSelectionTextField.keyboardType = .default
             statusWithoutSelectionLabel.text = "Enter your text"
-
+            
         case "date":
             dateTextField.text = obj.status ?? ""
             statusView.isHidden = true
             statusWithoutSelectionView.isHidden = true
             dateView.isHidden = false
+            
         case "currency":
             statusView.isHidden = true
             statusWithoutSelectionView.isHidden = false
@@ -108,10 +113,10 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
             statusWithoutSelectionTextField.keyboardType = .decimalPad
             statusWithoutSelectionLabel.text = "Enter your currency"
         default:
+            
             break
         }
-        
-        
+
     }
     
     

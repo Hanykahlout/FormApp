@@ -108,6 +108,7 @@ class AppManager: AppNetworkable {
         request(target: .getSpecialList(job_id: jobId,builder: builder), completion: completion)
     }
     
+    
     func monitorNetwork(conectedAction:(()->Void)?,notConectedAction:(()->Void)?){
         let monitor = NWPathMonitor()
         monitor.pathUpdateHandler = { path in

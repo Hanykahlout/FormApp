@@ -23,7 +23,6 @@ protocol Networkable{
 extension Networkable{
     
     func request<T: Decodable>(target: targetType, completion: @escaping (Result<T, Error>) -> ()) {
-        
         AppManager.shared.monitorNetwork {
             UserDefaults.standard.set(true, forKey: "internet_connection")
         } notConectedAction: {
@@ -46,6 +45,7 @@ extension Networkable{
                         }
 
                     }else  if response.statusCode == 503 || response.statusCode == 500 {
+                        print("TESTOOOO",String(data: response.data, encoding: .utf8) ?? "Faild to Convert response to String")
                         Alert.showErrorAlert(message: "Server Error !!")
                         SVProgressHUD.dismiss()
                     } else {

@@ -79,7 +79,13 @@
 		CEA6F52B2A0A70CE00C6A7A0 /* MaterialTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA6F5292A0A70CE00C6A7A0 /* MaterialTableViewCell.swift */; };
 		CEA6F52C2A0A70CE00C6A7A0 /* MaterialTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEA6F52A2A0A70CE00C6A7A0 /* MaterialTableViewCell.xib */; };
 		CEA6F5302A0A76D400C6A7A0 /* MaterialsDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA6F52E2A0A76D400C6A7A0 /* MaterialsDetailsVC.swift */; };
+		CEAC3CA72A19291B009774AD /* UserFormItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAC3CA52A19291B009774AD /* UserFormItemTableViewCell.swift */; };
+		CEAC3CA82A19291B009774AD /* UserFormItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEAC3CA62A19291B009774AD /* UserFormItemTableViewCell.xib */; };
 		CEC08E6A29E0A51A00FC8CBF /* DatePickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC08E6829E0A51A00FC8CBF /* DatePickerVC.swift */; };
+		CECD94222A1E63C7007BEB65 /* CreateFormItemVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECD94212A1E63C7007BEB65 /* CreateFormItemVC.swift */; };
+		CECD94252A1E9F85007BEB65 /* FormItemNewBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECD94242A1E9F85007BEB65 /* FormItemNewBox.swift */; };
+		CECD94282A1EB478007BEB65 /* CustomFormItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECD94262A1EB478007BEB65 /* CustomFormItemTableViewCell.swift */; };
+		CECD94292A1EB478007BEB65 /* CustomFormItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CECD94272A1EB478007BEB65 /* CustomFormItemTableViewCell.xib */; };
 		CEF2BB352A018E3600D4DBA1 /* ViewCustomExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF2BB252A018E3600D4DBA1 /* ViewCustomExtension.swift */; };
 		CEF2BB362A018E3600D4DBA1 /* UIViewCustomCornerRadiusWithGraidentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF2BB272A018E3600D4DBA1 /* UIViewCustomCornerRadiusWithGraidentView.swift */; };
 		CEF2BB372A018E3600D4DBA1 /* UIViewCustomCornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF2BB282A018E3600D4DBA1 /* UIViewCustomCornerRadius.swift */; };
@@ -173,7 +179,13 @@
 		CEA6F5292A0A70CE00C6A7A0 /* MaterialTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaterialTableViewCell.swift; sourceTree = "<group>"; };
 		CEA6F52A2A0A70CE00C6A7A0 /* MaterialTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MaterialTableViewCell.xib; sourceTree = "<group>"; };
 		CEA6F52E2A0A76D400C6A7A0 /* MaterialsDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaterialsDetailsVC.swift; sourceTree = "<group>"; };
+		CEAC3CA52A19291B009774AD /* UserFormItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFormItemTableViewCell.swift; sourceTree = "<group>"; };
+		CEAC3CA62A19291B009774AD /* UserFormItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserFormItemTableViewCell.xib; sourceTree = "<group>"; };
 		CEC08E6829E0A51A00FC8CBF /* DatePickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerVC.swift; sourceTree = "<group>"; };
+		CECD94212A1E63C7007BEB65 /* CreateFormItemVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFormItemVC.swift; sourceTree = "<group>"; };
+		CECD94242A1E9F85007BEB65 /* FormItemNewBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormItemNewBox.swift; sourceTree = "<group>"; };
+		CECD94262A1EB478007BEB65 /* CustomFormItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFormItemTableViewCell.swift; sourceTree = "<group>"; };
+		CECD94272A1EB478007BEB65 /* CustomFormItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomFormItemTableViewCell.xib; sourceTree = "<group>"; };
 		CEF2BB252A018E3600D4DBA1 /* ViewCustomExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewCustomExtension.swift; sourceTree = "<group>"; };
 		CEF2BB272A018E3600D4DBA1 /* UIViewCustomCornerRadiusWithGraidentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewCustomCornerRadiusWithGraidentView.swift; sourceTree = "<group>"; };
 		CEF2BB282A018E3600D4DBA1 /* UIViewCustomCornerRadius.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewCustomCornerRadius.swift; sourceTree = "<group>"; };
@@ -283,6 +295,10 @@
 			children = (
 				277CABF6298199B6009C11CB /* FormTypeNoteCell.swift */,
 				277CABF7298199B6009C11CB /* FormTypeNoteCell.xib */,
+				CEAC3CA52A19291B009774AD /* UserFormItemTableViewCell.swift */,
+				CEAC3CA62A19291B009774AD /* UserFormItemTableViewCell.xib */,
+				CECD94262A1EB478007BEB65 /* CustomFormItemTableViewCell.swift */,
+				CECD94272A1EB478007BEB65 /* CustomFormItemTableViewCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -366,6 +382,7 @@
 				CE54B76729BDCE2C00C9C9F1 /* RequestModel.swift */,
 				CE08C9A829BF6EEB002434EB /* FormItemDBModel.swift */,
 				CE59C00E29DC5C0B0002C1F8 /* FormItemReason.swift */,
+				CECD94242A1E9F85007BEB65 /* FormItemNewBox.swift */,
 			);
 			path = RealmModel;
 			sourceTree = "<group>";
@@ -373,6 +390,7 @@
 		CE5D7EF029F1D70B00A7D212 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				CECD94202A1E63BA007BEB65 /* CreateFormItemVC */,
 				CEA6F52D2A0A76BC00C6A7A0 /* MaterialsDetailsVC */,
 				CE8169DE2A05850C00CBF0AD /* CreateMaterialVC */,
 				CEF2BB4D2A01A65A00D4DBA1 /* MaterialsVC */,
@@ -567,6 +585,14 @@
 			path = MaterialsDetailsVC;
 			sourceTree = "<group>";
 		};
+		CECD94202A1E63BA007BEB65 /* CreateFormItemVC */ = {
+			isa = PBXGroup;
+			children = (
+				CECD94212A1E63C7007BEB65 /* CreateFormItemVC.swift */,
+			);
+			path = CreateFormItemVC;
+			sourceTree = "<group>";
+		};
 		CEF2BB242A018E3600D4DBA1 /* Extenstions+Designables */ = {
 			isa = PBXGroup;
 			children = (
@@ -675,6 +701,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				277CABD92981396A009C11CB /* LaunchScreen.storyboard in Resources */,
+				CEAC3CA82A19291B009774AD /* UserFormItemTableViewCell.xib in Resources */,
+				CECD94292A1EB478007BEB65 /* CustomFormItemTableViewCell.xib in Resources */,
 				277CABD62981396A009C11CB /* Assets.xcassets in Resources */,
 				272C86A229AE04D50028D1C1 /* SearchView.xib in Resources */,
 				CEA6F52C2A0A70CE00C6A7A0 /* MaterialTableViewCell.xib in Resources */,
@@ -736,11 +764,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				279404F929A2BA1700742AD9 /* CDAlertView.swift in Sources */,
+				CECD94222A1E63C7007BEB65 /* CreateFormItemVC.swift in Sources */,
 				CE9F7A0B2A02C7B400C04F40 /* MaterialsPrestner.swift in Sources */,
 				CEA6F5302A0A76D400C6A7A0 /* MaterialsDetailsVC.swift in Sources */,
 				279404CA29A0BC2B00742AD9 /* AppTarget.swift in Sources */,
 				CE54B76829BDCE2C00C9C9F1 /* RequestModel.swift in Sources */,
 				279404E729A2B8CC00742AD9 /* Validator.swift in Sources */,
+				CECD94282A1EB478007BEB65 /* CustomFormItemTableViewCell.swift in Sources */,
 				277CABFE2981A202009C11CB /* TableViewHelper.swift in Sources */,
 				CEA6F52B2A0A70CE00C6A7A0 /* MaterialTableViewCell.swift in Sources */,
 				27CC17A329A4058B007BADC0 /* BottomBorderTextField.swift in Sources */,
@@ -756,6 +786,7 @@
 				277CABEF29814FD5009C11CB /* MainTF.swift in Sources */,
 				CEF2BB3D2A018E3600D4DBA1 /* GraidentLabel.swift in Sources */,
 				CE5D7EFD29F1E36400A7D212 /* LoginPresenter.swift in Sources */,
+				CEAC3CA72A19291B009774AD /* UserFormItemTableViewCell.swift in Sources */,
 				279404F629A2BA1700742AD9 /* CDAlertView+Extension.swift in Sources */,
 				CEF2BB3F2A018E3600D4DBA1 /* UIImageViewCustomCornerRadius.swift in Sources */,
 				277CABE729814E6F009C11CB /* LoginVC.swift in Sources */,
@@ -805,6 +836,7 @@
 				CE5D7F0F29F1FC1200A7D212 /* HomeModels.swift in Sources */,
 				CE08C9A929BF6EEB002434EB /* FormItemDBModel.swift in Sources */,
 				CE59C00F29DC5C0B0002C1F8 /* FormItemReason.swift in Sources */,
+				CECD94252A1E9F85007BEB65 /* FormItemNewBox.swift in Sources */,
 				279404F529A2BA1700742AD9 /* CDAlertViewType.swift in Sources */,
 				CE9F7A092A02BA0700C04F40 /* UIPaddedTextField.swift in Sources */,
 				CEF2BB3A2A018E3600D4DBA1 /*  GraidentButton.swift in Sources */,
@@ -964,6 +996,7 @@
 				DEVELOPMENT_TEAM = XM9YMQACH6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FormApp/Configurations/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Chesapeake;
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "Please allow to continue with Face ID";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -976,7 +1009,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = ios.app.formApps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1001,6 +1034,7 @@
 				DEVELOPMENT_TEAM = XM9YMQACH6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FormApp/Configurations/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Chesapeake;
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "Please allow to continue with Face ID";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -1013,7 +1047,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = ios.app.formApps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -17,18 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UNUserNotificationCenter.current().requestAuthorization(options: .badge) { (granted, error) in}
         
-        // Set up the Realm configuration
-//        let config = Realm.Configuration(
-//            schemaVersion: 2) { migration, oldSchemaVersion in
-//                if oldSchemaVersion < 2 {
-//                    migration.enumerateObjects(ofType: FormItemDBModel.className()) { oldObject, newObject in
-//                        newObject!["price"] = ""
-//                        newObject!["show_price"] = ""
-//                    }
-//                }
-//            }
-//        
-//        Realm.Configuration.defaultConfiguration = config
         AppManager.shared.monitorNetwork {
             UserDefaults.standard.set(true, forKey: "internet_connection")
         } notConectedAction: {

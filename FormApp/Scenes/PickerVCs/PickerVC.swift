@@ -34,6 +34,7 @@ class PickerVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if !arr_data.isEmpty{
+            name = arr_data[index]
             picker.selectRow(index, inComponent: 0, animated: false)
         }
         searchBar.text = searchText

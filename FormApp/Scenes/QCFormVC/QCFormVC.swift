@@ -2,7 +2,7 @@
 //  QCFormVC.swift
 //  FormApp
 //
-//  Created by heba isaa on 25/01/2023.
+//  Created by Hany Alkahlout on 25/01/2023.
 //
 
 import UIKit
@@ -11,7 +11,14 @@ import SVProgressHUD
 class QCFormVC: UIViewController {
     //MARK: - Outlet
     
+    @IBOutlet weak var totalView: UIView!
+    @IBOutlet weak var totalPriceLabel: UILabel!
+    @IBOutlet weak var totalQuantityLabel: UILabel!
+    @IBOutlet weak var headerTitleLabel: UILabel!
+    @IBOutlet weak var addNewFormItemButton: UIButton!
+    @IBOutlet weak var addNewFormItemView: UIView!
     @IBOutlet weak var formTypeNoteTableview: UITableView!
+    @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
     
     @IBOutlet weak var companyView: UIViewDesignable!
     @IBOutlet weak var jobView: UIViewDesignable!
@@ -61,6 +68,7 @@ class QCFormVC: UIViewController {
     private var selectedJobProject = ""
     var editData: FormInfo?
     
+    
     //MARK: - Life cycle
     
     override func viewDidLoad() {
@@ -80,6 +88,8 @@ class QCFormVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if let editData = editData{
+            headerTitleLabel.text = editData.form?.title ?? ""
+            addNewFormItemView.isHidden = false
             companyID = editData.company?.id ?? 0
             companyBtn.isEnabled = true
             companyView.backgroundColor = .black
@@ -102,9 +112,34 @@ class QCFormVC: UIViewController {
             diviosnLeaderData.text = editData.division?.title ?? ""
             
             for item in editData.items ?? []{
-                formsItem.append(.init(id: Int(item.item_id ?? "-1")!, title: item.item?.title ?? "", status: item.value ?? "", note: item.notes ?? "",system: item.item?.system,reasons: item.item?.fail_reasons,reason_id: item.fail_reason?.id,reason: item.fail_reason?.title))
-                formTypeNoteTableview.reloadData()
+                if item.id == nil{
+                    let name = item.name ?? ""
+                    let status = item.value ?? ""
+                    let new_item_type = item.new_item_type ?? .text
+                    let isFromUser = true
+                    let isWithPrice = item.withPrice == "1"
+                    let price = item.price
+                    
+                    formsItem.append(.init(name: name , status: status ,new_item_type: new_item_type,isFromUser: isFromUser ,isWithPrice: isWithPrice ,price: price))
+                    
+                }else if item.item?.system_type != nil{
+                    let id = item.item?.id ?? 0
+                    let value = item.value ?? ""
+                    let title = item.item?.title
+                    let status = item.item?.value
+                    let price = item.item?.price
+                    let show_price = item.item?.show_price
+                    let system = item.item?.system
+                    let system_type = item.item?.system_type
+                    let system_list = item.item?.system_list
+                    formsItem.append(.init(id: id,value: value,title: title, status: status,price: price,show_price: show_price,system: system, system_type: system_type, system_list: system_list))
+                    
+                }else{
+                    formsItem.append(.init(id: Int(item.item_id ?? "-1")!, title: item.item?.title ?? "", status: item.value ?? "", note: item.notes ?? "",system: item.item?.system,reasons: item.item?.fail_reasons,reason_id: item.fail_reason?.id,reason: item.fail_reason?.title))
+                }
             }
+            formTypeNoteTableview.reloadData()
+            calculateContentHeight()
         }
     }
     
@@ -130,11 +165,7 @@ class QCFormVC: UIViewController {
     }
     
     
-    func setupTableview(){
-        formTypeNoteTableview.register(FormTypeNoteCell.self)
-        formTypeNoteTableview.delegate=self
-        formTypeNoteTableview.dataSource = self
-    }
+ 
     
     
     @IBAction func companyAction(_ sender: Any) {
@@ -210,11 +241,8 @@ class QCFormVC: UIViewController {
         divitionPickerVC!.definesPresentationContext = true
         divitionPickerVC!.delegate = {name , index in
             // Selection Action Here
-            print("Selected Value:",name)
-            print("Selected Index:",index)
             self.diviosnLeaderData.text = self.division[index].title ?? ""
             self.divisionID = self.division[index].id ?? 0
-
         }
         self.present(divitionPickerVC!, animated: true, completion: nil)
     }
@@ -254,66 +282,89 @@ extension QCFormVC{
     func BindButtons(){
         submitBtn.addTarget(self, action: #selector(ButtonWasTapped), for: .touchUpInside)
         backBtn.addTarget(self, action: #selector(ButtonWasTapped), for: .touchUpInside)
+        addNewFormItemButton.addTarget(self, action: #selector(ButtonWasTapped), for: .touchUpInside)
     }
     
     @objc func AddFormItemNote( _ sender:UITextField){
         let indexPath = NSIndexPath(row: sender.tag, section: 0)
         formsItem[indexPath.row].note = sender.text ?? ""
-        
     }
-    
     
     @objc func AddFormItemStatus( _ sender:UITextField){
         let indexPath = NSIndexPath(row: sender.tag, section: 0)
         formsItem[indexPath.row].status = sender.text ?? ""
+        if formsItem[indexPath.row].new_item_type == .quantity ||
+            formsItem[indexPath.row].system == "quantity" ||
+            formsItem[indexPath.row].new_item_type == .price ||
+            formsItem[indexPath.row].system == "currency" {
+            updateTotalView()
+        }
     }
     
+    @objc func AddFormItemName( _ sender:UITextField){
+        let indexPath = NSIndexPath(row: sender.tag, section: 0)
+        formsItem[indexPath.row].name = sender.text ?? ""
+    }
+    
+    @objc func AddFormItemPrice( _ sender:UITextField){
+        let indexPath = NSIndexPath(row: sender.tag, section: 0)
+        formsItem[indexPath.row].price = sender.text ?? ""
+        updateTotalView()
+    }
 }
 
 extension QCFormVC{
     
     @objc func ButtonWasTapped(btn:UIButton){
         switch btn{
-            
         case submitBtn:
-            do{
-                
-                _ = try diviosnLeaderData.validatedText(validationType: .requiredField(field: " Select Division leader please"))
-                _ = try formTypeData.validatedText(validationType: .requiredField(field: "Select form type please"))
-                _ = try jobData.validatedText(validationType: .requiredField(field: "Select job please"))
-                _ = try companiesData.validatedText(validationType: .requiredField(field: "Select company please"))
-                
-                Alert.showAlert(viewController: self, title: "Do you  want to send the form", message: "") { Value in
-                    
-                    if Value == true{
-                        if self.isAllFormItemsSelected(){
-                            SVProgressHUD.setBackgroundColor(.white)
-                            SVProgressHUD.show(withStatus: "please wait")
-                            self.submitForm(formsDetails: self.formDetailsParameter())
-                        }else{
-                            Alert.showErrorAlert(message:  "Add your form Item Data,You have at least to choose status for every item" )
-                        }
-                    }
-                }
-                
-            }catch{
-                Alert.showErrorAlert(message: (error as! ValidationError).message)
-            }
-            
+            submitAction()
         case backBtn :
             navigationController?.popViewController(animated: true)
-            
+        case addNewFormItemButton:
+            let vc = CreateFormItemVC.instantiate()
+            vc.addAction = { type , isWithPrice in
+                self.formsItem.append(.init(name: "", status: "", new_item_type: type,isFromUser: true, isWithPrice: isWithPrice,price: "0"))
+                self.formTypeNoteTableview.insertRows(at: [IndexPath.init(row: self.formsItem.count - 1, section: 0)], with: .automatic)
+                self.calculateContentHeight()
+            }
+            present(vc, animated: true)
         default:
             print("")
         }
-        
+    }
+
+    
+    private func submitAction(){
+        do{
+            _ = try diviosnLeaderData.validatedText(validationType: .requiredField(field: " Select Division leader please"))
+            _ = try formTypeData.validatedText(validationType: .requiredField(field: "Select form type please"))
+            _ = try jobData.validatedText(validationType: .requiredField(field: "Select job please"))
+            _ = try companiesData.validatedText(validationType: .requiredField(field: "Select company please"))
+            
+            Alert.showAlert(viewController: self, title: "Do you  want to send the form", message: "") { Value in
+                
+                if Value == true{
+                    if self.isAllFormItemsSelected(){
+                        SVProgressHUD.setBackgroundColor(.white)
+                        SVProgressHUD.show(withStatus: "please wait")
+                        self.submitForm(formsDetails: self.formDetailsParameter())
+                    }else{
+                        Alert.showErrorAlert(message:  "Add your form Item Data,You have at least to choose status for every item" )
+                    }
+                }
+            }
+            
+        }catch{
+            Alert.showErrorAlert(message: (error as! ValidationError).message)
+        }
     }
     
     
     private func isAllFormItemsSelected() -> Bool{
         for item in formsItem{
             let chechResult = item.status == nil
-            if chechResult{
+            if chechResult && !(item.isFromUser ?? false) && item.system_type == nil{
                 return false
             }
         }
@@ -330,15 +381,51 @@ extension QCFormVC:Storyboarded{
 }
 
 extension QCFormVC:UITableViewDelegate, UITableViewDataSource{
+    func setupTableview(){
+        formTypeNoteTableview.register(FormTypeNoteCell.self)
+        formTypeNoteTableview.register(.init(nibName: "UserFormItemTableViewCell", bundle: nil), forCellReuseIdentifier: "UserFormItemTableViewCell")
+        formTypeNoteTableview.register(.init(nibName: "CustomFormItemTableViewCell", bundle: nil), forCellReuseIdentifier: "CustomFormItemTableViewCell")
+        formTypeNoteTableview.delegate=self
+        formTypeNoteTableview.dataSource = self
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        formsItem.count
+        updateTotalView()
+        return formsItem.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if formsItem[indexPath.row].isFromUser ?? false{
+            let cell = tableView.dequeueReusableCell(withIdentifier: "UserFormItemTableViewCell", for: indexPath) as! UserFormItemTableViewCell
+            cell.delegate = self
+            cell.setData(data: formsItem[indexPath.row],index: indexPath.row)
+            
+            let type = formsItem[indexPath.row].new_item_type
+            if  type != .pass_fail && type != .yes_no && type != .date{
+                cell.valueTextField.addTarget(self, action: #selector(AddFormItemStatus), for: .editingDidEnd)
+                cell.valueTextField.tag=indexPath.row
+            }
+
+            cell.priceTextField.addTarget(self, action: #selector(AddFormItemPrice), for: .editingDidEnd)
+            cell.priceTextField.tag=indexPath.row
+            
+            cell.nameTextField.addTarget(self, action: #selector(AddFormItemName), for: .editingDidEnd)
+            cell.nameTextField.tag=indexPath.row
+            
+            return cell
+        }else if formsItem[indexPath.row].system_type != nil{
+            let cell = tableView.dequeueReusableCell(withIdentifier: "CustomFormItemTableViewCell", for: indexPath) as! CustomFormItemTableViewCell
+            cell.setData(data: formsItem[indexPath.row],index: indexPath.row)
+            cell.valueTextField.addTarget(self, action: #selector(AddFormItemStatus), for: .editingDidEnd)
+            cell.valueTextField.tag=indexPath.row
+            cell.delegate = self
+            return cell
+        }
+        
         let cell:FormTypeNoteCell = tableView.dequeueReusableCell(for: indexPath)
         cell.configureCell(obj: formsItem[indexPath.row])
         cell.delegate = self
@@ -356,14 +443,50 @@ extension QCFormVC:UITableViewDelegate, UITableViewDataSource{
         return cell
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if formsItem[indexPath.row].isFromUser ?? false{
+            return 280
+        }else if formsItem[indexPath.row].system_type != nil{
+            return 160
+        }
+        return 180
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedIndex = indexPath.row
     }
     
+    private func updateTotalView(){
+        totalView.isHidden = formsItem.isEmpty
+        if !formsItem.isEmpty{
+            var price = 0.0
+            var qty = 0.0
+            
+            formsItem.forEach({ item in
+                if item.system == "currency" || item.new_item_type == .price{
+                    price += Double(item.price ?? "0.0") ?? 0.0
+                    price += Double(item.status ?? "0.0") ?? 0.0
+                }else if item.system == "quantity" || item.new_item_type == .quantity{
+                    let quantity = Double(item.status ?? "0.0") ?? 0.0
+                    if item.show_price == "1" || item.isFromUser ?? false{
+                        price += (quantity) * (Double(item.price ?? "0.0") ?? 0.0)
+                    }
+                    qty += quantity
+                }else{
+                    price += Double(item.price ?? "0.0") ?? 0.0
+                }
+            })
+            
+            totalPriceLabel.text = String(price)
+            totalQuantityLabel.text = String(qty)
+        }
+    }
+    
+    
 }
 
 // MARK: - Table View Cell Delegate
-extension QCFormVC:FormTypeNoteCellDelegate{
+extension QCFormVC:FormTypeNoteCellDelegate,UserFormItemDelegate,CustomFormItemDelegate{
     func statusPickerAction(data:[String],indexPath: IndexPath) {
         let vc = PickerVC.instantiate()
         vc.arr_data = data
@@ -404,6 +527,58 @@ extension QCFormVC:FormTypeNoteCellDelegate{
         }
         self.present(vc, animated: true, completion: nil)
     }
+    
+    func selectionAction(type: NewFormItemType, Index: Int) {
+        if type != .date{
+            let selectionPickerVC = PickerVC.instantiate()
+            selectionPickerVC.arr_data = type == .pass_fail ? ["Pass","Fail"] : ["Yes","No"]
+            selectionPickerVC.searchBarHiddenStatus = true
+            selectionPickerVC.isModalInPresentation = true
+            selectionPickerVC.modalPresentationStyle = .overFullScreen
+            selectionPickerVC.definesPresentationContext = true
+            selectionPickerVC.delegate = { name , selectedIndex in
+                // Selection Action Here
+                self.formsItem[Index].status = name
+                let cell = self.formTypeNoteTableview.cellForRow(at: IndexPath.init(row: Index, section: 0)) as! UserFormItemTableViewCell
+                cell.valueTextField.text = name
+            }
+            self.present(selectionPickerVC, animated: true, completion: nil)
+        }else{
+            let vc = DatePickerVC.instantiate()
+            vc.dateSelected = { selectedDate in
+                self.formsItem[Index].status = selectedDate
+                let cell = self.formTypeNoteTableview.cellForRow(at: IndexPath.init(row: Index, section: 0)) as! UserFormItemTableViewCell
+                cell.valueTextField.text = selectedDate
+            }
+            self.present(vc, animated: true, completion: nil)
+        }
+    }
+    
+    func selectionAction(index: Int,arr:[String],isDate:Bool) {
+        if isDate {
+            let vc = DatePickerVC.instantiate()
+            vc.dateSelected = { selectedDate in
+                self.formsItem[index].status = selectedDate
+                let cell = self.formTypeNoteTableview.cellForRow(at: IndexPath.init(row: index, section: 0)) as! CustomFormItemTableViewCell
+                cell.valueTextField.text = selectedDate
+            }
+            self.present(vc, animated: true, completion: nil)
+        }else{
+            let selectionPickerVC = PickerVC.instantiate()
+            selectionPickerVC.arr_data = arr
+            selectionPickerVC.searchBarHiddenStatus = true
+            selectionPickerVC.isModalInPresentation = true
+            selectionPickerVC.modalPresentationStyle = .overFullScreen
+            selectionPickerVC.definesPresentationContext = true
+            selectionPickerVC.delegate = { name , selectedIndex in
+                // Selection Action Here
+                self.formsItem[index].status = name
+                let cell = self.formTypeNoteTableview.cellForRow(at: IndexPath.init(row: index, section: 0)) as! CustomFormItemTableViewCell
+                cell.valueTextField.text = name
+            }
+            self.present(selectionPickerVC, animated: true, completion: nil)
+        }
+    }
 }
 
 extension QCFormVC:QCFormPresenterDelegate{
@@ -414,6 +589,7 @@ extension QCFormVC:QCFormPresenterDelegate{
         }
         formsItem=[]
         formTypeNoteTableview.reloadData()
+        calculateContentHeight()
         companiesData.text=""
         jobData.text=""
         diviosnLeaderData.text=""
@@ -486,7 +662,22 @@ extension QCFormVC:QCFormPresenterDelegate{
     func getFormItemsData(data: FormItemData) {
         formsItem = data.formItems
         formTypeNoteTableview.reloadData()
-        
+        calculateContentHeight()
+        addNewFormItemView.isHidden = false
+    }
+    
+    func calculateContentHeight(){
+        var contentHeight: CGFloat = 0.0
+
+        for section in 0..<formTypeNoteTableview.numberOfSections {
+            for row in 0..<formTypeNoteTableview.numberOfRows(inSection: section) {
+                let indexPath = IndexPath(row: row, section: section)
+                let cellHeight = formTypeNoteTableview.delegate?.tableView?(formTypeNoteTableview, heightForRowAt: indexPath) ?? formTypeNoteTableview.rowHeight
+                contentHeight += cellHeight
+            }
+        }
+
+        tableViewHeight.constant = contentHeight
     }
     
     
@@ -509,21 +700,25 @@ extension QCFormVC{
         }
         
         for index in 0 ..< formsItem.count{
-            
-            formData["form_items[\(index)][item_id]"] = formsItem[index].id ?? 0
-            
-            let status = formsItem[index].status ?? ""
-            formData["form_items[\(index)][value]"] = status == "N/A" ? "" : status.lowercased()
-            
-            formData["form_items[\(index)][notes]"] = formsItem[index].note ?? ""
-            formData["form_items[\(index)][fail_reason_id]"] = formsItem[index].reason_id
+            if formsItem[index].isFromUser ?? false{
+                formData["new_items[\(index)][name]"] = formsItem[index].name ?? ""
+                formData["new_items[\(index)][value]"] = formsItem[index].status ?? ""
+                formData["new_items[\(index)][new_item_type]"] = (formsItem[index].new_item_type ?? .text).rawValue
+                formData["new_items[\(index)][withPrice]"] = (formsItem[index].isWithPrice ?? false) ? "1" : "0"
+                formData["new_items[\(index)][price]"] = formsItem[index].price ?? ""
+            }else{
+                formData["form_items[\(index)][item_id]"] = formsItem[index].id ?? 0
+                let status = formsItem[index].status ?? ""
+                formData["form_items[\(index)][value]"] = status == "N/A" ? "" : status.lowercased()
+                formData["form_items[\(index)][notes]"] = formsItem[index].note ?? ""
+                formData["form_items[\(index)][fail_reason_id]"] = formsItem[index].reason_id
+            }
         }
         
         return formData
     }
     
 }
-
 
 
 

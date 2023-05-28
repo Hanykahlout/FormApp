@@ -72,10 +72,17 @@ struct FailReasonData:Decodable{
     let created_at:String?
 }
 
+struct NewBoxData:Decodable{
+    var title:String?
+    var box_type:String?
+    
+}
+
 struct DataDetails:Decodable{
     
     var id:Int?
     var title:String?
+    var name:String?
     var email:String?
     var company_id:String?
     var created_at:String?
@@ -89,8 +96,23 @@ struct DataDetails:Decodable{
     var project:String?
     var customer:String?
     var system:String?
+    var system_type:String?
+    var isFromUser:Bool? = false
     var development_title:String?
+    var new_boxes:[NewBoxData]?
+    var system_list:[String]?
     var fail_reasons: [FailReasonData]?
+    var new_item_type:NewFormItemType? = .text
+    var isWithPrice:Bool? = false
+    
+    init(name:String,status:String,new_item_type:NewFormItemType,isFromUser:Bool,isWithPrice:Bool?,price:String?){
+        self.name = name
+        self.status = status
+        self.new_item_type = new_item_type
+        self.isFromUser = isFromUser
+        self.isWithPrice = isWithPrice
+        self.price = price
+    }
     
     init(id: Int?, title: String?, email: String?, company_id: String?, created_at: String?,project:String?,customer:String?) {
         self.id = id
@@ -103,15 +125,18 @@ struct DataDetails:Decodable{
     }
     
     
-    init(id: Int?, title: String?,created_at: String?,form_type_id:String?,system:String?,fail_reasons:[FailReasonData],price:String?,show_price:String?) {
+    init(id: Int?, title: String?,created_at: String?,form_type_id:String?,system:String?,system_type:String?,system_list:[String]?,fail_reasons:[FailReasonData],new_boxes:[NewBoxData],price:String?,show_price:String?) {
         self.id = id
         self.title = title
         self.created_at = created_at
         self.form_type_id = form_type_id
         self.system = system
         self.fail_reasons = fail_reasons
+        self.new_boxes = new_boxes
         self.price = price
         self.show_price = show_price
+        self.system_type = system_type
+        self.system_list = system_list
     }
     
     
@@ -126,6 +151,20 @@ struct DataDetails:Decodable{
         self.reason = reason
         self.fail_reasons = reasons
     }
+    
+    init(id:Int?,value:String?,title:String?,status:String?,price:String?,show_price:String?,system:String?,system_type:String?,system_list:[String]?){
+        
+        self.id = id
+        self.title = title
+        self.status = status
+        self.system_type = system_type
+        self.system_list = system_list
+        self.system = system
+        self.price = price
+        self.show_price = show_price
+        self.status = value
+    }
+  
 }
 
 struct PhasesBuilders:Decodable{

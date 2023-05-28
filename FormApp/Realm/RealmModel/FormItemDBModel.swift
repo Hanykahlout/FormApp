@@ -14,10 +14,13 @@ class FormItemDBModel: Object {
     @Persisted var created_at:String?
     @Persisted var form_type_id:String?
     @Persisted var system:String?
+    @Persisted var system_type:String?
+    @Persisted var system_list:List<String>
     @Persisted var price:String?
     @Persisted var show_price:String?
     @Persisted var development_title:String?
     @Persisted var reasons:List<FormItemReason>
+    @Persisted var new_box:List<FormItemNewBox>
     
     override class func primaryKey() -> String? {
         return "id"
