@@ -11,6 +11,7 @@ import SVProgressHUD
 class QCFormVC: UIViewController {
     //MARK: - Outlet
     
+    @IBOutlet weak var mainScrollView: UIScrollView!
     @IBOutlet weak var totalView: UIView!
     @IBOutlet weak var totalPriceLabel: UILabel!
     @IBOutlet weak var totalQuantityLabel: UILabel!
@@ -87,6 +88,10 @@ class QCFormVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        checkEditData()
+    }
+    
+    private func checkEditData(){
         if let editData = editData{
             headerTitleLabel.text = editData.form?.title ?? ""
             addNewFormItemView.isHidden = false
@@ -135,14 +140,24 @@ class QCFormVC: UIViewController {
                     formsItem.append(.init(id: id,value: value,title: title, status: status,price: price,show_price: show_price,system: system, system_type: system_type, system_list: system_list))
                     
                 }else{
-                    formsItem.append(.init(id: Int(item.item_id ?? "-1")!, title: item.item?.title ?? "", status: item.value ?? "", note: item.notes ?? "",system: item.item?.system,reasons: item.item?.fail_reasons,reason_id: item.fail_reason?.id,reason: item.fail_reason?.title))
+                    var newBoxs = [NewBoxData]()
+                    for box in item.new_boxes ?? []{
+                        newBoxs.append(.init(title:box.title,box_type: box.type,value: box.value))
+                    }
+                    let id = Int(item.item_id ?? "-1")!
+                    let title = item.item?.title ?? ""
+                    let status = item.value ?? ""
+                    let note = item.notes ?? ""
+                    let system = item.item?.system
+                    let reasons = item.item?.fail_reasons
+                    let reason_id = item.fail_reason?.id
+                    let reason = item.fail_reason?.title
+                    formsItem.append(.init(id: id, title: title, status: status, note: note,system: system,reasons: reasons,reason_id: reason_id,reason: reason,new_boxes: newBoxs))
                 }
             }
             formTypeNoteTableview.reloadData()
-            calculateContentHeight()
         }
     }
-    
     
     func BtnStatus(){
         formTypeBtn.isEnabled=false
@@ -165,7 +180,7 @@ class QCFormVC: UIViewController {
     }
     
     
- 
+    
     
     
     @IBAction func companyAction(_ sender: Any) {
@@ -323,17 +338,17 @@ extension QCFormVC{
             navigationController?.popViewController(animated: true)
         case addNewFormItemButton:
             let vc = CreateFormItemVC.instantiate()
+            vc.modalPresentationStyle = .overCurrentContext
             vc.addAction = { type , isWithPrice in
                 self.formsItem.append(.init(name: "", status: "", new_item_type: type,isFromUser: true, isWithPrice: isWithPrice,price: "0"))
                 self.formTypeNoteTableview.insertRows(at: [IndexPath.init(row: self.formsItem.count - 1, section: 0)], with: .automatic)
-                self.calculateContentHeight()
             }
             present(vc, animated: true)
         default:
             print("")
         }
     }
-
+    
     
     private func submitAction(){
         do{
@@ -380,6 +395,7 @@ extension QCFormVC:Storyboarded{
     static var storyboardName: StoryboardName = .main
 }
 
+// MARK: - Set Up Table View Delegate And DataSource
 extension QCFormVC:UITableViewDelegate, UITableViewDataSource{
     func setupTableview(){
         formTypeNoteTableview.register(FormTypeNoteCell.self)
@@ -387,14 +403,16 @@ extension QCFormVC:UITableViewDelegate, UITableViewDataSource{
         formTypeNoteTableview.register(.init(nibName: "CustomFormItemTableViewCell", bundle: nil), forCellReuseIdentifier: "CustomFormItemTableViewCell")
         formTypeNoteTableview.delegate=self
         formTypeNoteTableview.dataSource = self
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        1
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         updateTotalView()
+        var totalHeight:CGFloat = 0.0
+        for i in 0..<formsItem.count{
+            totalHeight += getFormTypeCellHeight(index: i)
+        }
+        tableViewHeight.constant = totalHeight
         return formsItem.count
     }
     
@@ -409,7 +427,7 @@ extension QCFormVC:UITableViewDelegate, UITableViewDataSource{
                 cell.valueTextField.addTarget(self, action: #selector(AddFormItemStatus), for: .editingDidEnd)
                 cell.valueTextField.tag=indexPath.row
             }
-
+            
             cell.priceTextField.addTarget(self, action: #selector(AddFormItemPrice), for: .editingDidEnd)
             cell.priceTextField.tag=indexPath.row
             
@@ -430,7 +448,6 @@ extension QCFormVC:UITableViewDelegate, UITableViewDataSource{
         cell.configureCell(obj: formsItem[indexPath.row])
         cell.delegate = self
         cell.indexPath = indexPath
-        
         cell.formTitleNote.addTarget(self, action: #selector(AddFormItemNote), for: .editingDidEnd)
         cell.formTitleNote.tag=indexPath.row
         
@@ -444,16 +461,32 @@ extension QCFormVC:UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if formsItem[indexPath.row].isFromUser ?? false{
-            return 280
-        }else if formsItem[indexPath.row].system_type != nil{
-            return 160
-        }
-        return 180
+        return getFormTypeCellHeight(index: indexPath.row)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedIndex = indexPath.row
+    }
+    
+    private func getFormTypeCellHeight(index:Int) -> CGFloat{
+        var height:CGFloat = 0
+        let formItem = formsItem[index]
+        if formItem.isFromUser ?? false{
+            height += 280
+        }else if formItem.system_type != nil{
+            height += 160
+        }else{
+            height = 160
+            if formItem.show_price == "1"{
+                height += 30
+            }
+            if formItem.status == "fail"{
+                height += 35
+            }
+            height += CGFloat(formItem.new_boxes?.count ?? 0 ) * 90
+        }
+        
+        return height
     }
     
     private func updateTotalView(){
@@ -482,8 +515,8 @@ extension QCFormVC:UITableViewDelegate, UITableViewDataSource{
         }
     }
     
-    
 }
+
 
 // MARK: - Table View Cell Delegate
 extension QCFormVC:FormTypeNoteCellDelegate,UserFormItemDelegate,CustomFormItemDelegate{
@@ -545,6 +578,7 @@ extension QCFormVC:FormTypeNoteCellDelegate,UserFormItemDelegate,CustomFormItemD
             self.present(selectionPickerVC, animated: true, completion: nil)
         }else{
             let vc = DatePickerVC.instantiate()
+            vc.modalPresentationStyle = .overFullScreen
             vc.dateSelected = { selectedDate in
                 self.formsItem[Index].status = selectedDate
                 let cell = self.formTypeNoteTableview.cellForRow(at: IndexPath.init(row: Index, section: 0)) as! UserFormItemTableViewCell
@@ -557,6 +591,7 @@ extension QCFormVC:FormTypeNoteCellDelegate,UserFormItemDelegate,CustomFormItemD
     func selectionAction(index: Int,arr:[String],isDate:Bool) {
         if isDate {
             let vc = DatePickerVC.instantiate()
+            vc.modalPresentationStyle = .overFullScreen
             vc.dateSelected = { selectedDate in
                 self.formsItem[index].status = selectedDate
                 let cell = self.formTypeNoteTableview.cellForRow(at: IndexPath.init(row: index, section: 0)) as! CustomFormItemTableViewCell
@@ -579,6 +614,40 @@ extension QCFormVC:FormTypeNoteCellDelegate,UserFormItemDelegate,CustomFormItemD
             self.present(selectionPickerVC, animated: true, completion: nil)
         }
     }
+    
+    
+    func showPickerVC(type: String,parentIndex:Int,childIndex:Int) {
+        if type == "Date" {
+            let vc = DatePickerVC.instantiate()
+            vc.modalPresentationStyle = .overFullScreen
+            vc.dateSelected = { selectedDate in
+                self.formsItem[parentIndex].new_boxes?[childIndex].value = selectedDate
+                let parentCell = self.formTypeNoteTableview.cellForRow(at: IndexPath.init(row: parentIndex, section: 0)) as! FormTypeNoteCell
+                let childCell = parentCell.tableView.cellForRow(at: IndexPath.init(row: childIndex, section: 0)) as! NewBoxTableViewCell
+                childCell.boxTextField.text = selectedDate
+            }
+            self.present(vc, animated: true, completion: nil)
+        }else{
+            let selectionPickerVC = PickerVC.instantiate()
+            selectionPickerVC.arr_data = ["Yes","No"]
+            selectionPickerVC.searchBarHiddenStatus = true
+            selectionPickerVC.isModalInPresentation = true
+            selectionPickerVC.modalPresentationStyle = .overFullScreen
+            selectionPickerVC.definesPresentationContext = true
+            selectionPickerVC.delegate = { name , selectedIndex in
+                // Selection Action Here
+                self.formsItem[parentIndex].new_boxes?[childIndex].value = name
+                let parentCell = self.formTypeNoteTableview.cellForRow(at: IndexPath.init(row: parentIndex, section: 0)) as! FormTypeNoteCell
+                let childCell = parentCell.tableView.cellForRow(at: IndexPath.init(row: childIndex, section: 0)) as! NewBoxTableViewCell
+                childCell.boxTextField.text = name
+            }
+            self.present(selectionPickerVC, animated: true, completion: nil)
+        }
+    }
+    
+    func updateNewBoxData(text: String, parentIndex: Int, childIndex: Int) {
+        self.formsItem[parentIndex].new_boxes?[childIndex].value = text
+    }
 }
 
 extension QCFormVC:QCFormPresenterDelegate{
@@ -589,7 +658,6 @@ extension QCFormVC:QCFormPresenterDelegate{
         }
         formsItem=[]
         formTypeNoteTableview.reloadData()
-        calculateContentHeight()
         companiesData.text=""
         jobData.text=""
         diviosnLeaderData.text=""
@@ -598,8 +666,6 @@ extension QCFormVC:QCFormPresenterDelegate{
         jobView.backgroundColor = .systemGray5
         navigationController?.popViewController(animated: true)
     }
-    
-    
     
     func getCompanyData(data: CompaniesData) {
         companies=data.companies
@@ -633,7 +699,7 @@ extension QCFormVC:QCFormPresenterDelegate{
         formTypeBtn.isEnabled=true
         self.formTypeView.backgroundColor = .black
         SVProgressHUD.dismiss()
-
+        
         if let formTypePickerVC = self.formTypePickerVC{
             formTypePickerVC.arr_data = forms.map{$0.title ?? ""}
             formTypePickerVC.picker.reloadAllComponents()
@@ -641,7 +707,6 @@ extension QCFormVC:QCFormPresenterDelegate{
                 formTypePickerVC.index = 0
             }
         }
-
     }
     
     func getDivition(data: DiviosnData) {
@@ -649,7 +714,7 @@ extension QCFormVC:QCFormPresenterDelegate{
         divisionBtn.isEnabled=true
         self.divisionView.backgroundColor = .black
         SVProgressHUD.dismiss()
-
+        
         if let divitionPickerVC = self.divitionPickerVC{
             divitionPickerVC.arr_data = division.map{$0.title ?? ""}
             divitionPickerVC.picker.reloadAllComponents()
@@ -662,22 +727,7 @@ extension QCFormVC:QCFormPresenterDelegate{
     func getFormItemsData(data: FormItemData) {
         formsItem = data.formItems
         formTypeNoteTableview.reloadData()
-        calculateContentHeight()
         addNewFormItemView.isHidden = false
-    }
-    
-    func calculateContentHeight(){
-        var contentHeight: CGFloat = 0.0
-
-        for section in 0..<formTypeNoteTableview.numberOfSections {
-            for row in 0..<formTypeNoteTableview.numberOfRows(inSection: section) {
-                let indexPath = IndexPath(row: row, section: section)
-                let cellHeight = formTypeNoteTableview.delegate?.tableView?(formTypeNoteTableview, heightForRowAt: indexPath) ?? formTypeNoteTableview.rowHeight
-                contentHeight += cellHeight
-            }
-        }
-
-        tableViewHeight.constant = contentHeight
     }
     
     
@@ -712,6 +762,12 @@ extension QCFormVC{
                 formData["form_items[\(index)][value]"] = status == "N/A" ? "" : status.lowercased()
                 formData["form_items[\(index)][notes]"] = formsItem[index].note ?? ""
                 formData["form_items[\(index)][fail_reason_id]"] = formsItem[index].reason_id
+                for i in 0..<(formsItem[index].new_boxes ?? []).count{
+                    let box = formsItem[index].new_boxes![i]
+                    formData["form_items[\(index)][new_boxes][\(i)][title]"] = box.title ?? ""
+                    formData["form_items[\(index)][new_boxes][\(i)][type]"] = box.box_type ?? ""
+                    formData["form_items[\(index)][new_boxes][\(i)][value]"] = box.value ?? ""
+                }
             }
         }
         

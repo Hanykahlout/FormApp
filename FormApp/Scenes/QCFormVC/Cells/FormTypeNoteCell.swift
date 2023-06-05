@@ -11,6 +11,8 @@ protocol FormTypeNoteCellDelegate{
     func statusPickerAction(data:[String],indexPath:IndexPath)
     func reasonPickerAction(reasons:[FailReasonData],indexPath:IndexPath)
     func datePickerAction(indexPath:IndexPath)
+    func showPickerVC(type: String,parentIndex:Int,childIndex:Int)
+    func updateNewBoxData(text:String,parentIndex:Int,childIndex:Int)
 }
 
 typealias FormTypeCellDelegate = FormTypeNoteCellDelegate & UIViewController
@@ -18,9 +20,10 @@ typealias FormTypeCellDelegate = FormTypeNoteCellDelegate & UIViewController
 
 class FormTypeNoteCell: UITableViewCell,NibLoadableView {
     
-    @IBOutlet weak var customFieldTextField: UITextField!
-    @IBOutlet weak var customFieldTitleLabel: UILabel!
-    @IBOutlet weak var customFiledStackView: UIStackView!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var mainStackView: UIStackView!
+    
     @IBOutlet weak var FormTypeSubtitle: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var statusWithoutSelectionView: UIView!
@@ -36,11 +39,13 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
     @IBOutlet weak var dateTextField: UITextField!
     
     
-    var indexPath:IndexPath?
     weak var delegate:FormTypeCellDelegate?
+    var indexPath:IndexPath?
     var status:[String] = []
     private var statusGesture:UITapGestureRecognizer?
     private var reasons:[FailReasonData]?
+    private var newBoxs:[NewBoxData] = []
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -48,21 +53,12 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
         dateTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dateSelectionAction)))
         formTypeStatus.addGestureRecognizer(statusGesture!)
         reasonTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(reasonAction)))
+        setUpTableView()
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+    
+    func configureCell(obj:DataDetails){
         
-        // Configure the view for the selected state
-    }
-    
-    override func prepareForReuse() {
-        // invoke superclass implementation
-        super.prepareForReuse()
-    }
-    
-    
-    func  configureCell(obj:DataDetails){
         let system = obj.system
         priceLabel.text = "Price: $\(obj.price ?? "0")"
         priceLabel.isHidden = obj.show_price != "1"
@@ -71,6 +67,12 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
         formTitleNote.text = obj.note ?? ""
         reasonTextField.text = obj.reason ?? ""
         reasonTextField.isHidden = obj.status != "fail"
+        newBoxs = obj.new_boxes ?? []
+        tableViewHeight.constant = CGFloat(newBoxs.count) * 90
+        if !newBoxs.isEmpty{
+            tableView.reloadData()
+        }
+        
         switch system{
         case "NA/pass/fail":
             formTypeStatus.text = obj.status ?? ""
@@ -147,12 +149,48 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
     }
     
     
-    
     @objc private func reasonAction(){
         guard let indexPath = indexPath else { return }
         delegate?.reasonPickerAction(reasons: reasons ?? [],indexPath: indexPath)
     }
     
+}
+
+
+extension FormTypeNoteCell:UITableViewDelegate,UITableViewDataSource{
+    private func setUpTableView(){
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(.init(nibName: "NewBoxTableViewCell", bundle: nil),forCellReuseIdentifier: "NewBoxTableViewCell")
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return newBoxs.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "NewBoxTableViewCell", for: indexPath) as! NewBoxTableViewCell
+        cell.setData(data: newBoxs[indexPath.row],index: indexPath.row)
+        cell.boxTextField.addTarget(self, action: #selector(boxTextFieldAction), for: .editingDidEnd)
+        cell.boxTextField.tag = indexPath.row
+        cell.delegate = self
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 90
+    }
+    
+    @objc private func boxTextFieldAction(_ textField:UITextField){
+        delegate?.updateNewBoxData(text: textField.text!, parentIndex: indexPath?.row ?? 0, childIndex: textField.tag)
+    }
     
 }
 
+
+// MARK: - Table View Cell Delegate
+extension FormTypeNoteCell:NewBoxCellDelegate{
+    func showPickerVC(type: String,index:Int) {
+        delegate?.showPickerVC(type: type,parentIndex: indexPath?.row ?? 0,childIndex: index)
+    }
+}

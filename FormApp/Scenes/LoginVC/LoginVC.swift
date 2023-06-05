@@ -19,7 +19,7 @@ class LoginVC: UIViewController {
     @IBOutlet weak var loginBtn: UIButton!
     
     //MARK: - Properties
-
+    
     let presenter = LoginPresenter()
     //MARK: - Life cycle
     
@@ -34,7 +34,7 @@ class LoginVC: UIViewController {
 }
 extension LoginVC:Storyboarded{
     static var storyboardName: StoryboardName = .main
-
+    
 }
 extension LoginVC{
     
@@ -57,10 +57,10 @@ extension LoginVC{
             let vc = SignUpVC.instantiate()
             navigationController?.pushViewController(vc, animated: true)
         case loginBtn:
-            login() 
+            login()
         case backBtn :
             navigationController?.popToRootViewController(animated: true)
-
+            
         default:
             print("")
         }
@@ -71,16 +71,17 @@ extension LoginVC{
 extension LoginVC {
     
     func login() {
-        
         do{
-            
             let email = try emailCustomTf.valueTxt.validatedText(validationType: .email)
             let pass = try passCustomTf.valueTxt.validatedText(validationType:  .requiredField(field: "password required"))
-            SVProgressHUD.setBackgroundColor(.white)
-            SVProgressHUD.show(withStatus: "please wait")
-            self.presenter.login( email: email, password: pass)
-            self.presenter.delegate = self
-            
+            if email.hasSuffix("@cpnhinc.com") || email.hasSuffix("@coastaltradesupply.com"){
+                SVProgressHUD.setBackgroundColor(.white)
+                SVProgressHUD.show(withStatus: "please wait")
+                self.presenter.login( email: email, password: pass)
+                self.presenter.delegate = self
+            }else{
+                Alert.showErrorAlert(message: "Invalid email address your email has to be @cpnhinc.com or @coastaltradesupply.com at the end of it.")
+            }
         }catch{
             Alert.showErrorAlert(message: (error as! ValidationError).message)
             
@@ -99,7 +100,7 @@ extension LoginVC:LoginPresenterDelefate {
             let vc=HomeVC.instantiate()
             vc.email = user.email ?? ""
             SVProgressHUD.dismiss()
-
+            
             navigationController?.pushViewController(vc, animated: true)
             
         } catch let error {
@@ -108,3 +109,5 @@ extension LoginVC:LoginPresenterDelefate {
     }
     
 }
+
+

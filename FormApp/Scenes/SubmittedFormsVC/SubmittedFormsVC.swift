@@ -64,7 +64,7 @@ extension SubmittedFormsVC{
         airplaneNoteLabel.isUserInteractionEnabled = true
         airplaneNoteLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(airplaneAction)))
         
-        let attributedString = NSMutableAttributedString(string: "Please keep your Airplane mode off from here so you can take advantage of the app's services")
+        let attributedString = NSMutableAttributedString(string: "if you don’t have good service please click here to put your phone in airplane mode to use offline. Please remember to turn airplane mode off when finished. When you get good service please come back into app to send forms.")
         
         // Add attributes to the specific word
         let range = (attributedString.string as NSString).range(of: "here")
@@ -73,7 +73,7 @@ extension SubmittedFormsVC{
         
         airplaneNoteLabel.attributedText = attributedString
     }
-
+    
     private func setUpSegment(){
         let titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         groupSegment.setTitleTextAttributes(titleTextAttributes, for: .selected)
@@ -91,7 +91,7 @@ extension SubmittedFormsVC{
             print("")
         }
     }
-    
+                                                                                                                                    
     @objc private func indexChanged(_ sender: UISegmentedControl) {
         if let formsData = formsData{
             getSubmittedFormsData(data: formsData)
@@ -99,13 +99,13 @@ extension SubmittedFormsVC{
     }
     
     @objc private func airplaneAction(){
-       
+        
         if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
             if UIApplication.shared.canOpenURL(settingsURL) {
                 UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
             }
         }
-
+        
     }
     
     

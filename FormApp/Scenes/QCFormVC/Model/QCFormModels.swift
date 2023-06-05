@@ -75,7 +75,7 @@ struct FailReasonData:Decodable{
 struct NewBoxData:Decodable{
     var title:String?
     var box_type:String?
-    
+    var value:String?
 }
 
 struct DataDetails:Decodable{
@@ -141,7 +141,7 @@ struct DataDetails:Decodable{
     
     
     init(id: Int?, title: String?,status: String?,note:String?,
-         system:String?,reasons:[FailReasonData]?,reason_id:Int?,reason:String?) {
+         system:String?,reasons:[FailReasonData]?,reason_id:Int?,reason:String?,new_boxes:[NewBoxData]) {
         self.id = id
         self.title = title
         self.status = status
@@ -150,6 +150,7 @@ struct DataDetails:Decodable{
         self.reason_id = reason_id
         self.reason = reason
         self.fail_reasons = reasons
+        self.new_boxes = new_boxes
     }
     
     init(id:Int?,value:String?,title:String?,status:String?,price:String?,show_price:String?,system:String?,system_type:String?,system_list:[String]?){

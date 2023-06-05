@@ -42,8 +42,10 @@ struct SubmittedFormItems:Decodable{
     let withPrice:String?
     var new_item_type:NewFormItemType? = .text
     let notes:String?
+    let new_boxes:[SubmitedNewBoxData]?
     let item:SubmittedFormItemData?
     let fail_reason:FailReasonData?
+    
 }
 
 struct SubmittedFormItemData:Decodable{
@@ -62,3 +64,8 @@ struct SubmittedFormItemData:Decodable{
     
 }
 
+struct SubmitedNewBoxData:Decodable{
+    var type:String?
+    var title:String?
+    var value:String?
+}

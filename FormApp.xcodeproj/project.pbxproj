@@ -52,6 +52,8 @@
 		27CC17A729A555BB007BADC0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CC17A629A555BB007BADC0 /* Extensions.swift */; };
 		56AA3C580E025EE1A3ACEF96 /* Pods_FormApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF08162BB8D1E1AEC258DA07 /* Pods_FormApp.framework */; };
 		CE08C9A929BF6EEB002434EB /* FormItemDBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE08C9A829BF6EEB002434EB /* FormItemDBModel.swift */; };
+		CE0B92382A28E64500530977 /* NewBoxTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0B92362A28E64500530977 /* NewBoxTableViewCell.swift */; };
+		CE0B92392A28E64500530977 /* NewBoxTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE0B92372A28E64500530977 /* NewBoxTableViewCell.xib */; };
 		CE3A79C529C70A0500413E0B /* FormTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A79C329C70A0500413E0B /* FormTableViewCell.swift */; };
 		CE3A79C629C70A0500413E0B /* FormTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE3A79C429C70A0500413E0B /* FormTableViewCell.xib */; };
 		CE3A79C829C71B3B00413E0B /* SubmittedFormsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A79C729C71B3B00413E0B /* SubmittedFormsVC.swift */; };
@@ -152,6 +154,8 @@
 		51DECD008AA1B38BD035E23F /* Pods-FormApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FormApp.release.xcconfig"; path = "Target Support Files/Pods-FormApp/Pods-FormApp.release.xcconfig"; sourceTree = "<group>"; };
 		B611ED640CC1459035AF997F /* Pods-FormApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FormApp.debug.xcconfig"; path = "Target Support Files/Pods-FormApp/Pods-FormApp.debug.xcconfig"; sourceTree = "<group>"; };
 		CE08C9A829BF6EEB002434EB /* FormItemDBModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormItemDBModel.swift; sourceTree = "<group>"; };
+		CE0B92362A28E64500530977 /* NewBoxTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBoxTableViewCell.swift; sourceTree = "<group>"; };
+		CE0B92372A28E64500530977 /* NewBoxTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewBoxTableViewCell.xib; sourceTree = "<group>"; };
 		CE3A79C329C70A0500413E0B /* FormTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTableViewCell.swift; sourceTree = "<group>"; };
 		CE3A79C429C70A0500413E0B /* FormTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FormTableViewCell.xib; sourceTree = "<group>"; };
 		CE3A79C729C71B3B00413E0B /* SubmittedFormsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmittedFormsVC.swift; sourceTree = "<group>"; };
@@ -299,6 +303,8 @@
 				CEAC3CA62A19291B009774AD /* UserFormItemTableViewCell.xib */,
 				CECD94262A1EB478007BEB65 /* CustomFormItemTableViewCell.swift */,
 				CECD94272A1EB478007BEB65 /* CustomFormItemTableViewCell.xib */,
+				CE0B92362A28E64500530977 /* NewBoxTableViewCell.swift */,
+				CE0B92372A28E64500530977 /* NewBoxTableViewCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -706,6 +712,7 @@
 				277CABD62981396A009C11CB /* Assets.xcassets in Resources */,
 				272C86A229AE04D50028D1C1 /* SearchView.xib in Resources */,
 				CEA6F52C2A0A70CE00C6A7A0 /* MaterialTableViewCell.xib in Resources */,
+				CE0B92392A28E64500530977 /* NewBoxTableViewCell.xib in Resources */,
 				277CABF029814FD5009C11CB /* MainTF.xib in Resources */,
 				277CABD429813969009C11CB /* Main.storyboard in Resources */,
 				CEF2BB4C2A018EB400D4DBA1 /* HomeVCTableViewCell.xib in Resources */,
@@ -817,6 +824,7 @@
 				CEF2BB432A018E3600D4DBA1 /* UILabelDesignable.swift in Sources */,
 				CE5D7EFF29F1E4C400A7D212 /* HomePresenter.swift in Sources */,
 				CEF2BB422A018E3600D4DBA1 /* GraidentView.swift in Sources */,
+				CE0B92382A28E64500530977 /* NewBoxTableViewCell.swift in Sources */,
 				277CABCD29813969009C11CB /* AppDelegate.swift in Sources */,
 				279404DE29A0C89C00742AD9 /* BaseResponse.swift in Sources */,
 				277CABFC2981A151009C11CB /* NibLoadableView.swift in Sources */,
@@ -1009,8 +1017,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
-				PRODUCT_BUNDLE_IDENTIFIER = ios.app.formApps;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ios.chesapeake.formApps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1018,7 +1026,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1047,8 +1055,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
-				PRODUCT_BUNDLE_IDENTIFIER = ios.app.formApps;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ios.chesapeake.formApps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1056,7 +1064,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
