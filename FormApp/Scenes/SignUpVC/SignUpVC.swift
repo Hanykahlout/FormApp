@@ -78,14 +78,16 @@ extension SignUpVC{
             let lname = try lastNameTf.valueTxt.validatedText(validationType: .requiredField(field: "last name requied"))
             let email = try emailTf.valueTxt.validatedText(validationType: .email)
             let pass = try passwordTf.valueTxt.validatedText(validationType: .requiredField(field: "password required"))
-            SVProgressHUD.setBackgroundColor(.white)
-            SVProgressHUD.show(withStatus: "please wait")
-            self.presenter.signup(firstName: fname, lastName: lname, email: email, password: pass)
+            if email.hasSuffix("@cpnhinc.com") || email.hasSuffix("@coastaltradesupply.com"){
+                SVProgressHUD.setBackgroundColor(.white)
+                SVProgressHUD.show(withStatus: "please wait")
+                self.presenter.signup(firstName: fname, lastName: lname, email: email, password: pass)
+            }else{
+                Alert.showErrorAlert(message: "Invalid email address")
+            }
             self.presenter.delegate = self
-            
         }catch{
             Alert.showErrorAlert(message: (error as! ValidationError).message)
-            
         }
         
     }

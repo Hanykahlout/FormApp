@@ -80,7 +80,7 @@ extension LoginVC {
                 self.presenter.login( email: email, password: pass)
                 self.presenter.delegate = self
             }else{
-                Alert.showErrorAlert(message: "Invalid email address your email has to be @cpnhinc.com or @coastaltradesupply.com at the end of it.")
+                Alert.showErrorAlert(message: "Invalid email address")
             }
         }catch{
             Alert.showErrorAlert(message: (error as! ValidationError).message)
