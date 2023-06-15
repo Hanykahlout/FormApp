@@ -27,9 +27,16 @@ enum AppTarget:TargetType{
     case getSpecialList(job_id:String,builder:String)
     case getHouseMaterials(company_id:Int,job_id:Int,phase:String,special:String)
     case createHouseMaterial(isEdit:Bool,houseMaterialData:[String:Any])
+    case checkAppStoreVersion(bundleId:String)
     
     var baseURL: URL {
-        return URL(string: "\(AppConfig.apiBaseUrl)")!
+        switch self{
+        case .checkAppStoreVersion:
+            return URL(string: "\(AppConfig.appStoreURL)")!
+        default:
+            return URL(string: "\(AppConfig.apiBaseUrl)")!
+        }
+        
     }
     
         
@@ -52,15 +59,16 @@ enum AppTarget:TargetType{
         case .getSpecialList:return "getSpecialList"
         case .getHouseMaterials:return "getHouseMaterials"
         case .createHouseMaterial(let isEdit,_):return isEdit ? "updateHouseMaterial" : "createHouseMaterial"
+        case .checkAppStoreVersion:return "lookup"
         }
     }
-    
+
     
     var method: Moya.Method {
         switch self{
         case .SignUp,.login,.logout,.submitForms,.createHouseMaterial:
             return .post
-        case .getCompanies,.getJob,.forms,.divisions,.getFormItems,.checkDatabase,.editSubmittedForm,.submittedForms,.formItemReasons,.getLists,.getHouseMaterials,.getSpecialList:
+        case .getCompanies,.getJob,.forms,.divisions,.getFormItems,.checkDatabase,.editSubmittedForm,.submittedForms,.formItemReasons,.getLists,.getHouseMaterials,.getSpecialList,.checkAppStoreVersion:
             return .get
         }
     }
@@ -77,7 +85,7 @@ enum AppTarget:TargetType{
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         case .SignUp,.login,.logout,.submitForms,.createHouseMaterial:
             return .requestParameters(parameters: param, encoding: URLEncoding.httpBody)
-        case .getJob,.getFormItems,.editSubmittedForm,.checkDatabase,.submittedForms,.getHouseMaterials,.getSpecialList:
+        case .getJob,.getFormItems,.editSubmittedForm,.checkDatabase,.submittedForms,.getHouseMaterials,.getSpecialList,.checkAppStoreVersion:
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         }
         
@@ -97,7 +105,7 @@ enum AppTarget:TargetType{
             catch{
                 return ["Accept":"application/json","Accept-Language":"en"]
             }
-        case .SignUp,.login:
+        case .SignUp,.login,.checkAppStoreVersion:
             return ["Accept":"application/json","Accept-Language":"en"]
         }
     }
@@ -138,6 +146,8 @@ enum AppTarget:TargetType{
             return houseMaterialData
         case .getSpecialList(let job_id,let builder):
             return ["job_id":job_id,"builder":builder]
+        case .checkAppStoreVersion(let bundleId):
+            return ["bundleId":bundleId,"unique_id":UUID().uuidString]
         default:
             return [ : ]
         }

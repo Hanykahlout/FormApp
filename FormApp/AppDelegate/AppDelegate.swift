@@ -7,7 +7,7 @@
 
 import UIKit
 import IQKeyboardManagerSwift
-import RealmSwift
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
@@ -23,11 +23,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.standard.set(false, forKey: "internet_connection")
         }
         IQKeyboardManager.shared.enable = true
+        checkAppStore()
         return true
     }
+
     
     // MARK: UISceneSession Lifecycle
-    
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.
@@ -43,3 +44,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
 }
 
+// MARK: - Check New Version From AppStore
+extension AppDelegate{
+    private func checkAppStore() {
+        let bundleId = Bundle.main.infoDictionary!["CFBundleIdentifier"] as! String
+        AppManager.shared.checkAppStoreVersion(bundleId: bundleId) { result in
+            switch result {
+            case .success(let response):
+                let currentVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+                if currentVersion ?? "" < response.results?.first?.version ?? ""{
+                    if let url = URL(string: "https://apps.apple.com/us/app/chesapeake-app/id6449914587"){
+                        UIApplication.shared.open(url)
+                    }
+                }
+            case .failure:
+                break
+            }
+        }
+    }
+    
+}

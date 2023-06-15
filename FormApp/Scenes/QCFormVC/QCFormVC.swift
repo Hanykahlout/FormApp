@@ -144,7 +144,7 @@ class QCFormVC: UIViewController {
                     for box in item.new_boxes ?? []{
                         newBoxs.append(.init(title:box.title,box_type: box.type,value: box.value))
                     }
-                    let id = Int(item.item_id ?? "-1")!
+                    let id = item.item_id ?? -1
                     let title = item.item?.title ?? ""
                     let status = item.value ?? ""
                     let note = item.notes ?? ""
@@ -155,6 +155,10 @@ class QCFormVC: UIViewController {
                     formsItem.append(.init(id: id, title: title, status: status, note: note,system: system,reasons: reasons,reason_id: reason_id,reason: reason,new_boxes: newBoxs))
                 }
             }
+            self.companyID = Int(editData.company_id ?? "-1")!
+            self.presenter.getJobsFromDB(companyID: "\(self.companyID)", search: "")
+            self.presenter.getDivisionFromDB(companyID: "\(self.companyID)", search: "")
+            self.presenter.getFormsFromDB(companyID: "\(self.companyID)", search: "")
             formTypeNoteTableview.reloadData()
         }
     }
@@ -178,9 +182,6 @@ class QCFormVC: UIViewController {
         formTypeData.isEnabled=false
         
     }
-    
-    
-    
     
     
     @IBAction func companyAction(_ sender: Any) {
@@ -537,16 +538,18 @@ extension QCFormVC:FormTypeNoteCellDelegate,UserFormItemDelegate,CustomFormItemD
     }
     
     
-    func reasonPickerAction(reasons:[FailReasonData],indexPath: IndexPath) {
+    func reasonPickerAction(formItemId:Int,indexPath: IndexPath) {
+        let predicate = NSPredicate(format: "form_item_id == '\(formItemId)'")
+        let realmReasons = RealmManager.sharedInstance.fetchObjects(FormItemReason.self,predicate: predicate) ?? []
         let vc = PickerVC.instantiate()
-        vc.arr_data = reasons.map{$0.title ?? "----"}
+        vc.arr_data = realmReasons.map{$0.title ?? "----"}
         vc.searchBarHiddenStatus = true
         vc.isModalInPresentation = true
         vc.modalPresentationStyle = .overFullScreen
         vc.definesPresentationContext = true
         vc.delegate = {name , index in
             self.formsItem[indexPath.row].reason = name
-            self.formsItem[indexPath.row].reason_id = reasons[index].id
+            self.formsItem[indexPath.row].reason_id = realmReasons[index].id
             self.formTypeNoteTableview.reloadRows(at: [indexPath], with: .automatic)
         }
         self.present(vc, animated: true, completion: nil)

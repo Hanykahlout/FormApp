@@ -26,7 +26,8 @@ protocol AppNetworkable:Networkable  {
     func getHouseMaterials(company_id: Int, job_id: Int, phase: String, special: String,completion: @escaping (Result<BaseResponse<MaterialsData>, Error>)-> ())
     func createHouseMaterial(isEdit:Bool,houseMaterialData:[String:Any],completion: @escaping (Result<BaseResponse<Material>, Error>)-> ())
     func getSpecialList(jobId:String,builder:String,completion: @escaping (Result<BaseResponse<SpecialList>, Error>)-> ())
-    
+    func checkAppStoreVersion(bundleId:String,completion: @escaping (Result<AppStoreReponse, Error>)-> ())
+
 }
 
 
@@ -108,6 +109,9 @@ class AppManager: AppNetworkable {
         request(target: .getSpecialList(job_id: jobId,builder: builder), completion: completion)
     }
     
+    func checkAppStoreVersion(bundleId: String, completion: @escaping (Result<AppStoreReponse, Error>) -> ()) {
+        request(target: .checkAppStoreVersion(bundleId: bundleId), completion: completion)
+    }
     
     func monitorNetwork(conectedAction:(()->Void)?,notConectedAction:(()->Void)?){
         let monitor = NWPathMonitor()

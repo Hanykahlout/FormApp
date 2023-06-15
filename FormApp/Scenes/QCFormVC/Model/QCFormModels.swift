@@ -66,16 +66,91 @@ struct FormItemReasons:Decodable{
 }
 
 struct FailReasonData:Decodable{
-    let id:Int?
-    let title:String?
-    let form_item_id:String?
-    let created_at:String?
+    var id:Int?
+    var title:String?
+    var form_item_id:String?
+    var created_at:String?
+    
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case title
+        case form_item_id
+        case created_at
+    }
+    
+    init(from decoder: Decoder) {
+        let container = try? decoder.container(keyedBy: CodingKeys.self)
+        
+        
+        if let value = try? container?.decode(Int.self, forKey:.id) {
+            id = value
+        }
+        
+        if let value = try? container?.decode(String.self, forKey:.title) {
+            title = value
+        }
+        
+        if let value = try? container?.decode(String.self, forKey:.form_item_id) {
+            form_item_id = value
+        } else if let value = try? container?.decode(Int.self, forKey:.form_item_id) {
+            form_item_id = String(value)
+        }
+        
+        if let value = try? container?.decode(String.self, forKey:.created_at) {
+            created_at = value
+        }
+        
+        
+    }
+    
+    init(id:Int?,title:String?,form_item_id:String?,created_at:String?) {
+        self.id = id
+        self.title = title
+        self.form_item_id = form_item_id
+        self.created_at = created_at
+    }
+    
 }
 
 struct NewBoxData:Decodable{
     var title:String?
     var box_type:String?
     var value:String?
+    
+    init(title:String?,box_type:String?,value:String?) {
+        self.title = title
+        self.box_type = box_type
+        self.value = title
+    }
+    
+    init(title:String?,box_type:String?) {
+        self.title = title
+        self.box_type = box_type
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case title
+        case box_type
+        case value
+        
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        if let value = try? container.decode(String.self, forKey:.title) {
+            title = value
+        }
+        
+        if let value = try? container.decode(String.self, forKey:.box_type) {
+            box_type = value
+        }
+        
+        if let _value = try? container.decode(String.self, forKey:.value) {
+            value = _value
+        }
+    }
 }
 
 struct DataDetails:Decodable{
@@ -125,13 +200,13 @@ struct DataDetails:Decodable{
     }
     
     
-    init(id: Int?, title: String?,created_at: String?,form_type_id:String?,system:String?,system_type:String?,system_list:[String]?,fail_reasons:[FailReasonData],new_boxes:[NewBoxData],price:String?,show_price:String?) {
+    init(id: Int?, title: String?,created_at: String?,form_type_id:String?,system:String?,system_type:String?,system_list:[String]?,new_boxes:[NewBoxData],price:String?,show_price:String?) {
         self.id = id
         self.title = title
         self.created_at = created_at
         self.form_type_id = form_type_id
         self.system = system
-        self.fail_reasons = fail_reasons
+
         self.new_boxes = new_boxes
         self.price = price
         self.show_price = show_price
@@ -165,8 +240,134 @@ struct DataDetails:Decodable{
         self.show_price = show_price
         self.status = value
     }
-  
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case title
+        case name
+        case email
+        case company_id
+        case created_at
+        case form_type_id
+        case price
+        case show_price
+        case status
+        case reason
+        case reason_id
+        case note
+        case project
+        case customer
+        case system
+        case system_type
+        case isFromUser
+        case development_title
+        case new_boxes
+        case system_list
+        case fail_reasons
+        case new_item_type
+        case isWithPrice
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        
+        if let value = try? container.decode(Int.self, forKey:.id) {
+            id = value
+        }
+        
+        if let value = try? container.decode(String.self, forKey:.title) {
+            title = value
+        }
+        if let value = try? container.decode(String.self, forKey:.name) {
+            name = value
+        }
+        if let value = try? container.decode(String.self, forKey:.email) {
+            email = value
+        }
+        if let value = try? container.decode(String.self, forKey:.company_id) {
+            company_id = value
+        } else if let value = try? container.decode(Int.self, forKey:.company_id) {
+            company_id = String(value)
+        }
+        if let value = try? container.decode(String.self, forKey:.created_at) {
+            created_at = value
+        }
+        
+        if let value = try? container.decode(String.self, forKey:.form_type_id) {
+            form_type_id = value
+        }else if let value = try? container.decode(Int.self, forKey:.form_type_id) {
+            form_type_id = String(value)
+        }
+            
+        
+        if let value = try? container.decode(String.self, forKey:.price) {
+            price = value
+        }
+        if let value = try? container.decode(String.self, forKey:.show_price) {
+            show_price = value
+        }
+        if let value = try? container.decode(String.self, forKey:.status) {
+            status = value
+        }
+        if let value = try? container.decode(String.self, forKey:.reason) {
+            reason = value
+        }
+        
+        if let value = try? container.decode(Int.self, forKey:.reason_id) {
+            reason_id = value
+        }
+        
+        if let value = try? container.decode(String.self, forKey:.note) {
+            note = value
+        }
+        if let value = try? container.decode(String.self, forKey:.project) {
+            project = value
+        }
+        if let value = try? container.decode(String.self, forKey:.customer) {
+            customer = value
+        }
+        if let value = try? container.decode(String.self, forKey:.system) {
+            system = value
+        }
+        if let value = try? container.decode(String.self, forKey:.system_type) {
+            system_type = value
+        }
+        
+        
+        if let value = try? container.decode(Bool.self, forKey:.isFromUser) {
+            isFromUser = value
+        }
+        
+        
+        if let value = try? container.decode(String.self, forKey:.development_title) {
+            development_title = value
+        }
+        
+        if let value = try? container.decode([NewBoxData].self, forKey:.new_boxes) {
+            new_boxes = value
+        }
+        
+        if let value = try? container.decode([String].self, forKey:.system_list) {
+            system_list = value
+        }
+        
+        if let value = try? container.decode([FailReasonData].self, forKey:.fail_reasons) {
+            fail_reasons = value
+        }
+        
+        if let value = try? container.decode(NewFormItemType.self, forKey:.new_item_type) {
+            new_item_type = value
+        }
+        
+        if let value = try? container.decode(Bool.self, forKey:.isWithPrice) {
+            isWithPrice = value
+        }
+    }
 }
+
+
+
 
 struct PhasesBuilders:Decodable{
     var phase:[String]
@@ -179,18 +380,19 @@ struct MaterialsData:Decodable{
     var materials:[Material]
 }
 
-struct Material:Decodable{
-   var id:Int?
-   var item_no:String?
-   var name:String?
-   var builder:String?
-   var community:String?
-   var model_type:String?
-   var phase:String?
-   var special:String?
-   var quantity:String?
-   var supplier:Supplier?
 
+struct Material:Decodable{
+    var id:Int?
+    var item_no:String?
+    var name:String?
+    var builder:String?
+    var community:String?
+    var model_type:String?
+    var phase:String?
+    var special:String?
+    var quantity:String?
+    var supplier:Supplier?
+    
 }
 
 struct Supplier:Decodable{

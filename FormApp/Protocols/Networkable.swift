@@ -43,7 +43,6 @@ extension Networkable{
                             window.rootViewController = nav
                             Alert.showError(title:"Unauthorized Access",message: "Please login", viewController: nav)
                         }
-
                     }else  if response.statusCode == 503 || response.statusCode == 500 {
                         print("TESTOOOO",String(data: response.data, encoding: .utf8) ?? "Faild to Convert response to String")
                         Alert.showErrorAlert(message: "Server Error !!")

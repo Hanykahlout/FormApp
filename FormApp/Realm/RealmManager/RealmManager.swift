@@ -24,7 +24,7 @@ class RealmManager: RealmManagerInterface {
     
     func saveObject<T: Object>(_ object: T) {
         if let realm = try? Realm() {
-             try? realm.write {
+            try? realm.write {
                 realm.add(object,update: .modified)
             }
         }
@@ -93,21 +93,20 @@ class RealmManager: RealmManagerInterface {
         return RealmManager.sharedInstance.fetchObjects(FormItemDBModel.self, predicate: predicate)?.first
     }
     
+    private func checkFailReasonsExist(id:Int)->Bool{
+        let predicate = NSPredicate(format: "id == \(id)")
+        return !(RealmManager.sharedInstance.fetchObjects(FormItemReason.self,predicate: predicate)?.isEmpty ?? true)
+    }
+    
     func addToFormItemReasonDBModels(models:[FailReasonData]){
         for model in models{
-            if let formItemModel = getFormItemById(id: Int(model.form_item_id ?? "-1")!){
-                
-                let dbModel = FormItemReason()
-                dbModel.id = model.id
-                dbModel.title = model.title
-                dbModel.form_item_id = model.form_item_id
-                dbModel.created_at = model.created_at
-                if let realm = try? Realm() {
-                    try! realm.write {
-                        formItemModel.reasons.append(dbModel)
-                    }
-                }
-            }
+            let dbModel = FormItemReason()
+            dbModel.id = model.id
+            dbModel.title = model.title
+            dbModel.form_item_id = model.form_item_id
+            dbModel.created_at = model.created_at
+            RealmManager.sharedInstance.saveObject(dbModel)
+            
         }
     }
     

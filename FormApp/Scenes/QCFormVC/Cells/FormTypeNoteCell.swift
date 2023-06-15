@@ -9,7 +9,7 @@ import UIKit
 
 protocol FormTypeNoteCellDelegate{
     func statusPickerAction(data:[String],indexPath:IndexPath)
-    func reasonPickerAction(reasons:[FailReasonData],indexPath:IndexPath)
+    func reasonPickerAction(formItemId:Int,indexPath:IndexPath)
     func datePickerAction(indexPath:IndexPath)
     func showPickerVC(type: String,parentIndex:Int,childIndex:Int)
     func updateNewBoxData(text:String,parentIndex:Int,childIndex:Int)
@@ -43,9 +43,9 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
     var indexPath:IndexPath?
     var status:[String] = []
     private var statusGesture:UITapGestureRecognizer?
-    private var reasons:[FailReasonData]?
-    private var newBoxs:[NewBoxData] = []
     
+    private var newBoxs:[NewBoxData] = []
+    private var formItemId = -1
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -62,7 +62,7 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
         let system = obj.system
         priceLabel.text = "Price: $\(obj.price ?? "0")"
         priceLabel.isHidden = obj.show_price != "1"
-        reasons = obj.fail_reasons
+        formItemId = obj.id ?? -1
         FormTypeSubtitle.text = obj.title ?? ""
         formTitleNote.text = obj.note ?? ""
         reasonTextField.text = obj.reason ?? ""
@@ -151,7 +151,7 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
     
     @objc private func reasonAction(){
         guard let indexPath = indexPath else { return }
-        delegate?.reasonPickerAction(reasons: reasons ?? [],indexPath: indexPath)
+        delegate?.reasonPickerAction(formItemId: formItemId,indexPath: indexPath)
     }
     
 }

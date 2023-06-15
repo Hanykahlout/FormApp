@@ -28,7 +28,9 @@ class HomePresenter{
         if UserDefaults.standard.string(forKey: "ApplicationSessionUUID") == nil {
             UserDefaults.standard.set(UUID().uuidString, forKey: "ApplicationSessionUUID")
         }
+        SVProgressHUD.show(withStatus: "Checking if there is data has not been fetched from the server")
         AppManager.shared.checkDatabase(uuid: UserDefaults.standard.string(forKey: "ApplicationSessionUUID")!) { response in
+            SVProgressHUD.dismiss()
             switch response{
             case let .success(response):
                 if response.status == true{
@@ -145,9 +147,6 @@ class HomePresenter{
             dispatchGroup.leave()
         }
         
-       
-        
-        
         dispatchGroup.notify(queue: .main) {
             if data.failReason ?? false{
                 self.getFormItemReasons(normal: normal, uuid: uuid) { data in
@@ -157,17 +156,32 @@ class HomePresenter{
                     }
                     UserDefaults.standard.set(true, forKey: "AddAllDataToRealm")
                     SVProgressHUD.dismiss()
+                    if UserDefaults.standard.bool(forKey: "internet_connection"){
+                        DispatchQueue.main.async {
+                            SVProgressHUD.show(withStatus: "Submit all stored forms")
+                            self.submitAllSortedForms()
+                        }
+                    }
                 }
-                
             }else{
                 UserDefaults.standard.set(true, forKey: "AddAllDataToRealm")
                 SVProgressHUD.dismiss()
+                self.submitAllSortedForms()
+                
             }
             
         }
         
     }
     
+    private func submitAllSortedForms(){
+        if UserDefaults.standard.bool(forKey: "internet_connection"){
+            DispatchQueue.main.async {
+                SVProgressHUD.show(withStatus: "Submit all stored forms")
+                self.callAllRealmRequests()
+            }
+        }
+    }
     
     private func getCompanies(normal:Int,uuid:String,completion:@escaping (_ data:CompaniesData?)->Void){
         AppManager.shared.getCompanies(normal: normal, uuid: uuid) { Response in

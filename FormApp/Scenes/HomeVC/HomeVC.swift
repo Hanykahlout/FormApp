@@ -35,18 +35,6 @@ class HomeVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         presenter.checkDatabase()
-        checkUnsubmittedForms()
-        
-    }
-    
-    
-    private func checkUnsubmittedForms(){
-        if UserDefaults.standard.bool(forKey: "internet_connection"){
-            DispatchQueue.main.async {
-                SVProgressHUD.show(withStatus: "Submit all stored forms")
-                self.presenter.callAllRealmRequests()
-            }
-        }
     }
     
 }
@@ -55,8 +43,8 @@ class HomeVC: UIViewController {
 
 extension HomeVC:Storyboarded{
     static var storyboardName: StoryboardName = .main
-    
 }
+
 
 extension HomeVC:UITableViewDelegate,UITableViewDataSource{
     private func setUpTableView(){
@@ -101,9 +89,7 @@ extension HomeVC:UITableViewDelegate,UITableViewDataSource{
             navigationController?.pushViewController(vc, animated: true)
             
         }
-        
     }
-    
 }
 
 

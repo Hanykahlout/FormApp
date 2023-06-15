@@ -72,15 +72,15 @@ class RealmController{
             let system_list = Array(model.system_list)
             let price = model.price ?? ""
             let show_price = model.show_price ?? ""
-            var reasons:[FailReasonData] = []
+//            var reasons:[FailReasonData] = []
             var newBoxs:[NewBoxData] = []
-            model.reasons.forEach{
-                reasons.append(FailReasonData(id: $0.id, title: $0.title, form_item_id: $0.form_item_id, created_at: $0.created_at))
-            }
+//            model.reasons.forEach{
+//                reasons.append(FailReasonData(id: $0.id, title: $0.title, form_item_id: $0.form_item_id, created_at: $0.created_at))
+//            }
             model.new_box.forEach{
                 newBoxs.append(NewBoxData(title: $0.title,box_type: $0.box_type))
             }
-            let obj = DataDetails(id: id, title: title, created_at: created_at,form_type_id: form_type_id,system: system,system_type: system_type,system_list: system_list,fail_reasons: reasons,new_boxes: newBoxs,price: price,show_price: show_price)
+            let obj = DataDetails(id: id, title: title, created_at: created_at,form_type_id: form_type_id,system: system,system_type: system_type,system_list: system_list,new_boxes: newBoxs,price: price,show_price: show_price)
             result.append(obj)
         }
         
@@ -136,17 +136,6 @@ class RealmController{
             dbModel.price = model.price
             dbModel.show_price = model.show_price
             dbModel.development_title = model.development_title
-            for reason in model.fail_reasons ?? []{
-                let exists = (model.fail_reasons ?? []).contains(where: { $0.id == reason.id })
-                if !exists{
-                    let dbReason = FormItemReason()
-                    dbReason.id = reason.id
-                    dbReason.title = reason.title
-                    dbReason.created_at = reason.created_at
-                    dbReason.form_item_id = reason.form_item_id
-                    dbModel.reasons.append(dbReason)
-                }
-            }
             for new_box in model.new_boxes ?? []{
                 let newBox = FormItemNewBox()
                 newBox.title = new_box.title

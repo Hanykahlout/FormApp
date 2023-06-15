@@ -19,7 +19,7 @@ class FormItemDBModel: Object {
     @Persisted var price:String?
     @Persisted var show_price:String?
     @Persisted var development_title:String?
-    @Persisted var reasons:List<FormItemReason>
+//    @Persisted var reasons:List<FormItemReason>
     @Persisted var new_box:List<FormItemNewBox>
     
     override class func primaryKey() -> String? {
