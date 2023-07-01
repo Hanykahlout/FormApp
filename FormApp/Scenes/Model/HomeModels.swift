@@ -14,14 +14,16 @@ struct RequestsStatus:Decodable{
     let division: Bool?
     let formItem: Bool?
     let failReason: Bool?
+    let subContractor: Bool?
     
-    init(company: Bool?, job: Bool?, form: Bool?, division: Bool?,formItem:Bool?,failReason:Bool?) {
+    init(company: Bool?, job: Bool?, form: Bool?, division: Bool?,formItem:Bool?,failReason:Bool?,subContractor:Bool?) {
         self.company = company
         self.job = job
         self.form = form
         self.division = division
         self.formItem = formItem
         self.failReason = failReason
+        self.subContractor = subContractor
     }
     
 }

@@ -12,12 +12,15 @@ import Alamofire
 
 protocol AppNetworkable:Networkable  {
     
+    func getCurrentVersion(completion: @escaping (Result<BaseResponse<VersionModel>, Error>)-> ())
+    func changeVersion(uuid:String,checkDatabase:Bool,model:String,completion: @escaping (Result<BaseResponse<VersionModel>, Error>)-> ())
     func signUpUser(fname:String,lname:String,email:String,password:String,completion: @escaping (Result<BaseResponse<User>, Error>)-> ())
     func login(email:String,password:String,completion: @escaping (Result<BaseResponse<User>, Error>)-> ())
     func getCompanies(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<CompaniesData>, Error>)-> ())
     func getJob(normal: Int, uuid: String,companyId:String,search:String,completion: @escaping (Result<BaseResponse<JobData>, Error>)-> ())
     func forms(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<FormsData>, Error>)-> ())
     func division(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<DiviosnData>, Error>)-> ())
+    func subContractors(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<SubContractorsResponse>, Error>)-> ())
     func logout(completion: @escaping (Result<BaseResponse<Empty>, Error>)-> ())
     func getFormItems(normal: Int, uuid: String,form_type_id:String,completion: @escaping (Result<BaseResponse<FormItemData>, Error>)-> ())
     func submitForms(isEdit:Bool,formsDetails:[String : Any],completion: @escaping (Result<BaseResponse<FormItemData>, Error>)-> ())
@@ -26,7 +29,6 @@ protocol AppNetworkable:Networkable  {
     func getHouseMaterials(company_id: Int, job_id: Int, phase: String, special: String,completion: @escaping (Result<BaseResponse<MaterialsData>, Error>)-> ())
     func createHouseMaterial(isEdit:Bool,houseMaterialData:[String:Any],completion: @escaping (Result<BaseResponse<Material>, Error>)-> ())
     func getSpecialList(jobId:String,builder:String,completion: @escaping (Result<BaseResponse<SpecialList>, Error>)-> ())
-    func checkAppStoreVersion(bundleId:String,completion: @escaping (Result<AppStoreReponse, Error>)-> ())
 
 }
 
@@ -42,7 +44,13 @@ class AppManager: AppNetworkable {
         return generalActions
     }()
     
+    func getCurrentVersion(completion: @escaping (Result<BaseResponse<VersionModel>, Error>) -> ()) {
+        request(target: .version, completion: completion)
+    }
     
+    func changeVersion(uuid: String, checkDatabase: Bool, model: String, completion: @escaping (Result<BaseResponse<VersionModel>, Error>) -> ()) {
+        request(target: .changeVersion(uuid: uuid, checkDatabase: checkDatabase, model: model), completion: completion)
+    }
     func signUpUser(fname:String,lname:String,email:String,password:String,completion: @escaping (Result<BaseResponse<User>, Error>)-> ()) {
         request(target: .SignUp(fname:fname,lname:lname,email:email,password:password), completion: completion)
     }
@@ -65,6 +73,10 @@ class AppManager: AppNetworkable {
     
     func division(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<DiviosnData>, Error>) -> ()) {
         request(target: .divisions(normal: normal, uuid: uuid), completion: completion)
+    }
+    
+    func subContractors(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<SubContractorsResponse>, Error>) -> ()) {
+        request(target: .subContractors(normal: normal, uuid: uuid), completion: completion)
     }
     
     func logout(completion: @escaping (Result<BaseResponse<Empty>, Error>) -> ()) {
@@ -107,10 +119,6 @@ class AppManager: AppNetworkable {
     
     func getSpecialList(jobId: String,builder:String, completion: @escaping (Result<BaseResponse<SpecialList>, Error>) -> ()) {
         request(target: .getSpecialList(job_id: jobId,builder: builder), completion: completion)
-    }
-    
-    func checkAppStoreVersion(bundleId: String, completion: @escaping (Result<AppStoreReponse, Error>) -> ()) {
-        request(target: .checkAppStoreVersion(bundleId: bundleId), completion: completion)
     }
     
     func monitorNetwork(conectedAction:(()->Void)?,notConectedAction:(()->Void)?){

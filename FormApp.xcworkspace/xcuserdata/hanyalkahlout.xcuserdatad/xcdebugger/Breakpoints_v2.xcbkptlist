@@ -3,4 +3,54 @@
    uuid = "C1BEB139-09A0-4254-8167-FDCB632B9DEB"
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E1838546-BEC3-4033-A929-9B35FEF46F8E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FormApp/Scenes/QCFormVC/QCFormVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "415"
+            endingLineNumber = "415"
+            landmarkName = "formDetailsParameter()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "E1838546-BEC3-4033-A929-9B35FEF46F8E - 6c5bbd68623b6e4a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FormApp.QCFormVC.formDetailsParameter() -&gt; Swift.Dictionary&lt;Swift.String, Any&gt;"
+                  moduleName = "FormApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hanyalkahlout/Desktop/Upwork%20Projects/Bryan%20Porject/FormApp/FormApp/Scenes/QCFormVC/QCFormVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "415"
+                  endingLineNumber = "415"
+                  offsetFromSymbolStart = "16984">
+               </Location>
+               <Location
+                  uuid = "E1838546-BEC3-4033-A929-9B35FEF46F8E - 6c5bbd68623b6e4a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FormApp.QCFormVC.formDetailsParameter() -&gt; Swift.Dictionary&lt;Swift.String, Any&gt;"
+                  moduleName = "FormApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hanyalkahlout/Desktop/Upwork%20Projects/Bryan%20Porject/FormApp/FormApp/Scenes/QCFormVC/QCFormVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "415"
+                  endingLineNumber = "415"
+                  offsetFromSymbolStart = "17220">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

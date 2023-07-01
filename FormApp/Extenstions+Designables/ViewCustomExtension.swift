@@ -62,7 +62,7 @@ extension UIView {
             layer.shadowOffset = newValue
         }
     }
-
+    
     @IBInspectable var shadow_Opacity: Float {
         get {
             return layer.shadowOpacity
@@ -98,5 +98,18 @@ extension UINavigationController{
         self.navigationBar.setBackgroundImage(UIImage(), for:.default)
         self.navigationBar.shadowImage = UIImage()
         self.navigationBar.layoutIfNeeded()
+    }
+}
+
+
+import UniformTypeIdentifiers
+extension URL {
+    public func mimeType() -> String {
+        if let mimeType = UTType(filenameExtension: self.pathExtension)?.preferredMIMEType {
+            return mimeType
+        }
+        else {
+            return "application/octet-stream"
+        }
     }
 }

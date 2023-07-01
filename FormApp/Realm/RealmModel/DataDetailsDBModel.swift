@@ -17,6 +17,7 @@ class DataDetailsDBModel: Object {
     @Persisted var type:String?
     @Persisted var project:String?
     @Persisted var customer:String?
+    @Persisted var is_fixture:Int?
     
     
     

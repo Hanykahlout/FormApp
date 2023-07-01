@@ -21,7 +21,7 @@ class SubmittedFormsVC: UIViewController {
     private let presnter = SubmittedFormsPresenter()
     private var data = [FormInfo]()
     private var formsData:SubmittedFormData?
-    
+    private var refreshControl = UIRefreshControl()
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -31,23 +31,28 @@ class SubmittedFormsVC: UIViewController {
         setUpTableView()
         searchBarView.txtSearch.textColor = .white
         emptyDataStackView.isHidden = false
+        refreshControl.tintColor = .white
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        SVProgressHUD.show()
         presnter.getSubmittedForms(search: "")
-        checkUnsubmittedForms()
     }
     
     private func checkUnsubmittedForms(){
         if UserDefaults.standard.bool(forKey: "internet_connection"){
             DispatchQueue.main.async {
-                SVProgressHUD.show(withStatus: "Submit all stored forms")
                 self.presnter.callAllRealmRequests()
             }
+        }else{
+            if refreshControl.isRefreshing{
+                refreshControl.endRefreshing()
+            }
+            Alert.showErrorAlert(message: "Internet connection error!!")
         }
     }
-    
+     
     // MARK: - Private Functions
     
 }
@@ -72,6 +77,8 @@ extension SubmittedFormsVC{
         attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: range)
         
         airplaneNoteLabel.attributedText = attributedString
+        
+        refreshControl.addTarget(self, action: #selector(refreshAction), for: .valueChanged)
     }
     
     private func setUpSegment(){
@@ -114,6 +121,10 @@ extension SubmittedFormsVC{
         presnter.getSubmittedForms(search: searchBarView.txtSearch.text!)
     }
     
+    @objc private func refreshAction(){
+        checkUnsubmittedForms()
+    }
+    
 }
 
 extension SubmittedFormsVC:UITableViewDelegate,UITableViewDataSource{
@@ -121,6 +132,7 @@ extension SubmittedFormsVC:UITableViewDelegate,UITableViewDataSource{
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(FormTableViewCell.self)
+        tableView.refreshControl = refreshControl
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -150,9 +162,21 @@ extension SubmittedFormsVC:Storyboarded{
 extension SubmittedFormsVC:SubmittedFormsPresenterDelegate{
     func getSubmittedFormsData(data: SubmittedFormData) {
         formsData = data
-        self.data = groupSegment.selectedSegmentIndex == 0 ? data.passForms : data.failForms
+        switch groupSegment.selectedSegmentIndex{
+        case 0:
+            self.data = data.passForms
+        case 1:
+            self.data = data.failForms
+        case 2:
+            self.data = data.fixtureForms
+        default:break
+        }
         self.tableView.reloadData()
         self.emptyDataStackView.isHidden = !self.data.isEmpty
+        if refreshControl.isRefreshing{
+            refreshControl.endRefreshing()
+        }
     }
     
 }
+

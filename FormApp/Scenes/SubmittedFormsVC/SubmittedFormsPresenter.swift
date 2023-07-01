@@ -18,7 +18,6 @@ class SubmittedFormsPresenter{
     weak var delegate: SubmittedFormsDelegate?
     
     func getSubmittedForms(search:String){
-        SVProgressHUD.show()
         AppManager.shared.getSubmittedForms(searchText: search) { response in
             SVProgressHUD.dismiss()
             switch response {
@@ -36,19 +35,18 @@ class SubmittedFormsPresenter{
     
     func callAllRealmRequests(){
         guard let email = try? KeychainWrapper.get(key: "email") else {
-            SVProgressHUD.dismiss()
             return
         }
         let predicate = NSPredicate(format: "email == %@", email)
         guard let models = RealmManager.sharedInstance.fetchObjects(RequestModel.self,predicate: predicate) else {
-            SVProgressHUD.dismiss()
+            self.getSubmittedForms(search: "")
             return
         }
         for model in models {
             submitFormData(model:model,isEdit:model.isEdit ?? false,formsDetails: convertStringToDic(string: model.body ?? ""))
         }
         if models.isEmpty {
-            SVProgressHUD.dismiss()
+            self.getSubmittedForms(search: "")
         }
     }
     
@@ -58,12 +56,11 @@ class SubmittedFormsPresenter{
         AppManager.shared.submitForms(isEdit:isEdit,formsDetails: formsDetails) { Response in
             dispatchGroup.leave()
             switch Response{
-            case let .success(response):
+            case .success(let response):
                 if response.status == false{
                     Alert.showErrorAlert(message: response.message ?? "")
-                }else{
-                    RealmManager.sharedInstance.removeObject(model)
                 }
+                RealmManager.sharedInstance.removeObject(model)
             case  .failure(let error):
                 DispatchQueue.main.async {
                     if UserDefaults.standard.bool(forKey: "internet_connection"){
@@ -71,6 +68,7 @@ class SubmittedFormsPresenter{
                     }
                 }
             }
+            self.getSubmittedForms(search: "")
         }
         dispatchGroup.notify(queue: .main) {
             SVProgressHUD.dismiss()

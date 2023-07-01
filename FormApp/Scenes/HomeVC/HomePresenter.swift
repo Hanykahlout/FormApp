@@ -147,6 +147,20 @@ class HomePresenter{
             dispatchGroup.leave()
         }
         
+        dispatchGroup.enter()
+        if data.subContractor ?? false{
+            self.getSubContractors(normal: normal, uuid: uuid) { data in
+                RealmController.shared.addToSubContractorsDBModel(models:data?.subContractors ?? [])
+                for itemDeleted in data?.deletedSubContractors ?? []{
+                    RealmController.shared.deleteSubContractorDBModel(id: itemDeleted.id ?? -1)
+                }
+                dispatchGroup.leave()
+            }
+            
+        }else{
+            dispatchGroup.leave()
+        }
+        
         dispatchGroup.notify(queue: .main) {
             if data.failReason ?? false{
                 self.getFormItemReasons(normal: normal, uuid: uuid) { data in
@@ -252,6 +266,23 @@ class HomePresenter{
         }
     }
     
+    private func getSubContractors(normal: Int, uuid: String,compltion:@escaping (_ data:SubContractorsResponse?)->Void){
+        AppManager.shared.subContractors(normal: normal, uuid: uuid){ Response in
+            switch Response{
+            case let .success(response):
+                if response.status == true{
+                    compltion(response.data)
+                }else{
+                    compltion(nil)
+                }
+            case  .failure(_):
+                DispatchQueue.main.async {
+                    compltion(nil)
+                }
+            }
+        }
+    }
+    
     private func getFormItem(normal: Int, uuid: String,formTypeID:String,compltion:@escaping (_ data:FormItemData?)->Void){
         AppManager.shared.getFormItems(normal: normal, uuid: uuid,form_type_id:formTypeID ){ Response in
             switch Response{
@@ -268,6 +299,8 @@ class HomePresenter{
             }
         }
     }
+    
+    
     
     
     private func getFormItemReasons(normal: Int, uuid: String,compltion:@escaping (_ data:FormItemReasons?)->Void){
@@ -294,12 +327,12 @@ class HomePresenter{
         AppManager.shared.submitForms(isEdit:isEdit,formsDetails: formsDetails) { Response in
             dispatchGroup.leave()
             switch Response{
-            case let .success(response):
+            case .success(let response):
                 if response.status == false{
                     Alert.showErrorAlert(message: response.message ?? "")
-                }else{
-                    RealmManager.sharedInstance.removeObject(model)
                 }
+                RealmManager.sharedInstance.removeObject(model)
+
             case  .failure(let error):
                 DispatchQueue.main.async {
                     if UserDefaults.standard.bool(forKey: "internet_connection"){

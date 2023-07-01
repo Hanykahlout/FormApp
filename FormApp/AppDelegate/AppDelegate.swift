@@ -8,11 +8,13 @@
 import UIKit
 import IQKeyboardManagerSwift
 
+
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
-    
+   
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         UNUserNotificationCenter.current().requestAuthorization(options: .badge) { (granted, error) in}
@@ -23,7 +25,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.standard.set(false, forKey: "internet_connection")
         }
         IQKeyboardManager.shared.enable = true
-        checkAppStore()
+        
+        RealmManager.sharedInstance.checkMigration()
+        
         return true
     }
 
@@ -44,23 +48,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
 }
 
-// MARK: - Check New Version From AppStore
-extension AppDelegate{
-    private func checkAppStore() {
-        let bundleId = Bundle.main.infoDictionary!["CFBundleIdentifier"] as! String
-        AppManager.shared.checkAppStoreVersion(bundleId: bundleId) { result in
-            switch result {
-            case .success(let response):
-                let currentVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
-                if currentVersion ?? "" < response.results?.first?.version ?? ""{
-                    if let url = URL(string: "https://apps.apple.com/us/app/chesapeake-app/id6449914587"){
-                        UIApplication.shared.open(url)
-                    }
-                }
-            case .failure:
-                break
-            }
-        }
-    }
-    
-}
+
+
+
+
+
+
+
+
+

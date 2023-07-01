@@ -13,6 +13,8 @@ protocol FormTypeNoteCellDelegate{
     func datePickerAction(indexPath:IndexPath)
     func showPickerVC(type: String,parentIndex:Int,childIndex:Int)
     func updateNewBoxData(text:String,parentIndex:Int,childIndex:Int)
+    func addPicAction(indexPath:IndexPath)
+    func updatePicStatus(index:Int,withPic:Bool)
 }
 
 typealias FormTypeCellDelegate = FormTypeNoteCellDelegate & UIViewController
@@ -30,6 +32,7 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
     @IBOutlet weak var statusWithoutSelectionTextField: UITextField!
     @IBOutlet weak var statusWithoutSelectionLabel: UILabel!
     
+    @IBOutlet weak var selectedImageView: UIImageView!
     @IBOutlet weak var formTypeStatus: UITextField!
     @IBOutlet weak var formTitleNote: UITextField!
     @IBOutlet weak var statusTitleLabel: UILabel!
@@ -37,6 +40,9 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
     @IBOutlet weak var dateView: UIView!
     @IBOutlet weak var statusView: UIView!
     @IBOutlet weak var dateTextField: UITextField!
+    @IBOutlet weak var addPicView: UIView!
+    @IBOutlet weak var addPicButton: UIButton!
+    @IBOutlet weak var addPicSwitch: UISwitch!
     
     
     weak var delegate:FormTypeCellDelegate?
@@ -49,10 +55,8 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        statusGesture = UITapGestureRecognizer(target: self, action: #selector(formTypeStatusAction))
-        dateTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dateSelectionAction)))
-        formTypeStatus.addGestureRecognizer(statusGesture!)
-        reasonTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(reasonAction)))
+        
+        binding()
         setUpTableView()
     }
     
@@ -68,7 +72,12 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
         reasonTextField.text = obj.reason ?? ""
         reasonTextField.isHidden = obj.status != "fail"
         newBoxs = obj.new_boxes ?? []
+        addPicSwitch.isOn = obj.isWithPic ?? false
+        addPicView.isHidden = !(obj.isWithPic ?? false)
         tableViewHeight.constant = CGFloat(newBoxs.count) * 90
+        if obj.isWithPic ?? false{
+            selectedImageView.sd_setImage(with: URL(string: obj.image ?? ""))
+        }
         if !newBoxs.isEmpty{
             tableView.reloadData()
         }
@@ -115,10 +124,8 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
             statusWithoutSelectionTextField.keyboardType = .decimalPad
             statusWithoutSelectionLabel.text = "Enter your currency"
         default:
-            
             break
         }
-
     }
     
     
@@ -137,6 +144,21 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
         statusTitleLabel.text = "Select your status"
     }
     
+    
+    
+}
+
+// MARK: - Binding
+extension FormTypeNoteCell{
+    private func binding(){
+        statusGesture = UITapGestureRecognizer(target: self, action: #selector(formTypeStatusAction))
+        dateTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dateSelectionAction)))
+        formTypeStatus.addGestureRecognizer(statusGesture!)
+        reasonTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(reasonAction)))
+        addPicButton.addTarget(self, action: #selector(addPicAction), for: .touchUpInside)
+        addPicSwitch.addTarget(self, action: #selector(addPicSwitchAction), for: .valueChanged)
+    }
+    
     @objc private func formTypeStatusAction(){
         guard let indexPath = indexPath else { return }
         delegate?.statusPickerAction(data:status,indexPath: indexPath)
@@ -152,6 +174,17 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
     @objc private func reasonAction(){
         guard let indexPath = indexPath else { return }
         delegate?.reasonPickerAction(formItemId: formItemId,indexPath: indexPath)
+    }
+    
+    @objc private func addPicAction(){
+        guard let indexPath = indexPath else { return }
+        delegate?.addPicAction(indexPath: indexPath)
+    }
+    
+    @objc private func addPicSwitchAction(){
+        guard let indexPath = indexPath else { return }
+        addPicView.isHidden = !addPicSwitch.isOn
+        delegate?.updatePicStatus(index:indexPath.row,withPic: addPicSwitch.isOn)
     }
     
 }

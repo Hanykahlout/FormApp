@@ -21,6 +21,9 @@ class QCFormVC: UIViewController {
     @IBOutlet weak var formTypeNoteTableview: UITableView!
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
     
+    
+    
+    @IBOutlet weak var subContractorStackView: UIStackView!
     @IBOutlet weak var companyView: UIViewDesignable!
     @IBOutlet weak var jobView: UIViewDesignable!
     @IBOutlet weak var divisionView: UIViewDesignable!
@@ -30,7 +33,9 @@ class QCFormVC: UIViewController {
     @IBOutlet weak var jobBtn: UIButton!
     @IBOutlet weak var divisionBtn: UIButton!
     @IBOutlet weak var formTypeBtn: UIButton!
+    @IBOutlet weak var subContractorButton: UIButton!
     
+    @IBOutlet weak var subContractorTextField: UITextField!
     @IBOutlet weak var diviosnLeaderData: UITextField!
     @IBOutlet weak var formTypeData: UITextField!
     @IBOutlet weak var jobData: UITextField!
@@ -48,13 +53,19 @@ class QCFormVC: UIViewController {
     private var division:[DataDetails]=[]
     private var forms:[DataDetails]=[]
     private var formsItem:[DataDetails]=[]
+    private var subContractors:[SubContractor]=[]
     
     private var companyID=0
     private var formTypeID=0
     private var jobID=0
     private var divisionID=0
+    private var subContractorID=0
     
-    private var selectedIndex = -1
+    private var selectedCompanyIndex=0
+    private var selectedFormTypeIndex=0
+    private var selectedJobIndex=0
+    private var selectedDivisionIndex=0
+    private var selectedSubContractorIndex=0
     
     private var formData:[String : Any] = [:]
     private var requestSubmitted:Bool = false
@@ -62,11 +73,14 @@ class QCFormVC: UIViewController {
     private var jobSearchText = ""
     private var divitionSearchText = ""
     private var formTypeSearchText = ""
+    private var subContractorSearchText = ""
     private var companyPickerVC: PickerVC?
     private var jobPickerVC: PickerVC?
     private var divitionPickerVC: PickerVC?
     private var formTypePickerVC: PickerVC?
+    private var subContractorPickerVC: PickerVC?
     private var selectedJobProject = ""
+    private var selectedCellIndexPath:IndexPath!
     var editData: FormInfo?
     
     
@@ -75,21 +89,22 @@ class QCFormVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        BindButtons()
-        BtnStatus()
-        
+        setupTableview()
+        binding()
+        btnStatus()
         SVProgressHUD.setBackgroundColor(.white)
         SVProgressHUD.show(withStatus: "please wait")
-        
         presenter.delegate=self
         presenter.getCompaniesFromDB(search: "")
-        setupTableview()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         checkEditData()
     }
+    
+    // MARK: - Private Functions
     
     private func checkEditData(){
         if let editData = editData{
@@ -111,10 +126,16 @@ class QCFormVC: UIViewController {
             formTypeView.backgroundColor = .black
             formTypeData.text = editData.form?.title ?? ""
             
+            if editData.form?.is_fixture == 1{
+                presenter.getSubContractorsDBModel(search: "")
+            }
+            
             divisionID = editData.division?.id ?? 0
             divisionBtn.isEnabled = true
             divisionView.backgroundColor = .black
             diviosnLeaderData.text = editData.division?.title ?? ""
+            
+            
             
             for item in editData.items ?? []{
                 if item.id == nil{
@@ -124,8 +145,8 @@ class QCFormVC: UIViewController {
                     let isFromUser = true
                     let isWithPrice = item.withPrice == "1"
                     let price = item.price
-                    
-                    formsItem.append(.init(name: name , status: status ,new_item_type: new_item_type,isFromUser: isFromUser ,isWithPrice: isWithPrice ,price: price))
+                    let image = item.image
+                    formsItem.append(.init(name: name , status: status ,new_item_type: new_item_type,isFromUser: isFromUser ,isWithPrice: isWithPrice ,price: price,image: image,isWithPic: image != nil))
                     
                 }else if item.item?.system_type != nil{
                     let id = item.item?.id ?? 0
@@ -137,7 +158,9 @@ class QCFormVC: UIViewController {
                     let system = item.item?.system
                     let system_type = item.item?.system_type
                     let system_list = item.item?.system_list
-                    formsItem.append(.init(id: id,value: value,title: title, status: status,price: price,show_price: show_price,system: system, system_type: system_type, system_list: system_list))
+                    let image = item.image
+                    
+                    formsItem.append(.init(id: id,value: value,title: title, status: status,price: price,show_price: show_price,system: system, system_type: system_type, system_list: system_list,image: image,isWithPic: image != nil))
                     
                 }else{
                     var newBoxs = [NewBoxData]()
@@ -152,7 +175,8 @@ class QCFormVC: UIViewController {
                     let reasons = item.item?.fail_reasons
                     let reason_id = item.fail_reason?.id
                     let reason = item.fail_reason?.title
-                    formsItem.append(.init(id: id, title: title, status: status, note: note,system: system,reasons: reasons,reason_id: reason_id,reason: reason,new_boxes: newBoxs))
+                    let image = item.image
+                    formsItem.append(.init(id: id, title: title, status: status, note: note,system: system,reasons: reasons,reason_id: reason_id,reason: reason,new_boxes: newBoxs,image: image,isWithPic: image != nil))
                 }
             }
             self.companyID = Int(editData.company_id ?? "-1")!
@@ -163,7 +187,7 @@ class QCFormVC: UIViewController {
         }
     }
     
-    func BtnStatus(){
+    private func btnStatus(){
         formTypeBtn.isEnabled=false
         companyBtn.isEnabled=false
         jobBtn.isEnabled=false
@@ -180,12 +204,11 @@ class QCFormVC: UIViewController {
         jobData.isEnabled=false
         companiesData.isEnabled=false
         formTypeData.isEnabled=false
-        
     }
     
-    
-    @IBAction func companyAction(_ sender: Any) {
+    private func companyAction() {
         companyPickerVC = PickerVC.instantiate()
+        companyPickerVC!.index = selectedCompanyIndex
         companyPickerVC!.arr_data = companies.map{$0.title ?? ""}
         companyPickerVC!.searchText = companySearchText
         companyPickerVC!.searchBarHiddenStatus = false
@@ -211,13 +234,15 @@ class QCFormVC: UIViewController {
             self.presenter.getFormsFromDB(companyID: "\(self.companyID)", search: "")
             self.presenter.getFormItemFromDB(project: self.selectedJobProject,
                                              formTypeID:"\(self.formTypeID)" )
+            self.selectedCompanyIndex = index
         }
         self.present(companyPickerVC!, animated: true, completion: nil)
     }
     
     
-    @IBAction func jobAction(_ sender: Any) {
+    private func jobAction() {
         jobPickerVC = PickerVC.instantiate()
+        jobPickerVC!.index = selectedJobIndex
         jobPickerVC!.searchText = jobSearchText
         jobPickerVC!.arr_data = jobs.map{$0.title ?? ""}
         jobPickerVC!.searchAction = { searchText in
@@ -238,13 +263,15 @@ class QCFormVC: UIViewController {
             
             self.presenter.getFormItemFromDB(project: self.selectedJobProject,
                                              formTypeID:"\(self.formTypeID)" )
+            self.selectedJobIndex = index
         }
         self.present(jobPickerVC!, animated: true, completion: nil)
     }
     
     
-    @IBAction func divisionLeaderAction(_ sender: Any) {
+    private func divisionLeaderAction() {
         divitionPickerVC = PickerVC.instantiate()
+        divitionPickerVC!.index = selectedDivisionIndex
         divitionPickerVC!.arr_data = division.map{$0.title ?? ""}
         divitionPickerVC!.searchText = divitionSearchText
         divitionPickerVC!.searchBarHiddenStatus = false
@@ -259,13 +286,15 @@ class QCFormVC: UIViewController {
             // Selection Action Here
             self.diviosnLeaderData.text = self.division[index].title ?? ""
             self.divisionID = self.division[index].id ?? 0
+            self.selectedDivisionIndex = index
         }
         self.present(divitionPickerVC!, animated: true, completion: nil)
     }
     
     
-    @IBAction func FormTypeAction(_ sender: Any) {
+    private func FormTypeAction() {
         formTypePickerVC = PickerVC.instantiate()
+        formTypePickerVC!.index = selectedFormTypeIndex
         formTypePickerVC!.arr_data = forms.map{$0.title ?? ""}
         formTypePickerVC!.searchText = formTypeSearchText
         formTypePickerVC!.searchBarHiddenStatus = false
@@ -282,23 +311,146 @@ class QCFormVC: UIViewController {
             print("Selected Index:",index)
             self.formTypeData.text = self.forms[index].title ?? ""
             self.formTypeID = self.forms[index].id ?? 0
+            if self.forms[index].is_fixture == 1{
+                self.presenter.getSubContractorsDBModel(search: "")
+            }
             self.presenter.getFormItemFromDB(project: self.selectedJobProject,
                                              formTypeID:"\(self.formTypeID)" )
+            self.selectedFormTypeIndex = index
         }
         self.present(formTypePickerVC!, animated: true, completion: nil)
-        
     }
     
     
+    private func subContractorAction() {
+        subContractorPickerVC = PickerVC.instantiate()
+        subContractorPickerVC!.index = selectedSubContractorIndex
+        subContractorPickerVC!.arr_data = subContractors.map{$0.name ?? ""}
+        subContractorPickerVC!.searchText = subContractorSearchText
+        subContractorPickerVC!.searchBarHiddenStatus = false
+        subContractorPickerVC!.searchAction = { searchText in
+            self.subContractorSearchText = searchText
+            self.presenter.getSubContractorsDBModel(search: searchText)
+        }
+        subContractorPickerVC!.isModalInPresentation = true
+        subContractorPickerVC!.modalPresentationStyle = .overFullScreen
+        subContractorPickerVC!.definesPresentationContext = true
+        subContractorPickerVC!.delegate = {name , index in
+            // Selection Action Here
+            print("Selected Value:",name)
+            print("Selected Index:",index)
+            self.subContractorTextField.text = self.subContractors[index].name ?? ""
+            self.subContractorID = self.subContractors[index].id ?? 0
+            self.selectedSubContractorIndex = index
+        }
+        self.present(subContractorPickerVC!, animated: true, completion: nil)
+    }
+    
+    private func submitAction(){
+        do{
+            _ = try diviosnLeaderData.validatedText(validationType: .requiredField(field: " Select Division leader please"))
+            _ = try formTypeData.validatedText(validationType: .requiredField(field: "Select form type please"))
+            _ = try jobData.validatedText(validationType: .requiredField(field: "Select job please"))
+            _ = try companiesData.validatedText(validationType: .requiredField(field: "Select company please"))
+            
+            Alert.showAlert(viewController: self, title: "Do you  want to send the form", message: "") { Value in
+                
+                if Value == true{
+                    if self.isAllFormItemsSelected(){
+                        SVProgressHUD.setBackgroundColor(.white)
+                        SVProgressHUD.show(withStatus: "please wait")
+                        self.presenter.submitFormData(isEdit:self.editData != nil ,formsDetails: self.formDetailsParameter())
+                    }else{
+                        Alert.showErrorAlert(message:  "Add your form Item Data,You have at least to choose status for every item" )
+                    }
+                }
+            }
+            
+        }catch{
+            Alert.showErrorAlert(message: (error as! ValidationError).message)
+        }
+    }
+    
+    private func formDetailsParameter() -> [String:Any]{
+        formData.removeAll()
+        formData["company_id"] = "\(companyID)"
+        formData["job_id"] = "\(jobID)"
+        formData["division_id"] = "\(divisionID)"
+        formData["form_type_id"] = "\(formTypeID)"
+        if !subContractorStackView.isHidden{
+            formData["subContractor_id"] = "\(subContractorID)"
+        }
+        if editData != nil{
+            formData["submitted_form_id"] = "\(editData!.id ?? -1)"
+        }
+        
+        for index in 0 ..< formsItem.count{
+            if formsItem[index].isFromUser ?? false{
+                formData["new_items[\(index)][name]"] = formsItem[index].name ?? ""
+                formData["new_items[\(index)][value]"] = formsItem[index].status ?? ""
+                formData["new_items[\(index)][new_item_type]"] = (formsItem[index].new_item_type ?? .text).rawValue
+                formData["new_items[\(index)][withPrice]"] = (formsItem[index].isWithPrice ?? false) ? "1" : "0"
+                formData["new_items[\(index)][price]"] = formsItem[index].price ?? ""
+                if formsItem[index].isWithPic ?? false{
+                    formData["new_items[\(index)][image]"] = formsItem[index].image ?? ""
+                }
+            }else{
+                formData["form_items[\(index)][item_id]"] = String(formsItem[index].id ?? 0)
+                let status = formsItem[index].status ?? ""
+                formData["form_items[\(index)][value]"] = status == "N/A" ? "" : status.lowercased()
+                formData["form_items[\(index)][notes]"] = formsItem[index].note ?? ""
+                formData["form_items[\(index)][fail_reason_id]"] = String(formsItem[index].reason_id ?? -1)
+                if formsItem[index].isWithPic ?? false{
+                    formData["form_items[\(index)][image]"] = formsItem[index].image ?? ""
+                }
+                for i in 0..<(formsItem[index].new_boxes ?? []).count{
+                    let box = formsItem[index].new_boxes![i]
+                    formData["form_items[\(index)][new_boxes][\(i)][title]"] = box.title ?? ""
+                    formData["form_items[\(index)][new_boxes][\(i)][type]"] = box.box_type ?? ""
+                    formData["form_items[\(index)][new_boxes][\(i)][value]"] = box.value ?? ""
+                }
+            }
+        }
+        
+        return formData
+    }
+    
+    private func isAllFormItemsSelected() -> Bool{
+        for item in formsItem{
+            let chechResult = item.status == nil
+            if chechResult && !(item.isFromUser ?? false) && item.system_type == nil{
+                return false
+            }
+        }
+        return true
+    }
+    
+    private func checkIfThereFieldItems()-> Bool{
+        return formsItem.contains(where: {$0.status == "fail"})
+    }
+    
+    private func checkAllFieldsSelected() ->Bool{
+        return !companiesData.text!.isEmpty &&
+        !jobData.text!.isEmpty &&
+        !diviosnLeaderData.text!.isEmpty &&
+        !formTypeData.text!.isEmpty
+    }
+    
 }
+
+//MARK: - Binding
 extension QCFormVC{
     
-    //MARK: - Binding
-    
-    func BindButtons(){
-        submitBtn.addTarget(self, action: #selector(ButtonWasTapped), for: .touchUpInside)
-        backBtn.addTarget(self, action: #selector(ButtonWasTapped), for: .touchUpInside)
-        addNewFormItemButton.addTarget(self, action: #selector(ButtonWasTapped), for: .touchUpInside)
+    private func binding(){
+        submitBtn.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
+        backBtn.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
+        addNewFormItemButton.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
+        companyBtn.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
+        jobBtn.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
+        divisionBtn.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
+        formTypeBtn.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
+        subContractorButton.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
+        
     }
     
     @objc func AddFormItemNote( _ sender:UITextField){
@@ -327,12 +479,9 @@ extension QCFormVC{
         formsItem[indexPath.row].price = sender.text ?? ""
         updateTotalView()
     }
-}
-
-extension QCFormVC{
     
-    @objc func ButtonWasTapped(btn:UIButton){
-        switch btn{
+    @objc private func bindingAction(_ sender:UIButton){
+        switch sender{
         case submitBtn:
             submitAction()
         case backBtn :
@@ -341,57 +490,27 @@ extension QCFormVC{
             let vc = CreateFormItemVC.instantiate()
             vc.modalPresentationStyle = .overCurrentContext
             vc.addAction = { type , isWithPrice in
-                self.formsItem.append(.init(name: "", status: "", new_item_type: type,isFromUser: true, isWithPrice: isWithPrice,price: "0"))
+                self.formsItem.append(.init(name: "", status: "", new_item_type: type,isFromUser: true, isWithPrice: isWithPrice,price: "0",image: "",isWithPic: false))
                 self.formTypeNoteTableview.insertRows(at: [IndexPath.init(row: self.formsItem.count - 1, section: 0)], with: .automatic)
             }
             present(vc, animated: true)
-        default:
-            print("")
+        case companyBtn:
+            companyAction()
+        case jobBtn:
+            jobAction()
+        case divisionBtn:
+            divisionLeaderAction()
+        case formTypeBtn:
+            FormTypeAction()
+        case subContractorButton:
+            subContractorAction()
+        default: break
         }
     }
     
-    
-    private func submitAction(){
-        do{
-            _ = try diviosnLeaderData.validatedText(validationType: .requiredField(field: " Select Division leader please"))
-            _ = try formTypeData.validatedText(validationType: .requiredField(field: "Select form type please"))
-            _ = try jobData.validatedText(validationType: .requiredField(field: "Select job please"))
-            _ = try companiesData.validatedText(validationType: .requiredField(field: "Select company please"))
-            
-            Alert.showAlert(viewController: self, title: "Do you  want to send the form", message: "") { Value in
-                
-                if Value == true{
-                    if self.isAllFormItemsSelected(){
-                        SVProgressHUD.setBackgroundColor(.white)
-                        SVProgressHUD.show(withStatus: "please wait")
-                        self.submitForm(formsDetails: self.formDetailsParameter())
-                    }else{
-                        Alert.showErrorAlert(message:  "Add your form Item Data,You have at least to choose status for every item" )
-                    }
-                }
-            }
-            
-        }catch{
-            Alert.showErrorAlert(message: (error as! ValidationError).message)
-        }
-    }
-    
-    
-    private func isAllFormItemsSelected() -> Bool{
-        for item in formsItem{
-            let chechResult = item.status == nil
-            if chechResult && !(item.isFromUser ?? false) && item.system_type == nil{
-                return false
-            }
-        }
-        return true
-    }
-    
-    private func checkIfThereFieldItems()-> Bool{
-        return formsItem.contains(where: {$0.status == "fail"})
-    }
 }
 
+// MARK: - Set Stroyboard
 extension QCFormVC:Storyboarded{
     static var storyboardName: StoryboardName = .main
 }
@@ -409,7 +528,7 @@ extension QCFormVC:UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         updateTotalView()
-        var totalHeight:CGFloat = 0.0
+        var totalHeight:CGFloat = 47
         for i in 0..<formsItem.count{
             totalHeight += getFormTypeCellHeight(index: i)
         }
@@ -421,7 +540,7 @@ extension QCFormVC:UITableViewDelegate, UITableViewDataSource{
         if formsItem[indexPath.row].isFromUser ?? false{
             let cell = tableView.dequeueReusableCell(withIdentifier: "UserFormItemTableViewCell", for: indexPath) as! UserFormItemTableViewCell
             cell.delegate = self
-            cell.setData(data: formsItem[indexPath.row],index: indexPath.row)
+            cell.setData(data: formsItem[indexPath.row],indexPath: indexPath)
             
             let type = formsItem[indexPath.row].new_item_type
             if  type != .pass_fail && type != .yes_no && type != .date{
@@ -438,7 +557,7 @@ extension QCFormVC:UITableViewDelegate, UITableViewDataSource{
             return cell
         }else if formsItem[indexPath.row].system_type != nil{
             let cell = tableView.dequeueReusableCell(withIdentifier: "CustomFormItemTableViewCell", for: indexPath) as! CustomFormItemTableViewCell
-            cell.setData(data: formsItem[indexPath.row],index: indexPath.row)
+            cell.setData(data: formsItem[indexPath.row],indexPath: indexPath)
             cell.valueTextField.addTarget(self, action: #selector(AddFormItemStatus), for: .editingDidEnd)
             cell.valueTextField.tag=indexPath.row
             cell.delegate = self
@@ -465,28 +584,31 @@ extension QCFormVC:UITableViewDelegate, UITableViewDataSource{
         return getFormTypeCellHeight(index: indexPath.row)
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedIndex = indexPath.row
-    }
-    
     private func getFormTypeCellHeight(index:Int) -> CGFloat{
         var height:CGFloat = 0
         let formItem = formsItem[index]
         if formItem.isFromUser ?? false{
-            height += 280
+            if formItem.isWithPrice ?? false{
+                height += 340
+            }else{
+                height += 260
+            }
+            
         }else if formItem.system_type != nil{
-            height += 160
+            height += 240
         }else{
-            height = 160
+            height = 210
             if formItem.show_price == "1"{
-                height += 30
+                height += 40
             }
             if formItem.status == "fail"{
-                height += 35
+                height += 40
             }
             height += CGFloat(formItem.new_boxes?.count ?? 0 ) * 90
         }
-        
+        if formItem.isWithPic ?? false{
+            height += 120
+        }
         return height
     }
     
@@ -519,8 +641,13 @@ extension QCFormVC:UITableViewDelegate, UITableViewDataSource{
 }
 
 
-// MARK: - Table View Cell Delegate
-extension QCFormVC:FormTypeNoteCellDelegate,UserFormItemDelegate,CustomFormItemDelegate{
+// MARK: - Table View Cell (FormTypeNoteCell) Delegate
+extension QCFormVC:FormTypeNoteCellDelegate{
+    func addPicAction(indexPath: IndexPath) {
+        self.selectedCellIndexPath = indexPath
+        setImageBy(source: .photoLibrary)
+    }
+    
     func statusPickerAction(data:[String],indexPath: IndexPath) {
         let vc = PickerVC.instantiate()
         vc.arr_data = data
@@ -564,60 +691,6 @@ extension QCFormVC:FormTypeNoteCellDelegate,UserFormItemDelegate,CustomFormItemD
         self.present(vc, animated: true, completion: nil)
     }
     
-    func selectionAction(type: NewFormItemType, Index: Int) {
-        if type != .date{
-            let selectionPickerVC = PickerVC.instantiate()
-            selectionPickerVC.arr_data = type == .pass_fail ? ["Pass","Fail"] : ["Yes","No"]
-            selectionPickerVC.searchBarHiddenStatus = true
-            selectionPickerVC.isModalInPresentation = true
-            selectionPickerVC.modalPresentationStyle = .overFullScreen
-            selectionPickerVC.definesPresentationContext = true
-            selectionPickerVC.delegate = { name , selectedIndex in
-                // Selection Action Here
-                self.formsItem[Index].status = name
-                let cell = self.formTypeNoteTableview.cellForRow(at: IndexPath.init(row: Index, section: 0)) as! UserFormItemTableViewCell
-                cell.valueTextField.text = name
-            }
-            self.present(selectionPickerVC, animated: true, completion: nil)
-        }else{
-            let vc = DatePickerVC.instantiate()
-            vc.modalPresentationStyle = .overFullScreen
-            vc.dateSelected = { selectedDate in
-                self.formsItem[Index].status = selectedDate
-                let cell = self.formTypeNoteTableview.cellForRow(at: IndexPath.init(row: Index, section: 0)) as! UserFormItemTableViewCell
-                cell.valueTextField.text = selectedDate
-            }
-            self.present(vc, animated: true, completion: nil)
-        }
-    }
-    
-    func selectionAction(index: Int,arr:[String],isDate:Bool) {
-        if isDate {
-            let vc = DatePickerVC.instantiate()
-            vc.modalPresentationStyle = .overFullScreen
-            vc.dateSelected = { selectedDate in
-                self.formsItem[index].status = selectedDate
-                let cell = self.formTypeNoteTableview.cellForRow(at: IndexPath.init(row: index, section: 0)) as! CustomFormItemTableViewCell
-                cell.valueTextField.text = selectedDate
-            }
-            self.present(vc, animated: true, completion: nil)
-        }else{
-            let selectionPickerVC = PickerVC.instantiate()
-            selectionPickerVC.arr_data = arr
-            selectionPickerVC.searchBarHiddenStatus = true
-            selectionPickerVC.isModalInPresentation = true
-            selectionPickerVC.modalPresentationStyle = .overFullScreen
-            selectionPickerVC.definesPresentationContext = true
-            selectionPickerVC.delegate = { name , selectedIndex in
-                // Selection Action Here
-                self.formsItem[index].status = name
-                let cell = self.formTypeNoteTableview.cellForRow(at: IndexPath.init(row: index, section: 0)) as! CustomFormItemTableViewCell
-                cell.valueTextField.text = name
-            }
-            self.present(selectionPickerVC, animated: true, completion: nil)
-        }
-    }
-    
     
     func showPickerVC(type: String,parentIndex:Int,childIndex:Int) {
         if type == "Date" {
@@ -651,8 +724,84 @@ extension QCFormVC:FormTypeNoteCellDelegate,UserFormItemDelegate,CustomFormItemD
     func updateNewBoxData(text: String, parentIndex: Int, childIndex: Int) {
         self.formsItem[parentIndex].new_boxes?[childIndex].value = text
     }
+    
+    func updatePicStatus(index:Int,withPic: Bool) {
+        self.formsItem[index].isWithPic = withPic
+        if !withPic{
+            self.formsItem[index].image = nil
+        }
+        self.formTypeNoteTableview.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+    }
+    
 }
 
+// MARK: - Table View Cell (UserFormItemDelegate) Delegate
+extension QCFormVC:UserFormItemDelegate{
+    
+    func selectionAction(type: NewFormItemType, Index: Int) {
+        if type != .date{
+            let selectionPickerVC = PickerVC.instantiate()
+            selectionPickerVC.arr_data = type == .pass_fail ? ["Pass","Fail"] : ["Yes","No"]
+            selectionPickerVC.searchBarHiddenStatus = true
+            selectionPickerVC.isModalInPresentation = true
+            selectionPickerVC.modalPresentationStyle = .overFullScreen
+            selectionPickerVC.definesPresentationContext = true
+            selectionPickerVC.delegate = { name , selectedIndex in
+                // Selection Action Here
+                self.formsItem[Index].status = name
+                let cell = self.formTypeNoteTableview.cellForRow(at: IndexPath.init(row: Index, section: 0)) as! UserFormItemTableViewCell
+                cell.valueTextField.text = name
+            }
+            self.present(selectionPickerVC, animated: true, completion: nil)
+        }else{
+            let vc = DatePickerVC.instantiate()
+            vc.modalPresentationStyle = .overFullScreen
+            vc.dateSelected = { selectedDate in
+                self.formsItem[Index].status = selectedDate
+                let cell = self.formTypeNoteTableview.cellForRow(at: IndexPath.init(row: Index, section: 0)) as! UserFormItemTableViewCell
+                cell.valueTextField.text = selectedDate
+            }
+            self.present(vc, animated: true, completion: nil)
+        }
+    }
+    
+    
+}
+
+
+// MARK: - Table View Cell (CustomFormItemDelegate) Delegate
+extension QCFormVC:CustomFormItemDelegate{
+    
+    func selectionAction(index: Int,arr:[String],isDate:Bool) {
+        if isDate {
+            let vc = DatePickerVC.instantiate()
+            vc.modalPresentationStyle = .overFullScreen
+            vc.dateSelected = { selectedDate in
+                self.formsItem[index].status = selectedDate
+                let cell = self.formTypeNoteTableview.cellForRow(at: IndexPath.init(row: index, section: 0)) as! CustomFormItemTableViewCell
+                cell.valueTextField.text = selectedDate
+            }
+            self.present(vc, animated: true, completion: nil)
+        }else{
+            let selectionPickerVC = PickerVC.instantiate()
+            selectionPickerVC.arr_data = arr
+            selectionPickerVC.searchBarHiddenStatus = true
+            selectionPickerVC.isModalInPresentation = true
+            selectionPickerVC.modalPresentationStyle = .overFullScreen
+            selectionPickerVC.definesPresentationContext = true
+            selectionPickerVC.delegate = { name , selectedIndex in
+                // Selection Action Here
+                self.formsItem[index].status = name
+                let cell = self.formTypeNoteTableview.cellForRow(at: IndexPath.init(row: index, section: 0)) as! CustomFormItemTableViewCell
+                cell.valueTextField.text = name
+            }
+            self.present(selectionPickerVC, animated: true, completion: nil)
+        }
+    }
+    
+}
+
+// MARK: - Presenter Delegate
 extension QCFormVC:QCFormPresenterDelegate{
     
     func clearFields(){
@@ -679,7 +828,7 @@ extension QCFormVC:QCFormPresenterDelegate{
             companyPickerVC.arr_data = companies.map{$0.title ?? ""}
             companyPickerVC.picker.reloadAllComponents()
             if !companyPickerVC.arr_data.isEmpty{
-                companyPickerVC.index = 0
+                companyPickerVC.index = selectedCompanyIndex
             }
         }
     }
@@ -692,7 +841,7 @@ extension QCFormVC:QCFormPresenterDelegate{
             jobPickerVC.arr_data = jobs.map{$0.title ?? ""}
             jobPickerVC.picker.reloadAllComponents()
             if !jobPickerVC.arr_data.isEmpty{
-                jobPickerVC.index = 0
+                jobPickerVC.index = selectedJobIndex
             }
         }
     }
@@ -707,7 +856,7 @@ extension QCFormVC:QCFormPresenterDelegate{
             formTypePickerVC.arr_data = forms.map{$0.title ?? ""}
             formTypePickerVC.picker.reloadAllComponents()
             if !formTypePickerVC.arr_data.isEmpty{
-                formTypePickerVC.index = 0
+                formTypePickerVC.index = selectedFormTypeIndex
             }
         }
     }
@@ -722,7 +871,7 @@ extension QCFormVC:QCFormPresenterDelegate{
             divitionPickerVC.arr_data = division.map{$0.title ?? ""}
             divitionPickerVC.picker.reloadAllComponents()
             if !divitionPickerVC.arr_data.isEmpty{
-                divitionPickerVC.index = 0
+                divitionPickerVC.index = selectedDivisionIndex
             }
         }
     }
@@ -730,54 +879,65 @@ extension QCFormVC:QCFormPresenterDelegate{
     func getFormItemsData(data: FormItemData) {
         formsItem = data.formItems
         formTypeNoteTableview.reloadData()
-        addNewFormItemView.isHidden = false
+        addNewFormItemView.isHidden = !checkAllFieldsSelected()
     }
     
-    
-}
-
-extension QCFormVC{
-    func submitForm(formsDetails:[String:Any]){
-        presenter.submitFormData(isEdit:editData != nil ,formsDetails: formsDetails)
-    }
-    
-    func formDetailsParameter() -> [String:Any]{
+    func getSubContractors(data: SubContractorsResponse) {
+        subContractors=data.subContractors ?? []
+        subContractorStackView.isHidden = false
+        SVProgressHUD.dismiss()
         
-        formData["company_id"] = "\(companyID)"
-        formData["job_id"] = "\(jobID)"
-        formData["division_id"] = "\(divisionID)"
-        formData["form_type_id"] = "\(formTypeID)"
-        
-        if editData != nil{
-            formData["submitted_form_id"] = editData!.id ?? -1
-        }
-        
-        for index in 0 ..< formsItem.count{
-            if formsItem[index].isFromUser ?? false{
-                formData["new_items[\(index)][name]"] = formsItem[index].name ?? ""
-                formData["new_items[\(index)][value]"] = formsItem[index].status ?? ""
-                formData["new_items[\(index)][new_item_type]"] = (formsItem[index].new_item_type ?? .text).rawValue
-                formData["new_items[\(index)][withPrice]"] = (formsItem[index].isWithPrice ?? false) ? "1" : "0"
-                formData["new_items[\(index)][price]"] = formsItem[index].price ?? ""
-            }else{
-                formData["form_items[\(index)][item_id]"] = formsItem[index].id ?? 0
-                let status = formsItem[index].status ?? ""
-                formData["form_items[\(index)][value]"] = status == "N/A" ? "" : status.lowercased()
-                formData["form_items[\(index)][notes]"] = formsItem[index].note ?? ""
-                formData["form_items[\(index)][fail_reason_id]"] = formsItem[index].reason_id
-                for i in 0..<(formsItem[index].new_boxes ?? []).count{
-                    let box = formsItem[index].new_boxes![i]
-                    formData["form_items[\(index)][new_boxes][\(i)][title]"] = box.title ?? ""
-                    formData["form_items[\(index)][new_boxes][\(i)][type]"] = box.box_type ?? ""
-                    formData["form_items[\(index)][new_boxes][\(i)][value]"] = box.value ?? ""
-                }
+        if let subContractorPickerVC = self.subContractorPickerVC{
+            subContractorPickerVC.arr_data = subContractors.map{$0.name ?? ""}
+            subContractorPickerVC.picker.reloadAllComponents()
+            if !subContractorPickerVC.arr_data.isEmpty{
+                subContractorPickerVC.index = 0
             }
         }
-        
-        return formData
     }
     
 }
 
+
+// MARK: - Handle Image Picker Controller
+extension QCFormVC : UIImagePickerControllerDelegate , UINavigationControllerDelegate{
+    private func setImageBy(source:UIImagePickerController.SourceType){
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        imagePicker.sourceType = source
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let cell = formTypeNoteTableview.cellForRow(at: selectedCellIndexPath) as? FormTypeNoteCell{
+            
+            if let editingImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+                cell.selectedImageView.image = editingImage
+            }else if let orginalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+                cell.selectedImageView.image = orginalImage
+            }
+        }else if let cell = formTypeNoteTableview.cellForRow(at: selectedCellIndexPath) as? UserFormItemTableViewCell{
+            if let editingImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+                cell.selectedImageView.image = editingImage
+            }else if let orginalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+                cell.selectedImageView.image = orginalImage
+            }
+        }else if let cell = formTypeNoteTableview.cellForRow(at: selectedCellIndexPath) as? CustomFormItemTableViewCell{
+            if let editingImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+                cell.selectedImageView.image = editingImage
+            }else if let orginalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+                cell.selectedImageView.image = orginalImage
+            }
+        }
+        let imageURL = info[UIImagePickerController.InfoKey.imageURL] as? URL
+        formsItem[selectedCellIndexPath.row].image = imageURL?.absoluteString ?? ""
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+        SVProgressHUD.dismiss()
+    }
+}
 
 

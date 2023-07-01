@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  FormApp
 //
-//  Created by heba isaa on 25/01/2023.
+//  Created by Hany Alkahlout on 25/01/2023.
 //
 
 import UIKit
@@ -14,14 +14,25 @@ class AuthVC: UIViewController {
     @IBOutlet weak var loginBtn: UIButton!
     @IBOutlet weak var faceIdButton: UIButtonDesignable!
     //MARK: - Properties
+    private let presenter = AuthPresenter()
     var isFromUnautherized = false
     //MARK: - Life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        presenter.delegate = self
         BindButtons()
         faceIdButton.isHidden = isFromUnautherized
+        
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        presenter.checkVersion()
+    }
+    
+    // MARK: - Private Functions
+    
     
     private func AuthorizeFaceID(){
         let context = LAContext()
@@ -52,22 +63,27 @@ class AuthVC: UIViewController {
     
     
 }
+
+//MARK: - Binding
 extension AuthVC{
     
-    //MARK: - Binding
-    
     func BindButtons(){
+        signupBtn.isEnabled = false
+        loginBtn.isEnabled = false
+        faceIdButton.isEnabled = false
+        
         signupBtn.addTarget(self, action: #selector(ButtonWasTapped), for: .touchUpInside)
         loginBtn.addTarget(self, action: #selector(ButtonWasTapped), for: .touchUpInside)
         faceIdButton.addTarget(self, action: #selector(ButtonWasTapped), for: .touchUpInside)
     }
 }
 
-//MARK: - Life cycle
+//MARK: - Binding
 
 extension AuthVC{
     
     @objc func ButtonWasTapped(btn:UIButton){
+
         switch btn{
         case signupBtn:
             let vc = SignUpVC.instantiate()
@@ -81,6 +97,31 @@ extension AuthVC{
             print("")
         }
         
+    }
+}
+
+// MARK: - Presenter Delegate
+extension AuthVC:AuthPresenterDelegate{
+    func changeApplicationUpdatedStatus(shouldUpdate: Bool) {
+        if shouldUpdate{
+            signupBtn.isEnabled = false
+            loginBtn.isEnabled = false
+            faceIdButton.isEnabled = false
+            let alertVC = UIAlertController(title: "You have to update the application", message: "", preferredStyle: .alert)
+            alertVC.addAction(.init(title: "Update Now", style: .default,handler: { action in
+                if let url = URL(string: "https://apps.apple.com/us/app/chesapeake-app/id6449914587"){
+                    UIApplication.shared.open(url)
+                }
+            }))
+            alertVC.addAction(.init(title: "Cancel", style: .default,handler: { action in
+                exit(0)
+            }))
+            present(alertVC, animated: true)
+        }else{
+            signupBtn.isEnabled = true
+            loginBtn.isEnabled = true
+            faceIdButton.isEnabled = true
+        }
     }
 }
 

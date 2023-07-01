@@ -167,6 +167,7 @@ struct DataDetails:Decodable{
     var status: String?
     var reason: String?
     var reason_id: Int?
+    var is_fixture: Int?
     var note: String?
     var project:String?
     var customer:String?
@@ -179,17 +180,21 @@ struct DataDetails:Decodable{
     var fail_reasons: [FailReasonData]?
     var new_item_type:NewFormItemType? = .text
     var isWithPrice:Bool? = false
+    var isWithPic:Bool? = false
+    var image:String? = ""
     
-    init(name:String,status:String,new_item_type:NewFormItemType,isFromUser:Bool,isWithPrice:Bool?,price:String?){
+    init(name:String,status:String,new_item_type:NewFormItemType,isFromUser:Bool,isWithPrice:Bool?,price:String?,image:String?,isWithPic:Bool?){
         self.name = name
         self.status = status
         self.new_item_type = new_item_type
         self.isFromUser = isFromUser
         self.isWithPrice = isWithPrice
         self.price = price
+        self.image = image
+        self.isWithPic = isWithPic
     }
     
-    init(id: Int?, title: String?, email: String?, company_id: String?, created_at: String?,project:String?,customer:String?) {
+    init(id: Int?, title: String?, email: String?, company_id: String?, created_at: String?,project:String?,customer:String?,is_fixture:Int?) {
         self.id = id
         self.title = title
         self.email = email
@@ -197,6 +202,7 @@ struct DataDetails:Decodable{
         self.created_at = created_at
         self.project = project
         self.customer = customer
+        self.is_fixture = is_fixture
     }
     
     
@@ -216,7 +222,7 @@ struct DataDetails:Decodable{
     
     
     init(id: Int?, title: String?,status: String?,note:String?,
-         system:String?,reasons:[FailReasonData]?,reason_id:Int?,reason:String?,new_boxes:[NewBoxData]) {
+         system:String?,reasons:[FailReasonData]?,reason_id:Int?,reason:String?,new_boxes:[NewBoxData],image:String?,isWithPic:Bool) {
         self.id = id
         self.title = title
         self.status = status
@@ -226,9 +232,12 @@ struct DataDetails:Decodable{
         self.reason = reason
         self.fail_reasons = reasons
         self.new_boxes = new_boxes
+        self.image = image
+        self.isWithPic = isWithPic
+        
     }
     
-    init(id:Int?,value:String?,title:String?,status:String?,price:String?,show_price:String?,system:String?,system_type:String?,system_list:[String]?){
+    init(id:Int?,value:String?,title:String?,status:String?,price:String?,show_price:String?,system:String?,system_type:String?,system_list:[String]?,image:String?,isWithPic:Bool?){
         
         self.id = id
         self.title = title
@@ -239,6 +248,8 @@ struct DataDetails:Decodable{
         self.price = price
         self.show_price = show_price
         self.status = value
+        self.image = image
+        self.isWithPic = isWithPic
     }
     
     enum CodingKeys: String, CodingKey {
@@ -266,6 +277,7 @@ struct DataDetails:Decodable{
         case fail_reasons
         case new_item_type
         case isWithPrice
+        case is_fixture
     }
     
     init(from decoder: Decoder) throws {
@@ -303,6 +315,10 @@ struct DataDetails:Decodable{
         
         if let value = try? container.decode(String.self, forKey:.price) {
             price = value
+        }
+        
+        if let value = try? container.decode(Int.self, forKey:.is_fixture) {
+            is_fixture = value
         }
         if let value = try? container.decode(String.self, forKey:.show_price) {
             show_price = value
@@ -402,5 +418,43 @@ struct Supplier:Decodable{
 
 struct SpecialList:Decodable{
     var special:[String]
+    
+}
+
+// MARK: - SubContractorsResponse
+struct SubContractorsResponse: Codable {
+    let subContractors: [SubContractor]?
+    let deletedSubContractors: [SubContractor]?
+    
+    init(subContractors: [SubContractor]?, deletedSubContractors: [SubContractor]? = []) {
+        self.subContractors = subContractors
+        self.deletedSubContractors = deletedSubContractors
+    }
+    
+}
+
+// MARK: - SubContractor
+struct SubContractor: Codable {
+    let id: Int?
+    let name: String?
+    let telephone: String?
+    let vendor: String?
+    let company_id: Int?
+    var created_at: String?
+
+    enum CodingKeys: String, CodingKey {
+        case id, name, telephone, vendor
+        case company_id
+        case created_at
+    }
+    
+    init(id: Int?, name: String?, telephone: String?, vendor: String?, company_id: Int?, created_at: String? = nil) {
+        self.id = id
+        self.name = name
+        self.telephone = telephone
+        self.vendor = vendor
+        self.company_id = company_id
+        self.created_at = created_at
+    }
     
 }

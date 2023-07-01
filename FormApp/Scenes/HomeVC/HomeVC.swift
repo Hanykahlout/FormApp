@@ -36,7 +36,7 @@ class HomeVC: UIViewController {
         super.viewWillAppear(animated)
         presenter.checkDatabase()
     }
-    
+  
 }
 
 

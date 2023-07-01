@@ -10,6 +10,7 @@ import Foundation
 struct SubmittedFormData:Decodable{
     let passForms:[FormInfo]
     let failForms:[FormInfo]
+    let fixtureForms:[FormInfo]
     
 }
 
@@ -121,6 +122,7 @@ struct SubmittedFormItems:Decodable{
     var name:String?
     var value:String?
     var price:String?
+    var image:String?
     var withPrice:String?
     var new_item_type:NewFormItemType? = .text
     var notes:String?
@@ -141,6 +143,7 @@ struct SubmittedFormItems:Decodable{
         case new_boxes
         case item
         case fail_reason
+        case image
     }
     
     init(from decoder: Decoder) throws {
@@ -193,7 +196,9 @@ struct SubmittedFormItems:Decodable{
         if let value = try? container.decode(FailReasonData.self, forKey:.fail_reason) {
             fail_reason = value
         }
-        
+        if let value = try? container.decode(String.self, forKey:.image) {
+            image = value
+        }
     }
     
 }

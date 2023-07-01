@@ -2,10 +2,8 @@
 //  KeychainOperations.swift
 //  GoodLifeApplocation
 //
-//  Created by heba isaa on 27/08/2022.
+//  Created by Hany Alkahlout on 27/08/2022.
 //
-
-import Foundation
 
 import Foundation
  class KeychainOperations: NSObject {
@@ -115,6 +113,7 @@ import Foundation
         }
     }
 }
+
  enum KeychainErrors: Error {
     /// Error with the keychain creting and checking
     case creatingError

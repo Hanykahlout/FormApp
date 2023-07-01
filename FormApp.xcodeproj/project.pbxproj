@@ -73,7 +73,8 @@
 		CE5D7F0C29F1FBE200A7D212 /* QCFormModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5D7F0B29F1FBE200A7D212 /* QCFormModels.swift */; };
 		CE5D7F0F29F1FC1200A7D212 /* HomeModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5D7F0E29F1FC1200A7D212 /* HomeModels.swift */; };
 		CE5D7F1229F1FD0300A7D212 /* SubmittedFormsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5D7F1129F1FD0300A7D212 /* SubmittedFormsModels.swift */; };
-		CE6AED5C2A30CE2A00BC24A4 /* AppStoreReponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6AED5B2A30CE2A00BC24A4 /* AppStoreReponse.swift */; };
+		CE6AED5C2A30CE2A00BC24A4 /* VersionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6AED5B2A30CE2A00BC24A4 /* VersionModel.swift */; };
+		CE75CEB82A4B7ED200C5F59E /* AuthPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE75CEB72A4B7ED200C5F59E /* AuthPresenter.swift */; };
 		CE8169E02A05852800CBF0AD /* CreateMaterialVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8169DF2A05852800CBF0AD /* CreateMaterialVC.swift */; };
 		CE9F7A092A02BA0700C04F40 /* UIPaddedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9F7A082A02BA0700C04F40 /* UIPaddedTextField.swift */; };
 		CE9F7A0B2A02C7B400C04F40 /* MaterialsPrestner.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9F7A0A2A02C7B400C04F40 /* MaterialsPrestner.swift */; };
@@ -82,6 +83,7 @@
 		CEA6F52B2A0A70CE00C6A7A0 /* MaterialTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA6F5292A0A70CE00C6A7A0 /* MaterialTableViewCell.swift */; };
 		CEA6F52C2A0A70CE00C6A7A0 /* MaterialTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEA6F52A2A0A70CE00C6A7A0 /* MaterialTableViewCell.xib */; };
 		CEA6F5302A0A76D400C6A7A0 /* MaterialsDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA6F52E2A0A76D400C6A7A0 /* MaterialsDetailsVC.swift */; };
+		CEA798542A46F05E00813277 /* SubContractorsDBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA798532A46F05E00813277 /* SubContractorsDBModel.swift */; };
 		CEAC3CA72A19291B009774AD /* UserFormItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAC3CA52A19291B009774AD /* UserFormItemTableViewCell.swift */; };
 		CEAC3CA82A19291B009774AD /* UserFormItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEAC3CA62A19291B009774AD /* UserFormItemTableViewCell.xib */; };
 		CEC08E6A29E0A51A00FC8CBF /* DatePickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC08E6829E0A51A00FC8CBF /* DatePickerVC.swift */; };
@@ -176,7 +178,8 @@
 		CE5D7F0B29F1FBE200A7D212 /* QCFormModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCFormModels.swift; sourceTree = "<group>"; };
 		CE5D7F0E29F1FC1200A7D212 /* HomeModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModels.swift; sourceTree = "<group>"; };
 		CE5D7F1129F1FD0300A7D212 /* SubmittedFormsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmittedFormsModels.swift; sourceTree = "<group>"; };
-		CE6AED5B2A30CE2A00BC24A4 /* AppStoreReponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreReponse.swift; sourceTree = "<group>"; };
+		CE6AED5B2A30CE2A00BC24A4 /* VersionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionModel.swift; sourceTree = "<group>"; };
+		CE75CEB72A4B7ED200C5F59E /* AuthPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPresenter.swift; sourceTree = "<group>"; };
 		CE8169DF2A05852800CBF0AD /* CreateMaterialVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMaterialVC.swift; sourceTree = "<group>"; };
 		CE9F7A082A02BA0700C04F40 /* UIPaddedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPaddedTextField.swift; sourceTree = "<group>"; };
 		CE9F7A0A2A02C7B400C04F40 /* MaterialsPrestner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaterialsPrestner.swift; sourceTree = "<group>"; };
@@ -185,6 +188,7 @@
 		CEA6F5292A0A70CE00C6A7A0 /* MaterialTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaterialTableViewCell.swift; sourceTree = "<group>"; };
 		CEA6F52A2A0A70CE00C6A7A0 /* MaterialTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MaterialTableViewCell.xib; sourceTree = "<group>"; };
 		CEA6F52E2A0A76D400C6A7A0 /* MaterialsDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaterialsDetailsVC.swift; sourceTree = "<group>"; };
+		CEA798532A46F05E00813277 /* SubContractorsDBModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubContractorsDBModel.swift; sourceTree = "<group>"; };
 		CEAC3CA52A19291B009774AD /* UserFormItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFormItemTableViewCell.swift; sourceTree = "<group>"; };
 		CEAC3CA62A19291B009774AD /* UserFormItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserFormItemTableViewCell.xib; sourceTree = "<group>"; };
 		CEC08E6829E0A51A00FC8CBF /* DatePickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerVC.swift; sourceTree = "<group>"; };
@@ -259,7 +263,6 @@
 				CE42025A29B887F600517FCA /* Realm */,
 				279404C829A0BBFD00742AD9 /* Networkable */,
 				277CABFA2981A0E4009C11CB /* Protocols */,
-				277CABEC29814FB5009C11CB /* CustomComponents */,
 				CE5D7EF029F1D70B00A7D212 /* Scenes */,
 				CE5D7F0529F1F9E200A7D212 /* Storyboards */,
 				277CABE029814A19009C11CB /* Helper */,
@@ -276,7 +279,6 @@
 				279404D029A0BCEF00742AD9 /* KeychainWrapper.swift */,
 				277CABF129815062009C11CB /* UIViewFromNIB.swift */,
 				277CABE129814A42009C11CB /* UITextFieldDataPicker.swift */,
-				279404CE29A0BC9A00742AD9 /* AppConfig.swift */,
 				27CC17A629A555BB007BADC0 /* Extensions.swift */,
 			);
 			path = Helper;
@@ -299,14 +301,10 @@
 		277CABF52981997D009C11CB /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				277CABF6298199B6009C11CB /* FormTypeNoteCell.swift */,
-				277CABF7298199B6009C11CB /* FormTypeNoteCell.xib */,
-				CEAC3CA52A19291B009774AD /* UserFormItemTableViewCell.swift */,
-				CEAC3CA62A19291B009774AD /* UserFormItemTableViewCell.xib */,
-				CECD94262A1EB478007BEB65 /* CustomFormItemTableViewCell.swift */,
-				CECD94272A1EB478007BEB65 /* CustomFormItemTableViewCell.xib */,
-				CE0B92362A28E64500530977 /* NewBoxTableViewCell.swift */,
-				CE0B92372A28E64500530977 /* NewBoxTableViewCell.xib */,
+				CEF4D1812A3F6F3F00110194 /* NewBoxTableViewCell */,
+				CEF4D1802A3F6F3000110194 /* CustomFormItemTableViewCell */,
+				CEF4D17F2A3F6F2400110194 /* FormTypeNoteCell */,
+				CEF4D17E2A3F6F1900110194 /* UserFormItemTableViewCell */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -324,10 +322,11 @@
 		279404C829A0BBFD00742AD9 /* Networkable */ = {
 			isa = PBXGroup;
 			children = (
+				279404CE29A0BC9A00742AD9 /* AppConfig.swift */,
 				279404C929A0BC2B00742AD9 /* AppTarget.swift */,
 				279404CB29A0BC3F00742AD9 /* AppNetworkable.swift */,
 				279404DD29A0C89C00742AD9 /* BaseResponse.swift */,
-				CE6AED5B2A30CE2A00BC24A4 /* AppStoreReponse.swift */,
+				CE6AED5B2A30CE2A00BC24A4 /* VersionModel.swift */,
 			);
 			path = Networkable;
 			sourceTree = "<group>";
@@ -392,6 +391,7 @@
 				CE08C9A829BF6EEB002434EB /* FormItemDBModel.swift */,
 				CE59C00E29DC5C0B0002C1F8 /* FormItemReason.swift */,
 				CECD94242A1E9F85007BEB65 /* FormItemNewBox.swift */,
+				CEA798532A46F05E00813277 /* SubContractorsDBModel.swift */,
 			);
 			path = RealmModel;
 			sourceTree = "<group>";
@@ -401,6 +401,7 @@
 			children = (
 				CECD94202A1E63BA007BEB65 /* CreateFormItemVC */,
 				CEA6F52D2A0A76BC00C6A7A0 /* MaterialsDetailsVC */,
+				CE5D7F0D29F1FC0500A7D212 /* Model */,
 				CE8169DE2A05850C00CBF0AD /* CreateMaterialVC */,
 				CEF2BB4D2A01A65A00D4DBA1 /* MaterialsVC */,
 				CE5D7EF929F1D79A00A7D212 /* PORequestVC */,
@@ -411,6 +412,7 @@
 				CE5D7EF329F1D76300A7D212 /* SignUpVC */,
 				CE5D7EF229F1D75B00A7D212 /* AuthVC */,
 				CE5D7EF129F1D75100A7D212 /* PickerVCs */,
+				277CABEC29814FB5009C11CB /* CustomComponents */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -428,6 +430,7 @@
 			isa = PBXGroup;
 			children = (
 				277CABD029813969009C11CB /* AuthVC.swift */,
+				CE75CEB72A4B7ED200C5F59E /* AuthPresenter.swift */,
 			);
 			path = AuthVC;
 			sourceTree = "<group>";
@@ -455,7 +458,6 @@
 			isa = PBXGroup;
 			children = (
 				CEF2BB442A018E7400D4DBA1 /* Cells */,
-				CE5D7F0D29F1FC0500A7D212 /* Model */,
 				277CABE829814F05009C11CB /* HomeVC.swift */,
 				CE5D7EFE29F1E4C400A7D212 /* HomePresenter.swift */,
 			);
@@ -649,6 +651,42 @@
 			path = MaterialsVC;
 			sourceTree = "<group>";
 		};
+		CEF4D17E2A3F6F1900110194 /* UserFormItemTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				CEAC3CA52A19291B009774AD /* UserFormItemTableViewCell.swift */,
+				CEAC3CA62A19291B009774AD /* UserFormItemTableViewCell.xib */,
+			);
+			path = UserFormItemTableViewCell;
+			sourceTree = "<group>";
+		};
+		CEF4D17F2A3F6F2400110194 /* FormTypeNoteCell */ = {
+			isa = PBXGroup;
+			children = (
+				277CABF6298199B6009C11CB /* FormTypeNoteCell.swift */,
+				277CABF7298199B6009C11CB /* FormTypeNoteCell.xib */,
+			);
+			path = FormTypeNoteCell;
+			sourceTree = "<group>";
+		};
+		CEF4D1802A3F6F3000110194 /* CustomFormItemTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				CECD94262A1EB478007BEB65 /* CustomFormItemTableViewCell.swift */,
+				CECD94272A1EB478007BEB65 /* CustomFormItemTableViewCell.xib */,
+			);
+			path = CustomFormItemTableViewCell;
+			sourceTree = "<group>";
+		};
+		CEF4D1812A3F6F3F00110194 /* NewBoxTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				CE0B92362A28E64500530977 /* NewBoxTableViewCell.swift */,
+				CE0B92372A28E64500530977 /* NewBoxTableViewCell.xib */,
+			);
+			path = NewBoxTableViewCell;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -667,6 +705,8 @@
 			dependencies = (
 			);
 			name = FormApp;
+			packageProductDependencies = (
+			);
 			productName = FormApp;
 			productReference = 277CABC929813969009C11CB /* FormApp.app */;
 			productType = "com.apple.product-type.application";
@@ -695,6 +735,8 @@
 				Base,
 			);
 			mainGroup = 277CABC029813969009C11CB;
+			packageReferences = (
+			);
 			productRefGroup = 277CABCA29813969009C11CB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -810,6 +852,7 @@
 				CE5D7F0329F1F56C00A7D212 /* SubmittedFormsPresenter.swift in Sources */,
 				277CABF229815062009C11CB /* UIViewFromNIB.swift in Sources */,
 				279404CF29A0BC9A00742AD9 /* AppConfig.swift in Sources */,
+				CEA798542A46F05E00813277 /* SubContractorsDBModel.swift in Sources */,
 				CE5D7F0129F1F22F00A7D212 /* QCFormPresenter.swift in Sources */,
 				CE5D7EEF29F1D48F00A7D212 /* PORequestVC.swift in Sources */,
 				CE3A79C529C70A0500413E0B /* FormTableViewCell.swift in Sources */,
@@ -846,6 +889,7 @@
 				CE42025E29B8894D00517FCA /* RealmManagerInterface.swift in Sources */,
 				CE5D7F0F29F1FC1200A7D212 /* HomeModels.swift in Sources */,
 				CE08C9A929BF6EEB002434EB /* FormItemDBModel.swift in Sources */,
+				CE75CEB82A4B7ED200C5F59E /* AuthPresenter.swift in Sources */,
 				CE59C00F29DC5C0B0002C1F8 /* FormItemReason.swift in Sources */,
 				CECD94252A1E9F85007BEB65 /* FormItemNewBox.swift in Sources */,
 				279404F529A2BA1700742AD9 /* CDAlertViewType.swift in Sources */,
@@ -855,7 +899,7 @@
 				277CABCF29813969009C11CB /* SceneDelegate.swift in Sources */,
 				279404D529A0BCEF00742AD9 /* KeychainOperations.swift in Sources */,
 				CE5D7EFB29F1DF0000A7D212 /* SignUpPresenter.swift in Sources */,
-				CE6AED5C2A30CE2A00BC24A4 /* AppStoreReponse.swift in Sources */,
+				CE6AED5C2A30CE2A00BC24A4 /* VersionModel.swift in Sources */,
 				279404D929A0C86400742AD9 /* Storyboarded.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

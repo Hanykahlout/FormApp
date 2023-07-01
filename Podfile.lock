@@ -10,12 +10,16 @@ PODS:
   - Realm/Headers (10.37.0)
   - RealmSwift (10.37.0):
     - Realm (= 10.37.0)
+  - SDWebImage (5.15.5):
+    - SDWebImage/Core (= 5.15.5)
+  - SDWebImage/Core (5.15.5)
   - SVProgressHUD (2.2.5)
 
 DEPENDENCIES:
   - IQKeyboardManagerSwift (= 6.3.0)
   - Moya
   - RealmSwift (~> 10)
+  - SDWebImage (~> 5.0)
   - SVProgressHUD
 
 SPEC REPOS:
@@ -25,6 +29,7 @@ SPEC REPOS:
     - Moya
     - Realm
     - RealmSwift
+    - SDWebImage
     - SVProgressHUD
 
 SPEC CHECKSUMS:
@@ -33,8 +38,9 @@ SPEC CHECKSUMS:
   Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
   Realm: 9c5fc6f8f5cb70b299f2e3064d2b9f6cb0f1523d
   RealmSwift: 7be7bb45911c16400dd1bfce3a01764ecb4cae7a
+  SDWebImage: fd7e1a22f00303e058058278639bf6196ee431fe
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: 0fda69157b5f1cb9640bbc6d56eb21c4628bdc04
+PODFILE CHECKSUM: f4b5a32fe6c2018bcda55eaafb559d4667d4e095
 
 COCOAPODS: 1.11.3

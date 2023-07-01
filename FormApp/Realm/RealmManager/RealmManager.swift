@@ -13,6 +13,30 @@ class RealmManager: RealmManagerInterface {
     // MARK: - Variables And Properties
     static let sharedInstance = RealmManager()
     
+    
+    func checkMigration(){
+        let config = Realm.Configuration(
+            schemaVersion: 1, // Set the new schema version.
+            migrationBlock: { migration, oldSchemaVersion in
+                if oldSchemaVersion < 1 {
+                    // The enumerateObjects(ofType:_:) method iterates over
+                    // every Person object stored in the Realm file to apply the migration
+                    migration.enumerateObjects(ofType: DataDetailsDBModel.className()) { oldObject, newObject in
+                        newObject?["is_fixture"] = nil
+                    }
+                    migration.create("SubContractorsDBModel")
+                    let uuid = UserDefaults.standard.string(forKey: "ApplicationSessionUUID") ?? ""
+                    AppManager.shared.changeVersion(uuid: uuid, checkDatabase: true, model: "subContractor") { result in }
+                    AppManager.shared.changeVersion(uuid: uuid, checkDatabase: true, model: "form") { result in }
+                }
+            }
+        )
+        
+        Realm.Configuration.defaultConfiguration = config
+        _ = try! Realm()
+        
+    }
+    
     // MARK: Saving
     func saveObjects<T: Object>(_ objects: [T]) {
         if let realm = try? Realm() {
@@ -93,6 +117,7 @@ class RealmManager: RealmManagerInterface {
         return RealmManager.sharedInstance.fetchObjects(FormItemDBModel.self, predicate: predicate)?.first
     }
     
+    
     private func checkFailReasonsExist(id:Int)->Bool{
         let predicate = NSPredicate(format: "id == \(id)")
         return !(RealmManager.sharedInstance.fetchObjects(FormItemReason.self,predicate: predicate)?.isEmpty ?? true)
@@ -111,3 +136,4 @@ class RealmManager: RealmManagerInterface {
     }
     
 }
+

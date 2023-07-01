@@ -30,7 +30,8 @@ class RealmController{
             let created_at = model.created_at
             let project = model.project
             let cusomter = model.customer
-            let obj = DataDetails(id: id, title: title, email: email, company_id: company_id, created_at: created_at,project:project,customer: cusomter)
+            let is_fixture = model.is_fixture
+            let obj = DataDetails(id: id, title: title, email: email, company_id: company_id, created_at: created_at,project:project,customer: cusomter,is_fixture: is_fixture)
             result.append(obj)
         }
         return result
@@ -51,7 +52,32 @@ class RealmController{
             let created_at = model.created_at
             let customer = model.customer
             let project = model.project
-            let obj = DataDetails(id: id, title: title, email: email, company_id: company_id, created_at: created_at,project:project,customer: customer)
+            let is_fixture = model.is_fixture
+            let obj = DataDetails(id: id, title: title, email: email, company_id: company_id, created_at: created_at,project:project,customer: customer,is_fixture: is_fixture)
+            result.append(obj)
+        }
+        return result
+    }
+    
+    func getSubContractorsDBModel(searchText:String)->[SubContractor]{
+
+        var models = [SubContractorsDBModel]()
+        if searchText == ""{
+            models = RealmManager.sharedInstance.fetchObjects(SubContractorsDBModel.self) ?? []
+        }else{
+            let predicate = NSPredicate(format: "name CONTAINS[c] '\(searchText)'")
+            models = RealmManager.sharedInstance.fetchObjects(SubContractorsDBModel.self,predicate: predicate) ?? []
+        }
+        var result = [SubContractor]()
+        for model in models {
+            let id = model.id
+            let name = model.name
+            let telephone = model.telephone
+            let vendor = model.vendor
+            let companyID = model.company_id
+            let createdAt = model.created_at
+            
+            let obj = SubContractor(id: id, name: name, telephone: telephone, vendor: vendor, company_id: companyID,created_at:createdAt)
             result.append(obj)
         }
         return result
@@ -72,11 +98,7 @@ class RealmController{
             let system_list = Array(model.system_list)
             let price = model.price ?? ""
             let show_price = model.show_price ?? ""
-//            var reasons:[FailReasonData] = []
             var newBoxs:[NewBoxData] = []
-//            model.reasons.forEach{
-//                reasons.append(FailReasonData(id: $0.id, title: $0.title, form_item_id: $0.form_item_id, created_at: $0.created_at))
-//            }
             model.new_box.forEach{
                 newBoxs.append(NewBoxData(title: $0.title,box_type: $0.box_type))
             }
@@ -89,11 +111,9 @@ class RealmController{
     }
     
     
-    
     func deleteFormFailReasons(id:Int){
         RealmManager.sharedInstance.removeWhere(column: "id", value: id, for: FormItemReason.self)
     }
-    
     
     
     func deleteDataDetailsFromRealmDB(id:Int){
@@ -103,6 +123,10 @@ class RealmController{
     
     func deleteFormItemRealmDB(id:Int){
         RealmManager.sharedInstance.removeWhere(column: "id", value: id, for: FormItemDBModel.self)
+    }
+    
+    func deleteSubContractorDBModel(id:Int){
+        RealmManager.sharedInstance.removeWhere(column: "id", value: id, for: SubContractorsDBModel.self)
     }
     
     
@@ -118,6 +142,7 @@ class RealmController{
             dbModel.type = type
             dbModel.project = model.project
             dbModel.customer = model.customer
+            dbModel.is_fixture = model.is_fixture
             RealmManager.sharedInstance.saveObject(dbModel)
         }
     }
@@ -145,6 +170,23 @@ class RealmController{
             RealmManager.sharedInstance.saveObject(dbModel)
         }
     }
+    
+    
+    func addToSubContractorsDBModel(models:[SubContractor]){
+        for model in models{
+            let dbModel = SubContractorsDBModel()
+            dbModel.id = model.id
+            dbModel.name = model.name
+            dbModel.telephone = model.telephone
+            dbModel.vendor = model.vendor
+            dbModel.company_id = model.company_id
+            dbModel.created_at = model.created_at
+            
+            RealmManager.sharedInstance.saveObject(dbModel)
+        }
+    }
+    
+    
     
     
 }

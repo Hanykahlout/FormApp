@@ -14,6 +14,7 @@ protocol QCFormPresenterDelegate{
     func getJobData(data: JobData)
     func getFormsData(data: FormsData)
     func getDivition(data: DiviosnData)
+    func getSubContractors(data: SubContractorsResponse)
     func getFormItemsData(data: FormItemData)
 }
 
@@ -40,6 +41,10 @@ class QCFormPresenter{
     
     func getDivisionFromDB(companyID:String,search:String){
         self.delegate?.getDivition(data: DiviosnData(divisions: RealmController.shared.getFromDBModels(type:"divisions",companyId: companyID,searchText: search)))
+    }
+     
+    func getSubContractorsDBModel(search:String){
+        self.delegate?.getSubContractors(data: SubContractorsResponse(subContractors: RealmController.shared.getSubContractorsDBModel(searchText: search)))
     }
     
     
