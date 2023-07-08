@@ -31,7 +31,9 @@ class RealmController{
             let project = model.project
             let cusomter = model.customer
             let is_fixture = model.is_fixture
-            let obj = DataDetails(id: id, title: title, email: email, company_id: company_id, created_at: created_at,project:project,customer: cusomter,is_fixture: is_fixture)
+            let users = Array(model.users)
+            let form_status = model.form_status
+            let obj = DataDetails(id: id, title: title, email: email, company_id: company_id, created_at: created_at,project:project,customer: cusomter,is_fixture: is_fixture,users: users,form_status: form_status)
             result.append(obj)
         }
         return result
@@ -53,7 +55,9 @@ class RealmController{
             let customer = model.customer
             let project = model.project
             let is_fixture = model.is_fixture
-            let obj = DataDetails(id: id, title: title, email: email, company_id: company_id, created_at: created_at,project:project,customer: customer,is_fixture: is_fixture)
+            let users = Array(model.users)
+            let form_status = model.form_status
+            let obj = DataDetails(id: id, title: title, email: email, company_id: company_id, created_at: created_at,project:project,customer: customer,is_fixture: is_fixture,users: users,form_status: form_status)
             result.append(obj)
         }
         return result
@@ -143,6 +147,9 @@ class RealmController{
             dbModel.project = model.project
             dbModel.customer = model.customer
             dbModel.is_fixture = model.is_fixture
+            dbModel.users.append(objectsIn: model.users ?? [])
+            dbModel.form_status = model.form_status
+            
             RealmManager.sharedInstance.saveObject(dbModel)
         }
     }

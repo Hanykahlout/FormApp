@@ -19,7 +19,7 @@ class HomeVC: UIViewController {
     //MARK: - Properties
     
     let presenter = HomePresenter()
-    var email = ""
+    
     
     //MARK: - Life cycle
     

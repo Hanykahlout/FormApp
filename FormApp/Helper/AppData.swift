@@ -35,4 +35,6 @@ struct AppData {
     @Storage(key: "email", defaultValue: "")
     static var email: String
     
+    @Storage(key: "id", defaultValue: -1)
+    static var id: Int
 }

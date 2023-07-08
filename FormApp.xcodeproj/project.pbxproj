@@ -76,6 +76,8 @@
 		CE6AED5C2A30CE2A00BC24A4 /* VersionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6AED5B2A30CE2A00BC24A4 /* VersionModel.swift */; };
 		CE75CEB82A4B7ED200C5F59E /* AuthPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE75CEB72A4B7ED200C5F59E /* AuthPresenter.swift */; };
 		CE8169E02A05852800CBF0AD /* CreateMaterialVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8169DF2A05852800CBF0AD /* CreateMaterialVC.swift */; };
+		CE976CB02A54990400059801 /* Audiowide-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE976CAF2A54990400059801 /* Audiowide-Regular.ttf */; };
+		CE976CB42A54993F00059801 /* Questrial-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE976CB32A54993F00059801 /* Questrial-Regular.ttf */; };
 		CE9F7A092A02BA0700C04F40 /* UIPaddedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9F7A082A02BA0700C04F40 /* UIPaddedTextField.swift */; };
 		CE9F7A0B2A02C7B400C04F40 /* MaterialsPrestner.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9F7A0A2A02C7B400C04F40 /* MaterialsPrestner.swift */; };
 		CEA0B7BE29F573D800F7316C /* PORequestPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA0B7BD29F573D800F7316C /* PORequestPresenter.swift */; };
@@ -181,6 +183,8 @@
 		CE6AED5B2A30CE2A00BC24A4 /* VersionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionModel.swift; sourceTree = "<group>"; };
 		CE75CEB72A4B7ED200C5F59E /* AuthPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPresenter.swift; sourceTree = "<group>"; };
 		CE8169DF2A05852800CBF0AD /* CreateMaterialVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMaterialVC.swift; sourceTree = "<group>"; };
+		CE976CAF2A54990400059801 /* Audiowide-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Audiowide-Regular.ttf"; sourceTree = "<group>"; };
+		CE976CB32A54993F00059801 /* Questrial-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Questrial-Regular.ttf"; sourceTree = "<group>"; };
 		CE9F7A082A02BA0700C04F40 /* UIPaddedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPaddedTextField.swift; sourceTree = "<group>"; };
 		CE9F7A0A2A02C7B400C04F40 /* MaterialsPrestner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaterialsPrestner.swift; sourceTree = "<group>"; };
 		CEA0B7BD29F573D800F7316C /* PORequestPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PORequestPresenter.swift; sourceTree = "<group>"; };
@@ -256,6 +260,7 @@
 		277CABCB29813969009C11CB /* FormApp */ = {
 			isa = PBXGroup;
 			children = (
+				CE976CAE2A5498E800059801 /* Fonts */,
 				CEF2BB242A018E3600D4DBA1 /* Extenstions+Designables */,
 				CE5D7F1529F1FD6200A7D212 /* Resources */,
 				CE5D7F1429F1FD3400A7D212 /* Configurations */,
@@ -579,6 +584,31 @@
 			path = CreateMaterialVC;
 			sourceTree = "<group>";
 		};
+		CE976CAE2A5498E800059801 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				CE976CB22A54993900059801 /* Questrial */,
+				CE976CB12A54992F00059801 /* Audiowide */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		CE976CB12A54992F00059801 /* Audiowide */ = {
+			isa = PBXGroup;
+			children = (
+				CE976CAF2A54990400059801 /* Audiowide-Regular.ttf */,
+			);
+			path = Audiowide;
+			sourceTree = "<group>";
+		};
+		CE976CB22A54993900059801 /* Questrial */ = {
+			isa = PBXGroup;
+			children = (
+				CE976CB32A54993F00059801 /* Questrial-Regular.ttf */,
+			);
+			path = Questrial;
+			sourceTree = "<group>";
+		};
 		CEA6F5282A0A70B100C6A7A0 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -755,11 +785,13 @@
 				CEAC3CA82A19291B009774AD /* UserFormItemTableViewCell.xib in Resources */,
 				CECD94292A1EB478007BEB65 /* CustomFormItemTableViewCell.xib in Resources */,
 				277CABD62981396A009C11CB /* Assets.xcassets in Resources */,
+				CE976CB42A54993F00059801 /* Questrial-Regular.ttf in Resources */,
 				272C86A229AE04D50028D1C1 /* SearchView.xib in Resources */,
 				CEA6F52C2A0A70CE00C6A7A0 /* MaterialTableViewCell.xib in Resources */,
 				CE0B92392A28E64500530977 /* NewBoxTableViewCell.xib in Resources */,
 				277CABF029814FD5009C11CB /* MainTF.xib in Resources */,
 				277CABD429813969009C11CB /* Main.storyboard in Resources */,
+				CE976CB02A54990400059801 /* Audiowide-Regular.ttf in Resources */,
 				CEF2BB4C2A018EB400D4DBA1 /* HomeVCTableViewCell.xib in Resources */,
 				277CABF9298199B7009C11CB /* FormTypeNoteCell.xib in Resources */,
 				CE3A79C629C70A0500413E0B /* FormTableViewCell.xib in Resources */,
@@ -1065,7 +1097,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = ios.chesapeake.formApps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1103,7 +1135,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = ios.chesapeake.formApps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -11,6 +11,7 @@ struct SubmittedFormData:Decodable{
     let passForms:[FormInfo]
     let failForms:[FormInfo]
     let fixtureForms:[FormInfo]
+    let drafts:[FormInfo]
     
 }
 

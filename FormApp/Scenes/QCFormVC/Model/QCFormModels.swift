@@ -168,6 +168,9 @@ struct DataDetails:Decodable{
     var reason: String?
     var reason_id: Int?
     var is_fixture: Int?
+    var users:[String]?
+    var form_status:String?
+    
     var note: String?
     var project:String?
     var customer:String?
@@ -194,7 +197,7 @@ struct DataDetails:Decodable{
         self.isWithPic = isWithPic
     }
     
-    init(id: Int?, title: String?, email: String?, company_id: String?, created_at: String?,project:String?,customer:String?,is_fixture:Int?) {
+    init(id: Int?, title: String?, email: String?, company_id: String?, created_at: String?,project:String?,customer:String?,is_fixture:Int?,users:[String]?,form_status:String?) {
         self.id = id
         self.title = title
         self.email = email
@@ -203,6 +206,9 @@ struct DataDetails:Decodable{
         self.project = project
         self.customer = customer
         self.is_fixture = is_fixture
+        self.users = users
+        self.form_status = form_status
+        
     }
     
     
@@ -222,7 +228,7 @@ struct DataDetails:Decodable{
     
     
     init(id: Int?, title: String?,status: String?,note:String?,
-         system:String?,reasons:[FailReasonData]?,reason_id:Int?,reason:String?,new_boxes:[NewBoxData],image:String?,isWithPic:Bool) {
+         system:String?,reasons:[FailReasonData]?,reason_id:Int?,reason:String?,new_boxes:[NewBoxData],image:String?,isWithPic:Bool,price:String?,show_price:String?) {
         self.id = id
         self.title = title
         self.status = status
@@ -234,7 +240,8 @@ struct DataDetails:Decodable{
         self.new_boxes = new_boxes
         self.image = image
         self.isWithPic = isWithPic
-        
+        self.price = price
+        self.show_price = show_price
     }
     
     init(id:Int?,value:String?,title:String?,status:String?,price:String?,show_price:String?,system:String?,system_type:String?,system_list:[String]?,image:String?,isWithPic:Bool?){
@@ -278,6 +285,8 @@ struct DataDetails:Decodable{
         case new_item_type
         case isWithPrice
         case is_fixture
+        case users
+        case form_status
     }
     
     init(from decoder: Decoder) throws {
@@ -286,6 +295,14 @@ struct DataDetails:Decodable{
         
         if let value = try? container.decode(Int.self, forKey:.id) {
             id = value
+        }
+        
+        if let value = try? container.decode([String].self, forKey:.users) {
+            users = value
+        }
+        
+        if let value = try? container.decode(String.self, forKey:.form_status) {
+            form_status = value
         }
         
         if let value = try? container.decode(String.self, forKey:.title) {

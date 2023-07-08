@@ -97,8 +97,9 @@ extension LoginVC:LoginPresenterDelefate {
             try KeychainWrapper.set(value: user.email ?? "" , key: "email")
             try KeychainWrapper.set(value: "Bearer"+" "+user.api_token! , key: user.email ?? "")
             AppData.email = user.email ?? ""
+            AppData.id = user.id ?? -1
+            
             let vc=HomeVC.instantiate()
-            vc.email = user.email ?? ""
             SVProgressHUD.dismiss()
             
             navigationController?.pushViewController(vc, animated: true)

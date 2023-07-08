@@ -11,6 +11,7 @@ import SVProgressHUD
 class QCFormVC: UIViewController {
     //MARK: - Outlet
     
+    @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var mainScrollView: UIScrollView!
     @IBOutlet weak var totalView: UIView!
     @IBOutlet weak var totalPriceLabel: UILabel!
@@ -81,7 +82,10 @@ class QCFormVC: UIViewController {
     private var subContractorPickerVC: PickerVC?
     private var selectedJobProject = ""
     private var selectedCellIndexPath:IndexPath!
+    private var formPurpose:FormPurpose = .create
+    
     var editData: FormInfo?
+    var draftData: FormInfo?
     
     
     //MARK: - Life cycle
@@ -108,83 +112,92 @@ class QCFormVC: UIViewController {
     
     private func checkEditData(){
         if let editData = editData{
-            headerTitleLabel.text = editData.form?.title ?? ""
-            addNewFormItemView.isHidden = false
-            companyID = editData.company?.id ?? 0
-            companyBtn.isEnabled = true
-            companyView.backgroundColor = .black
-            companiesData.text = editData.company?.title ?? ""
-            
-            jobID = editData.job?.id ?? 0
-            jobBtn.isEnabled = true
-            jobView.backgroundColor = .black
-            jobData.text = editData.job?.title ?? ""
-            jobView.backgroundColor = .black
-            
-            formTypeID = editData.form?.id ?? 0
-            formTypeBtn.isEnabled = true
-            formTypeView.backgroundColor = .black
-            formTypeData.text = editData.form?.title ?? ""
-            
-            if editData.form?.is_fixture == 1{
-                presenter.getSubContractorsDBModel(search: "")
-            }
-            
-            divisionID = editData.division?.id ?? 0
-            divisionBtn.isEnabled = true
-            divisionView.backgroundColor = .black
-            diviosnLeaderData.text = editData.division?.title ?? ""
-            
-            
-            
-            for item in editData.items ?? []{
-                if item.id == nil{
-                    let name = item.name ?? ""
-                    let status = item.value ?? ""
-                    let new_item_type = item.new_item_type ?? .text
-                    let isFromUser = true
-                    let isWithPrice = item.withPrice == "1"
-                    let price = item.price
-                    let image = item.image
-                    formsItem.append(.init(name: name , status: status ,new_item_type: new_item_type,isFromUser: isFromUser ,isWithPrice: isWithPrice ,price: price,image: image,isWithPic: image != nil))
-                    
-                }else if item.item?.system_type != nil{
-                    let id = item.item?.id ?? 0
-                    let value = item.value ?? ""
-                    let title = item.item?.title
-                    let status = item.item?.value
-                    let price = item.item?.price
-                    let show_price = item.item?.show_price
-                    let system = item.item?.system
-                    let system_type = item.item?.system_type
-                    let system_list = item.item?.system_list
-                    let image = item.image
-                    
-                    formsItem.append(.init(id: id,value: value,title: title, status: status,price: price,show_price: show_price,system: system, system_type: system_type, system_list: system_list,image: image,isWithPic: image != nil))
-                    
-                }else{
-                    var newBoxs = [NewBoxData]()
-                    for box in item.new_boxes ?? []{
-                        newBoxs.append(.init(title:box.title,box_type: box.type,value: box.value))
-                    }
-                    let id = item.item_id ?? -1
-                    let title = item.item?.title ?? ""
-                    let status = item.value ?? ""
-                    let note = item.notes ?? ""
-                    let system = item.item?.system
-                    let reasons = item.item?.fail_reasons
-                    let reason_id = item.fail_reason?.id
-                    let reason = item.fail_reason?.title
-                    let image = item.image
-                    formsItem.append(.init(id: id, title: title, status: status, note: note,system: system,reasons: reasons,reason_id: reason_id,reason: reason,new_boxes: newBoxs,image: image,isWithPic: image != nil))
-                }
-            }
-            self.companyID = Int(editData.company_id ?? "-1")!
-            self.presenter.getJobsFromDB(companyID: "\(self.companyID)", search: "")
-            self.presenter.getDivisionFromDB(companyID: "\(self.companyID)", search: "")
-            self.presenter.getFormsFromDB(companyID: "\(self.companyID)", search: "")
-            formTypeNoteTableview.reloadData()
+            setFormData(fromData: editData)
+        }else if let draftData = draftData{
+            setFormData(fromData: draftData)
         }
+    }
+    
+    private func setFormData(fromData:FormInfo){
+        saveButton.isHidden = true
+        headerTitleLabel.text = fromData.form?.title ?? ""
+        addNewFormItemView.isHidden = false
+        companyID = fromData.company?.id ?? 0
+        companyBtn.isEnabled = true
+        companyView.backgroundColor = .black
+        companiesData.text = fromData.company?.title ?? ""
+        
+        jobID = fromData.job?.id ?? 0
+        jobBtn.isEnabled = true
+        jobView.backgroundColor = .black
+        jobData.text = fromData.job?.title ?? ""
+        jobView.backgroundColor = .black
+        
+        formTypeID = fromData.form?.id ?? 0
+        formTypeBtn.isEnabled = true
+        formTypeView.backgroundColor = .black
+        formTypeData.text = fromData.form?.title ?? ""
+        
+        if fromData.form?.is_fixture == 1{
+            presenter.getSubContractorsDBModel(search: "")
+        }
+        
+        divisionID = fromData.division?.id ?? 0
+        divisionBtn.isEnabled = true
+        divisionView.backgroundColor = .black
+        diviosnLeaderData.text = fromData.division?.title ?? ""
+        
+        
+        
+        for item in fromData.items ?? []{
+            if item.id == nil{
+                let name = item.name ?? ""
+                let status = item.value ?? ""
+                let new_item_type = item.new_item_type ?? .text
+                let isFromUser = true
+                let isWithPrice = item.withPrice == "1"
+                let price = item.price
+                let image = item.image
+                formsItem.append(.init(name: name , status: status ,new_item_type: new_item_type,isFromUser: isFromUser ,isWithPrice: isWithPrice ,price: price,image: image,isWithPic: image != nil))
+                
+            }else if item.item?.system_type != nil{
+                let id = item.item?.id ?? 0
+                let value = item.value ?? ""
+                let title = item.item?.title
+                let status = item.item?.value
+                let price = item.item?.price
+                let show_price = item.item?.show_price
+                let system = item.item?.system
+                let system_type = item.item?.system_type
+                let system_list = item.item?.system_list
+                let image = item.image
+                
+                formsItem.append(.init(id: id,value: value,title: title, status: status,price: price,show_price: show_price,system: system, system_type: system_type, system_list: system_list,image: image,isWithPic: image != nil))
+                
+            }else{
+                var newBoxs = [NewBoxData]()
+                for box in item.new_boxes ?? []{
+                    newBoxs.append(.init(title:box.title,box_type: box.type,value: box.value))
+                }
+                let id = item.item_id ?? -1
+                let title = item.item?.title ?? ""
+                let status = item.value ?? ""
+                let note = item.notes ?? ""
+                let system = item.item?.system
+                let reasons = item.item?.fail_reasons
+                let reason_id = item.fail_reason?.id
+                let reason = item.fail_reason?.title
+                let image = item.image
+                let price = item.item?.price
+                let show_price = item.item?.show_price
+                formsItem.append(.init(id: id, title: title, status: status, note: note,system: system,reasons: reasons,reason_id: reason_id,reason: reason,new_boxes: newBoxs,image: image,isWithPic: image != nil,price: price,show_price: show_price))
+            }
+        }
+        self.companyID = Int(fromData.company_id ?? "-1")!
+        self.presenter.getJobsFromDB(companyID: "\(self.companyID)", search: "")
+        self.presenter.getDivisionFromDB(companyID: "\(self.companyID)", search: "")
+        self.presenter.getFormsFromDB(companyID: "\(self.companyID)", search: "")
+        formTypeNoteTableview.reloadData()
     }
     
     private func btnStatus(){
@@ -235,6 +248,7 @@ class QCFormVC: UIViewController {
             self.presenter.getFormItemFromDB(project: self.selectedJobProject,
                                              formTypeID:"\(self.formTypeID)" )
             self.selectedCompanyIndex = index
+            self.addNewFormItemView.isHidden = !self.checkAllFieldsSelected()
         }
         self.present(companyPickerVC!, animated: true, completion: nil)
     }
@@ -264,6 +278,7 @@ class QCFormVC: UIViewController {
             self.presenter.getFormItemFromDB(project: self.selectedJobProject,
                                              formTypeID:"\(self.formTypeID)" )
             self.selectedJobIndex = index
+            self.addNewFormItemView.isHidden = !self.checkAllFieldsSelected()
         }
         self.present(jobPickerVC!, animated: true, completion: nil)
     }
@@ -287,6 +302,7 @@ class QCFormVC: UIViewController {
             self.diviosnLeaderData.text = self.division[index].title ?? ""
             self.divisionID = self.division[index].id ?? 0
             self.selectedDivisionIndex = index
+            self.addNewFormItemView.isHidden = !self.checkAllFieldsSelected()
         }
         self.present(divitionPickerVC!, animated: true, completion: nil)
     }
@@ -317,6 +333,7 @@ class QCFormVC: UIViewController {
             self.presenter.getFormItemFromDB(project: self.selectedJobProject,
                                              formTypeID:"\(self.formTypeID)" )
             self.selectedFormTypeIndex = index
+            self.addNewFormItemView.isHidden = !self.checkAllFieldsSelected()
         }
         self.present(formTypePickerVC!, animated: true, completion: nil)
     }
@@ -346,6 +363,13 @@ class QCFormVC: UIViewController {
         self.present(subContractorPickerVC!, animated: true, completion: nil)
     }
     
+    private func saveAction(){
+        SVProgressHUD.setBackgroundColor(.white)
+        SVProgressHUD.show(withStatus: "please wait")
+        formPurpose = .draft
+        self.presenter.submitFormData(formPurpose: formPurpose,formsDetails: self.formDetailsParameter())
+    }
+    
     private func submitAction(){
         do{
             _ = try diviosnLeaderData.validatedText(validationType: .requiredField(field: " Select Division leader please"))
@@ -359,7 +383,9 @@ class QCFormVC: UIViewController {
                     if self.isAllFormItemsSelected(){
                         SVProgressHUD.setBackgroundColor(.white)
                         SVProgressHUD.show(withStatus: "please wait")
-                        self.presenter.submitFormData(isEdit:self.editData != nil ,formsDetails: self.formDetailsParameter())
+                        self.formPurpose = self.editData != nil ? .edit : .create
+                        
+                        self.presenter.submitFormData(formPurpose: self.formPurpose,formsDetails: self.formDetailsParameter())
                     }else{
                         Alert.showErrorAlert(message:  "Add your form Item Data,You have at least to choose status for every item" )
                     }
@@ -382,6 +408,9 @@ class QCFormVC: UIViewController {
         }
         if editData != nil{
             formData["submitted_form_id"] = "\(editData!.id ?? -1)"
+        }
+        if draftData != nil{
+            formData["saved_form_id"] = "\(draftData!.id ?? -1)"
         }
         
         for index in 0 ..< formsItem.count{
@@ -443,6 +472,7 @@ extension QCFormVC{
     
     private func binding(){
         submitBtn.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
+        saveButton.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
         backBtn.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
         addNewFormItemButton.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
         companyBtn.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
@@ -482,6 +512,8 @@ extension QCFormVC{
     
     @objc private func bindingAction(_ sender:UIButton){
         switch sender{
+        case saveButton:
+            saveAction()
         case submitBtn:
             submitAction()
         case backBtn :
@@ -624,9 +656,7 @@ extension QCFormVC:UITableViewDelegate, UITableViewDataSource{
                     price += Double(item.status ?? "0.0") ?? 0.0
                 }else if item.system == "quantity" || item.new_item_type == .quantity{
                     let quantity = Double(item.status ?? "0.0") ?? 0.0
-                    if item.show_price == "1" || item.isFromUser ?? false{
-                        price += (quantity) * (Double(item.price ?? "0.0") ?? 0.0)
-                    }
+                    price += (quantity) * (Double(item.price ?? "0.0") ?? 0.0)
                     qty += quantity
                 }else{
                     price += Double(item.price ?? "0.0") ?? 0.0
@@ -847,7 +877,19 @@ extension QCFormVC:QCFormPresenterDelegate{
     }
     
     func getFormsData(data: FormsData) {
-        forms=data.forms
+        forms.removeAll()
+        data.forms.forEach({
+            if $0.form_status == "active"{
+                if $0.users?.isEmpty ?? true{
+                    forms.append($0)
+                }else{
+                    if $0.users!.contains(String(AppData.id)){
+                        forms.append($0)
+                    }
+                }
+            }
+        })
+        
         formTypeBtn.isEnabled=true
         self.formTypeView.backgroundColor = .black
         SVProgressHUD.dismiss()
@@ -940,4 +982,8 @@ extension QCFormVC : UIImagePickerControllerDelegate , UINavigationControllerDel
     }
 }
 
+enum FormPurpose{
+    case edit,create,draft
+    
+}
 

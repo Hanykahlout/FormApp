@@ -23,11 +23,14 @@ class RealmManager: RealmManagerInterface {
                     // every Person object stored in the Realm file to apply the migration
                     migration.enumerateObjects(ofType: DataDetailsDBModel.className()) { oldObject, newObject in
                         newObject?["is_fixture"] = nil
+                        newObject?["users"] = List<String>()
+                        newObject?["form_status"] = nil
                     }
                     migration.create("SubContractorsDBModel")
                     let uuid = UserDefaults.standard.string(forKey: "ApplicationSessionUUID") ?? ""
                     AppManager.shared.changeVersion(uuid: uuid, checkDatabase: true, model: "subContractor") { result in }
                     AppManager.shared.changeVersion(uuid: uuid, checkDatabase: true, model: "form") { result in }
+                    try? KeychainWrapper.delete(key: AppData.email)
                 }
             }
         )

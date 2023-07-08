@@ -13,3 +13,5 @@ class FormItemNewBox: Object {
     @Persisted var box_type:String?
     
 }
+
+

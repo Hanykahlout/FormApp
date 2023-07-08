@@ -28,7 +28,13 @@ class AuthVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        presenter.checkVersion()
+        if UserDefaults.standard.bool(forKey: "internet_connection") {
+            presenter.checkVersion()
+        }else{
+            signupBtn.isEnabled = true
+            loginBtn.isEnabled = true
+            faceIdButton.isEnabled = true
+        }
     }
     
     // MARK: - Private Functions

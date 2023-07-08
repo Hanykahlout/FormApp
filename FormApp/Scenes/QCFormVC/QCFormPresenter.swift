@@ -21,6 +21,8 @@ protocol QCFormPresenterDelegate{
 
 typealias QCFormDelegate = QCFormPresenterDelegate & UIViewController
 
+// Testing Activation = true
+
 class QCFormPresenter{
     weak var delegate:QCFormDelegate?
     
@@ -53,8 +55,8 @@ class QCFormPresenter{
     }
     
     
-    func submitFormData(isEdit:Bool,formsDetails:[String : Any]){
-        AppManager.shared.submitForms(isEdit:isEdit,formsDetails: formsDetails) { Response in
+    func submitFormData(formPurpose:FormPurpose,formsDetails:[String : Any]){
+        AppManager.shared.submitForms(formPurpose:formPurpose,formsDetails: formsDetails) { Response in
             SVProgressHUD.dismiss()
             switch Response{
             case let .success(response):
@@ -72,7 +74,7 @@ class QCFormPresenter{
                         let url = "\(AppConfig.apiBaseUrl)submitForm"
                         let token = try? KeychainWrapper.get(key: AppData.email) ?? ""
                         let headers:[String:Any] = ["Authorization":token ?? "" ,"Accept":"application/json","Accept-Language":"en"]
-                        self.addRequestToRealm(url: url, body: formsDetails, header: headers, method: "post",isEdit: isEdit)
+                        self.addRequestToRealm(url: url, body: formsDetails, header: headers, method: "post",isEdit: formPurpose == .edit)
                         self.delegate?.clearFields()
                     }
                 }
@@ -98,3 +100,6 @@ class QCFormPresenter{
 
     
 }
+
+
+

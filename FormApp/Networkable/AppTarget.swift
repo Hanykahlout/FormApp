@@ -19,7 +19,7 @@ enum AppTarget:TargetType{
     case subContractors(normal:Int,uuid:String)
     case getFormItems(normal:Int,uuid:String,form_type_id:String)
     case logout
-    case submitForms(isEdit:Bool,formsDetails:[String : Any])
+    case submitForms(formPurpose:FormPurpose,formsDetails:[String : Any])
     case checkDatabase(uuid:String)
     case editSubmittedForm(submitted_form_id:String)
     case submittedForms(search:String)
@@ -47,7 +47,12 @@ enum AppTarget:TargetType{
         case .getFormItems:return "formItems"
         case .subContractors:return "subContractors"
         case .logout:return "logout"
-        case .submitForms(let isEdit,_): return isEdit ? "updateSubmittedForm" : "submitForm"
+        case .submitForms(let formPurpose,_):
+            switch formPurpose{
+            case .create: return "submitForm"
+            case .edit: return "updateSubmittedForm"
+            case .draft: return "saveForm"
+            }
         case .checkDatabase:return "checkDatabase"
         case .editSubmittedForm:return "editSubmittedForm"
         case .submittedForms:return "submittedForms"
@@ -172,3 +177,4 @@ enum AppTarget:TargetType{
     
     
 }
+

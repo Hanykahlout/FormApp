@@ -324,7 +324,7 @@ class HomePresenter{
     private func submitFormData(model: RequestModel,isEdit:Bool,formsDetails:[String : Any]){
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
-        AppManager.shared.submitForms(isEdit:isEdit,formsDetails: formsDetails) { Response in
+        AppManager.shared.submitForms(formPurpose: isEdit ? .edit : .create,formsDetails: formsDetails) { Response in
             dispatchGroup.leave()
             switch Response{
             case .success(let response):

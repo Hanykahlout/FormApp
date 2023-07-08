@@ -23,7 +23,7 @@ protocol AppNetworkable:Networkable  {
     func subContractors(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<SubContractorsResponse>, Error>)-> ())
     func logout(completion: @escaping (Result<BaseResponse<Empty>, Error>)-> ())
     func getFormItems(normal: Int, uuid: String,form_type_id:String,completion: @escaping (Result<BaseResponse<FormItemData>, Error>)-> ())
-    func submitForms(isEdit:Bool,formsDetails:[String : Any],completion: @escaping (Result<BaseResponse<FormItemData>, Error>)-> ())
+    func submitForms(formPurpose:FormPurpose,formsDetails:[String : Any],completion: @escaping (Result<BaseResponse<FormItemData>, Error>)-> ())
     func getFormItemReasons(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<FormItemReasons>, Error>)-> ())
     func getPhaseSpecial(completion: @escaping (Result<BaseResponse<PhasesBuilders>, Error>)-> ())
     func getHouseMaterials(company_id: Int, job_id: Int, phase: String, special: String,completion: @escaping (Result<BaseResponse<MaterialsData>, Error>)-> ())
@@ -87,8 +87,8 @@ class AppManager: AppNetworkable {
         request(target:.getFormItems(normal: normal, uuid: uuid,form_type_id: form_type_id), completion: completion)
     }
     
-    func submitForms(isEdit:Bool,formsDetails: [String : Any], completion: @escaping (Result<BaseResponse<FormItemData>, Error>) -> ()) {
-        request(target: .submitForms(isEdit:isEdit,formsDetails: formsDetails), completion: completion)
+    func submitForms(formPurpose:FormPurpose,formsDetails: [String : Any], completion: @escaping (Result<BaseResponse<FormItemData>, Error>) -> ()) {
+        request(target: .submitForms(formPurpose:formPurpose,formsDetails: formsDetails), completion: completion)
     }
     
     func checkDatabase(uuid:String,completion: @escaping (Result<BaseResponse<RequestsStatus>, Error>) -> ()) {
@@ -112,7 +112,7 @@ class AppManager: AppNetworkable {
         request(target: .getHouseMaterials(company_id: company_id, job_id: job_id, phase: phase, special: special), completion: completion)
     }
     
-    
+               
     func createHouseMaterial(isEdit:Bool,houseMaterialData: [String : Any], completion: @escaping (Result<BaseResponse<Material>, Error>) -> ()) {
         request(target: .createHouseMaterial(isEdit:isEdit,houseMaterialData: houseMaterialData), completion: completion)
     }
@@ -135,3 +135,4 @@ class AppManager: AppNetworkable {
     }
     
 }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
