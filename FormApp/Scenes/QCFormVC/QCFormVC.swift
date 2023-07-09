@@ -23,7 +23,6 @@ class QCFormVC: UIViewController {
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
     
     
-    
     @IBOutlet weak var subContractorStackView: UIStackView!
     @IBOutlet weak var companyView: UIViewDesignable!
     @IBOutlet weak var jobView: UIViewDesignable!
@@ -139,7 +138,12 @@ class QCFormVC: UIViewController {
         formTypeData.text = fromData.form?.title ?? ""
         
         if fromData.form?.is_fixture == 1{
+            subContractorID = fromData.sub_contractor?.id ?? 0
+            subContractorTextField.text = fromData.sub_contractor?.name ?? ""
             presenter.getSubContractorsDBModel(search: "")
+            subContractorStackView.isHidden = false
+        }else{
+            subContractorStackView.isHidden = true
         }
         
         divisionID = fromData.division?.id ?? 0
@@ -329,6 +333,9 @@ class QCFormVC: UIViewController {
             self.formTypeID = self.forms[index].id ?? 0
             if self.forms[index].is_fixture == 1{
                 self.presenter.getSubContractorsDBModel(search: "")
+                self.subContractorStackView.isHidden = false
+            }else{
+                self.subContractorStackView.isHidden = true
             }
             self.presenter.getFormItemFromDB(project: self.selectedJobProject,
                                              formTypeID:"\(self.formTypeID)" )
@@ -926,7 +933,6 @@ extension QCFormVC:QCFormPresenterDelegate{
     
     func getSubContractors(data: SubContractorsResponse) {
         subContractors=data.subContractors ?? []
-        subContractorStackView.isHidden = false
         SVProgressHUD.dismiss()
         
         if let subContractorPickerVC = self.subContractorPickerVC{
@@ -984,6 +990,10 @@ extension QCFormVC : UIImagePickerControllerDelegate , UINavigationControllerDel
 
 enum FormPurpose{
     case edit,create,draft
-    
 }
+
+
+
+
+
 

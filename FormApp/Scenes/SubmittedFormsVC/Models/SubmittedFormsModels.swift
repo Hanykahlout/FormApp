@@ -30,6 +30,7 @@ struct FormInfo:Decodable{
     var job:DataDetails?
     var division:DataDetails?
     var form:DataDetails?
+    var sub_contractor:SubContractor?
     var items:[SubmittedFormItems]?
     
     enum CodingKeys: String, CodingKey {
@@ -46,6 +47,7 @@ struct FormInfo:Decodable{
         case division
         case form
         case items
+        case sub_contractor
     }
     
     init(from decoder: Decoder) throws {
@@ -55,6 +57,11 @@ struct FormInfo:Decodable{
         if let value = try? container.decode(Int.self, forKey:.id) {
             id = value
         }
+        
+        if let value = try? container.decode(SubContractor.self, forKey:.sub_contractor) {
+            sub_contractor = value
+        }
+        
         if let value = try? container.decode(String.self, forKey:.user_id) {
             user_id = value
         } else if let value = try? container.decode(Int.self, forKey:.user_id) {
