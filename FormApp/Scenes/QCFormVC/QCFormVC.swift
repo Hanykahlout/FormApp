@@ -111,14 +111,16 @@ class QCFormVC: UIViewController {
     
     private func checkEditData(){
         if let editData = editData{
+            saveButton.isHidden = true
             setFormData(fromData: editData)
         }else if let draftData = draftData{
+            saveButton.isHidden = false
             setFormData(fromData: draftData)
         }
     }
     
     private func setFormData(fromData:FormInfo){
-        saveButton.isHidden = true
+        
         headerTitleLabel.text = fromData.form?.title ?? ""
         addNewFormItemView.isHidden = false
         companyID = fromData.company?.id ?? 0
@@ -373,7 +375,7 @@ class QCFormVC: UIViewController {
     private func saveAction(){
         SVProgressHUD.setBackgroundColor(.white)
         SVProgressHUD.show(withStatus: "please wait")
-        formPurpose = .draft
+        formPurpose = draftData == nil ? .draft : .updateDraft
         self.presenter.submitFormData(formPurpose: formPurpose,formsDetails: self.formDetailsParameter())
     }
     
@@ -413,9 +415,11 @@ class QCFormVC: UIViewController {
         if !subContractorStackView.isHidden{
             formData["subContractor_id"] = "\(subContractorID)"
         }
+        
         if editData != nil{
             formData["submitted_form_id"] = "\(editData!.id ?? -1)"
         }
+        
         if draftData != nil{
             formData["saved_form_id"] = "\(draftData!.id ?? -1)"
         }
@@ -634,7 +638,7 @@ extension QCFormVC:UITableViewDelegate, UITableViewDataSource{
             }
             
         }else if formItem.system_type != nil{
-            height += 240
+            height += 190
         }else{
             height = 210
             if formItem.show_price == "1"{
@@ -989,11 +993,8 @@ extension QCFormVC : UIImagePickerControllerDelegate , UINavigationControllerDel
 }
 
 enum FormPurpose{
-    case edit,create,draft
+    case edit,create,draft,updateDraft
 }
-
-
-
 
 
 

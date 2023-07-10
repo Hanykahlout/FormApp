@@ -34,7 +34,6 @@ enum AppTarget:TargetType{
     var baseURL: URL {
         return URL(string: "\(AppConfig.apiBaseUrl)")!
     }
-    
         
     var path: String {
         switch self {
@@ -52,6 +51,7 @@ enum AppTarget:TargetType{
             case .create: return "submitForm"
             case .edit: return "updateSubmittedForm"
             case .draft: return "saveForm"
+            case .updateDraft: return "updateDraft"
             }
         case .checkDatabase:return "checkDatabase"
         case .editSubmittedForm:return "editSubmittedForm"
