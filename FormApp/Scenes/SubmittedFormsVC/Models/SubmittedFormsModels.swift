@@ -152,6 +152,7 @@ struct SubmittedFormItems:Decodable{
         case item
         case fail_reason
         case image
+
     }
     
     init(from decoder: Decoder) throws {
@@ -160,7 +161,7 @@ struct SubmittedFormItems:Decodable{
         if let value = try? container.decode(Int.self, forKey:.id) {
             id = value
         }
-        
+
         if let value = try? container.decode(String.self, forKey:.form_id) {
             form_id = value
         }
@@ -225,6 +226,9 @@ struct SubmittedFormItemData:Decodable{
     var created_at:String?
     var fail_reason_id: String?
     var fail_reasons:[FailReasonData]?
+    var tag:String?
+    var show_image:Int?
+    var show_notes:Int?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -239,6 +243,9 @@ struct SubmittedFormItemData:Decodable{
         case created_at
         case fail_reason_id
         case fail_reasons
+        case tag
+        case show_image
+        case show_notes
     }
     
     init(from decoder: Decoder) throws {
@@ -246,6 +253,18 @@ struct SubmittedFormItemData:Decodable{
         
         if let value = try? container.decode(Int.self, forKey: .id){
             id = value
+        }
+        
+        if let value = try? container.decode(String.self, forKey:.tag) {
+            tag = value
+        }
+         
+        if let value = try? container.decode(Int.self, forKey:.show_image) {
+            show_image = value
+        }
+         
+        if let value = try? container.decode(Int.self, forKey:.show_notes) {
+            show_notes = value
         }
         
         if let value = try? container.decode(String.self, forKey: .title){

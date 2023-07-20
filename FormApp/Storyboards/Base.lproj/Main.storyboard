@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="MXo-yN-P61">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22138.1" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="MXo-yN-P61">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22113"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
@@ -3644,20 +3644,20 @@
     </scenes>
     <designables>
         <designable name="2BW-SL-5jZ">
-            <size key="intrinsicContentSize" width="26" height="25"/>
+            <size key="intrinsicContentSize" width="26.333333333333332" height="25"/>
         </designable>
         <designable name="gtd-rG-4pT">
-            <size key="intrinsicContentSize" width="92.666666666666671" height="37.333333333333336"/>
+            <size key="intrinsicContentSize" width="96.666666666666671" height="38.333333333333336"/>
         </designable>
         <designable name="o5i-CD-iUM">
-            <size key="intrinsicContentSize" width="73.666666666666671" height="37.333333333333336"/>
+            <size key="intrinsicContentSize" width="77.666666666666671" height="38.333333333333336"/>
         </designable>
     </designables>
     <resources>
         <image name="Back" width="38.666667938232422" height="38.666667938232422"/>
         <image name="chevron.down" catalog="system" width="128" height="70"/>
         <image name="empty-folder" width="170.66667175292969" height="170.66667175292969"/>
-        <image name="envelope" catalog="system" width="128" height="93"/>
+        <image name="envelope" catalog="system" width="128" height="85"/>
         <image name="faceid" catalog="system" width="128" height="115"/>
         <image name="in-app_logo2" width="66.666664123535156" height="66.666664123535156"/>
         <image name="lock" catalog="system" width="125" height="128"/>
@@ -3670,13 +3670,13 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray5Color">
-            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGreenColor">
-            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemOrangeColor">
-            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

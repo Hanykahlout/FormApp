@@ -16,21 +16,23 @@ class RealmManager: RealmManagerInterface {
     
     func checkMigration(){
         let config = Realm.Configuration(
-            schemaVersion: 1, // Set the new schema version.
+            schemaVersion: 2, // Set the new schema version.
             migrationBlock: { migration, oldSchemaVersion in
-                if oldSchemaVersion < 1 {
+                if oldSchemaVersion < 2 {
                     // The enumerateObjects(ofType:_:) method iterates over
                     // every Person object stored in the Realm file to apply the migration
-                    migration.enumerateObjects(ofType: DataDetailsDBModel.className()) { oldObject, newObject in
-                        newObject?["is_fixture"] = nil
-                        newObject?["users"] = List<String>()
-                        newObject?["form_status"] = nil
+                    
+                    migration.create("SideBySideDBModel")
+                    migration.create("SideDBModel")
+                    migration.enumerateObjects(ofType: FormItemDBModel.className()) { oldObject, newObject in
+                        newObject?["tag"] = nil
+                        newObject?["show_image"] = nil
+                        newObject?["show_notes"] = nil
+                        newObject?["side_by_side"] = nil
                     }
-                    migration.create("SubContractorsDBModel")
+                    
                     let uuid = UserDefaults.standard.string(forKey: "ApplicationSessionUUID") ?? ""
-                    AppManager.shared.changeVersion(uuid: uuid, checkDatabase: true, model: "subContractor") { result in }
-                    AppManager.shared.changeVersion(uuid: uuid, checkDatabase: true, model: "form") { result in }
-                    try? KeychainWrapper.delete(key: AppData.email)
+                    AppManager.shared.changeVersion(uuid: uuid, checkDatabase: true, model: "formItem") { result in }
                 }
             }
         )

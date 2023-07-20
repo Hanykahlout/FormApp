@@ -102,14 +102,31 @@ class RealmController{
             let system_list = Array(model.system_list)
             let price = model.price ?? ""
             let show_price = model.show_price ?? ""
+            let tag = model.tag
+            let show_image = model.show_image
+            let show_notes = model.show_notes
+            
+            let firstSide = SideData(
+                type: model.side_by_side?.first_field?.type ?? "",
+                title: model.side_by_side?.first_field?.title ?? "")
+            
+            let secondSide = SideData(
+                type: model.side_by_side?.second_field?.type ?? "",
+                title: model.side_by_side?.second_field?.title ?? "")
+            
+            let sideBySide = SideBySideData(first_field: firstSide,second_field: secondSide)
+            
             var newBoxs:[NewBoxData] = []
             model.new_box.forEach{
                 newBoxs.append(NewBoxData(title: $0.title,box_type: $0.box_type))
             }
-            let obj = DataDetails(id: id, title: title, created_at: created_at,form_type_id: form_type_id,system: system,system_type: system_type,system_list: system_list,new_boxes: newBoxs,price: price,show_price: show_price)
+            
+            
+            let obj = DataDetails(id: id, title: title, created_at: created_at,form_type_id: form_type_id,system: system,system_type: system_type,system_list: system_list,new_boxes: newBoxs,price: price,show_price: show_price,tag: tag,show_image: show_image,show_notes: show_notes,side_by_side: sideBySide)
+            
+            
             result.append(obj)
         }
-        
         
         return result
     }
@@ -132,7 +149,6 @@ class RealmController{
     func deleteSubContractorDBModel(id:Int){
         RealmManager.sharedInstance.removeWhere(column: "id", value: id, for: SubContractorsDBModel.self)
     }
-    
     
     
     func addToDBModels(models:[DataDetails],type:String){
@@ -168,6 +184,26 @@ class RealmController{
             dbModel.price = model.price
             dbModel.show_price = model.show_price
             dbModel.development_title = model.development_title
+            dbModel.tag = model.tag
+            dbModel.show_image = model.show_image
+            dbModel.show_notes = model.show_notes
+            // Add Side By Side Objects
+            let sideBySideModel = SideBySideDBModel()
+            
+            let firstSideModel = SideDBModel()
+            firstSideModel.title = model.side_by_side?.first_field?.title ?? ""
+            firstSideModel.type = model.side_by_side?.first_field?.type ?? ""
+            
+            let secondSideModel = SideDBModel()
+            secondSideModel.title = model.side_by_side?.second_field?.title ?? ""
+            secondSideModel.type = model.side_by_side?.second_field?.type ?? ""
+            
+            sideBySideModel.first_field = firstSideModel
+            sideBySideModel.second_field = secondSideModel
+            
+            dbModel.side_by_side = sideBySideModel
+            
+            // Add New Boxs Objects
             for new_box in model.new_boxes ?? []{
                 let newBox = FormItemNewBox()
                 newBox.title = new_box.title
@@ -194,6 +230,6 @@ class RealmController{
     }
     
     
-    
-    
 }
+
+

@@ -11,10 +11,10 @@ protocol FormTypeNoteCellDelegate{
     func statusPickerAction(data:[String],indexPath:IndexPath)
     func reasonPickerAction(formItemId:Int,indexPath:IndexPath)
     func datePickerAction(indexPath:IndexPath)
-    func showPickerVC(type: String,parentIndex:Int,childIndex:Int)
-    func updateNewBoxData(text:String,parentIndex:Int,childIndex:Int)
+    func showPickerVC(type: String,parentIndexPath:IndexPath,childIndex:Int)
+    func updateNewBoxData(text:String,parentIndexPath:IndexPath,childIndex:Int)
     func addPicAction(indexPath:IndexPath)
-    func updatePicStatus(index:Int,withPic:Bool)
+    func updatePicStatus(indexPath:IndexPath,withPic:Bool)
 }
 
 typealias FormTypeCellDelegate = FormTypeNoteCellDelegate & UIViewController
@@ -22,6 +22,7 @@ typealias FormTypeCellDelegate = FormTypeNoteCellDelegate & UIViewController
 
 class FormTypeNoteCell: UITableViewCell,NibLoadableView {
     
+    @IBOutlet weak var addPicStackView: UIStackView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
     @IBOutlet weak var mainStackView: UIStackView!
@@ -61,9 +62,10 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
     }
     
     
-    func configureCell(obj:DataDetails){
-        
+    func configureCell(obj:DataDetails,indexPath:IndexPath){
+        self.indexPath = indexPath
         let system = obj.system
+        
         priceLabel.text = "Price: $\(obj.price ?? "0")"
         priceLabel.isHidden = obj.show_price != "1"
         formItemId = obj.id ?? -1
@@ -81,6 +83,8 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
         if !newBoxs.isEmpty{
             tableView.reloadData()
         }
+        addPicStackView.isHidden = obj.show_image ?? 0 != 1
+        formTitleNote.isHidden = obj.show_notes ?? 0 != 1
         
         switch system{
         case "NA/pass/fail":
@@ -184,7 +188,7 @@ extension FormTypeNoteCell{
     @objc private func addPicSwitchAction(){
         guard let indexPath = indexPath else { return }
         addPicView.isHidden = !addPicSwitch.isOn
-        delegate?.updatePicStatus(index:indexPath.row,withPic: addPicSwitch.isOn)
+        delegate?.updatePicStatus(indexPath:indexPath,withPic: addPicSwitch.isOn)
     }
     
 }
@@ -215,7 +219,8 @@ extension FormTypeNoteCell:UITableViewDelegate,UITableViewDataSource{
     }
     
     @objc private func boxTextFieldAction(_ textField:UITextField){
-        delegate?.updateNewBoxData(text: textField.text!, parentIndex: indexPath?.row ?? 0, childIndex: textField.tag)
+        guard let indexPath = indexPath else { return }
+        delegate?.updateNewBoxData(text: textField.text!, parentIndexPath: indexPath, childIndex: textField.tag)
     }
     
 }
@@ -224,6 +229,7 @@ extension FormTypeNoteCell:UITableViewDelegate,UITableViewDataSource{
 // MARK: - Table View Cell Delegate
 extension FormTypeNoteCell:NewBoxCellDelegate{
     func showPickerVC(type: String,index:Int) {
-        delegate?.showPickerVC(type: type,parentIndex: indexPath?.row ?? 0,childIndex: index)
+        guard let indexPath = indexPath else { return }
+        delegate?.showPickerVC(type: type,parentIndexPath: indexPath,childIndex: index)
     }
 }

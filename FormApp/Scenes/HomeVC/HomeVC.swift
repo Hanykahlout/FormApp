@@ -34,6 +34,9 @@ class HomeVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        Timer.scheduledTimer(withTimeInterval: 300, repeats: true) { timer in
+            self.presenter.checkDatabase()
+        }
         presenter.checkDatabase()
     }
   
@@ -97,8 +100,6 @@ extension HomeVC:HomePresenterDelegate{
     
     
 }
-
-
 
 
 

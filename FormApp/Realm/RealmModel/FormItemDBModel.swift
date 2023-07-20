@@ -20,6 +20,11 @@ class FormItemDBModel: Object {
     @Persisted var show_price:String?
     @Persisted var development_title:String?
     @Persisted var new_box:List<FormItemNewBox>
+    @Persisted var tag:String?
+    @Persisted var show_image:Int?
+    @Persisted var show_notes:Int?
+    @Persisted var side_by_side:SideBySideDBModel?
+    
     
     override class func primaryKey() -> String? {
         return "id"
@@ -28,3 +33,17 @@ class FormItemDBModel: Object {
 }
 
 
+
+class SideBySideDBModel: Object {
+    
+    @Persisted var first_field:SideDBModel?
+    @Persisted var second_field:SideDBModel?
+    
+}
+
+class SideDBModel: Object {
+    
+    @Persisted var type:String?
+    @Persisted var title:String?
+    
+}

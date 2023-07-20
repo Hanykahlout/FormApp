@@ -8,8 +8,8 @@
 
 import UIKit
 protocol  CustomFormItemDelegate{
-    func selectionAction(index:Int,arr:[String],isDate:Bool)
-    func updatePicStatus(index:Int,withPic:Bool)
+    func selectionAction(indexPath:IndexPath,arr:[String],isDate:Bool)
+    func updatePicStatus(indexPath:IndexPath,withPic:Bool)
     func addPicAction(indexPath:IndexPath)
 }
 
@@ -17,6 +17,7 @@ typealias  CustomItemDelegate =  CustomFormItemDelegate & UIViewController
 
 class CustomFormItemTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var addPicStackView: UIStackView!
     @IBOutlet weak var selectedImageView: UIImageView!
     @IBOutlet weak var valueTitleLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
@@ -39,6 +40,7 @@ class CustomFormItemTableViewCell: UITableViewCell {
         binding()
     }
     
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
@@ -58,6 +60,8 @@ class CustomFormItemTableViewCell: UITableViewCell {
         if data.isWithPic ?? false{
             selectedImageView.sd_setImage(with: URL(string: data.image ?? ""))
         }
+        addPicStackView.isHidden = data.show_image ?? 0 != 1
+        
         switch data.system_type{
         case "Array":
             valueTitleLabel.text = "Please select your choose"
@@ -106,7 +110,9 @@ extension CustomFormItemTableViewCell{
         case addPicSwitch:
             guard let index = indexPath?.row else { return }
             addPicView.isHidden = !addPicSwitch.isOn
-            delegate?.updatePicStatus(index:index,withPic: addPicSwitch.isOn)
+            if let indexPath = indexPath{
+                delegate?.updatePicStatus(indexPath:indexPath,withPic: addPicSwitch.isOn)
+            }
         case addPicButton:
             guard let indexPath = indexPath else { return }
             delegate?.addPicAction(indexPath: indexPath)
@@ -115,8 +121,8 @@ extension CustomFormItemTableViewCell{
     }
     
     @objc private func addSelectionAction(){
-        if let index = indexPath?.row{
-            delegate?.selectionAction(index: index,arr:arr,isDate:isDate)
+        if let indexPath = indexPath{
+            delegate?.selectionAction(indexPath: indexPath,arr:arr,isDate:isDate)
         }
     }
     

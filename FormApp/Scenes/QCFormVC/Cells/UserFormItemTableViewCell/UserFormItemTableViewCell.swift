@@ -8,8 +8,8 @@
 import UIKit
 import SDWebImage
 protocol UserFormItemDelegate{
-    func selectionAction(type:NewFormItemType,Index:Int)
-    func updatePicStatus(index:Int,withPic:Bool)
+    func selectionAction(type:NewFormItemType,indexPath:IndexPath)
+    func updatePicStatus(indexPath:IndexPath,withPic:Bool)
     func addPicAction(indexPath:IndexPath)
 }
 
@@ -96,7 +96,8 @@ extension UserFormItemTableViewCell{
         case addPicSwitch:
             guard let index = indexPath?.row else { return }
             addPicView.isHidden = !addPicSwitch.isOn
-            delegate?.updatePicStatus(index:index,withPic: addPicSwitch.isOn)
+            guard let indexPath = indexPath else { return }
+            delegate?.updatePicStatus(indexPath:indexPath,withPic: addPicSwitch.isOn)
         case addPicButton:
             guard let indexPath = indexPath else { return }
             delegate?.addPicAction(indexPath: indexPath)
@@ -105,8 +106,8 @@ extension UserFormItemTableViewCell{
     }
     
     @objc private func addSelectionAction(){
-        if let index = indexPath?.row,let type = type{
-            delegate?.selectionAction(type: type, Index: index)
+        if let indexPath = indexPath,let type = type{
+            delegate?.selectionAction(type: type, indexPath: indexPath)
         }
     }
     

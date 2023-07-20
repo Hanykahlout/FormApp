@@ -54,6 +54,8 @@
 		CE08C9A929BF6EEB002434EB /* FormItemDBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE08C9A829BF6EEB002434EB /* FormItemDBModel.swift */; };
 		CE0B92382A28E64500530977 /* NewBoxTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0B92362A28E64500530977 /* NewBoxTableViewCell.swift */; };
 		CE0B92392A28E64500530977 /* NewBoxTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE0B92372A28E64500530977 /* NewBoxTableViewCell.xib */; };
+		CE118D622A607B7C00E0C117 /* SideBySideTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE118D602A607B7C00E0C117 /* SideBySideTableViewCell.swift */; };
+		CE118D632A607B7C00E0C117 /* SideBySideTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE118D612A607B7C00E0C117 /* SideBySideTableViewCell.xib */; };
 		CE3A79C529C70A0500413E0B /* FormTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A79C329C70A0500413E0B /* FormTableViewCell.swift */; };
 		CE3A79C629C70A0500413E0B /* FormTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE3A79C429C70A0500413E0B /* FormTableViewCell.xib */; };
 		CE3A79C829C71B3B00413E0B /* SubmittedFormsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A79C729C71B3B00413E0B /* SubmittedFormsVC.swift */; };
@@ -161,6 +163,8 @@
 		CE08C9A829BF6EEB002434EB /* FormItemDBModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormItemDBModel.swift; sourceTree = "<group>"; };
 		CE0B92362A28E64500530977 /* NewBoxTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBoxTableViewCell.swift; sourceTree = "<group>"; };
 		CE0B92372A28E64500530977 /* NewBoxTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewBoxTableViewCell.xib; sourceTree = "<group>"; };
+		CE118D602A607B7C00E0C117 /* SideBySideTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBySideTableViewCell.swift; sourceTree = "<group>"; };
+		CE118D612A607B7C00E0C117 /* SideBySideTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SideBySideTableViewCell.xib; sourceTree = "<group>"; };
 		CE3A79C329C70A0500413E0B /* FormTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTableViewCell.swift; sourceTree = "<group>"; };
 		CE3A79C429C70A0500413E0B /* FormTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FormTableViewCell.xib; sourceTree = "<group>"; };
 		CE3A79C729C71B3B00413E0B /* SubmittedFormsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmittedFormsVC.swift; sourceTree = "<group>"; };
@@ -306,6 +310,7 @@
 		277CABF52981997D009C11CB /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				CE118D5F2A607B6100E0C117 /* SideBySideTableViewCell */,
 				CEF4D1812A3F6F3F00110194 /* NewBoxTableViewCell */,
 				CEF4D1802A3F6F3000110194 /* CustomFormItemTableViewCell */,
 				CEF4D17F2A3F6F2400110194 /* FormTypeNoteCell */,
@@ -369,6 +374,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		CE118D5F2A607B6100E0C117 /* SideBySideTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				CE118D602A607B7C00E0C117 /* SideBySideTableViewCell.swift */,
+				CE118D612A607B7C00E0C117 /* SideBySideTableViewCell.xib */,
+			);
+			path = SideBySideTableViewCell;
+			sourceTree = "<group>";
+		};
 		CE42025A29B887F600517FCA /* Realm */ = {
 			isa = PBXGroup;
 			children = (
@@ -404,18 +418,18 @@
 		CE5D7EF029F1D70B00A7D212 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				CE5D7EF229F1D75B00A7D212 /* AuthVC */,
+				CE5D7EF429F1D76F00A7D212 /* LoginVC */,
+				CE5D7EF329F1D76300A7D212 /* SignUpVC */,
+				CE5D7EF529F1D77600A7D212 /* HomeVC */,
+				CE5D7EF629F1D78000A7D212 /* QCFormVC */,
+				CEF2BB4D2A01A65A00D4DBA1 /* MaterialsVC */,
 				CECD94202A1E63BA007BEB65 /* CreateFormItemVC */,
 				CEA6F52D2A0A76BC00C6A7A0 /* MaterialsDetailsVC */,
 				CE5D7F0D29F1FC0500A7D212 /* Model */,
 				CE8169DE2A05850C00CBF0AD /* CreateMaterialVC */,
-				CEF2BB4D2A01A65A00D4DBA1 /* MaterialsVC */,
 				CE5D7EF929F1D79A00A7D212 /* PORequestVC */,
 				CE5D7EF729F1D78B00A7D212 /* SubmittedFormsVC */,
-				CE5D7EF629F1D78000A7D212 /* QCFormVC */,
-				CE5D7EF529F1D77600A7D212 /* HomeVC */,
-				CE5D7EF429F1D76F00A7D212 /* LoginVC */,
-				CE5D7EF329F1D76300A7D212 /* SignUpVC */,
-				CE5D7EF229F1D75B00A7D212 /* AuthVC */,
 				CE5D7EF129F1D75100A7D212 /* PickerVCs */,
 				277CABEC29814FB5009C11CB /* CustomComponents */,
 			);
@@ -790,6 +804,7 @@
 				CEA6F52C2A0A70CE00C6A7A0 /* MaterialTableViewCell.xib in Resources */,
 				CE0B92392A28E64500530977 /* NewBoxTableViewCell.xib in Resources */,
 				277CABF029814FD5009C11CB /* MainTF.xib in Resources */,
+				CE118D632A607B7C00E0C117 /* SideBySideTableViewCell.xib in Resources */,
 				277CABD429813969009C11CB /* Main.storyboard in Resources */,
 				CE976CB02A54990400059801 /* Audiowide-Regular.ttf in Resources */,
 				CEF2BB4C2A018EB400D4DBA1 /* HomeVCTableViewCell.xib in Resources */,
@@ -880,6 +895,7 @@
 				CE42025C29B8880900517FCA /* RealmManager.swift in Sources */,
 				CEA0B7C029F5757D00F7316C /* RealmController.swift in Sources */,
 				27CC17A229A4058B007BADC0 /* UIViewDesignable.swift in Sources */,
+				CE118D622A607B7C00E0C117 /* SideBySideTableViewCell.swift in Sources */,
 				CE42026229B88A0900517FCA /* DataDetailsDBModel.swift in Sources */,
 				CE5D7F0329F1F56C00A7D212 /* SubmittedFormsPresenter.swift in Sources */,
 				277CABF229815062009C11CB /* UIViewFromNIB.swift in Sources */,
@@ -1089,21 +1105,22 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.5;
+				MARKETING_VERSION = 1.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = ios.chesapeake.formApps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1127,21 +1144,22 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.5;
+				MARKETING_VERSION = 1.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = ios.chesapeake.formApps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

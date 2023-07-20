@@ -170,6 +170,10 @@ struct DataDetails:Decodable{
     var is_fixture: Int?
     var users:[String]?
     var form_status:String?
+    var tag:String?
+    var show_image:Int?
+    var show_notes:Int?
+    var side_by_side:SideBySideData?
     
     var note: String?
     var project:String?
@@ -186,7 +190,7 @@ struct DataDetails:Decodable{
     var isWithPic:Bool? = false
     var image:String? = ""
     
-    init(name:String,status:String,new_item_type:NewFormItemType,isFromUser:Bool,isWithPrice:Bool?,price:String?,image:String?,isWithPic:Bool?){
+    init(name:String,status:String,new_item_type:NewFormItemType,isFromUser:Bool,isWithPrice:Bool?,price:String?,image:String?,isWithPic:Bool?,tag:String?){
         self.name = name
         self.status = status
         self.new_item_type = new_item_type
@@ -195,6 +199,7 @@ struct DataDetails:Decodable{
         self.price = price
         self.image = image
         self.isWithPic = isWithPic
+        self.tag = tag
     }
     
     init(id: Int?, title: String?, email: String?, company_id: String?, created_at: String?,project:String?,customer:String?,is_fixture:Int?,users:[String]?,form_status:String?) {
@@ -212,7 +217,7 @@ struct DataDetails:Decodable{
     }
     
     
-    init(id: Int?, title: String?,created_at: String?,form_type_id:String?,system:String?,system_type:String?,system_list:[String]?,new_boxes:[NewBoxData],price:String?,show_price:String?) {
+    init(id: Int?, title: String?,created_at: String?,form_type_id:String?,system:String?,system_type:String?,system_list:[String]?,new_boxes:[NewBoxData],price:String?,show_price:String?,tag:String?,show_image:Int?,show_notes:Int?,side_by_side:SideBySideData?) {
         self.id = id
         self.title = title
         self.created_at = created_at
@@ -224,11 +229,15 @@ struct DataDetails:Decodable{
         self.show_price = show_price
         self.system_type = system_type
         self.system_list = system_list
+        self.tag = tag
+        self.show_notes = show_notes
+        self.show_image = show_image
+        self.side_by_side = side_by_side
     }
     
     
     init(id: Int?, title: String?,status: String?,note:String?,
-         system:String?,reasons:[FailReasonData]?,reason_id:Int?,reason:String?,new_boxes:[NewBoxData],image:String?,isWithPic:Bool,price:String?,show_price:String?) {
+         system:String?,reasons:[FailReasonData]?,reason_id:Int?,reason:String?,new_boxes:[NewBoxData],image:String?,isWithPic:Bool,price:String?,show_price:String?,show_image:Int?,show_notes:Int?) {
         self.id = id
         self.title = title
         self.status = status
@@ -242,9 +251,11 @@ struct DataDetails:Decodable{
         self.isWithPic = isWithPic
         self.price = price
         self.show_price = show_price
+        self.show_image = show_image
+        self.show_notes = show_notes
     }
     
-    init(id:Int?,value:String?,title:String?,status:String?,price:String?,show_price:String?,system:String?,system_type:String?,system_list:[String]?,image:String?,isWithPic:Bool?){
+    init(id:Int?,value:String?,title:String?,status:String?,price:String?,show_price:String?,system:String?,system_type:String?,system_list:[String]?,image:String?,isWithPic:Bool?,show_image:Int?,show_notes:Int?){
         
         self.id = id
         self.title = title
@@ -257,6 +268,14 @@ struct DataDetails:Decodable{
         self.status = value
         self.image = image
         self.isWithPic = isWithPic
+        self.show_image = show_image
+        self.show_notes = show_notes
+    }
+    
+    init(id:Int?,sideBySide:SideBySideData) {
+        self.id = id
+        self.side_by_side = sideBySide
+        self.system = "side-by-side"
     }
     
     enum CodingKeys: String, CodingKey {
@@ -287,6 +306,11 @@ struct DataDetails:Decodable{
         case is_fixture
         case users
         case form_status
+        case tag
+        case show_image
+        case show_notes
+        case side_by_side
+        
     }
     
     init(from decoder: Decoder) throws {
@@ -299,6 +323,22 @@ struct DataDetails:Decodable{
         
         if let value = try? container.decode([String].self, forKey:.users) {
             users = value
+        }
+        
+        if let value = try? container.decode(SideBySideData.self, forKey:.side_by_side) {
+            side_by_side = value
+        }
+        
+        if let value = try? container.decode(String.self, forKey:.tag) {
+            tag = value
+        }
+        
+        if let value = try? container.decode(Int.self, forKey:.show_image) {
+            show_image = value
+        }
+        
+        if let value = try? container.decode(Int.self, forKey:.show_notes) {
+            show_notes = value
         }
         
         if let value = try? container.decode(String.self, forKey:.form_status) {
@@ -474,4 +514,15 @@ struct SubContractor: Codable {
         self.created_at = created_at
     }
     
+}
+
+struct SideBySideData:Codable{
+    var first_field:SideData?
+    var second_field:SideData?
+}
+
+struct SideData:Codable{
+    var type:String?
+    var title:String?
+    var value:String?
 }

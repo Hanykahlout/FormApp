@@ -65,7 +65,7 @@ enum AppTarget:TargetType{
         case .changeVersion:return "changeVersion"
         }
     }
-
+    
     
     var method: Moya.Method {
         switch self{
@@ -98,14 +98,18 @@ enum AppTarget:TargetType{
                         if (value as? String)?.hasPrefix("file:") ?? false{
                             let url = URL(string: value as! String)!
                             let imageData = try Data(contentsOf: url)
-                            
-                            formData.append(MultipartFormData(provider: .data(imageData), name: key, fileName: "\(Date.init().timeIntervalSince1970).\(url.pathExtension)", mimeType: url.mimeType()))
+                            let image = UIImage(data: imageData)
+                            if let imageData = image!.jpegData(compressionQuality: 0.5){
+                                formData.append(MultipartFormData(provider: .data(imageData), name: key, fileName: "\(Date.init().timeIntervalSince1970).\(url.pathExtension)", mimeType: url.mimeType()))
+                            }
+                        }else{
+                            formData.append(MultipartFormData(provider: .data((value as! String).data(using: .utf8) ?? Data()), name: key))
                         }
                     }else{
                         formData.append(MultipartFormData(provider: .data((value as! String).data(using: .utf8) ?? Data()), name: key))
                     }
                 }
-            }catch{
+            } catch {
 
             }
             return .uploadMultipart(formData)
