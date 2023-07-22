@@ -29,6 +29,7 @@ class RealmManager: RealmManagerInterface {
                         newObject?["show_image"] = nil
                         newObject?["show_notes"] = nil
                         newObject?["side_by_side"] = nil
+                        newObject?["pin"] = nil
                     }
                     
                     let uuid = UserDefaults.standard.string(forKey: "ApplicationSessionUUID") ?? ""

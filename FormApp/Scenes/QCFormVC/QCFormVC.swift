@@ -743,6 +743,7 @@ extension QCFormVC:UITableViewDelegate, UITableViewDataSource{
         label.text = formsItem[section].tag
         label.font = UIFont.systemFont(ofSize: 30)
         label.textColor = .white
+        label.textAlignment = .center
         
         let separatorView = UIView()
         separatorView.backgroundColor = .gray
@@ -1125,16 +1126,70 @@ extension QCFormVC:QCFormPresenterDelegate{
         addNewFormItemView.isHidden = !checkAllFieldsSelected()
     }
     
+
     private func filterFormItems(formItems:[DataDetails]) {
         formsItem.removeAll()
+        
         let groupedFormItems = Dictionary(grouping: formItems, by: { $0.tag ?? "" })
 
         for (tag, data) in groupedFormItems {
             let obj = (tag: tag , data: data)
             formsItem.append(obj)
         }
+        
+        formsItem.sort {
+            if $0.tag.isEmpty && !$1.tag.isEmpty {
+                   return false // $0 is empty and $1 is not empty, so $0 should come after $1
+               } else if !$0.tag.isEmpty && $1.tag.isEmpty {
+                   return true // $0 is not empty and $1 is empty, so $0 should come before $1
+               } else {
+                   return $0.tag < $1.tag // Both names are either empty or non-empty, sort alphabetically
+               }
+            
+        }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = .init(identifier: "en")
+        dateFormatter.dateFormat = "yyyy/MM/dd hh:mm:ss"
+        
+        for i in 0..<formsItem.count{
+            formsItem[i].data.sort {dateFormatter.date(from:$0.pin ?? "") ?? Date() < dateFormatter.date(from:$1.pin ?? "") ?? Date()}
+        }
+        
+        
+        
+        
+        var firstIndex = 0
+        var unPinedIndex = 0
+        var result:[(tag:String,data:[DataDetails])] = []
+        for i in 0..<formsItem.count{
+            if formsItem[i].data.first?.pin != nil{
+                let currentFormDate = dateFormatter.date(from: formsItem[i].data.first?.pin ?? "") ?? Date()
+                if let lastDate = formsItem[0].data.first?.pin{
+                    if currentFormDate < dateFormatter.date(from: lastDate) ?? Date(){
+                        result.insert(formsItem[i], at: 0)
+                    }else{
+                        result.insert(formsItem[i], at: firstIndex)
+                    }
+                }else{
+                    result.insert(formsItem[i], at: 0)
+                }
+                
+                firstIndex += 1
+                
+            }else{
+                result.insert(formsItem[i], at:  firstIndex + unPinedIndex)
+                unPinedIndex += 1
+            }
+        }
+        formsItem = result
 
-        formsItem.sort { $0.tag < $1.tag }
+        
+        
+        
+       
+        
+        
     }
     
     
@@ -1168,6 +1223,7 @@ extension QCFormVC : UIImagePickerControllerDelegate , UINavigationControllerDel
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
         if let cell = formTypeNoteTableview.cellForRow(at: selectedCellIndexPath) as? FormTypeNoteCell{
             
             if let editingImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {

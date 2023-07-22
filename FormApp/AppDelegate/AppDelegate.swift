@@ -27,6 +27,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enable = true
         
         RealmManager.sharedInstance.checkMigration()
+    
+        AppManager.shared.updateOnline(startDate: Date(), endDate: nil) { result in }
+        
         
         return true
     }

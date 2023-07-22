@@ -15,8 +15,9 @@ struct RequestsStatus:Decodable{
     let formItem: Bool?
     let failReason: Bool?
     let subContractor: Bool?
+    let refreshButton: String?
     
-    init(company: Bool?, job: Bool?, form: Bool?, division: Bool?,formItem:Bool?,failReason:Bool?,subContractor:Bool?) {
+    init(company: Bool?, job: Bool?, form: Bool?, division: Bool?,formItem:Bool?,failReason:Bool?,subContractor:Bool?,refreshButton:String?) {
         self.company = company
         self.job = job
         self.form = form
@@ -24,6 +25,7 @@ struct RequestsStatus:Decodable{
         self.formItem = formItem
         self.failReason = failReason
         self.subContractor = subContractor
+        self.refreshButton = refreshButton
     }
     
 }

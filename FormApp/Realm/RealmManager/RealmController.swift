@@ -105,6 +105,7 @@ class RealmController{
             let tag = model.tag
             let show_image = model.show_image
             let show_notes = model.show_notes
+            let pin = model.pin
             
             let firstSide = SideData(
                 type: model.side_by_side?.first_field?.type ?? "",
@@ -122,7 +123,7 @@ class RealmController{
             }
             
             
-            let obj = DataDetails(id: id, title: title, created_at: created_at,form_type_id: form_type_id,system: system,system_type: system_type,system_list: system_list,new_boxes: newBoxs,price: price,show_price: show_price,tag: tag,show_image: show_image,show_notes: show_notes,side_by_side: sideBySide)
+            let obj = DataDetails(id: id, title: title, created_at: created_at,form_type_id: form_type_id,system: system,system_type: system_type,system_list: system_list,new_boxes: newBoxs,price: price,show_price: show_price,tag: tag,show_image: show_image,show_notes: show_notes,side_by_side: sideBySide,pin: pin)
             
             
             result.append(obj)
@@ -187,6 +188,7 @@ class RealmController{
             dbModel.tag = model.tag
             dbModel.show_image = model.show_image
             dbModel.show_notes = model.show_notes
+            dbModel.pin = model.pin
             // Add Side By Side Objects
             let sideBySideModel = SideBySideDBModel()
             

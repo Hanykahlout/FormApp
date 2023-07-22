@@ -2,7 +2,7 @@
 //  HomeVC.swift
 //  FormApp
 //
-//  Created by heba isaa on 25/01/2023.
+//  Created by Hany Alkahlout on 25/01/2023.
 //
 
 import UIKit
@@ -15,6 +15,8 @@ class HomeVC: UIViewController {
     
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var refreshButton: UIButton!
+    @IBOutlet weak var refreshView: UIView!
     
     //MARK: - Properties
     
@@ -28,7 +30,7 @@ class HomeVC: UIViewController {
         setUpTableView()
         presenter.delegate = self
         tableView.delegate = self
-        
+        binding()
     }
     
     
@@ -39,9 +41,23 @@ class HomeVC: UIViewController {
         }
         presenter.checkDatabase()
     }
-  
+    
 }
 
+// MARK: - Binding
+extension HomeVC{
+    private func binding(){
+        refreshButton.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
+    }
+    
+    @objc private func bindingAction(_ sender:UIButton){
+        switch sender{
+        case refreshButton:
+            presenter.checkDatabase(refresh: true)
+        default:break
+        }
+    }
+}
 
 
 extension HomeVC:Storyboarded{
@@ -97,12 +113,9 @@ extension HomeVC:UITableViewDelegate,UITableViewDataSource{
 
 
 extension HomeVC:HomePresenterDelegate{
-    
+    func handleCheckDatabaseData(data: RequestsStatus) {
+        refreshView.isHidden = data.refreshButton ?? "" != "active"
+    }
     
 }
-
-
-
-
-
 

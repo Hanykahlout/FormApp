@@ -540,31 +540,67 @@
                                     <constraint firstAttribute="height" constant="100" id="Z4J-e0-dBT"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="O0F-5Q-ZSq">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="SDL-do-bS0">
                                 <rect key="frame" x="16" y="120" width="361" height="130"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="130" id="Ke1-GM-UcW"/>
-                                </constraints>
-                                <color key="separatorColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="corner_radius">
-                                        <real key="value" value="16"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </tableView>
+                                <subviews>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pqT-IG-1BF">
+                                        <rect key="frame" x="0.0" y="0.0" width="361" height="55"/>
+                                        <subviews>
+                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rp3-Nh-dFa">
+                                                <rect key="frame" x="281" y="5" width="80" height="45"/>
+                                                <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="45" id="Lcs-Nq-ekd"/>
+                                                    <constraint firstAttribute="width" constant="80" id="UdX-pg-9JQ"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="14"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Refresh">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="corner_radius">
+                                                        <real key="value" value="8"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="rp3-Nh-dFa" secondAttribute="bottom" constant="5" id="c8f-pk-vXx"/>
+                                            <constraint firstAttribute="trailing" secondItem="rp3-Nh-dFa" secondAttribute="trailing" id="rS0-Db-zOe"/>
+                                            <constraint firstItem="rp3-Nh-dFa" firstAttribute="top" secondItem="pqT-IG-1BF" secondAttribute="top" constant="5" id="z1p-jY-TRk"/>
+                                        </constraints>
+                                    </view>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="O0F-5Q-ZSq">
+                                        <rect key="frame" x="0.0" y="0.0" width="361" height="130"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="130" id="Ke1-GM-UcW"/>
+                                        </constraints>
+                                        <color key="separatorColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="corner_radius">
+                                                <real key="value" value="16"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </tableView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="xQj-Wz-Dln"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="uXG-nE-t3G" firstAttribute="leading" secondItem="xQj-Wz-Dln" secondAttribute="leading" id="1QT-Hs-8Po"/>
+                            <constraint firstItem="SDL-do-bS0" firstAttribute="top" secondItem="uXG-nE-t3G" secondAttribute="bottom" constant="20" id="6uF-57-CXv"/>
                             <constraint firstItem="uXG-nE-t3G" firstAttribute="trailing" secondItem="xQj-Wz-Dln" secondAttribute="trailing" id="HbF-jN-M25"/>
-                            <constraint firstItem="O0F-5Q-ZSq" firstAttribute="leading" secondItem="xQj-Wz-Dln" secondAttribute="leading" constant="16" id="WV6-NF-fRr"/>
-                            <constraint firstItem="O0F-5Q-ZSq" firstAttribute="top" secondItem="uXG-nE-t3G" secondAttribute="bottom" constant="20" id="YZK-Dd-URJ"/>
+                            <constraint firstItem="SDL-do-bS0" firstAttribute="leading" secondItem="xQj-Wz-Dln" secondAttribute="leading" constant="16" id="R8O-1X-0mF"/>
+                            <constraint firstItem="xQj-Wz-Dln" firstAttribute="trailing" secondItem="SDL-do-bS0" secondAttribute="trailing" constant="16" id="VWu-3V-lrX"/>
                             <constraint firstItem="uXG-nE-t3G" firstAttribute="top" secondItem="gfd-ID-R61" secondAttribute="top" id="iCn-sT-J7S"/>
-                            <constraint firstItem="xQj-Wz-Dln" firstAttribute="trailing" secondItem="O0F-5Q-ZSq" secondAttribute="trailing" constant="16" id="uSB-yh-rDa"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="refreshButton" destination="rp3-Nh-dFa" id="iVT-1T-h0n"/>
+                        <outlet property="refreshView" destination="pqT-IG-1BF" id="nHl-6k-yIB"/>
                         <outlet property="tableView" destination="O0F-5Q-ZSq" id="ya6-9a-Hks"/>
                         <outlet property="tableViewHeight" destination="Ke1-GM-UcW" id="tHL-7o-yvw"/>
                     </connections>
@@ -3647,10 +3683,10 @@
             <size key="intrinsicContentSize" width="26.333333333333332" height="25"/>
         </designable>
         <designable name="gtd-rG-4pT">
-            <size key="intrinsicContentSize" width="96.666666666666671" height="38.333333333333336"/>
+            <size key="intrinsicContentSize" width="92.666666666666671" height="37.333333333333336"/>
         </designable>
         <designable name="o5i-CD-iUM">
-            <size key="intrinsicContentSize" width="77.666666666666671" height="38.333333333333336"/>
+            <size key="intrinsicContentSize" width="73.666666666666671" height="37.333333333333336"/>
         </designable>
     </designables>
     <resources>
@@ -3670,13 +3706,13 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray5Color">
-            <color red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGreenColor">
-            <color red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemOrangeColor">
-            <color red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

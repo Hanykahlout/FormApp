@@ -20,7 +20,7 @@ enum AppTarget:TargetType{
     case getFormItems(normal:Int,uuid:String,form_type_id:String)
     case logout
     case submitForms(formPurpose:FormPurpose,formsDetails:[String : Any])
-    case checkDatabase(uuid:String)
+    case checkDatabase(uuid:String,refresh:Bool?)
     case editSubmittedForm(submitted_form_id:String)
     case submittedForms(search:String)
     case formItemReasons(normal:Int,uuid:String)
@@ -30,6 +30,7 @@ enum AppTarget:TargetType{
     case createHouseMaterial(isEdit:Bool,houseMaterialData:[String:Any])
     case version
     case changeVersion(uuid:String,checkDatabase:Bool,model:String)
+    case updateOnline(start: Date?,end: Date?)
     
     var baseURL: URL {
         return URL(string: "\(AppConfig.apiBaseUrl)")!
@@ -63,13 +64,14 @@ enum AppTarget:TargetType{
         case .createHouseMaterial(let isEdit,_):return isEdit ? "updateHouseMaterial" : "createHouseMaterial"
         case .version:return "version"
         case .changeVersion:return "changeVersion"
+        case .updateOnline:return "updateOnline"
         }
     }
     
     
     var method: Moya.Method {
         switch self{
-        case .SignUp,.login,.logout,.submitForms,.createHouseMaterial,.changeVersion:
+        case .SignUp,.login,.logout,.submitForms,.createHouseMaterial,.changeVersion,.updateOnline:
             return .post
         case .getCompanies,.getJob,.forms,.divisions,.getFormItems,.subContractors,.checkDatabase,.editSubmittedForm,.submittedForms,.formItemReasons,.getLists,.getHouseMaterials,.getSpecialList,.version:
             return .get
@@ -86,7 +88,7 @@ enum AppTarget:TargetType{
                 return .requestPlain
             }
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
-        case .SignUp,.login,.logout,.createHouseMaterial,.changeVersion:
+        case .SignUp,.login,.logout,.createHouseMaterial,.changeVersion,.updateOnline:
             return .requestParameters(parameters: param, encoding: URLEncoding.httpBody)
         case .getJob,.getFormItems,.editSubmittedForm,.checkDatabase,.submittedForms,.getHouseMaterials,.getSpecialList:
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
@@ -123,7 +125,7 @@ enum AppTarget:TargetType{
         case .submittedForms,.getCompanies,.getJob,
                 .forms,.divisions,.getFormItems,.subContractors,.logout,
                 .submitForms,.checkDatabase,.editSubmittedForm,
-                .formItemReasons,.getLists,.getHouseMaterials,.createHouseMaterial,.getSpecialList:
+                .formItemReasons,.getLists,.getHouseMaterials,.createHouseMaterial,.getSpecialList,.updateOnline:
             do {
                 let token = try KeychainWrapper.get(key: AppData.email) ?? ""
                 return ["Authorization":token ,"Accept":"application/json","Accept-Language":"en"]
@@ -160,7 +162,10 @@ enum AppTarget:TargetType{
             return ["normal":normal,"uuid":uuid,"form_type_id":form_type_id]
         case .editSubmittedForm(let submitted_form_id):
             return ["submitted_form_id": submitted_form_id]
-        case .checkDatabase(let uuid):
+        case .checkDatabase(let uuid,let refresh):
+            if let refresh = refresh{
+                return ["uuid":uuid,"refresh":refresh]
+            }
             return ["uuid":uuid]
         case .submittedForms(let search):
             return ["search":search]
@@ -172,6 +177,21 @@ enum AppTarget:TargetType{
             return ["job_id":job_id,"builder":builder]
         case .changeVersion(let uuid, let checkDatabase, let model):
             return ["uuid":uuid,"checkDatabase":checkDatabase,"model":model]
+        case .updateOnline(let start, let end):
+            let dateFormatter = DateFormatter()
+            dateFormatter.locale = .init(identifier: "en")
+            dateFormatter.dateFormat = "yyyy/MM/dd hh:mm:ss"
+            
+            
+            var body:[String:Any] = [:]
+            if let start = start{
+                body["entrance_date"] = dateFormatter.string(from: start)
+            }
+            
+            if let end = end{
+                body["leave_date"] = dateFormatter.string(from: end)
+            }
+            return body
         default:
             return [ : ]
         }

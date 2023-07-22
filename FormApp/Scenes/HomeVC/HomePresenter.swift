@@ -15,7 +15,7 @@ enum HomeAction:String {
 }
 
 protocol HomePresenterDelegate{
-    
+    func handleCheckDatabaseData(data:RequestsStatus)
 }
 
 typealias HomeDelegate = HomePresenterDelegate & UIViewController
@@ -24,17 +24,18 @@ class HomePresenter{
     weak var delegate: HomeDelegate?
     var data:[HomeAction] = [.Forms,.Materials]
     
-    func checkDatabase(){
+    func checkDatabase(refresh:Bool? = nil){
         if UserDefaults.standard.string(forKey: "ApplicationSessionUUID") == nil {
             UserDefaults.standard.set(UUID().uuidString, forKey: "ApplicationSessionUUID")
         }
         SVProgressHUD.show(withStatus: "Checking if there is data has not been fetched from the server")
-        AppManager.shared.checkDatabase(uuid: UserDefaults.standard.string(forKey: "ApplicationSessionUUID")!) { response in
+        AppManager.shared.checkDatabase(uuid: UserDefaults.standard.string(forKey: "ApplicationSessionUUID")!,refresh: refresh) { response in
             SVProgressHUD.dismiss()
             switch response{
             case let .success(response):
                 if response.status == true{
                     if let data = response.data{
+                        self.delegate?.handleCheckDatabaseData(data: data)
                         self.getAllDataAndStoreOnDB(data: data)
                     }else{
                         Alert.showErrorAlert(message: "There is an unknown error")

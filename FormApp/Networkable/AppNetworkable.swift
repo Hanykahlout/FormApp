@@ -29,11 +29,13 @@ protocol AppNetworkable:Networkable  {
     func getHouseMaterials(company_id: Int, job_id: Int, phase: String, special: String,completion: @escaping (Result<BaseResponse<MaterialsData>, Error>)-> ())
     func createHouseMaterial(isEdit:Bool,houseMaterialData:[String:Any],completion: @escaping (Result<BaseResponse<Material>, Error>)-> ())
     func getSpecialList(jobId:String,builder:String,completion: @escaping (Result<BaseResponse<SpecialList>, Error>)-> ())
+    func updateOnline(startDate:Date?,endDate:Date?,completion: @escaping (Result<BaseResponse<VersionModel>, Error>)-> ())
 
 }
 
 
 class AppManager: AppNetworkable {
+   
     
     typealias targetType = AppTarget
     
@@ -91,8 +93,8 @@ class AppManager: AppNetworkable {
         request(target: .submitForms(formPurpose:formPurpose,formsDetails: formsDetails), completion: completion)
     }
     
-    func checkDatabase(uuid:String,completion: @escaping (Result<BaseResponse<RequestsStatus>, Error>) -> ()) {
-        request(target: .checkDatabase(uuid: uuid), completion: completion)
+    func checkDatabase(uuid:String,refresh:Bool?,completion: @escaping (Result<BaseResponse<RequestsStatus>, Error>) -> ()) {
+        request(target: .checkDatabase(uuid: uuid,refresh: refresh), completion: completion)
     }
     
     func getSubmittedForms(searchText:String,completion: @escaping (Result<BaseResponse<SubmittedFormData>, Error>) -> ()){
@@ -120,6 +122,11 @@ class AppManager: AppNetworkable {
     func getSpecialList(jobId: String,builder:String, completion: @escaping (Result<BaseResponse<SpecialList>, Error>) -> ()) {
         request(target: .getSpecialList(job_id: jobId,builder: builder), completion: completion)
     }
+    
+    func updateOnline(startDate: Date?, endDate: Date?, completion: @escaping (Result<BaseResponse<VersionModel>, Error>) -> ()) {
+        request(target: .updateOnline(start: startDate, end: endDate), completion: completion)
+    }
+    
     
     func monitorNetwork(conectedAction:(()->Void)?,notConectedAction:(()->Void)?){
         let monitor = NWPathMonitor()

@@ -174,6 +174,7 @@ struct DataDetails:Decodable{
     var show_image:Int?
     var show_notes:Int?
     var side_by_side:SideBySideData?
+    var pin:String?
     
     var note: String?
     var project:String?
@@ -217,7 +218,7 @@ struct DataDetails:Decodable{
     }
     
     
-    init(id: Int?, title: String?,created_at: String?,form_type_id:String?,system:String?,system_type:String?,system_list:[String]?,new_boxes:[NewBoxData],price:String?,show_price:String?,tag:String?,show_image:Int?,show_notes:Int?,side_by_side:SideBySideData?) {
+    init(id: Int?, title: String?,created_at: String?,form_type_id:String?,system:String?,system_type:String?,system_list:[String]?,new_boxes:[NewBoxData],price:String?,show_price:String?,tag:String?,show_image:Int?,show_notes:Int?,side_by_side:SideBySideData?,pin:String?) {
         self.id = id
         self.title = title
         self.created_at = created_at
@@ -233,6 +234,7 @@ struct DataDetails:Decodable{
         self.show_notes = show_notes
         self.show_image = show_image
         self.side_by_side = side_by_side
+        self.pin = pin
     }
     
     
@@ -309,6 +311,7 @@ struct DataDetails:Decodable{
         case tag
         case show_image
         case show_notes
+        case pin
         case side_by_side
         
     }
@@ -331,6 +334,10 @@ struct DataDetails:Decodable{
         
         if let value = try? container.decode(String.self, forKey:.tag) {
             tag = value
+        }
+        
+        if let value = try? container.decode(String.self, forKey:.pin) {
+            pin = value
         }
         
         if let value = try? container.decode(Int.self, forKey:.show_image) {
