@@ -30,7 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
         AppManager.shared.updateOnline(startDate: Date(), endDate: nil) { result in }
         
-        
         return true
     }
     
@@ -50,3 +49,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
 }
+
+
+

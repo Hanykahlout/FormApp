@@ -58,6 +58,7 @@ extension SignUpVC{
         case signupBtn:
             signup()
         case loginBtn:
+            navigationController?.popToRootViewController(animated: true)
             let vc = LoginVC.instantiate()
             navigationController?.pushViewController(vc, animated: true)
         case backBtn :
@@ -102,9 +103,8 @@ extension SignUpVC: SignUpPresenterDelegate{
             try KeychainWrapper.set(value: "Bearer"+" "+user.api_token! , key: user.email ?? "")
             AppData.email = user.email ?? ""
             AppData.id = user.id ?? -1
-            let vc=HomeVC.instantiate()
             SVProgressHUD.dismiss()
-            navigationController?.pushViewController(vc, animated: true)
+            self.goToHomeNav()
             
         } catch let error {
             print(error)

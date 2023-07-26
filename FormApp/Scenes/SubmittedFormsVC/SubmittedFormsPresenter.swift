@@ -64,6 +64,9 @@ class SubmittedFormsPresenter{
             case  .failure(let error):
                 DispatchQueue.main.async {
                     if UserDefaults.standard.bool(forKey: "internet_connection"){
+                        if error.localizedDescription == "Server Error !!"{
+                            // send to server number of server error happend for this request
+                        }
                         Alert.showErrorAlert(message: error.localizedDescription)
                     }
                 }

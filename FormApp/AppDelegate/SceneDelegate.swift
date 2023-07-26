@@ -22,14 +22,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             _delegate.window = window
         }
         
-        //        saveLogin()
-    }
-    
-    
-    func setRootVC(vc:UIViewController){
-        self.window?.rootViewController = vc
-        self.window?.makeKeyAndVisible()
-
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {

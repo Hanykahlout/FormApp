@@ -227,6 +227,7 @@ struct SubmittedFormItemData:Decodable{
     var fail_reason_id: String?
     var fail_reasons:[FailReasonData]?
     var tag:String?
+    var pin:String?
     var show_image:Int?
     var show_notes:Int?
     
@@ -244,6 +245,7 @@ struct SubmittedFormItemData:Decodable{
         case fail_reason_id
         case fail_reasons
         case tag
+        case pin
         case show_image
         case show_notes
     }
@@ -257,6 +259,10 @@ struct SubmittedFormItemData:Decodable{
         
         if let value = try? container.decode(String.self, forKey:.tag) {
             tag = value
+        }
+        
+        if let value = try? container.decode(String.self, forKey:.pin) {
+            pin = value
         }
          
         if let value = try? container.decode(Int.self, forKey:.show_image) {

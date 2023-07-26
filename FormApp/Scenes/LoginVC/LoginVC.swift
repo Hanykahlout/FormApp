@@ -54,12 +54,13 @@ extension LoginVC{
     @objc func ButtonWasTapped(btn:UIButton){
         switch btn{
         case signupBtn:
+            navigationController?.popViewController(animated: true)
             let vc = SignUpVC.instantiate()
             navigationController?.pushViewController(vc, animated: true)
         case loginBtn:
             login()
         case backBtn :
-            navigationController?.popToRootViewController(animated: true)
+            navigationController?.popViewController(animated: true)
             
         default:
             print("")
@@ -98,11 +99,9 @@ extension LoginVC:LoginPresenterDelefate {
             try KeychainWrapper.set(value: "Bearer"+" "+user.api_token! , key: user.email ?? "")
             AppData.email = user.email ?? ""
             AppData.id = user.id ?? -1
-            
-            let vc=HomeVC.instantiate()
             SVProgressHUD.dismiss()
+            goToHomeNav()
             
-            navigationController?.pushViewController(vc, animated: true)
             
         } catch let error {
             print(error)

@@ -24,6 +24,15 @@ class AuthVC: UIViewController {
         BindButtons()
         faceIdButton.isHidden = isFromUnautherized
         
+        if isAppUpdated() {
+            let currentVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+            UserDefaults.standard.set(currentVersion, forKey: "AppVersionKey")
+            
+            let alertVC = UIAlertController(title: "Updates", message: "Ability to search by job number in the job search box. You can use just the last 4-5 numbers to search.", preferredStyle: .alert)
+            alertVC.addAction(.init(title: "Cancel", style: .cancel))
+            present(alertVC, animated: true)
+            
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,7 +58,7 @@ class AuthVC: UIViewController {
                                reply: { (success, error) in
             DispatchQueue.main.async {
                 if success{
-                    self.goToHomeVC()
+                    self.goToHomeNav()
                 }else{
                     let alert = UIAlertController(title: "Failed to Authenticate ", message: "please try Again", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel,handler:nil))
@@ -59,15 +68,19 @@ class AuthVC: UIViewController {
         })
     }
     
-    private func goToHomeVC(){
-        let nav1 = UINavigationController()
-        let mainView = HomeVC.instantiate()
-        nav1.viewControllers = [mainView]
-        nav1.navigationBar.isHidden = true
-        sceneDelegate?.setRootVC(vc: nav1)
+    func isAppUpdated() -> Bool {
+        let currentVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        let previousVersion = UserDefaults.standard.string(forKey: "AppVersionKey")
+        
+        if currentVersion ?? "" > previousVersion ?? "" {
+            // App has been updated
+            return true
+        } else {
+            // App is running for the first time or hasn't been updated
+            return false
+        }
     }
-    
-    
+
 }
 
 //MARK: - Binding
@@ -135,5 +148,4 @@ extension AuthVC:Storyboarded{
     static var storyboardName: StoryboardName = .main
     
 }
-
 

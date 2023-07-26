@@ -44,9 +44,8 @@ extension Networkable{
                         Alert.showError(title:"Unauthorized Access",message: "Please login", viewController: nav)
                     }
                 }else  if response.statusCode == 503 || response.statusCode == 500 {
-                    print("TESTOOOO",String(data: response.data, encoding: .utf8) ?? "Faild to Convert response to String")
-                    Alert.showErrorAlert(message: "Server Error !!")
                     SVProgressHUD.dismiss()
+                    completion(.failure(MyError.serverError))
                 } else {
                     print(String(data: response.data, encoding: .utf8) ?? "Faild to Convert response to String")
                     do {
@@ -80,13 +79,16 @@ extension Networkable{
 
 public enum MyError: Error {
     case customError
+    case serverError
 }
 
 extension MyError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .customError:
-            return NSLocalizedString("something wrong try again", comment: "")
+            return NSLocalizedString("Something went the wrong try again", comment: "")
+        case .serverError:
+            return NSLocalizedString("Server Error !!", comment: "")
         }
     }
 }

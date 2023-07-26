@@ -16,24 +16,20 @@ class RealmManager: RealmManagerInterface {
     
     func checkMigration(){
         let config = Realm.Configuration(
-            schemaVersion: 2, // Set the new schema version.
+            schemaVersion: 3, // Set the new schema version.
             migrationBlock: { migration, oldSchemaVersion in
-                if oldSchemaVersion < 2 {
-                    // The enumerateObjects(ofType:_:) method iterates over
-                    // every Person object stored in the Realm file to apply the migration
+                if oldSchemaVersion < 3 {
                     
-                    migration.create("SideBySideDBModel")
-                    migration.create("SideDBModel")
-                    migration.enumerateObjects(ofType: FormItemDBModel.className()) { oldObject, newObject in
-                        newObject?["tag"] = nil
-                        newObject?["show_image"] = nil
-                        newObject?["show_notes"] = nil
-                        newObject?["side_by_side"] = nil
-                        newObject?["pin"] = nil
+                    migration.enumerateObjects(ofType: DataDetailsDBModel.className()) { oldObject, newObject in
+                        newObject?["api_id"] = nil
                     }
                     
                     let uuid = UserDefaults.standard.string(forKey: "ApplicationSessionUUID") ?? ""
-                    AppManager.shared.changeVersion(uuid: uuid, checkDatabase: true, model: "formItem") { result in }
+                    AppManager.shared.changeVersion(uuid: uuid, checkDatabase: true, model: "company") { result in }
+                    AppManager.shared.changeVersion(uuid: uuid, checkDatabase: true, model: "job") { result in }
+                    AppManager.shared.changeVersion(uuid: uuid, checkDatabase: true, model: "form") { result in }
+                    AppManager.shared.changeVersion(uuid: uuid, checkDatabase: true, model: "division") { result in }
+                    
                 }
             }
         )

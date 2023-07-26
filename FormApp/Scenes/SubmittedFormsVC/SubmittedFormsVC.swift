@@ -167,6 +167,15 @@ extension SubmittedFormsVC:UITableViewDelegate,UITableViewDataSource{
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.transform = CGAffineTransform(translationX: 0, y: -cell.frame.height)
+        cell.alpha = 0
+        
+        UIView.animate(withDuration: 0.5) {
+            cell.transform = .identity
+            cell.alpha = 1.0
+        }
+    }
 }
 
 extension SubmittedFormsVC:Storyboarded{

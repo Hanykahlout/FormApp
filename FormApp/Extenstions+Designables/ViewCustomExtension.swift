@@ -113,3 +113,18 @@ extension URL {
         }
     }
 }
+
+
+extension UIViewController{
+    func goToHomeNav(){
+        if let delegate = UIApplication.shared.delegate as? AppDelegate,let window = delegate.window{
+            UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let nav = storyboard.instantiateViewController(withIdentifier: "HomeNav") as! UINavigationController
+                nav.isNavigationBarHidden = true
+                window.rootViewController = nav
+                window.makeKeyAndVisible()
+            })
+        }
+    }
+}

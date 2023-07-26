@@ -10,6 +10,7 @@ import RealmSwift
 class DataDetailsDBModel: Object {
     
     @Persisted var id:Int?
+    @Persisted var api_id:String?
     @Persisted var title:String?
     @Persisted var email:String?
     @Persisted var company_id:String?

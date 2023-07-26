@@ -21,7 +21,7 @@ protocol QCFormPresenterDelegate{
 
 typealias QCFormDelegate = QCFormPresenterDelegate & UIViewController
 
-// Testing Activation = true
+
 
 class QCFormPresenter{
     weak var delegate:QCFormDelegate?

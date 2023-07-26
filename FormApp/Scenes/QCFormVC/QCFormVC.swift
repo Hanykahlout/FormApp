@@ -100,7 +100,7 @@ class QCFormVC: UIViewController {
         SVProgressHUD.show(withStatus: "please wait")
         presenter.delegate=self
         presenter.getCompaniesFromDB(search: "")
-        
+        addNewFormItemView.isHidden = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -151,12 +151,13 @@ class QCFormVC: UIViewController {
             saveButton.isHidden = false
             setFormData(fromData: draftData)
         }
+        
     }
     
     private func setFormData(fromData:FormInfo){
         
         headerTitleLabel.text = fromData.form?.title ?? ""
-        addNewFormItemView.isHidden = false
+        
         companyID = fromData.company?.id ?? 0
         companyBtn.isEnabled = true
         companyView.backgroundColor = .black
@@ -225,11 +226,13 @@ class QCFormVC: UIViewController {
                 let image = item.image
                 let show_image = item.item?.show_image
                 let show_notes = item.item?.show_notes
+                let tag = item.item?.tag
+                let pin = item.item?.pin
                 
                 if let i = index{
-                    formsItem[i].data.append(.init(id: id,value: value,title: title, status: status,price: price,show_price: show_price,system: system, system_type: system_type, system_list: system_list,image: image,isWithPic: image != nil,show_image: show_image,show_notes: show_notes))
+                    formsItem[i].data.append(.init(id: id,value: value,title: title, status: status,price: price,show_price: show_price,system: system, system_type: system_type, system_list: system_list,image: image,isWithPic: image != nil,show_image: show_image,show_notes: show_notes,tag: tag,pin: pin))
                 }else{
-                    let item:(tag:String,data:[DataDetails]) = (tag:item.item?.tag ?? "",[DataDetails(id: id,value: value,title: title, status: status,price: price,show_price: show_price,system: system, system_type: system_type, system_list: system_list,image: image,isWithPic: image != nil,show_image: show_image,show_notes: show_notes)])
+                    let item:(tag:String,data:[DataDetails]) = (tag:item.item?.tag ?? "",[DataDetails(id: id,value: value,title: title, status: status,price: price,show_price: show_price,system: system, system_type: system_type, system_list: system_list,image: image,isWithPic: image != nil,show_image: show_image,show_notes: show_notes,tag: tag,pin: pin)])
                     formsItem.append(item)
                 }
                 
@@ -241,11 +244,13 @@ class QCFormVC: UIViewController {
                 let secondSide = SideData(type: secondField?.type,title: secondField?.title ,value: secondField?.value)
                 
                 let sideBySideData = SideBySideData(first_field: firstSide,second_field: secondSide)
+                let tag = item.item?.tag
+                let pin = item.item?.pin
                 
                 if let i = index{
-                    formsItem[i].data.append(.init(id:item.item?.id,sideBySide: sideBySideData))
+                    formsItem[i].data.append(.init(id:item.item?.id,sideBySide: sideBySideData,tag: tag,pin: pin))
                 }else{
-                    let item:(tag:String,data:[DataDetails]) = (tag:item.item?.tag ?? "",[DataDetails(id:item.item?.id,sideBySide: sideBySideData)])
+                    let item:(tag:String,data:[DataDetails]) = (tag:tag ?? "",[DataDetails(id:item.item?.id,sideBySide: sideBySideData,tag: tag,pin: pin)])
                     formsItem.append(item)
                 }
                 
@@ -267,10 +272,13 @@ class QCFormVC: UIViewController {
                 let show_price = item.item?.show_price
                 let show_image = item.item?.show_image
                 let show_notes = item.item?.show_notes
+                let tag = item.item?.tag
+                let pin = item.item?.pin
+                
                 if let i = index{
-                    formsItem[i].data.append(.init(id: id, title: title, status: status, note: note,system: system,reasons: reasons,reason_id: reason_id,reason: reason,new_boxes: newBoxs,image: image,isWithPic: image != nil,price: price,show_price: show_price,show_image: show_image,show_notes: show_notes))
+                    formsItem[i].data.append(.init(id: id, title: title, status: status, note: note,system: system,reasons: reasons,reason_id: reason_id,reason: reason,new_boxes: newBoxs,image: image,isWithPic: image != nil,price: price,show_price: show_price,show_image: show_image,show_notes: show_notes,tag: tag,pin:pin))
                 }else{
-                    let item:(tag:String,data:[DataDetails]) = (tag:item.item?.tag ?? "",[DataDetails(id: id, title: title, status: status, note: note,system: system,reasons: reasons,reason_id: reason_id,reason: reason,new_boxes: newBoxs,image: image,isWithPic: image != nil,price: price,show_price: show_price,show_image: show_image,show_notes: show_notes)])
+                    let item:(tag:String,data:[DataDetails]) = (tag:item.item?.tag ?? "",[DataDetails(id: id, title: title, status: status, note: note,system: system,reasons: reasons,reason_id: reason_id,reason: reason,new_boxes: newBoxs,image: image,isWithPic: image != nil,price: price,show_price: show_price,show_image: show_image,show_notes: show_notes,tag: tag,pin: pin)])
                     formsItem.append(item)
                 }
                 
@@ -280,7 +288,9 @@ class QCFormVC: UIViewController {
         self.presenter.getJobsFromDB(companyID: "\(self.companyID)", search: "")
         self.presenter.getDivisionFromDB(companyID: "\(self.companyID)", search: "")
         self.presenter.getFormsFromDB(companyID: "\(self.companyID)", search: "")
-        formsItem.sort { $0.tag < $1.tag }
+        
+        let data = formsItem.flatMap{$0.data}
+        formsItem = groupAndSortFormItems(data: data)
         formTypeNoteTableview.reloadData()
     }
     
@@ -332,7 +342,7 @@ class QCFormVC: UIViewController {
             self.presenter.getFormItemFromDB(project: self.selectedJobProject,
                                              formTypeID:"\(self.formTypeID)" )
             self.selectedCompanyIndex = index
-            self.addNewFormItemView.isHidden = !self.checkAllFieldsSelected()
+            
         }
         self.present(companyPickerVC!, animated: true, completion: nil)
     }
@@ -362,7 +372,7 @@ class QCFormVC: UIViewController {
             self.presenter.getFormItemFromDB(project: self.selectedJobProject,
                                              formTypeID:"\(self.formTypeID)" )
             self.selectedJobIndex = index
-            self.addNewFormItemView.isHidden = !self.checkAllFieldsSelected()
+            
         }
         self.present(jobPickerVC!, animated: true, completion: nil)
     }
@@ -386,7 +396,7 @@ class QCFormVC: UIViewController {
             self.diviosnLeaderData.text = self.division[index].title ?? ""
             self.divisionID = self.division[index].id ?? 0
             self.selectedDivisionIndex = index
-            self.addNewFormItemView.isHidden = !self.checkAllFieldsSelected()
+            
         }
         self.present(divitionPickerVC!, animated: true, completion: nil)
     }
@@ -420,7 +430,7 @@ class QCFormVC: UIViewController {
             self.presenter.getFormItemFromDB(project: self.selectedJobProject,
                                              formTypeID:"\(self.formTypeID)" )
             self.selectedFormTypeIndex = index
-            self.addNewFormItemView.isHidden = !self.checkAllFieldsSelected()
+            
         }
         self.present(formTypePickerVC!, animated: true, completion: nil)
     }
@@ -571,13 +581,6 @@ class QCFormVC: UIViewController {
             }
         }
         return false
-    }
-    
-    private func checkAllFieldsSelected() ->Bool{
-        return !companiesData.text!.isEmpty &&
-        !jobData.text!.isEmpty &&
-        !diviosnLeaderData.text!.isEmpty &&
-        !formTypeData.text!.isEmpty
     }
     
 }
@@ -744,6 +747,12 @@ extension QCFormVC:UITableViewDelegate, UITableViewDataSource{
         label.font = UIFont.systemFont(ofSize: 30)
         label.textColor = .white
         label.textAlignment = .center
+        label.numberOfLines = 0
+        label.shadowColor = .white
+        label.shadowOffset = .init(width: 0, height: 1)
+        label.shadow_Radius = 12
+        label.shadow_Opacity = 1
+        
         
         let separatorView = UIView()
         separatorView.backgroundColor = .gray
@@ -762,7 +771,6 @@ extension QCFormVC:UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         
         if formsItem[indexPath.section].data[indexPath.row].isFromUser ?? false{
             let cell = tableView.dequeueReusableCell(withIdentifier: "UserFormItemTableViewCell", for: indexPath) as! UserFormItemTableViewCell
@@ -825,6 +833,10 @@ extension QCFormVC:UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         self.viewWillLayoutSubviews()
+        cell.alpha = 0
+        UIView.animate(withDuration: 0.5) {
+            cell.alpha = 1.0
+        }
     }
     
 }
@@ -1027,7 +1039,6 @@ extension QCFormVC:SideBySideCellDelegate{
         }
     }
     
-    
 }
 
 // MARK: - Presenter Delegate
@@ -1120,78 +1131,71 @@ extension QCFormVC:QCFormPresenterDelegate{
     
     
     func getFormItemsData(data: FormItemData) {
-        
-        filterFormItems(formItems: data.formItems)
+        formsItem = groupAndSortFormItems(data: data.formItems)
         formTypeNoteTableview.reloadData()
-        addNewFormItemView.isHidden = !checkAllFieldsSelected()
+        
     }
+
     
-
-    private func filterFormItems(formItems:[DataDetails]) {
-        formsItem.removeAll()
-        
-        let groupedFormItems = Dictionary(grouping: formItems, by: { $0.tag ?? "" })
-
-        for (tag, data) in groupedFormItems {
-            let obj = (tag: tag , data: data)
-            formsItem.append(obj)
-        }
-        
-        formsItem.sort {
-            if $0.tag.isEmpty && !$1.tag.isEmpty {
-                   return false // $0 is empty and $1 is not empty, so $0 should come after $1
-               } else if !$0.tag.isEmpty && $1.tag.isEmpty {
-                   return true // $0 is not empty and $1 is empty, so $0 should come before $1
-               } else {
-                   return $0.tag < $1.tag // Both names are either empty or non-empty, sort alphabetically
-               }
-            
-        }
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = .init(identifier: "en")
-        dateFormatter.dateFormat = "yyyy/MM/dd hh:mm:ss"
-        
-        for i in 0..<formsItem.count{
-            formsItem[i].data.sort {dateFormatter.date(from:$0.pin ?? "") ?? Date() < dateFormatter.date(from:$1.pin ?? "") ?? Date()}
-        }
-        
-        
-        
-        
-        var firstIndex = 0
-        var unPinedIndex = 0
-        var result:[(tag:String,data:[DataDetails])] = []
-        for i in 0..<formsItem.count{
-            if formsItem[i].data.first?.pin != nil{
-                let currentFormDate = dateFormatter.date(from: formsItem[i].data.first?.pin ?? "") ?? Date()
-                if let lastDate = formsItem[0].data.first?.pin{
-                    if currentFormDate < dateFormatter.date(from: lastDate) ?? Date(){
-                        result.insert(formsItem[i], at: 0)
-                    }else{
-                        result.insert(formsItem[i], at: firstIndex)
-                    }
-                }else{
-                    result.insert(formsItem[i], at: 0)
-                }
-                
-                firstIndex += 1
-                
-            }else{
-                result.insert(formsItem[i], at:  firstIndex + unPinedIndex)
-                unPinedIndex += 1
+    func groupAndSortFormItems(data: [DataDetails]) -> [(tag: String, data: [DataDetails])] {
+        // Step 1: Group the data by tag (assign empty string for nil tags)
+        var groupedData: [String: [DataDetails]] = [:]
+        for item in data {
+            let tag = item.tag ?? ""
+            if var group = groupedData[tag] {
+                group.append(item)
+                groupedData[tag] = group
+            } else {
+                groupedData[tag] = [item]
             }
         }
-        formsItem = result
-
         
+        // Step 2: Sort the data alphabetically by tag
+        var sortedGroupedData = groupedData.sorted(by: { $0.key < $1.key })
         
+        // Step 3: Custom sorting function for tag groups
+        func compareTagGroups(group1: (key: String, value: [DataDetails]), group2: (key: String, value: [DataDetails])) -> Bool {
+            let hasPinnedItems1 = group1.value.contains { $0.pin != nil }
+            let hasPinnedItems2 = group2.value.contains { $0.pin != nil }
+            
+            if hasPinnedItems1 && !hasPinnedItems2 {
+                return true
+            } else if !hasPinnedItems1 && hasPinnedItems2 {
+                return false
+            } else if hasPinnedItems1 && hasPinnedItems2 {
+                let pinnedDates1 = group1.value.compactMap { $0.pin?.dateFromString() }.sorted()
+                let pinnedDates2 = group2.value.compactMap { $0.pin?.dateFromString() }.sorted()
+                return pinnedDates1.first ?? Date() < pinnedDates2.first ?? Date()
+            }
+            
+            return false
+        }
         
-       
+        // Step 4: Sort the data alphabetically by tag and move pinned items to the top
+        sortedGroupedData.sort(by: compareTagGroups)
         
+        // Step 3: Sort the data within each tag group by pin date in descending order
+        for (tag, _) in sortedGroupedData {
+            if let index = sortedGroupedData.firstIndex(where: { $0.key == tag }) {
+                let groupData = groupedData[tag] ?? []
+                let pinnedItems = groupData.filter { $0.pin != nil }
+                let unpinnedItems = groupData.filter { $0.pin == nil }
+                
+                let sortedPinnedItems = pinnedItems.sorted(by: {
+                    ($0.pin?.dateFromString() ?? Date()) > ($1.pin?.dateFromString() ?? Date())
+                })
+                
+                sortedGroupedData[index].value = sortedPinnedItems + unpinnedItems
+            }
+        }
         
+        // Step 5: Convert to the final format and return
+        let result = sortedGroupedData.map { (tag: $0.key, data: $0.value) }
+        return result
     }
-    
+
+
+
     
     func getSubContractors(data: SubContractorsResponse) {
         subContractors=data.subContractors ?? []
@@ -1257,4 +1261,12 @@ extension QCFormVC : UIImagePickerControllerDelegate , UINavigationControllerDel
 enum FormPurpose{
     case edit,create,draft,updateDraft
 }
-                                                                                                                  
+
+extension String {
+    func dateFromString() -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return dateFormatter.date(from: self)
+    }
+}
