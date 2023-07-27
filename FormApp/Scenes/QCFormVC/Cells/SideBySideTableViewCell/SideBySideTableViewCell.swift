@@ -31,8 +31,8 @@ class SideBySideTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+
         binding()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -53,8 +53,8 @@ class SideBySideTableViewCell: UITableViewCell {
         title2TextField.text = second_field?.value ?? ""
         setUpTextField(type: first_field?.type ?? "", title1TextField,isFirstField: true)
         setUpTextField(type: second_field?.type ?? "", title2TextField,isFirstField: false)
-        
     }
+    
     
     private func setUpTextField(type:String,_ textField:UITextField,isFirstField:Bool){
         switch type{
@@ -82,7 +82,9 @@ class SideBySideTableViewCell: UITableViewCell {
         }
     }
     
+    
 }
+
 // MARK: - binding
 extension SideBySideTableViewCell{
     private func binding(){
@@ -103,6 +105,4 @@ extension SideBySideTableViewCell{
     }
     
 }
-
-
 

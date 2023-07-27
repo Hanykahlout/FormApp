@@ -55,13 +55,13 @@
 		CE0B92382A28E64500530977 /* NewBoxTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0B92362A28E64500530977 /* NewBoxTableViewCell.swift */; };
 		CE0B92392A28E64500530977 /* NewBoxTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE0B92372A28E64500530977 /* NewBoxTableViewCell.xib */; };
 		CE118D622A607B7C00E0C117 /* SideBySideTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE118D602A607B7C00E0C117 /* SideBySideTableViewCell.swift */; };
-		CE118D632A607B7C00E0C117 /* SideBySideTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE118D612A607B7C00E0C117 /* SideBySideTableViewCell.xib */; };
 		CE3A79C529C70A0500413E0B /* FormTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A79C329C70A0500413E0B /* FormTableViewCell.swift */; };
 		CE3A79C629C70A0500413E0B /* FormTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE3A79C429C70A0500413E0B /* FormTableViewCell.xib */; };
 		CE3A79C829C71B3B00413E0B /* SubmittedFormsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A79C729C71B3B00413E0B /* SubmittedFormsVC.swift */; };
 		CE42025C29B8880900517FCA /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE42025B29B8880900517FCA /* RealmManager.swift */; };
 		CE42025E29B8894D00517FCA /* RealmManagerInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE42025D29B8894D00517FCA /* RealmManagerInterface.swift */; };
 		CE42026229B88A0900517FCA /* DataDetailsDBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE42026129B88A0900517FCA /* DataDetailsDBModel.swift */; };
+		CE52B52C2A717CBD0092A2DF /* SideBySideTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE52B52B2A717CBD0092A2DF /* SideBySideTableViewCell.xib */; };
 		CE54B76829BDCE2C00C9C9F1 /* RequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE54B76729BDCE2C00C9C9F1 /* RequestModel.swift */; };
 		CE56835F2A079E20002A2D01 /* CreateMaterialPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE56835E2A079E20002A2D01 /* CreateMaterialPresenter.swift */; };
 		CE59C00F29DC5C0B0002C1F8 /* FormItemReason.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59C00E29DC5C0B0002C1F8 /* FormItemReason.swift */; };
@@ -164,13 +164,13 @@
 		CE0B92362A28E64500530977 /* NewBoxTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBoxTableViewCell.swift; sourceTree = "<group>"; };
 		CE0B92372A28E64500530977 /* NewBoxTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewBoxTableViewCell.xib; sourceTree = "<group>"; };
 		CE118D602A607B7C00E0C117 /* SideBySideTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBySideTableViewCell.swift; sourceTree = "<group>"; };
-		CE118D612A607B7C00E0C117 /* SideBySideTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SideBySideTableViewCell.xib; sourceTree = "<group>"; };
 		CE3A79C329C70A0500413E0B /* FormTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTableViewCell.swift; sourceTree = "<group>"; };
 		CE3A79C429C70A0500413E0B /* FormTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FormTableViewCell.xib; sourceTree = "<group>"; };
 		CE3A79C729C71B3B00413E0B /* SubmittedFormsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmittedFormsVC.swift; sourceTree = "<group>"; };
 		CE42025B29B8880900517FCA /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		CE42025D29B8894D00517FCA /* RealmManagerInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManagerInterface.swift; sourceTree = "<group>"; };
 		CE42026129B88A0900517FCA /* DataDetailsDBModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataDetailsDBModel.swift; sourceTree = "<group>"; };
+		CE52B52B2A717CBD0092A2DF /* SideBySideTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SideBySideTableViewCell.xib; sourceTree = "<group>"; };
 		CE54B76729BDCE2C00C9C9F1 /* RequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestModel.swift; sourceTree = "<group>"; };
 		CE56835E2A079E20002A2D01 /* CreateMaterialPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMaterialPresenter.swift; sourceTree = "<group>"; };
 		CE59C00E29DC5C0B0002C1F8 /* FormItemReason.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormItemReason.swift; sourceTree = "<group>"; };
@@ -378,7 +378,7 @@
 			isa = PBXGroup;
 			children = (
 				CE118D602A607B7C00E0C117 /* SideBySideTableViewCell.swift */,
-				CE118D612A607B7C00E0C117 /* SideBySideTableViewCell.xib */,
+				CE52B52B2A717CBD0092A2DF /* SideBySideTableViewCell.xib */,
 			);
 			path = SideBySideTableViewCell;
 			sourceTree = "<group>";
@@ -804,7 +804,7 @@
 				CEA6F52C2A0A70CE00C6A7A0 /* MaterialTableViewCell.xib in Resources */,
 				CE0B92392A28E64500530977 /* NewBoxTableViewCell.xib in Resources */,
 				277CABF029814FD5009C11CB /* MainTF.xib in Resources */,
-				CE118D632A607B7C00E0C117 /* SideBySideTableViewCell.xib in Resources */,
+				CE52B52C2A717CBD0092A2DF /* SideBySideTableViewCell.xib in Resources */,
 				277CABD429813969009C11CB /* Main.storyboard in Resources */,
 				CE976CB02A54990400059801 /* Audiowide-Regular.ttf in Resources */,
 				CEF2BB4C2A018EB400D4DBA1 /* HomeVCTableViewCell.xib in Resources */,
@@ -1113,7 +1113,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.8;
+				MARKETING_VERSION = 1.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = ios.chesapeake.formApps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1152,7 +1152,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.8;
+				MARKETING_VERSION = 1.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = ios.chesapeake.formApps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

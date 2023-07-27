@@ -536,7 +536,7 @@ class QCFormVC: UIViewController {
                     formData["form_items[\(_index)][new_boxes][1][title]"] = sideBySide?.second_field?.title ?? ""
                     formData["form_items[\(_index)][new_boxes][1][type]"] = sideBySide?.second_field?.type ?? ""
                     formData["form_items[\(_index)][new_boxes][1][value]"] = sideBySide?.second_field?.value ?? ""
-        
+                
                 }else{
                     formData["form_items[\(_index)][item_id]"] = String(item.data[index].id ?? 0)
                     let status = item.data[index].status ?? ""
@@ -684,7 +684,7 @@ extension QCFormVC{
                 }
                 self.formTypeNoteTableview.reloadData()
                 self.viewWillLayoutSubviews()
-
+                
             }
             present(vc, animated: true)
         case companyBtn:
@@ -1119,7 +1119,7 @@ extension QCFormVC:QCFormPresenterDelegate{
         divisionBtn.isEnabled=true
         self.divisionView.backgroundColor = .black
         SVProgressHUD.dismiss()
-            
+        
         if let divitionPickerVC = self.divitionPickerVC{
             divitionPickerVC.arr_data = division.map{$0.title ?? ""}
             divitionPickerVC.picker.reloadAllComponents()
@@ -1135,7 +1135,7 @@ extension QCFormVC:QCFormPresenterDelegate{
         formTypeNoteTableview.reloadData()
         
     }
-
+    
     
     func groupAndSortFormItems(data: [DataDetails]) -> [(tag: String, data: [DataDetails])] {
         // Step 1: Group the data by tag (assign empty string for nil tags)
@@ -1193,9 +1193,9 @@ extension QCFormVC:QCFormPresenterDelegate{
         let result = sortedGroupedData.map { (tag: $0.key, data: $0.value) }
         return result
     }
-
-
-
+    
+    
+    
     
     func getSubContractors(data: SubContractorsResponse) {
         subContractors=data.subContractors ?? []
