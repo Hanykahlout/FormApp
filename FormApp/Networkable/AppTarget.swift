@@ -31,9 +31,16 @@ enum AppTarget:TargetType{
     case version
     case changeVersion(uuid:String,checkDatabase:Bool,model:String)
     case updateOnline(start: Date?,end: Date?)
+    case checkAppStoreVersion(bundleId:String)
     
     var baseURL: URL {
-        return URL(string: "\(AppConfig.apiBaseUrl)")!
+        switch self{
+        case .checkAppStoreVersion:
+            return URL(string: "\(AppConfig.appStoreURL)")!
+        default:
+            return URL(string: "\(AppConfig.apiBaseUrl)")!
+        }
+        
     }
         
     var path: String {
@@ -65,6 +72,7 @@ enum AppTarget:TargetType{
         case .version:return "version"
         case .changeVersion:return "changeVersion"
         case .updateOnline:return "updateOnline"
+        case .checkAppStoreVersion:return "lookup"
         }
     }
     
@@ -73,7 +81,7 @@ enum AppTarget:TargetType{
         switch self{
         case .SignUp,.login,.logout,.submitForms,.createHouseMaterial,.changeVersion,.updateOnline:
             return .post
-        case .getCompanies,.getJob,.forms,.divisions,.getFormItems,.subContractors,.checkDatabase,.editSubmittedForm,.submittedForms,.formItemReasons,.getLists,.getHouseMaterials,.getSpecialList,.version:
+        case .getCompanies,.getJob,.forms,.divisions,.getFormItems,.subContractors,.checkDatabase,.editSubmittedForm,.submittedForms,.formItemReasons,.getLists,.getHouseMaterials,.getSpecialList,.version,.checkAppStoreVersion:
             return .get
         }
     }
@@ -90,7 +98,7 @@ enum AppTarget:TargetType{
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         case .SignUp,.login,.logout,.createHouseMaterial,.changeVersion,.updateOnline:
             return .requestParameters(parameters: param, encoding: URLEncoding.httpBody)
-        case .getJob,.getFormItems,.editSubmittedForm,.checkDatabase,.submittedForms,.getHouseMaterials,.getSpecialList:
+        case .getJob,.getFormItems,.editSubmittedForm,.checkDatabase,.submittedForms,.getHouseMaterials,.getSpecialList,.checkAppStoreVersion:
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         case .submitForms(_, let formsDetails):
             var formData: [MultipartFormData] = []
@@ -133,7 +141,7 @@ enum AppTarget:TargetType{
             catch{
                 return ["Accept":"application/json","Accept-Language":"en"]
             }
-        case .SignUp,.login,.version,.changeVersion:
+        case .SignUp,.login,.version,.changeVersion,.checkAppStoreVersion:
             return ["Accept":"application/json","Accept-Language":"en"]
         }
     }
@@ -192,6 +200,8 @@ enum AppTarget:TargetType{
                 body["leave_date"] = dateFormatter.string(from: end)
             }
             return body
+        case .checkAppStoreVersion(let bundleId):
+            return ["bundleId":bundleId,"unique_id":UUID().uuidString]
         default:
             return [ : ]
         }

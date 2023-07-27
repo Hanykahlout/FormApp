@@ -30,7 +30,7 @@ protocol AppNetworkable:Networkable  {
     func createHouseMaterial(isEdit:Bool,houseMaterialData:[String:Any],completion: @escaping (Result<BaseResponse<Material>, Error>)-> ())
     func getSpecialList(jobId:String,builder:String,completion: @escaping (Result<BaseResponse<SpecialList>, Error>)-> ())
     func updateOnline(startDate:Date?,endDate:Date?,completion: @escaping (Result<BaseResponse<VersionModel>, Error>)-> ())
-
+    func checkAppStoreVersion(bundleId:String,completion: @escaping (Result<AppStoreReponse, Error>)-> ())
 }
 
 
@@ -126,6 +126,11 @@ class AppManager: AppNetworkable {
     func updateOnline(startDate: Date?, endDate: Date?, completion: @escaping (Result<BaseResponse<VersionModel>, Error>) -> ()) {
         request(target: .updateOnline(start: startDate, end: endDate), completion: completion)
     }
+    
+    func checkAppStoreVersion(bundleId: String, completion: @escaping (Result<AppStoreReponse, Error>) -> ()) {
+        request(target: .checkAppStoreVersion(bundleId: bundleId), completion: completion)
+    }
+    
     
     
     func monitorNetwork(conectedAction:(()->Void)?,notConectedAction:(()->Void)?){

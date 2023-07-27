@@ -11,3 +11,8 @@ import Foundation
 struct VersionModel:Decodable{
     var version:String?
 }
+
+
+struct AppStoreReponse:Decodable{
+    var results:[VersionModel]?
+}

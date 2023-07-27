@@ -38,7 +38,7 @@ class AuthVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if UserDefaults.standard.bool(forKey: "internet_connection") {
-            presenter.checkVersion()
+            presenter.checkAppStore()
         }else{
             signupBtn.isEnabled = true
             loginBtn.isEnabled = true
@@ -102,7 +102,6 @@ extension AuthVC{
 extension AuthVC{
     
     @objc func ButtonWasTapped(btn:UIButton){
-
         switch btn{
         case signupBtn:
             let vc = SignUpVC.instantiate()
@@ -115,7 +114,6 @@ extension AuthVC{
         default:
             print("")
         }
-        
     }
 }
 
