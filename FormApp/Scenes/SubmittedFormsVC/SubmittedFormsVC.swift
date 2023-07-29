@@ -12,9 +12,7 @@ class SubmittedFormsVC: UIViewController {
     
     @IBOutlet weak var optionsButton: UIButton!
     @IBOutlet weak var optionLabel: UILabel!
-    @IBOutlet weak var createButton: UIButton!
     @IBOutlet weak var searchBarView: SearchView!
-    @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var emptyDataStackView: UIStackView!
     @IBOutlet weak var airplaneNoteLabel: UILabel!
@@ -37,10 +35,16 @@ class SubmittedFormsVC: UIViewController {
         refreshControl.tintColor = .white
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setUpNavigation()
         SVProgressHUD.show()
         presnter.getSubmittedForms(search: "")
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     private func checkUnsubmittedForms(){
@@ -57,6 +61,35 @@ class SubmittedFormsVC: UIViewController {
     }
     
     // MARK: - Private Functions
+    private func setUpNavigation(){
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        
+        navigationItem.title = "Forms"
+        
+        let backButton = UIButton()
+        backButton.corner_radius = 10
+        backButton.clipsToBounds = true
+        backButton.backgroundColor = .white
+        backButton.setImage(UIImage(named: "Back")!, for: .normal)
+        backButton.addTarget(self, action: #selector(backAction), for: .touchUpInside)
+        
+        navigationItem.leftBarButtonItem = .init(customView: backButton)
+        
+        let rightButton = UIButton()
+        rightButton.corner_radius = 10
+        rightButton.clipsToBounds = true
+        rightButton.setImage(UIImage(systemName: "plus"), for: .normal)
+        rightButton.tintColor = .white
+        rightButton.backgroundColor = .orange
+        rightButton.addTarget(self, action: #selector(createAction), for: .touchUpInside)
+        
+        rightButton.translatesAutoresizingMaskIntoConstraints = false
+        rightButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        rightButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        navigationItem.rightBarButtonItem = .init(customView: rightButton)
+        
+    }
     private func optionsAction() {
         optionsPicker = PickerVC.instantiate()
         optionsPicker!.index = selectedOptionIndex
@@ -82,9 +115,7 @@ class SubmittedFormsVC: UIViewController {
 // MARK: - Binding
 extension SubmittedFormsVC{
     private func binding(){
-        createButton.addTarget(self, action: #selector(ButtonWasTapped), for: .touchUpInside)
         optionsButton.addTarget(self, action: #selector(ButtonWasTapped), for: .touchUpInside)
-        backButton.addTarget(self, action: #selector(ButtonWasTapped), for: .touchUpInside)
         searchBarView.btnSearch.addTarget(self, action: #selector(searchAction), for: .touchUpInside)
         
         airplaneNoteLabel.isUserInteractionEnabled = true
@@ -102,15 +133,20 @@ extension SubmittedFormsVC{
         refreshControl.addTarget(self, action: #selector(refreshAction), for: .valueChanged)
     }
     
+    @objc private func backAction(){
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func createAction(){
+        let vc = QCFormVC.instantiate()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    
     @objc private func ButtonWasTapped(btn:UIButton){
         switch btn{
         case optionsButton:
             optionsAction()
-        case backButton:
-            navigationController?.popViewController(animated: true)
-        case createButton:
-            let vc = QCFormVC.instantiate()
-            navigationController?.pushViewController(vc, animated: true)
         default:
             print("")
         }

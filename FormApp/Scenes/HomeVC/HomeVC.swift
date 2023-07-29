@@ -36,11 +36,26 @@ class HomeVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setUpNavigation()
         Timer.scheduledTimer(withTimeInterval: 300, repeats: true) { timer in
             self.presenter.checkDatabase()
         }
         presenter.checkDatabase()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    // MARK: - Private Functions
+    
+    private func setUpNavigation(){
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationItem.title = "Home"
+    }
+    
+    
     
 }
 

@@ -15,7 +15,6 @@ class SignUpVC: UIViewController {
     @IBOutlet private weak var emailTf: MainTF!
     @IBOutlet private weak var passwordTf: MainTF!
     
-    @IBOutlet var backBtn: UIButton!
     @IBOutlet weak var signupBtn: UIButton!
     @IBOutlet weak var loginBtn: UIButton!
     
@@ -30,6 +29,31 @@ class SignUpVC: UIViewController {
         BindButtons()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setUpNavigation()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    // MARK: - Private Functions
+    private func setUpNavigation(){
+        navigationController?.setNavigationBarHidden(false, animated: true)
+
+        navigationItem.title = "Sign Up"
+        
+        let backButton = UIButton()
+        backButton.corner_radius = 10
+        backButton.clipsToBounds = true
+        backButton.setImage(UIImage(named: "Back")!, for: .normal)
+        backButton.addTarget(self, action: #selector(backAction), for: .touchUpInside)
+        
+        navigationItem.leftBarButtonItem = .init(customView: backButton)
+        
+    }
 }
 
 
@@ -45,13 +69,7 @@ extension SignUpVC{
     func BindButtons(){
         signupBtn.addTarget(self, action: #selector(ButtonWasTapped), for: .touchUpInside)
         loginBtn.addTarget(self, action: #selector(ButtonWasTapped), for: .touchUpInside)
-        backBtn.addTarget(self, action: #selector(ButtonWasTapped), for: .touchUpInside)
     }
-}
-
-//MARK: - Life cycle
-
-extension SignUpVC{
     
     @objc func ButtonWasTapped(btn:UIButton){
         switch btn{
@@ -61,12 +79,14 @@ extension SignUpVC{
             navigationController?.popToRootViewController(animated: true)
             let vc = LoginVC.instantiate()
             navigationController?.pushViewController(vc, animated: true)
-        case backBtn :
-            navigationController?.popToRootViewController(animated: true)
         default:
             print("")
         }
         
+    }
+    
+    @objc private func backAction(){
+        navigationController?.popViewController(animated: true)
     }
 }
 

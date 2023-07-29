@@ -17,6 +17,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        let barAppearance = UINavigationBar.appearance()
+        barAppearance.barTintColor = UIColor.blue
+        barAppearance.tintColor = UIColor.white
+        barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        
+        
         UNUserNotificationCenter.current().requestAuthorization(options: .badge) { (granted, error) in}
         
         AppManager.shared.monitorNetwork {

@@ -31,7 +31,6 @@ class AuthVC: UIViewController {
 //            let alertVC = UIAlertController(title: "Updates", message: "Ability to search by job number in the job search box. You can use just the last 4-5 numbers to search.", preferredStyle: .alert)
 //            alertVC.addAction(.init(title: "Cancel", style: .cancel))
 //            present(alertVC, animated: true)
-//
         }
     }
     
@@ -146,4 +145,7 @@ extension AuthVC:Storyboarded{
     static var storyboardName: StoryboardName = .main
     
 }
+
+
+
 

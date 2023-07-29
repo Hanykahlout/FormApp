@@ -13,8 +13,7 @@ class LoginVC: UIViewController {
     
     @IBOutlet  private weak var emailCustomTf: MainTF!
     @IBOutlet private weak var passCustomTf: MainTF!
-    
-    @IBOutlet var backBtn: UIButton!
+
     @IBOutlet weak var signupBtn: UIButton!
     @IBOutlet weak var loginBtn: UIButton!
     
@@ -30,6 +29,31 @@ class LoginVC: UIViewController {
         passCustomTf.valueTxt.isSecureTextEntry = true
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setUpNavigation()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    // MARK: - Private Functions
+    private func setUpNavigation(){
+        navigationController?.setNavigationBarHidden(false, animated: true)
+
+        navigationItem.title = "Login"
+        
+        let backButton = UIButton()
+        backButton.corner_radius = 10
+        backButton.clipsToBounds = true
+        backButton.setImage(UIImage(named: "Back")!, for: .normal)
+        backButton.addTarget(self, action: #selector(backAction), for: .touchUpInside)
+        
+        navigationItem.leftBarButtonItem = .init(customView: backButton)
+        
+    }
     
 }
 extension LoginVC:Storyboarded{
@@ -43,7 +67,11 @@ extension LoginVC{
     func BindButtons(){
         signupBtn.addTarget(self, action: #selector(ButtonWasTapped), for: .touchUpInside)
         loginBtn.addTarget(self, action: #selector(ButtonWasTapped), for: .touchUpInside)
-        backBtn.addTarget(self, action: #selector(ButtonWasTapped), for: .touchUpInside)
+        
+    }
+    
+    @objc private func backAction(){
+        navigationController?.popViewController(animated: true)
     }
 }
 
@@ -59,8 +87,6 @@ extension LoginVC{
             navigationController?.pushViewController(vc, animated: true)
         case loginBtn:
             login()
-        case backBtn :
-            navigationController?.popViewController(animated: true)
             
         default:
             print("")

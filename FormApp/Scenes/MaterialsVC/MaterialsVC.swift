@@ -9,7 +9,7 @@ import UIKit
 
 class MaterialsVC: UIViewController {
     
-    @IBOutlet weak var backButton: UIButton!
+    
     
     @IBOutlet weak var companyTextField: UIPaddedTextField!
     @IBOutlet weak var companyView: UIViewDesignable!
@@ -30,7 +30,6 @@ class MaterialsVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var emptyDataStackView: UIStackView!
-    @IBOutlet weak var addMaterialButton: UIButton!
     
     private var companyPickerVC: PickerVC?
     private var jobPickerVC: PickerVC?
@@ -51,11 +50,46 @@ class MaterialsVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setUpNavigation()
         presenter.getMaterialsFromAPI()
         presenter.getPhaseSpecialFromAPI()
         
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    // MARK: - Private Functions
+    private func setUpNavigation(){
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        
+        navigationItem.title = "Materials"
+        
+        let backButton = UIButton()
+        backButton.corner_radius = 10
+        backButton.clipsToBounds = true
+        backButton.backgroundColor = .white
+        backButton.setImage(UIImage(named: "Back")!, for: .normal)
+        backButton.addTarget(self, action: #selector(backAction), for: .touchUpInside)
+        
+        navigationItem.leftBarButtonItem = .init(customView: backButton)
+        
+        let rightButton = UIButton()
+        rightButton.corner_radius = 10
+        rightButton.clipsToBounds = true
+        rightButton.setImage(UIImage(systemName: "plus"), for: .normal)
+        rightButton.tintColor = .white
+        rightButton.backgroundColor = .orange
+        rightButton.addTarget(self, action: #selector(createAction), for: .touchUpInside)
+        
+        rightButton.translatesAutoresizingMaskIntoConstraints = false
+        rightButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        rightButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        navigationItem.rightBarButtonItem = .init(customView: rightButton)
+        
+    }
 }
 
 // MARK: - SetUp TableView Delegate And DataSource
@@ -119,8 +153,6 @@ extension MaterialsVC{
         jobsButton.addTarget(self, action: #selector(binding), for: .touchUpInside)
         phaseButton.addTarget(self, action: #selector(binding), for: .touchUpInside)
         specialButton.addTarget(self, action: #selector(binding), for: .touchUpInside)
-        backButton.addTarget(self, action: #selector(binding), for: .touchUpInside)
-        addMaterialButton.addTarget(self, action: #selector(binding), for: .touchUpInside)
     }
     
     
@@ -134,18 +166,23 @@ extension MaterialsVC{
             phasesAction()
         case specialButton:
             specialsAction()
-        case addMaterialButton:
-            let vc = CreateMaterialVC.instantiate()
-            vc.presenter.setSelectionData(selectionData: presenter.selectionData)
-            vc.phase = phaseTextField.text!
-            vc.builder = presenter.selectedjob?.customer ?? ""
-            vc.community = presenter.selectedjob?.project ?? ""
-            navigationController?.pushViewController(vc, animated: true)
-        case backButton:
-            navigationController?.popViewController(animated: true)
+        
         default:
             break
         }
+    }
+    
+    @objc private func backAction(){
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func createAction(){
+        let vc = CreateMaterialVC.instantiate()
+        vc.presenter.setSelectionData(selectionData: presenter.selectionData)
+        vc.phase = phaseTextField.text!
+        vc.builder = presenter.selectedjob?.customer ?? ""
+        vc.community = presenter.selectedjob?.project ?? ""
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     

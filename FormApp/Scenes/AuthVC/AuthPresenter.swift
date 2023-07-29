@@ -39,9 +39,9 @@ class AuthPresenter{
     private func isVersionShouldUpdate(_ version1: String, lowerThan version2: String) -> Bool {
         let components1 = version1.split(separator: ".").compactMap { Int($0) }
         let components2 = version2.split(separator: ".").compactMap { Int($0) }
-
+        
         let minLength = min(components1.count, components2.count)
-
+        
         for i in 0..<minLength {
             if components1[i] < components2[i] {
                 return true
@@ -49,10 +49,8 @@ class AuthPresenter{
                 return false
             }
         }
-
+        
         return components1.count < components2.count
     }
 }
-
-
 

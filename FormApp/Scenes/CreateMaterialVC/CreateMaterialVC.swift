@@ -10,9 +10,7 @@ import UIKit
 class CreateMaterialVC: UIViewController {
     
     @IBOutlet weak var communitySwitch: UISwitch!
-    @IBOutlet weak var headerTitleLabel: UILabel!
     @IBOutlet weak var submitButton: UIButton!
-    @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var itemNoTextFeld: UIPaddedTextField!
     @IBOutlet weak var nameTextField: UIPaddedTextField!
     @IBOutlet weak var builderTextField: UIPaddedTextField!
@@ -33,7 +31,7 @@ class CreateMaterialVC: UIViewController {
     var builder = ""
     var community = ""
     
-    
+    // MARK: - VC Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -47,7 +45,7 @@ class CreateMaterialVC: UIViewController {
         binding()
         communitySwitch.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
         presenter.delegate = self
-        headerTitleLabel.text = presenter.getMaterial() == nil ? "Create Material" : "Update Material"
+        navigationItem.title = presenter.getMaterial() == nil ? "Create Material" : "Update Material"
         
         phaseTextfield.text = phase
         builderTextField.text = builder
@@ -68,13 +66,38 @@ class CreateMaterialVC: UIViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setUpNavigation()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    // MARK: - Private Functions
+    private func setUpNavigation(){
+        navigationController?.setNavigationBarHidden(false, animated: true)
+
+        navigationItem.title = "Create Material"
+        
+        let backButton = UIButton()
+        backButton.corner_radius = 10
+        backButton.clipsToBounds = true
+        backButton.setImage(UIImage(named: "Back")!, for: .normal)
+        backButton.addTarget(self, action: #selector(backAction), for: .touchUpInside)
+        
+        navigationItem.leftBarButtonItem = .init(customView: backButton)
+        
+    }
+    
 }
 
 // MARK: - Binding
 extension CreateMaterialVC{
     private func binding(){
         submitButton.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
-        backButton.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
         builderTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(builderSelectionAction)))
         communityTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(communitySelectionAction)))
         phaseTextfield.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(phaseSelectionAction)))
@@ -87,8 +110,7 @@ extension CreateMaterialVC{
         switch sender{
         case submitButton:
             submitAction()
-        case backButton:
-            navigationController?.popViewController(animated: true)
+        
         case builderTextField:
             builderSelectionAction()
         case communityTextField:
@@ -99,6 +121,10 @@ extension CreateMaterialVC{
             communityTextField.text = communitySwitch.isOn ? "All" : ""
         default:break
         }
+    }
+    
+    @objc private func backAction(){
+        navigationController?.popViewController(animated: true)
     }
     
     private func submitAction(){

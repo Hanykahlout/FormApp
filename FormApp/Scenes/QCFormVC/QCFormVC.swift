@@ -9,14 +9,13 @@ import UIKit
 import SVProgressHUD
 
 class QCFormVC: UIViewController {
-    //MARK: - Outlet
     
-    @IBOutlet weak var saveButton: UIButton!
+    
+    //MARK: - Outlet
     @IBOutlet weak var mainScrollView: UIScrollView!
     @IBOutlet weak var totalView: UIView!
     @IBOutlet weak var totalPriceLabel: UILabel!
     @IBOutlet weak var totalQuantityLabel: UILabel!
-    @IBOutlet weak var headerTitleLabel: UILabel!
     @IBOutlet weak var addNewFormItemButton: UIButton!
     @IBOutlet weak var addNewFormItemView: UIView!
     @IBOutlet weak var formTypeNoteTableview: UITableView!
@@ -41,7 +40,7 @@ class QCFormVC: UIViewController {
     @IBOutlet weak var jobData: UITextField!
     @IBOutlet weak var companiesData: UITextField!
     
-    @IBOutlet weak var backBtn: UIButton!
+    
     @IBOutlet weak var submitBtn: UIButton!
     
     //MARK: - Properties
@@ -105,6 +104,7 @@ class QCFormVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setUpNavigation()
         checkEditData()
     }
     
@@ -112,10 +112,54 @@ class QCFormVC: UIViewController {
         super.updateViewConstraints()
         formTypeNoteTableview.layoutIfNeeded()
         tableViewHeight.constant = formTypeNoteTableview.contentSize.height
-        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     // MARK: - Private Functions
+    private func setUpNavigation(){
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        
+        navigationItem.title = "Create Form"
+        
+        let backButton = UIButton()
+        backButton.corner_radius = 10
+        backButton.clipsToBounds = true
+        backButton.setImage(UIImage(named: "Back")!, for: .normal)
+        backButton.addTarget(self, action: #selector(backAction), for: .touchUpInside)
+        
+        navigationItem.leftBarButtonItem = .init(customView: backButton)
+        
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.view.backgroundColor = .clear
+    }
+    
+    private func showSaveButton(){
+        let rightButton = UIButton()
+        rightButton.corner_radius = 10
+        rightButton.clipsToBounds = true
+        rightButton.backgroundColor = .orange
+        rightButton.setTitle("Save", for: .normal)
+        rightButton.titleLabel?.font = .init(name: "Questrial-Regular", size: 14)
+        rightButton.setTitleColor(.white, for: .normal)
+        rightButton.addTarget(self, action: #selector(saveAction), for: .touchUpInside)
+        
+        rightButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        rightButton.widthAnchor.constraint(equalToConstant: 70).isActive = true
+        rightButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        navigationItem.rightBarButtonItem = .init(customView: rightButton)
+        
+    }
+    
+    private func hideSaveButton(){
+        navigationItem.rightBarButtonItem = nil
+    }
     
     private func updateTotalView(){
         totalView.isHidden = formsItem.isEmpty
@@ -145,18 +189,20 @@ class QCFormVC: UIViewController {
     
     private func checkEditData(){
         if let editData = editData{
-            saveButton.isHidden = true
+            hideSaveButton()
             setFormData(fromData: editData)
         }else if let draftData = draftData{
-            saveButton.isHidden = false
+            showSaveButton()
             setFormData(fromData: draftData)
+        }else{
+            showSaveButton()
         }
         
     }
     
     private func setFormData(fromData:FormInfo){
         
-        headerTitleLabel.text = fromData.form?.title ?? ""
+        navigationItem.title = fromData.form?.title ?? ""
         
         companyID = fromData.company?.id ?? 0
         companyBtn.isEnabled = true
@@ -461,7 +507,7 @@ class QCFormVC: UIViewController {
     }
     
     
-    private func saveAction(){
+    @objc private func saveAction(){
         SVProgressHUD.setBackgroundColor(.white)
         SVProgressHUD.show(withStatus: "please wait")
         formPurpose = draftData == nil ? .draft : .updateDraft
@@ -536,7 +582,7 @@ class QCFormVC: UIViewController {
                     formData["form_items[\(_index)][new_boxes][1][title]"] = sideBySide?.second_field?.title ?? ""
                     formData["form_items[\(_index)][new_boxes][1][type]"] = sideBySide?.second_field?.type ?? ""
                     formData["form_items[\(_index)][new_boxes][1][value]"] = sideBySide?.second_field?.value ?? ""
-                
+                    
                 }else{
                     formData["form_items[\(_index)][item_id]"] = String(item.data[index].id ?? 0)
                     let status = item.data[index].status ?? ""
@@ -590,8 +636,7 @@ extension QCFormVC{
     
     private func binding(){
         submitBtn.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
-        saveButton.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
-        backBtn.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
+        
         addNewFormItemButton.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
         companyBtn.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
         jobBtn.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
@@ -599,6 +644,10 @@ extension QCFormVC{
         formTypeBtn.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
         subContractorButton.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
         
+    }
+    
+    @objc private func backAction(){
+        navigationController?.popViewController(animated: true)
     }
     
     @objc func AddFormItemNote( _ sender:UITextField){
@@ -656,12 +705,8 @@ extension QCFormVC{
     
     @objc private func bindingAction(_ sender:UIButton){
         switch sender{
-        case saveButton:
-            saveAction()
         case submitBtn:
             submitAction()
-        case backBtn :
-            navigationController?.popViewController(animated: true)
         case addNewFormItemButton:
             let vc = CreateFormItemVC.instantiate()
             vc.modalPresentationStyle = .overCurrentContext
@@ -1270,3 +1315,4 @@ extension String {
         return dateFormatter.date(from: self)
     }
 }
+
