@@ -11,6 +11,7 @@ protocol  CustomFormItemDelegate{
     func selectionAction(indexPath:IndexPath,arr:[String],isDate:Bool)
     func updatePicStatus(indexPath:IndexPath,withPic:Bool)
     func addPicAction(indexPath:IndexPath)
+    func blockedAction()
 }
 
 typealias  CustomItemDelegate =  CustomFormItemDelegate & UIViewController
@@ -27,6 +28,8 @@ class CustomFormItemTableViewCell: UITableViewCell {
     @IBOutlet weak var addPicView: UIView!
     @IBOutlet weak var addPicButton: UIButton!
     @IBOutlet weak var addPicSwitch: UISwitch!
+    @IBOutlet weak var blockedView: UIView!
+    @IBOutlet weak var blockedButton: UIButton!
     
     weak var delegate:CustomItemDelegate?
     var indexPath:IndexPath?
@@ -49,6 +52,7 @@ class CustomFormItemTableViewCell: UITableViewCell {
     
     func setData(data:DataDetails,indexPath:IndexPath){
         self.indexPath = indexPath
+        blockedView.isHidden = data.is_blocked != 1
         priceLabel.text = "Price: \(data.price ?? "")"
         priceLabel.isHidden = data.show_price != "1"
         titleLabel.text = data.title ?? "----"
@@ -103,12 +107,12 @@ extension CustomFormItemTableViewCell{
         gesture = UITapGestureRecognizer(target: self, action: #selector(addSelectionAction))
         addPicSwitch.addTarget(self, action: #selector(bindingAction), for: .valueChanged)
         addPicButton.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
+        blockedButton.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
     }
     
     @objc private func bindingAction(_ sender:UIView){
         switch sender{
         case addPicSwitch:
-            guard let index = indexPath?.row else { return }
             addPicView.isHidden = !addPicSwitch.isOn
             if let indexPath = indexPath{
                 delegate?.updatePicStatus(indexPath:indexPath,withPic: addPicSwitch.isOn)
@@ -116,6 +120,8 @@ extension CustomFormItemTableViewCell{
         case addPicButton:
             guard let indexPath = indexPath else { return }
             delegate?.addPicAction(indexPath: indexPath)
+        case blockedButton:
+            delegate?.blockedAction()
         default:break
         }
     }

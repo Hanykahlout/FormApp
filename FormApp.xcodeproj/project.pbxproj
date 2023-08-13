@@ -65,6 +65,10 @@
 		CE54B76829BDCE2C00C9C9F1 /* RequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE54B76729BDCE2C00C9C9F1 /* RequestModel.swift */; };
 		CE56835F2A079E20002A2D01 /* CreateMaterialPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE56835E2A079E20002A2D01 /* CreateMaterialPresenter.swift */; };
 		CE59C00F29DC5C0B0002C1F8 /* FormItemReason.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59C00E29DC5C0B0002C1F8 /* FormItemReason.swift */; };
+		CE5CBB102A85652B00579CC5 /* CheckCodeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5CBB0F2A85652B00579CC5 /* CheckCodeData.swift */; };
+		CE5CBB122A85676800579CC5 /* ForgetPasswordPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5CBB112A85676800579CC5 /* ForgetPasswordPresenter.swift */; };
+		CE5CBB142A85692500579CC5 /* VerificationCodePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5CBB132A85692500579CC5 /* VerificationCodePresenter.swift */; };
+		CE5CBB162A856A6000579CC5 /* CreateNewPassPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5CBB152A856A6000579CC5 /* CreateNewPassPresenter.swift */; };
 		CE5D7EEF29F1D48F00A7D212 /* PORequestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5D7EEE29F1D48F00A7D212 /* PORequestVC.swift */; };
 		CE5D7EFB29F1DF0000A7D212 /* SignUpPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5D7EFA29F1DF0000A7D212 /* SignUpPresenter.swift */; };
 		CE5D7EFD29F1E36400A7D212 /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5D7EFC29F1E36400A7D212 /* LoginPresenter.swift */; };
@@ -78,8 +82,37 @@
 		CE6AED5C2A30CE2A00BC24A4 /* VersionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6AED5B2A30CE2A00BC24A4 /* VersionModel.swift */; };
 		CE75CEB82A4B7ED200C5F59E /* AuthPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE75CEB72A4B7ED200C5F59E /* AuthPresenter.swift */; };
 		CE8169E02A05852800CBF0AD /* CreateMaterialVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8169DF2A05852800CBF0AD /* CreateMaterialVC.swift */; };
-		CE976CB02A54990400059801 /* Audiowide-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE976CAF2A54990400059801 /* Audiowide-Regular.ttf */; };
-		CE976CB42A54993F00059801 /* Questrial-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE976CB32A54993F00059801 /* Questrial-Regular.ttf */; };
+		CE95747E2A82968D005C693F /* SuccessAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE95747D2A82968D005C693F /* SuccessAlertVC.swift */; };
+		CE96375E2A7E72DD00538ABE /* CreateNewPassVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE96375D2A7E72DD00538ABE /* CreateNewPassVC.swift */; };
+		CE96377D2A7E78C600538ABE /* Urbanist-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE9637602A7E78C600538ABE /* Urbanist-Bold.ttf */; };
+		CE96377E2A7E78C600538ABE /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE9637612A7E78C600538ABE /* Inter-Medium.ttf */; };
+		CE96377F2A7E78C600538ABE /* Urbanist-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE9637622A7E78C600538ABE /* Urbanist-Regular.ttf */; };
+		CE9637802A7E78C600538ABE /* Urbanist-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE9637632A7E78C600538ABE /* Urbanist-LightItalic.ttf */; };
+		CE9637812A7E78C600538ABE /* Inter-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE9637642A7E78C600538ABE /* Inter-Light.ttf */; };
+		CE9637822A7E78C600538ABE /* Urbanist-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE9637652A7E78C600538ABE /* Urbanist-ExtraLightItalic.ttf */; };
+		CE9637832A7E78C600538ABE /* Urbanist-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE9637662A7E78C600538ABE /* Urbanist-ExtraBoldItalic.ttf */; };
+		CE9637842A7E78C600538ABE /* Urbanist-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE9637672A7E78C600538ABE /* Urbanist-Thin.ttf */; };
+		CE9637852A7E78C600538ABE /* Urbanist-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE9637682A7E78C600538ABE /* Urbanist-MediumItalic.ttf */; };
+		CE9637862A7E78C600538ABE /* FontsFree-Net-SFProDisplay-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE9637692A7E78C600538ABE /* FontsFree-Net-SFProDisplay-Medium.ttf */; };
+		CE9637872A7E78C600538ABE /* Inter-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE96376A2A7E78C600538ABE /* Inter-Thin.ttf */; };
+		CE9637882A7E78C600538ABE /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE96376B2A7E78C600538ABE /* Inter-Bold.ttf */; };
+		CE9637892A7E78C600538ABE /* Urbanist-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE96376C2A7E78C600538ABE /* Urbanist-SemiBold.ttf */; };
+		CE96378A2A7E78C600538ABE /* Urbanist-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE96376D2A7E78C600538ABE /* Urbanist-Italic.ttf */; };
+		CE96378B2A7E78C600538ABE /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE96376E2A7E78C600538ABE /* Inter-Regular.ttf */; };
+		CE96378C2A7E78C600538ABE /* Urbanist-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE96376F2A7E78C600538ABE /* Urbanist-Black.ttf */; };
+		CE96378D2A7E78C600538ABE /* Urbanist-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE9637702A7E78C600538ABE /* Urbanist-BlackItalic.ttf */; };
+		CE96378E2A7E78C600538ABE /* Urbanist-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE9637712A7E78C600538ABE /* Urbanist-Light.ttf */; };
+		CE96378F2A7E78C600538ABE /* Urbanist-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE9637722A7E78C600538ABE /* Urbanist-SemiBoldItalic.ttf */; };
+		CE9637902A7E78C600538ABE /* Inter-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE9637732A7E78C600538ABE /* Inter-ExtraBold.ttf */; };
+		CE9637912A7E78C600538ABE /* Urbanist-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE9637742A7E78C600538ABE /* Urbanist-BoldItalic.ttf */; };
+		CE9637922A7E78C600538ABE /* Urbanist-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE9637752A7E78C600538ABE /* Urbanist-ExtraBold.ttf */; };
+		CE9637932A7E78C600538ABE /* Inter-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE9637762A7E78C600538ABE /* Inter-ExtraLight.ttf */; };
+		CE9637942A7E78C600538ABE /* Urbanist-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE9637772A7E78C600538ABE /* Urbanist-Medium.ttf */; };
+		CE9637952A7E78C600538ABE /* Urbanist-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE9637782A7E78C600538ABE /* Urbanist-ExtraLight.ttf */; };
+		CE9637962A7E78C600538ABE /* Urbanist-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE9637792A7E78C600538ABE /* Urbanist-ThinItalic.ttf */; };
+		CE9637972A7E78C600538ABE /* Inter-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE96377A2A7E78C600538ABE /* Inter-Black.ttf */; };
+		CE9637982A7E78C600538ABE /* source-sans-pro.semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE96377B2A7E78C600538ABE /* source-sans-pro.semibold.ttf */; };
+		CE9637992A7E78C600538ABE /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE96377C2A7E78C600538ABE /* Inter-SemiBold.ttf */; };
 		CE9F7A092A02BA0700C04F40 /* UIPaddedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9F7A082A02BA0700C04F40 /* UIPaddedTextField.swift */; };
 		CE9F7A0B2A02C7B400C04F40 /* MaterialsPrestner.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9F7A0A2A02C7B400C04F40 /* MaterialsPrestner.swift */; };
 		CEA0B7BE29F573D800F7316C /* PORequestPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA0B7BD29F573D800F7316C /* PORequestPresenter.swift */; };
@@ -95,6 +128,8 @@
 		CECD94252A1E9F85007BEB65 /* FormItemNewBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECD94242A1E9F85007BEB65 /* FormItemNewBox.swift */; };
 		CECD94282A1EB478007BEB65 /* CustomFormItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECD94262A1EB478007BEB65 /* CustomFormItemTableViewCell.swift */; };
 		CECD94292A1EB478007BEB65 /* CustomFormItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CECD94272A1EB478007BEB65 /* CustomFormItemTableViewCell.xib */; };
+		CEEC1F442A7AB3F50014EA65 /* ForgetPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEC1F432A7AB3F50014EA65 /* ForgetPasswordVC.swift */; };
+		CEEC1F472A7AFA070014EA65 /* VerificationCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEC1F462A7AFA070014EA65 /* VerificationCodeVC.swift */; };
 		CEF2BB352A018E3600D4DBA1 /* ViewCustomExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF2BB252A018E3600D4DBA1 /* ViewCustomExtension.swift */; };
 		CEF2BB362A018E3600D4DBA1 /* UIViewCustomCornerRadiusWithGraidentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF2BB272A018E3600D4DBA1 /* UIViewCustomCornerRadiusWithGraidentView.swift */; };
 		CEF2BB372A018E3600D4DBA1 /* UIViewCustomCornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF2BB282A018E3600D4DBA1 /* UIViewCustomCornerRadius.swift */; };
@@ -174,6 +209,10 @@
 		CE54B76729BDCE2C00C9C9F1 /* RequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestModel.swift; sourceTree = "<group>"; };
 		CE56835E2A079E20002A2D01 /* CreateMaterialPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMaterialPresenter.swift; sourceTree = "<group>"; };
 		CE59C00E29DC5C0B0002C1F8 /* FormItemReason.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormItemReason.swift; sourceTree = "<group>"; };
+		CE5CBB0F2A85652B00579CC5 /* CheckCodeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckCodeData.swift; sourceTree = "<group>"; };
+		CE5CBB112A85676800579CC5 /* ForgetPasswordPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetPasswordPresenter.swift; sourceTree = "<group>"; };
+		CE5CBB132A85692500579CC5 /* VerificationCodePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationCodePresenter.swift; sourceTree = "<group>"; };
+		CE5CBB152A856A6000579CC5 /* CreateNewPassPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewPassPresenter.swift; sourceTree = "<group>"; };
 		CE5D7EEE29F1D48F00A7D212 /* PORequestVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PORequestVC.swift; sourceTree = "<group>"; };
 		CE5D7EFA29F1DF0000A7D212 /* SignUpPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpPresenter.swift; sourceTree = "<group>"; };
 		CE5D7EFC29F1E36400A7D212 /* LoginPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
@@ -187,8 +226,37 @@
 		CE6AED5B2A30CE2A00BC24A4 /* VersionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionModel.swift; sourceTree = "<group>"; };
 		CE75CEB72A4B7ED200C5F59E /* AuthPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPresenter.swift; sourceTree = "<group>"; };
 		CE8169DF2A05852800CBF0AD /* CreateMaterialVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMaterialVC.swift; sourceTree = "<group>"; };
-		CE976CAF2A54990400059801 /* Audiowide-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Audiowide-Regular.ttf"; sourceTree = "<group>"; };
-		CE976CB32A54993F00059801 /* Questrial-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Questrial-Regular.ttf"; sourceTree = "<group>"; };
+		CE95747D2A82968D005C693F /* SuccessAlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessAlertVC.swift; sourceTree = "<group>"; };
+		CE96375D2A7E72DD00538ABE /* CreateNewPassVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewPassVC.swift; sourceTree = "<group>"; };
+		CE9637602A7E78C600538ABE /* Urbanist-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Urbanist-Bold.ttf"; sourceTree = "<group>"; };
+		CE9637612A7E78C600538ABE /* Inter-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Medium.ttf"; sourceTree = "<group>"; };
+		CE9637622A7E78C600538ABE /* Urbanist-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Urbanist-Regular.ttf"; sourceTree = "<group>"; };
+		CE9637632A7E78C600538ABE /* Urbanist-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Urbanist-LightItalic.ttf"; sourceTree = "<group>"; };
+		CE9637642A7E78C600538ABE /* Inter-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Light.ttf"; sourceTree = "<group>"; };
+		CE9637652A7E78C600538ABE /* Urbanist-ExtraLightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Urbanist-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
+		CE9637662A7E78C600538ABE /* Urbanist-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Urbanist-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
+		CE9637672A7E78C600538ABE /* Urbanist-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Urbanist-Thin.ttf"; sourceTree = "<group>"; };
+		CE9637682A7E78C600538ABE /* Urbanist-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Urbanist-MediumItalic.ttf"; sourceTree = "<group>"; };
+		CE9637692A7E78C600538ABE /* FontsFree-Net-SFProDisplay-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FontsFree-Net-SFProDisplay-Medium.ttf"; sourceTree = "<group>"; };
+		CE96376A2A7E78C600538ABE /* Inter-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Thin.ttf"; sourceTree = "<group>"; };
+		CE96376B2A7E78C600538ABE /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Bold.ttf"; sourceTree = "<group>"; };
+		CE96376C2A7E78C600538ABE /* Urbanist-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Urbanist-SemiBold.ttf"; sourceTree = "<group>"; };
+		CE96376D2A7E78C600538ABE /* Urbanist-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Urbanist-Italic.ttf"; sourceTree = "<group>"; };
+		CE96376E2A7E78C600538ABE /* Inter-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Regular.ttf"; sourceTree = "<group>"; };
+		CE96376F2A7E78C600538ABE /* Urbanist-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Urbanist-Black.ttf"; sourceTree = "<group>"; };
+		CE9637702A7E78C600538ABE /* Urbanist-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Urbanist-BlackItalic.ttf"; sourceTree = "<group>"; };
+		CE9637712A7E78C600538ABE /* Urbanist-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Urbanist-Light.ttf"; sourceTree = "<group>"; };
+		CE9637722A7E78C600538ABE /* Urbanist-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Urbanist-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
+		CE9637732A7E78C600538ABE /* Inter-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraBold.ttf"; sourceTree = "<group>"; };
+		CE9637742A7E78C600538ABE /* Urbanist-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Urbanist-BoldItalic.ttf"; sourceTree = "<group>"; };
+		CE9637752A7E78C600538ABE /* Urbanist-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Urbanist-ExtraBold.ttf"; sourceTree = "<group>"; };
+		CE9637762A7E78C600538ABE /* Inter-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraLight.ttf"; sourceTree = "<group>"; };
+		CE9637772A7E78C600538ABE /* Urbanist-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Urbanist-Medium.ttf"; sourceTree = "<group>"; };
+		CE9637782A7E78C600538ABE /* Urbanist-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Urbanist-ExtraLight.ttf"; sourceTree = "<group>"; };
+		CE9637792A7E78C600538ABE /* Urbanist-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Urbanist-ThinItalic.ttf"; sourceTree = "<group>"; };
+		CE96377A2A7E78C600538ABE /* Inter-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Black.ttf"; sourceTree = "<group>"; };
+		CE96377B2A7E78C600538ABE /* source-sans-pro.semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "source-sans-pro.semibold.ttf"; sourceTree = "<group>"; };
+		CE96377C2A7E78C600538ABE /* Inter-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-SemiBold.ttf"; sourceTree = "<group>"; };
 		CE9F7A082A02BA0700C04F40 /* UIPaddedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPaddedTextField.swift; sourceTree = "<group>"; };
 		CE9F7A0A2A02C7B400C04F40 /* MaterialsPrestner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaterialsPrestner.swift; sourceTree = "<group>"; };
 		CEA0B7BD29F573D800F7316C /* PORequestPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PORequestPresenter.swift; sourceTree = "<group>"; };
@@ -204,6 +272,8 @@
 		CECD94242A1E9F85007BEB65 /* FormItemNewBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormItemNewBox.swift; sourceTree = "<group>"; };
 		CECD94262A1EB478007BEB65 /* CustomFormItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFormItemTableViewCell.swift; sourceTree = "<group>"; };
 		CECD94272A1EB478007BEB65 /* CustomFormItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomFormItemTableViewCell.xib; sourceTree = "<group>"; };
+		CEEC1F432A7AB3F50014EA65 /* ForgetPasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetPasswordVC.swift; sourceTree = "<group>"; };
+		CEEC1F462A7AFA070014EA65 /* VerificationCodeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationCodeVC.swift; sourceTree = "<group>"; };
 		CEF2BB252A018E3600D4DBA1 /* ViewCustomExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewCustomExtension.swift; sourceTree = "<group>"; };
 		CEF2BB272A018E3600D4DBA1 /* UIViewCustomCornerRadiusWithGraidentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewCustomCornerRadiusWithGraidentView.swift; sourceTree = "<group>"; };
 		CEF2BB282A018E3600D4DBA1 /* UIViewCustomCornerRadius.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewCustomCornerRadius.swift; sourceTree = "<group>"; };
@@ -264,7 +334,7 @@
 		277CABCB29813969009C11CB /* FormApp */ = {
 			isa = PBXGroup;
 			children = (
-				CE976CAE2A5498E800059801 /* Fonts */,
+				CE96375F2A7E78C600538ABE /* Fonts */,
 				CEF2BB242A018E3600D4DBA1 /* Extenstions+Designables */,
 				CE5D7F1529F1FD6200A7D212 /* Resources */,
 				CE5D7F1429F1FD3400A7D212 /* Configurations */,
@@ -415,9 +485,21 @@
 			path = RealmModel;
 			sourceTree = "<group>";
 		};
+		CE5CBB0E2A85651100579CC5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CE5CBB0F2A85652B00579CC5 /* CheckCodeData.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		CE5D7EF029F1D70B00A7D212 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				CE95747C2A82967A005C693F /* SuccessAlertVC */,
+				CE96375C2A7E72C700538ABE /* CreateNewPassVC */,
+				CEEC1F452A7AF9F50014EA65 /* VerificationCodeVC */,
+				CEEC1F422A7AB3E10014EA65 /* ForgetPasswordVC */,
 				CE5D7EF229F1D75B00A7D212 /* AuthVC */,
 				CE5D7EF429F1D76F00A7D212 /* LoginVC */,
 				CE5D7EF329F1D76300A7D212 /* SignUpVC */,
@@ -598,29 +680,57 @@
 			path = CreateMaterialVC;
 			sourceTree = "<group>";
 		};
-		CE976CAE2A5498E800059801 /* Fonts */ = {
+		CE95747C2A82967A005C693F /* SuccessAlertVC */ = {
 			isa = PBXGroup;
 			children = (
-				CE976CB22A54993900059801 /* Questrial */,
-				CE976CB12A54992F00059801 /* Audiowide */,
+				CE95747D2A82968D005C693F /* SuccessAlertVC.swift */,
+			);
+			path = SuccessAlertVC;
+			sourceTree = "<group>";
+		};
+		CE96375C2A7E72C700538ABE /* CreateNewPassVC */ = {
+			isa = PBXGroup;
+			children = (
+				CE96375D2A7E72DD00538ABE /* CreateNewPassVC.swift */,
+				CE5CBB152A856A6000579CC5 /* CreateNewPassPresenter.swift */,
+			);
+			path = CreateNewPassVC;
+			sourceTree = "<group>";
+		};
+		CE96375F2A7E78C600538ABE /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				CE9637602A7E78C600538ABE /* Urbanist-Bold.ttf */,
+				CE9637612A7E78C600538ABE /* Inter-Medium.ttf */,
+				CE9637622A7E78C600538ABE /* Urbanist-Regular.ttf */,
+				CE9637632A7E78C600538ABE /* Urbanist-LightItalic.ttf */,
+				CE9637642A7E78C600538ABE /* Inter-Light.ttf */,
+				CE9637652A7E78C600538ABE /* Urbanist-ExtraLightItalic.ttf */,
+				CE9637662A7E78C600538ABE /* Urbanist-ExtraBoldItalic.ttf */,
+				CE9637672A7E78C600538ABE /* Urbanist-Thin.ttf */,
+				CE9637682A7E78C600538ABE /* Urbanist-MediumItalic.ttf */,
+				CE9637692A7E78C600538ABE /* FontsFree-Net-SFProDisplay-Medium.ttf */,
+				CE96376A2A7E78C600538ABE /* Inter-Thin.ttf */,
+				CE96376B2A7E78C600538ABE /* Inter-Bold.ttf */,
+				CE96376C2A7E78C600538ABE /* Urbanist-SemiBold.ttf */,
+				CE96376D2A7E78C600538ABE /* Urbanist-Italic.ttf */,
+				CE96376E2A7E78C600538ABE /* Inter-Regular.ttf */,
+				CE96376F2A7E78C600538ABE /* Urbanist-Black.ttf */,
+				CE9637702A7E78C600538ABE /* Urbanist-BlackItalic.ttf */,
+				CE9637712A7E78C600538ABE /* Urbanist-Light.ttf */,
+				CE9637722A7E78C600538ABE /* Urbanist-SemiBoldItalic.ttf */,
+				CE9637732A7E78C600538ABE /* Inter-ExtraBold.ttf */,
+				CE9637742A7E78C600538ABE /* Urbanist-BoldItalic.ttf */,
+				CE9637752A7E78C600538ABE /* Urbanist-ExtraBold.ttf */,
+				CE9637762A7E78C600538ABE /* Inter-ExtraLight.ttf */,
+				CE9637772A7E78C600538ABE /* Urbanist-Medium.ttf */,
+				CE9637782A7E78C600538ABE /* Urbanist-ExtraLight.ttf */,
+				CE9637792A7E78C600538ABE /* Urbanist-ThinItalic.ttf */,
+				CE96377A2A7E78C600538ABE /* Inter-Black.ttf */,
+				CE96377B2A7E78C600538ABE /* source-sans-pro.semibold.ttf */,
+				CE96377C2A7E78C600538ABE /* Inter-SemiBold.ttf */,
 			);
 			path = Fonts;
-			sourceTree = "<group>";
-		};
-		CE976CB12A54992F00059801 /* Audiowide */ = {
-			isa = PBXGroup;
-			children = (
-				CE976CAF2A54990400059801 /* Audiowide-Regular.ttf */,
-			);
-			path = Audiowide;
-			sourceTree = "<group>";
-		};
-		CE976CB22A54993900059801 /* Questrial */ = {
-			isa = PBXGroup;
-			children = (
-				CE976CB32A54993F00059801 /* Questrial-Regular.ttf */,
-			);
-			path = Questrial;
 			sourceTree = "<group>";
 		};
 		CEA6F5282A0A70B100C6A7A0 /* Cells */ = {
@@ -646,6 +756,25 @@
 				CECD94212A1E63C7007BEB65 /* CreateFormItemVC.swift */,
 			);
 			path = CreateFormItemVC;
+			sourceTree = "<group>";
+		};
+		CEEC1F422A7AB3E10014EA65 /* ForgetPasswordVC */ = {
+			isa = PBXGroup;
+			children = (
+				CEEC1F432A7AB3F50014EA65 /* ForgetPasswordVC.swift */,
+				CE5CBB112A85676800579CC5 /* ForgetPasswordPresenter.swift */,
+			);
+			path = ForgetPasswordVC;
+			sourceTree = "<group>";
+		};
+		CEEC1F452A7AF9F50014EA65 /* VerificationCodeVC */ = {
+			isa = PBXGroup;
+			children = (
+				CE5CBB0E2A85651100579CC5 /* Models */,
+				CEEC1F462A7AFA070014EA65 /* VerificationCodeVC.swift */,
+				CE5CBB132A85692500579CC5 /* VerificationCodePresenter.swift */,
+			);
+			path = VerificationCodeVC;
 			sourceTree = "<group>";
 		};
 		CEF2BB242A018E3600D4DBA1 /* Extenstions+Designables */ = {
@@ -795,19 +924,46 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE9637842A7E78C600538ABE /* Urbanist-Thin.ttf in Resources */,
+				CE9637922A7E78C600538ABE /* Urbanist-ExtraBold.ttf in Resources */,
+				CE9637862A7E78C600538ABE /* FontsFree-Net-SFProDisplay-Medium.ttf in Resources */,
 				277CABD92981396A009C11CB /* LaunchScreen.storyboard in Resources */,
 				CEAC3CA82A19291B009774AD /* UserFormItemTableViewCell.xib in Resources */,
+				CE9637802A7E78C600538ABE /* Urbanist-LightItalic.ttf in Resources */,
+				CE9637992A7E78C600538ABE /* Inter-SemiBold.ttf in Resources */,
 				CECD94292A1EB478007BEB65 /* CustomFormItemTableViewCell.xib in Resources */,
+				CE9637972A7E78C600538ABE /* Inter-Black.ttf in Resources */,
+				CE9637932A7E78C600538ABE /* Inter-ExtraLight.ttf in Resources */,
+				CE96378B2A7E78C600538ABE /* Inter-Regular.ttf in Resources */,
+				CE9637912A7E78C600538ABE /* Urbanist-BoldItalic.ttf in Resources */,
 				277CABD62981396A009C11CB /* Assets.xcassets in Resources */,
-				CE976CB42A54993F00059801 /* Questrial-Regular.ttf in Resources */,
 				272C86A229AE04D50028D1C1 /* SearchView.xib in Resources */,
+				CE9637822A7E78C600538ABE /* Urbanist-ExtraLightItalic.ttf in Resources */,
+				CE9637892A7E78C600538ABE /* Urbanist-SemiBold.ttf in Resources */,
 				CEA6F52C2A0A70CE00C6A7A0 /* MaterialTableViewCell.xib in Resources */,
+				CE9637832A7E78C600538ABE /* Urbanist-ExtraBoldItalic.ttf in Resources */,
+				CE9637952A7E78C600538ABE /* Urbanist-ExtraLight.ttf in Resources */,
 				CE0B92392A28E64500530977 /* NewBoxTableViewCell.xib in Resources */,
+				CE96377F2A7E78C600538ABE /* Urbanist-Regular.ttf in Resources */,
+				CE96378C2A7E78C600538ABE /* Urbanist-Black.ttf in Resources */,
 				277CABF029814FD5009C11CB /* MainTF.xib in Resources */,
+				CE9637942A7E78C600538ABE /* Urbanist-Medium.ttf in Resources */,
+				CE9637982A7E78C600538ABE /* source-sans-pro.semibold.ttf in Resources */,
+				CE96378F2A7E78C600538ABE /* Urbanist-SemiBoldItalic.ttf in Resources */,
+				CE9637852A7E78C600538ABE /* Urbanist-MediumItalic.ttf in Resources */,
+				CE9637812A7E78C600538ABE /* Inter-Light.ttf in Resources */,
+				CE9637882A7E78C600538ABE /* Inter-Bold.ttf in Resources */,
+				CE96377E2A7E78C600538ABE /* Inter-Medium.ttf in Resources */,
 				CE52B52C2A717CBD0092A2DF /* SideBySideTableViewCell.xib in Resources */,
+				CE9637962A7E78C600538ABE /* Urbanist-ThinItalic.ttf in Resources */,
+				CE9637902A7E78C600538ABE /* Inter-ExtraBold.ttf in Resources */,
+				CE96378A2A7E78C600538ABE /* Urbanist-Italic.ttf in Resources */,
 				277CABD429813969009C11CB /* Main.storyboard in Resources */,
-				CE976CB02A54990400059801 /* Audiowide-Regular.ttf in Resources */,
+				CE96378D2A7E78C600538ABE /* Urbanist-BlackItalic.ttf in Resources */,
 				CEF2BB4C2A018EB400D4DBA1 /* HomeVCTableViewCell.xib in Resources */,
+				CE96378E2A7E78C600538ABE /* Urbanist-Light.ttf in Resources */,
+				CE9637872A7E78C600538ABE /* Inter-Thin.ttf in Resources */,
+				CE96377D2A7E78C600538ABE /* Urbanist-Bold.ttf in Resources */,
 				277CABF9298199B7009C11CB /* FormTypeNoteCell.xib in Resources */,
 				CE3A79C629C70A0500413E0B /* FormTableViewCell.xib in Resources */,
 			);
@@ -874,8 +1030,10 @@
 				CEA6F52B2A0A70CE00C6A7A0 /* MaterialTableViewCell.swift in Sources */,
 				27CC17A329A4058B007BADC0 /* BottomBorderTextField.swift in Sources */,
 				279404F429A2BA1700742AD9 /* CDAlertHeaderView.swift in Sources */,
+				CEEC1F442A7AB3F50014EA65 /* ForgetPasswordVC.swift in Sources */,
 				277CABD129813969009C11CB /* AuthVC.swift in Sources */,
 				277CABE929814F05009C11CB /* HomeVC.swift in Sources */,
+				CE5CBB102A85652B00579CC5 /* CheckCodeData.swift in Sources */,
 				272C86A129AE04D50028D1C1 /* SearchView.swift in Sources */,
 				279404D429A0BCEF00742AD9 /* AppData.swift in Sources */,
 				CEF2BB392A018E3600D4DBA1 /* CustomCournerView.swift in Sources */,
@@ -896,6 +1054,7 @@
 				CEA0B7C029F5757D00F7316C /* RealmController.swift in Sources */,
 				27CC17A229A4058B007BADC0 /* UIViewDesignable.swift in Sources */,
 				CE118D622A607B7C00E0C117 /* SideBySideTableViewCell.swift in Sources */,
+				CEEC1F472A7AFA070014EA65 /* VerificationCodeVC.swift in Sources */,
 				CE42026229B88A0900517FCA /* DataDetailsDBModel.swift in Sources */,
 				CE5D7F0329F1F56C00A7D212 /* SubmittedFormsPresenter.swift in Sources */,
 				277CABF229815062009C11CB /* UIViewFromNIB.swift in Sources */,
@@ -906,6 +1065,7 @@
 				CE3A79C529C70A0500413E0B /* FormTableViewCell.swift in Sources */,
 				27CC17A129A4058B007BADC0 /* CheckBox.swift in Sources */,
 				CEF2BB3E2A018E3600D4DBA1 /* RoundedTextField.swift in Sources */,
+				CE5CBB162A856A6000579CC5 /* CreateNewPassPresenter.swift in Sources */,
 				CEF2BB372A018E3600D4DBA1 /* UIViewCustomCornerRadius.swift in Sources */,
 				272C869E29AE04C40028D1C1 /* PickerVC.swift in Sources */,
 				CE5D7F1229F1FD0300A7D212 /* SubmittedFormsModels.swift in Sources */,
@@ -916,6 +1076,7 @@
 				CEF2BB402A018E3600D4DBA1 /* UIImageViewDesignable.swift in Sources */,
 				CEF2BB4B2A018EB400D4DBA1 /* HomeVCTableViewCell.swift in Sources */,
 				CEF2BB432A018E3600D4DBA1 /* UILabelDesignable.swift in Sources */,
+				CE5CBB122A85676800579CC5 /* ForgetPasswordPresenter.swift in Sources */,
 				CE5D7EFF29F1E4C400A7D212 /* HomePresenter.swift in Sources */,
 				CEF2BB422A018E3600D4DBA1 /* GraidentView.swift in Sources */,
 				CE0B92382A28E64500530977 /* NewBoxTableViewCell.swift in Sources */,
@@ -926,15 +1087,18 @@
 				CE8169E02A05852800CBF0AD /* CreateMaterialVC.swift in Sources */,
 				279404F329A2BA1700742AD9 /* LayoutConstraintsExtension.swift in Sources */,
 				CE3A79C829C71B3B00413E0B /* SubmittedFormsVC.swift in Sources */,
+				CE96375E2A7E72DD00538ABE /* CreateNewPassVC.swift in Sources */,
 				277CABF8298199B7009C11CB /* FormTypeNoteCell.swift in Sources */,
 				277CABE529814E57009C11CB /* SignUpVC.swift in Sources */,
 				CEF2BB3C2A018E3600D4DBA1 /* IconTextField.swift in Sources */,
+				CE5CBB142A85692500579CC5 /* VerificationCodePresenter.swift in Sources */,
 				27CC17A429A4058B007BADC0 /* UIButtonDesignable.swift in Sources */,
 				279404CC29A0BC3F00742AD9 /* AppNetworkable.swift in Sources */,
 				279404DA29A0C86400742AD9 /* Networkable.swift in Sources */,
 				27CC17A729A555BB007BADC0 /* Extensions.swift in Sources */,
 				CE56835F2A079E20002A2D01 /* CreateMaterialPresenter.swift in Sources */,
 				CE42025E29B8894D00517FCA /* RealmManagerInterface.swift in Sources */,
+				CE95747E2A82968D005C693F /* SuccessAlertVC.swift in Sources */,
 				CE5D7F0F29F1FC1200A7D212 /* HomeModels.swift in Sources */,
 				CE08C9A929BF6EEB002434EB /* FormItemDBModel.swift in Sources */,
 				CE75CEB82A4B7ED200C5F59E /* AuthPresenter.swift in Sources */,
@@ -1114,7 +1278,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.9;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ios.chesapeake.formApps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1154,7 +1318,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.9;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ios.chesapeake.formApps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

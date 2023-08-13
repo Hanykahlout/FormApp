@@ -23,7 +23,6 @@ class DataDetailsDBModel: Object {
     @Persisted var form_status:String?
     
     
-    
     override class func primaryKey() -> String? {
         return "id"
     }

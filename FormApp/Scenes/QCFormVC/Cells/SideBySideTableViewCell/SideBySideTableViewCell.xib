@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22138.1" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22113"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -63,12 +64,38 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Npw-Ve-fnC">
+                                <rect key="frame" x="0.0" y="0.0" width="542" height="108"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lock" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="sOb-LI-lT0">
+                                        <rect key="frame" x="504" y="21" width="18" height="18.333333333333329"/>
+                                        <color key="tintColor" systemColor="systemOrangeColor"/>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ycj-Gu-IKM">
+                                        <rect key="frame" x="0.0" y="0.0" width="542" height="108"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="0.58431372550000005" blue="0.0" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="sOb-LI-lT0" secondAttribute="trailing" constant="20" id="4bj-cb-KIf"/>
+                                    <constraint firstItem="sOb-LI-lT0" firstAttribute="top" secondItem="Npw-Ve-fnC" secondAttribute="top" constant="20" id="5bI-IE-bmG"/>
+                                    <constraint firstAttribute="bottom" secondItem="Ycj-Gu-IKM" secondAttribute="bottom" id="AG6-ou-CJx"/>
+                                    <constraint firstItem="Ycj-Gu-IKM" firstAttribute="top" secondItem="Npw-Ve-fnC" secondAttribute="top" id="XFh-x5-e7Q"/>
+                                    <constraint firstAttribute="trailing" secondItem="Ycj-Gu-IKM" secondAttribute="trailing" id="vfH-Mr-ykX"/>
+                                    <constraint firstItem="Ycj-Gu-IKM" firstAttribute="leading" secondItem="Npw-Ve-fnC" secondAttribute="leading" id="zS1-Dd-Jrh"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="mFR-0U-qzn" firstAttribute="top" secondItem="otT-UL-SOW" secondAttribute="top" constant="5" id="1Op-vU-htE"/>
                             <constraint firstAttribute="trailing" secondItem="mFR-0U-qzn" secondAttribute="trailing" constant="5" id="3r8-a2-Hgf"/>
+                            <constraint firstItem="Npw-Ve-fnC" firstAttribute="leading" secondItem="otT-UL-SOW" secondAttribute="leading" id="7sP-di-JIb"/>
+                            <constraint firstItem="Npw-Ve-fnC" firstAttribute="top" secondItem="otT-UL-SOW" secondAttribute="top" id="BgA-I5-QVN"/>
+                            <constraint firstAttribute="bottom" secondItem="Npw-Ve-fnC" secondAttribute="bottom" id="CMz-Uv-TtH"/>
                             <constraint firstAttribute="bottom" secondItem="mFR-0U-qzn" secondAttribute="bottom" constant="5" id="fmm-wP-PVZ"/>
+                            <constraint firstAttribute="trailing" secondItem="Npw-Ve-fnC" secondAttribute="trailing" id="l9I-yj-O5S"/>
                             <constraint firstItem="mFR-0U-qzn" firstAttribute="leading" secondItem="otT-UL-SOW" secondAttribute="leading" constant="5" id="mPf-2a-ehP"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
@@ -95,6 +122,8 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
+                <outlet property="blockedButton" destination="Ycj-Gu-IKM" id="LeY-EF-gpL"/>
+                <outlet property="blockedView" destination="Npw-Ve-fnC" id="bQd-va-sz7"/>
                 <outlet property="title1Label" destination="E7s-og-dX0" id="Vhy-nK-aOS"/>
                 <outlet property="title1TextField" destination="xEO-Ba-7Dd" id="U1N-Bp-G0C"/>
                 <outlet property="title2Label" destination="HHF-0q-F3D" id="aaH-92-fDx"/>
@@ -104,6 +133,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="lock" catalog="system" width="125" height="128"/>
         <systemColor name="systemOrangeColor">
             <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

@@ -145,7 +145,7 @@ class QCFormVC: UIViewController {
         rightButton.clipsToBounds = true
         rightButton.backgroundColor = .orange
         rightButton.setTitle("Save", for: .normal)
-        rightButton.titleLabel?.font = .init(name: "Questrial-Regular", size: 14)
+        rightButton.titleLabel?.font = .init(name: "Urbanist-Regular", size: 14)
         rightButton.setTitleColor(.white, for: .normal)
         rightButton.addTarget(self, action: #selector(saveAction), for: .touchUpInside)
         
@@ -194,6 +194,7 @@ class QCFormVC: UIViewController {
         }else if let draftData = draftData{
             showSaveButton()
             setFormData(fromData: draftData)
+            checkUnblockedItems()
         }else{
             showSaveButton()
         }
@@ -250,8 +251,6 @@ class QCFormVC: UIViewController {
                 let price = item.price
                 let image = item.image
                 
-                
-                
                 if let i = index{
                     formsItem[i].data.append(.init(name: name , status: status ,new_item_type: new_item_type,isFromUser: isFromUser ,isWithPrice: isWithPrice ,price: price,image: image,isWithPic: image != nil,tag: "Your Form Items"))
                 }else{
@@ -274,11 +273,13 @@ class QCFormVC: UIViewController {
                 let show_notes = item.item?.show_notes
                 let tag = item.item?.tag
                 let pin = item.item?.pin
+                let is_blocked = item.item?.is_blocked
+                
                 
                 if let i = index{
-                    formsItem[i].data.append(.init(id: id,value: value,title: title, status: status,price: price,show_price: show_price,system: system, system_type: system_type, system_list: system_list,image: image,isWithPic: image != nil,show_image: show_image,show_notes: show_notes,tag: tag,pin: pin))
+                    formsItem[i].data.append(.init(id: id,value: value,title: title, status: status,price: price,show_price: show_price,system: system, system_type: system_type, system_list: system_list,image: image,isWithPic: image != nil,show_image: show_image,show_notes: show_notes,tag: tag,pin: pin,is_blocked: is_blocked))
                 }else{
-                    let item:(tag:String,data:[DataDetails]) = (tag:item.item?.tag ?? "",[DataDetails(id: id,value: value,title: title, status: status,price: price,show_price: show_price,system: system, system_type: system_type, system_list: system_list,image: image,isWithPic: image != nil,show_image: show_image,show_notes: show_notes,tag: tag,pin: pin)])
+                    let item:(tag:String,data:[DataDetails]) = (tag:item.item?.tag ?? "",[DataDetails(id: id,value: value,title: title, status: status,price: price,show_price: show_price,system: system, system_type: system_type, system_list: system_list,image: image,isWithPic: image != nil,show_image: show_image,show_notes: show_notes,tag: tag,pin: pin,is_blocked: is_blocked)])
                     formsItem.append(item)
                 }
                 
@@ -292,11 +293,12 @@ class QCFormVC: UIViewController {
                 let sideBySideData = SideBySideData(first_field: firstSide,second_field: secondSide)
                 let tag = item.item?.tag
                 let pin = item.item?.pin
+                let is_blocked = item.item?.is_blocked
                 
                 if let i = index{
-                    formsItem[i].data.append(.init(id:item.item?.id,sideBySide: sideBySideData,tag: tag,pin: pin))
+                    formsItem[i].data.append(.init(id:item.item?.id,sideBySide: sideBySideData,tag: tag,pin: pin,is_blocked: is_blocked))
                 }else{
-                    let item:(tag:String,data:[DataDetails]) = (tag:tag ?? "",[DataDetails(id:item.item?.id,sideBySide: sideBySideData,tag: tag,pin: pin)])
+                    let item:(tag:String,data:[DataDetails]) = (tag:tag ?? "",[DataDetails(id:item.item?.id,sideBySide: sideBySideData,tag: tag,pin: pin,is_blocked: is_blocked)])
                     formsItem.append(item)
                 }
                 
@@ -320,11 +322,12 @@ class QCFormVC: UIViewController {
                 let show_notes = item.item?.show_notes
                 let tag = item.item?.tag
                 let pin = item.item?.pin
+                let is_blocked = item.item?.is_blocked
                 
                 if let i = index{
-                    formsItem[i].data.append(.init(id: id, title: title, status: status, note: note,system: system,reasons: reasons,reason_id: reason_id,reason: reason,new_boxes: newBoxs,image: image,isWithPic: image != nil,price: price,show_price: show_price,show_image: show_image,show_notes: show_notes,tag: tag,pin:pin))
+                    formsItem[i].data.append(.init(id: id, title: title, status: status, note: note,system: system,reasons: reasons,reason_id: reason_id,reason: reason,new_boxes: newBoxs,image: image,isWithPic: image != nil,price: price,show_price: show_price,show_image: show_image,show_notes: show_notes,tag: tag,pin:pin,is_blocked:is_blocked))
                 }else{
-                    let item:(tag:String,data:[DataDetails]) = (tag:item.item?.tag ?? "",[DataDetails(id: id, title: title, status: status, note: note,system: system,reasons: reasons,reason_id: reason_id,reason: reason,new_boxes: newBoxs,image: image,isWithPic: image != nil,price: price,show_price: show_price,show_image: show_image,show_notes: show_notes,tag: tag,pin: pin)])
+                    let item:(tag:String,data:[DataDetails]) = (tag:item.item?.tag ?? "",[DataDetails(id: id, title: title, status: status, note: note,system: system,reasons: reasons,reason_id: reason_id,reason: reason,new_boxes: newBoxs,image: image,isWithPic: image != nil,price: price,show_price: show_price,show_image: show_image,show_notes: show_notes,tag: tag,pin: pin,is_blocked:is_blocked)])
                     formsItem.append(item)
                 }
                 
@@ -357,6 +360,8 @@ class QCFormVC: UIViewController {
         jobData.isEnabled=false
         companiesData.isEnabled=false
         formTypeData.isEnabled=false
+        
+        
     }
     
     private func companyAction() {
@@ -442,7 +447,6 @@ class QCFormVC: UIViewController {
             self.diviosnLeaderData.text = self.division[index].title ?? ""
             self.divisionID = self.division[index].id ?? 0
             self.selectedDivisionIndex = index
-            
         }
         self.present(divitionPickerVC!, animated: true, completion: nil)
     }
@@ -620,6 +624,7 @@ class QCFormVC: UIViewController {
         return true
     }
     
+    
     private func checkIfThereFieldItems()-> Bool{
         for item in formsItem {
             if item.data.contains(where: {$0.status == "fail"}){
@@ -627,6 +632,36 @@ class QCFormVC: UIViewController {
             }
         }
         return false
+    }
+    
+    
+    private func checkUnBlockedItemsFilled() -> Bool {
+        
+        var numberOfAddedFields = 0
+        for formItem in formsItem{
+
+            for data in formItem.data{
+                if data.is_blocked != 1 {
+                    if data.isFromUser ?? false{
+                        numberOfAddedFields += 1
+                        continue
+                    }else if data.system == "side-by-side"{
+                        if !(data.side_by_side?.first_field?.value?.isEmpty ?? true) &&
+                            !(data.side_by_side?.second_field?.value?.isEmpty ?? true) {
+                            numberOfAddedFields += 1
+                        }
+                    }else{
+                        if !(data.status?.isEmpty ?? true){
+                            numberOfAddedFields += 1
+                        }
+                    }
+                }else{
+                    numberOfAddedFields += 1
+                }
+            }
+
+        }
+        return numberOfAddedFields == formsItem.flatMap{$0.data}.count
     }
     
 }
@@ -842,7 +877,7 @@ extension QCFormVC:UITableViewDelegate, UITableViewDataSource{
             cell.valueTextField.addTarget(self, action: #selector(AddFormItemStatus), for: .editingDidEnd)
             cell.valueTextField.addTarget(self, action: #selector(AddFormItemStatus), for: .editingDidEnd)
             cell.valueTextField.tag = indexPath.section << 16 | indexPath.row
-            
+
             return cell
         }else if formsItem[indexPath.section].data[indexPath.row].system == "side-by-side"{
             let cell = tableView.dequeueReusableCell(withIdentifier: "SideBySideTableViewCell", for: indexPath) as! SideBySideTableViewCell
@@ -868,6 +903,8 @@ extension QCFormVC:UITableViewDelegate, UITableViewDataSource{
         
         cell.statusWithoutSelectionTextField.addTarget(self, action: #selector(AddFormItemStatus), for: .editingDidEnd)
         cell.statusWithoutSelectionTextField.tag = indexPath.section << 16 | indexPath.row
+        
+        
         
         return cell
     }
@@ -1084,11 +1121,26 @@ extension QCFormVC:SideBySideCellDelegate{
         }
     }
     
+    func blockedAction() {
+        Alert.showErrorAlert(message: "You have to fill in the non-blocking items first, then save the form in order to be able to fill in that item")
+    }
+    
 }
 
 // MARK: - Presenter Delegate
 extension QCFormVC:QCFormPresenterDelegate{
-    
+
+    func checkUnblockedItems() {
+        if checkUnBlockedItemsFilled(){
+            for i in 0..<formsItem.count{
+                for j in 0..<formsItem[i].data.count{
+                    formsItem[i].data[j].is_blocked = 0
+                }
+            }
+        }
+        formTypeNoteTableview.reloadData()
+    }
+
     func clearFields(){
         if checkIfThereFieldItems(){
             Alert.showSuccessAlert(title: "Alert", message: "Form has failed items. Please fix the failed items by going to incomplete failed forms")
@@ -1101,7 +1153,6 @@ extension QCFormVC:QCFormPresenterDelegate{
         formTypeData.text=""
         jobBtn.isEnabled=false
         jobView.backgroundColor = .systemGray5
-        navigationController?.popViewController(animated: true)
     }
     
     func getCompanyData(data: CompaniesData) {
@@ -1259,8 +1310,6 @@ extension QCFormVC:QCFormPresenterDelegate{
 }
 
 
-
-
 // MARK: - Handle Image Picker Controller
 extension QCFormVC : UIImagePickerControllerDelegate , UINavigationControllerDelegate{
     private func setImageBy(source:UIImagePickerController.SourceType){
@@ -1315,4 +1364,5 @@ extension String {
         return dateFormatter.date(from: self)
     }
 }
+
 

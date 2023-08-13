@@ -24,6 +24,7 @@ class FormItemDBModel: Object {
     @Persisted var show_image:Int?
     @Persisted var show_notes:Int?
     @Persisted var pin:String?
+    @Persisted var is_blocked:Int?
     @Persisted var side_by_side:SideBySideDBModel?
     
     

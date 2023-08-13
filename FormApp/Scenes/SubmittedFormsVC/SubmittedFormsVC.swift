@@ -24,7 +24,7 @@ class SubmittedFormsVC: UIViewController {
     private var optionsPicker:PickerVC?
     private var selectedOptionIndex = 0
     // MARK: - Life Cycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         presnter.delegate = self
@@ -33,6 +33,7 @@ class SubmittedFormsVC: UIViewController {
         searchBarView.txtSearch.textColor = .white
         emptyDataStackView.isHidden = false
         refreshControl.tintColor = .white
+        makeAttributedString()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -109,6 +110,21 @@ class SubmittedFormsVC: UIViewController {
     }
     
     
+    private func makeAttributedString() {
+        
+        let attributedString = NSMutableAttributedString(string: "if you don’t have good service please click here to put your phone in airplane mode to use offline. Please remember to turn airplane mode off when finished. When you get good service please come back into app to send forms.")
+        
+        // Add attributes to the specific word
+        let range = (attributedString.string as NSString).range(of: "here")
+        attributedString.addAttribute(.foregroundColor, value: UIColor.blue, range: range)
+        attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: range)
+        
+        airplaneNoteLabel.attributedText = attributedString
+        
+    }
+    
+    
+    
 }
 
 
@@ -120,15 +136,6 @@ extension SubmittedFormsVC{
         
         airplaneNoteLabel.isUserInteractionEnabled = true
         airplaneNoteLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(airplaneAction)))
-        
-        let attributedString = NSMutableAttributedString(string: "if you don’t have good service please click here to put your phone in airplane mode to use offline. Please remember to turn airplane mode off when finished. When you get good service please come back into app to send forms.")
-        
-        // Add attributes to the specific word
-        let range = (attributedString.string as NSString).range(of: "here")
-        attributedString.addAttribute(.foregroundColor, value: UIColor.blue, range: range)
-        attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: range)
-        
-        airplaneNoteLabel.attributedText = attributedString
         
         refreshControl.addTarget(self, action: #selector(refreshAction), for: .valueChanged)
     }

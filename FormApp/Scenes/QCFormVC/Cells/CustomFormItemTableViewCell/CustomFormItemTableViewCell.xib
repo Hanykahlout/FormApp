@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22138.1" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22113"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -160,13 +160,39 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QN2-Ue-mCC">
+                                <rect key="frame" x="0.0" y="0.0" width="459" height="329"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lock" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="np7-zt-em5">
+                                        <rect key="frame" x="421" y="21" width="18" height="18.333333333333329"/>
+                                        <color key="tintColor" systemColor="systemOrangeColor"/>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PvS-4T-H7J">
+                                        <rect key="frame" x="0.0" y="0.0" width="459" height="329"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="0.58431372549019611" blue="0.0" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="np7-zt-em5" firstAttribute="top" secondItem="QN2-Ue-mCC" secondAttribute="top" constant="20" id="MSE-u5-laX"/>
+                                    <constraint firstAttribute="bottom" secondItem="PvS-4T-H7J" secondAttribute="bottom" id="RG5-hu-4i7"/>
+                                    <constraint firstAttribute="trailing" secondItem="PvS-4T-H7J" secondAttribute="trailing" id="h5Q-MW-YVd"/>
+                                    <constraint firstAttribute="trailing" secondItem="np7-zt-em5" secondAttribute="trailing" constant="20" id="oej-IR-7xs"/>
+                                    <constraint firstItem="PvS-4T-H7J" firstAttribute="leading" secondItem="QN2-Ue-mCC" secondAttribute="leading" id="pOO-83-T6R"/>
+                                    <constraint firstItem="PvS-4T-H7J" firstAttribute="top" secondItem="QN2-Ue-mCC" secondAttribute="top" id="wZm-Fd-asJ"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="fcp-Sc-jOF" firstAttribute="top" secondItem="Q9i-Lu-8L8" secondAttribute="top" constant="10" id="Bay-lN-ASv"/>
+                            <constraint firstAttribute="trailing" secondItem="QN2-Ue-mCC" secondAttribute="trailing" id="D0H-zj-967"/>
+                            <constraint firstItem="QN2-Ue-mCC" firstAttribute="leading" secondItem="Q9i-Lu-8L8" secondAttribute="leading" id="Igc-uN-Or3"/>
                             <constraint firstAttribute="bottom" secondItem="fcp-Sc-jOF" secondAttribute="bottom" constant="10" id="WVx-N1-kF8"/>
                             <constraint firstItem="fcp-Sc-jOF" firstAttribute="leading" secondItem="Q9i-Lu-8L8" secondAttribute="leading" constant="10" id="Zcv-sL-5dE"/>
+                            <constraint firstItem="QN2-Ue-mCC" firstAttribute="top" secondItem="Q9i-Lu-8L8" secondAttribute="top" id="eOg-ZP-lcR"/>
                             <constraint firstAttribute="trailing" secondItem="fcp-Sc-jOF" secondAttribute="trailing" constant="10" id="lWT-R0-9Xu"/>
+                            <constraint firstAttribute="bottom" secondItem="QN2-Ue-mCC" secondAttribute="bottom" id="rE8-cD-kli"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="corner_radius">
@@ -196,6 +222,8 @@
                 <outlet property="addPicSwitch" destination="9Ew-fB-AXc" id="kDd-NL-4Cx"/>
                 <outlet property="addPicView" destination="gt2-Fp-uOC" id="Fdi-HX-Iv5"/>
                 <outlet property="arrowImageView" destination="gd9-m7-jtf" id="lXh-RF-4lU"/>
+                <outlet property="blockedButton" destination="PvS-4T-H7J" id="0Ng-Vs-dYF"/>
+                <outlet property="blockedView" destination="QN2-Ue-mCC" id="PWO-qg-Xoq"/>
                 <outlet property="priceLabel" destination="tVr-Iz-Zor" id="cf4-bz-77f"/>
                 <outlet property="selectedImageView" destination="BE4-eb-WtO" id="J40-C3-JXk"/>
                 <outlet property="titleLabel" destination="ktG-eu-r46" id="b2K-AQ-i5y"/>
@@ -207,6 +235,7 @@
     </objects>
     <resources>
         <image name="chevron.down" catalog="system" width="128" height="70"/>
+        <image name="lock" catalog="system" width="125" height="128"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="systemOrangeColor">
             <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

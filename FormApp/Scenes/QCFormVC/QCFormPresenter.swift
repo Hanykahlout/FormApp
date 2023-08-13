@@ -16,6 +16,7 @@ protocol QCFormPresenterDelegate{
     func getDivition(data: DiviosnData)
     func getSubContractors(data: SubContractorsResponse)
     func getFormItemsData(data: FormItemData)
+    func checkUnblockedItems()
 }
 
 
@@ -62,7 +63,13 @@ class QCFormPresenter{
             case let .success(response):
                 if response.status == true{
                     Alert.showSuccessAlert(message: response.message ?? "")
-                    self.delegate?.clearFields()
+                    
+                    if formPurpose != .draft && formPurpose != .updateDraft{
+                        self.delegate?.clearFields()
+                        self.delegate?.navigationController?.popViewController(animated: true)
+                    }else{
+                        self.delegate?.checkUnblockedItems()
+                    }
                 }else{
                     Alert.showErrorAlert(message: response.message ?? "")
                 }
@@ -76,6 +83,7 @@ class QCFormPresenter{
                         let headers:[String:Any] = ["Authorization":token ?? "" ,"Accept":"application/json","Accept-Language":"en"]
                         self.addRequestToRealm(url: url, body: formsDetails, header: headers, method: "post",isEdit: formPurpose == .edit)
                         self.delegate?.clearFields()
+                        self.delegate?.navigationController?.popViewController(animated: true)
                     }
                 }
             }

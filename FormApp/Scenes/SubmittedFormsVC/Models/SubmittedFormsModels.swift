@@ -57,7 +57,7 @@ struct FormInfo:Decodable{
         if let value = try? container.decode(Int.self, forKey:.id) {
             id = value
         }
-        
+
         if let value = try? container.decode(SubContractor.self, forKey:.sub_contractor) {
             sub_contractor = value
         }
@@ -152,7 +152,6 @@ struct SubmittedFormItems:Decodable{
         case item
         case fail_reason
         case image
-
     }
     
     init(from decoder: Decoder) throws {
@@ -222,6 +221,7 @@ struct SubmittedFormItemData:Decodable{
     var price:String?
     var show_price:String?
     var value:String?
+    var is_blocked:Int?
     var form_type_id:String?
     var created_at:String?
     var fail_reason_id: String?
@@ -248,6 +248,7 @@ struct SubmittedFormItemData:Decodable{
         case pin
         case show_image
         case show_notes
+        case is_blocked
     }
     
     init(from decoder: Decoder) throws {
@@ -255,6 +256,10 @@ struct SubmittedFormItemData:Decodable{
         
         if let value = try? container.decode(Int.self, forKey: .id){
             id = value
+        }
+        
+        if let value = try? container.decode(Int.self, forKey: .is_blocked){
+            is_blocked = value
         }
         
         if let value = try? container.decode(String.self, forKey:.tag) {

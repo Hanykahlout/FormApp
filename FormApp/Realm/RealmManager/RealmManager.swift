@@ -16,20 +16,19 @@ class RealmManager: RealmManagerInterface {
     
     func checkMigration(){
         let config = Realm.Configuration(
-            schemaVersion: 3, // Set the new schema version.
+            schemaVersion: 4, // Set the new schema version.
             migrationBlock: { migration, oldSchemaVersion in
-                if oldSchemaVersion < 3 {
+                if oldSchemaVersion < 4 {
                     
-                    migration.enumerateObjects(ofType: DataDetailsDBModel.className()) { oldObject, newObject in
-                        newObject?["api_id"] = nil
+                    migration.enumerateObjects(ofType: FormItemDBModel.className()) { oldObject, newObject in
+                        newObject?["is_blocked"] = nil
                     }
                     
                     let uuid = UserDefaults.standard.string(forKey: "ApplicationSessionUUID") ?? ""
-                    AppManager.shared.changeVersion(uuid: uuid, checkDatabase: true, model: "company") { result in }
-                    AppManager.shared.changeVersion(uuid: uuid, checkDatabase: true, model: "job") { result in }
-                    AppManager.shared.changeVersion(uuid: uuid, checkDatabase: true, model: "form") { result in }
-                    AppManager.shared.changeVersion(uuid: uuid, checkDatabase: true, model: "division") { result in }
-                    
+                    AppManager.shared.changeVersion(uuid: uuid, checkDatabase: true, model: "formItem") { result in }
+                    DispatchQueue.main.async {
+                        
+                    }
                 }
             }
         )

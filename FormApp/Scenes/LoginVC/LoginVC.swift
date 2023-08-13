@@ -11,6 +11,7 @@ class LoginVC: UIViewController {
     
     //MARK: - Outlet
     
+    @IBOutlet weak var forgetPasswordButton: UIButton!
     @IBOutlet  private weak var emailCustomTf: MainTF!
     @IBOutlet private weak var passCustomTf: MainTF!
 
@@ -67,7 +68,7 @@ extension LoginVC{
     func BindButtons(){
         signupBtn.addTarget(self, action: #selector(ButtonWasTapped), for: .touchUpInside)
         loginBtn.addTarget(self, action: #selector(ButtonWasTapped), for: .touchUpInside)
-        
+        forgetPasswordButton.addTarget(self, action: #selector(ButtonWasTapped), for: .touchUpInside)
     }
     
     @objc private func backAction(){
@@ -87,7 +88,9 @@ extension LoginVC{
             navigationController?.pushViewController(vc, animated: true)
         case loginBtn:
             login()
-            
+        case forgetPasswordButton:
+            let vc = ForgetPasswordVC.instantiate()
+            navigationController?.pushViewController(vc, animated: true)
         default:
             print("")
         }
@@ -135,5 +138,3 @@ extension LoginVC:LoginPresenterDelefate {
     }
     
 }
-
-

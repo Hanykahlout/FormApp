@@ -176,6 +176,7 @@ struct DataDetails:Decodable{
     var show_notes:Int?
     var side_by_side:SideBySideData?
     var pin:String?
+    var is_blocked:Int?
     
     var note: String?
     var project:String?
@@ -220,7 +221,7 @@ struct DataDetails:Decodable{
     }
     
     
-    init(id: Int?, title: String?,created_at: String?,form_type_id:String?,system:String?,system_type:String?,system_list:[String]?,new_boxes:[NewBoxData],price:String?,show_price:String?,tag:String?,show_image:Int?,show_notes:Int?,side_by_side:SideBySideData?,pin:String?) {
+    init(id: Int?, title: String?,created_at: String?,form_type_id:String?,system:String?,system_type:String?,system_list:[String]?,new_boxes:[NewBoxData],price:String?,show_price:String?,tag:String?,show_image:Int?,show_notes:Int?,side_by_side:SideBySideData?,pin:String?,isBlocked:Int?) {
         self.id = id
         self.title = title
         self.created_at = created_at
@@ -237,12 +238,12 @@ struct DataDetails:Decodable{
         self.show_notes = show_notes
         self.show_image = show_image
         self.side_by_side = side_by_side
-        
+        self.is_blocked = isBlocked
     }
     
     
     init(id: Int?, title: String?,status: String?,note:String?,
-         system:String?,reasons:[FailReasonData]?,reason_id:Int?,reason:String?,new_boxes:[NewBoxData],image:String?,isWithPic:Bool,price:String?,show_price:String?,show_image:Int?,show_notes:Int?,tag:String?,pin:String?) {
+         system:String?,reasons:[FailReasonData]?,reason_id:Int?,reason:String?,new_boxes:[NewBoxData],image:String?,isWithPic:Bool,price:String?,show_price:String?,show_image:Int?,show_notes:Int?,tag:String?,pin:String?,is_blocked:Int?) {
         self.id = id
         self.title = title
         self.status = status
@@ -260,9 +261,10 @@ struct DataDetails:Decodable{
         self.show_notes = show_notes
         self.tag = tag
         self.pin = pin
+        self.is_blocked = is_blocked
     }
     
-    init(id:Int?,value:String?,title:String?,status:String?,price:String?,show_price:String?,system:String?,system_type:String?,system_list:[String]?,image:String?,isWithPic:Bool?,show_image:Int?,show_notes:Int?,tag:String?,pin:String?){
+    init(id:Int?,value:String?,title:String?,status:String?,price:String?,show_price:String?,system:String?,system_type:String?,system_list:[String]?,image:String?,isWithPic:Bool?,show_image:Int?,show_notes:Int?,tag:String?,pin:String?,is_blocked:Int?){
         
         self.id = id
         self.title = title
@@ -279,14 +281,16 @@ struct DataDetails:Decodable{
         self.show_notes = show_notes
         self.tag = tag
         self.pin = pin
+        self.is_blocked = is_blocked
     }
     
-    init(id:Int?,sideBySide:SideBySideData,tag:String?,pin:String?) {
+    init(id:Int?,sideBySide:SideBySideData,tag:String?,pin:String?,is_blocked:Int?) {
         self.id = id
         self.side_by_side = sideBySide
         self.system = "side-by-side"
         self.tag = tag
         self.pin = pin
+        self.is_blocked = is_blocked
     }
     
     enum CodingKeys: String, CodingKey {
@@ -321,6 +325,7 @@ struct DataDetails:Decodable{
         case show_image
         case show_notes
         case pin
+        case is_blocked
         case side_by_side
         case api_id
     }
@@ -331,6 +336,10 @@ struct DataDetails:Decodable{
         
         if let value = try? container.decode(Int.self, forKey:.id) {
             id = value
+        }
+        
+        if let value = try? container.decode(Int.self, forKey:.is_blocked) {
+            is_blocked = value
         }
 
         if let value = try? container.decode(String.self, forKey:.api_id) {

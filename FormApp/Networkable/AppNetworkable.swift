@@ -31,6 +31,13 @@ protocol AppNetworkable:Networkable  {
     func getSpecialList(jobId:String,builder:String,completion: @escaping (Result<BaseResponse<SpecialList>, Error>)-> ())
     func updateOnline(startDate:Date?,endDate:Date?,completion: @escaping (Result<BaseResponse<VersionModel>, Error>)-> ())
     func checkAppStoreVersion(bundleId:String,completion: @escaping (Result<AppStoreReponse, Error>)-> ())
+    func resetPassword(email:String,completion: @escaping (Result<BaseResponse<VersionModel>, Error>)-> ())
+    func checkCode(email:String,code:String,completion: @escaping (Result<BaseResponse<CheckCodeData>, Error>)-> ())
+    func updatePassword(password:String,passwordConfirmation:String,completion: @escaping (Result<BaseResponse<VersionModel>, Error>)-> ())
+    
+    
+    
+    
 }
 
 
@@ -93,8 +100,8 @@ class AppManager: AppNetworkable {
         request(target: .submitForms(formPurpose:formPurpose,formsDetails: formsDetails), completion: completion)
     }
     
-    func checkDatabase(uuid:String,refresh:Bool?,completion: @escaping (Result<BaseResponse<RequestsStatus>, Error>) -> ()) {
-        request(target: .checkDatabase(uuid: uuid,refresh: refresh), completion: completion)
+    func checkDatabase(uuid:String,iosVersion:String?,deviceModel:String?,applicationVersion:String?,refresh:Bool?,completion: @escaping (Result<BaseResponse<RequestsStatus>, Error>) -> ()) {
+        request(target: .checkDatabase(uuid: uuid,iosVersion:iosVersion,deviceModel:deviceModel,applicationVersion:applicationVersion,refresh: refresh), completion: completion)
     }
     
     func getSubmittedForms(searchText:String,completion: @escaping (Result<BaseResponse<SubmittedFormData>, Error>) -> ()){
@@ -131,7 +138,17 @@ class AppManager: AppNetworkable {
         request(target: .checkAppStoreVersion(bundleId: bundleId), completion: completion)
     }
     
+    func resetPassword(email: String, completion: @escaping (Result<BaseResponse<VersionModel>, Error>) -> ()) {
+        request(target: .resetPassword(email: email), completion: completion)
+    }
     
+    func checkCode(email: String, code: String, completion: @escaping (Result<BaseResponse<CheckCodeData>, Error>) -> ()) {
+        request(target: .checkCode(email: email, code: code), completion: completion)
+    }
+    
+    func updatePassword(password: String, passwordConfirmation: String, completion: @escaping (Result<BaseResponse<VersionModel>, Error>) -> ()) {
+        request(target: .updatePassword(password: password, passwordConfirmation: passwordConfirmation), completion: completion)
+    }
     
     func monitorNetwork(conectedAction:(()->Void)?,notConectedAction:(()->Void)?){
         let monitor = NWPathMonitor()

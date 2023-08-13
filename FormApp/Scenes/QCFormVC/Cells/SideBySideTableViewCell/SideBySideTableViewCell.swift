@@ -9,16 +9,20 @@ import UIKit
 
 protocol SideBySideCellDelegate{
     func selectionAction(indexPath:IndexPath,arr:[String],isDate:Bool,isFirstField:Bool)
+    func blockedAction()
 }
 
 typealias SideBySideDelegate = SideBySideCellDelegate & UIViewController
 
 class SideBySideTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var title1Label: UILabel!
     @IBOutlet weak var title2Label: UILabel!
     @IBOutlet weak var title1TextField: UITextField!
     @IBOutlet weak var title2TextField: UITextField!
+    @IBOutlet weak var blockedView: UIView!
+    @IBOutlet weak var blockedButton: UIButton!
+    
     
     private var firstFieldgesture:UITapGestureRecognizer?
     private var secondFieldgesture:UITapGestureRecognizer?
@@ -31,19 +35,20 @@ class SideBySideTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-
+        
         binding()
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     
     
     func setData(data:DataDetails,indexPath:IndexPath){
         self.indexPath = indexPath
+        blockedView.isHidden = data.is_blocked != 1
         let side_by_side = data.side_by_side
         let first_field = side_by_side?.first_field
         let second_field = side_by_side?.second_field
@@ -82,7 +87,6 @@ class SideBySideTableViewCell: UITableViewCell {
         }
     }
     
-    
 }
 
 // MARK: - binding
@@ -90,6 +94,16 @@ extension SideBySideTableViewCell{
     private func binding(){
         firstFieldgesture = UITapGestureRecognizer(target: self, action: #selector(field1AddSelectionAction))
         secondFieldgesture = UITapGestureRecognizer(target: self, action: #selector(field2AddSelectionAction))
+        blockedButton.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
+    }
+    
+    @objc private func bindingAction(_ sender: UIButton){
+        switch sender{
+        case blockedButton:
+            delegate?.blockedAction()
+        default:
+            break
+        }
     }
     
     @objc private func field1AddSelectionAction(){

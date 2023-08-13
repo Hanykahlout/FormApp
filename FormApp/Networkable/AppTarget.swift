@@ -20,7 +20,7 @@ enum AppTarget:TargetType{
     case getFormItems(normal:Int,uuid:String,form_type_id:String)
     case logout
     case submitForms(formPurpose:FormPurpose,formsDetails:[String : Any])
-    case checkDatabase(uuid:String,refresh:Bool?)
+    case checkDatabase(uuid:String,iosVersion:String?,deviceModel:String?,applicationVersion:String?,refresh:Bool?)
     case editSubmittedForm(submitted_form_id:String)
     case submittedForms(search:String)
     case formItemReasons(normal:Int,uuid:String)
@@ -32,6 +32,10 @@ enum AppTarget:TargetType{
     case changeVersion(uuid:String,checkDatabase:Bool,model:String)
     case updateOnline(start: Date?,end: Date?)
     case checkAppStoreVersion(bundleId:String)
+    case resetPassword(email:String)
+    case checkCode(email:String,code:String)
+    case updatePassword(password:String,passwordConfirmation:String)
+    
     
     var baseURL: URL {
         switch self{
@@ -42,7 +46,7 @@ enum AppTarget:TargetType{
         }
         
     }
-        
+    
     var path: String {
         switch self {
         case .SignUp:return "signUp"
@@ -73,13 +77,16 @@ enum AppTarget:TargetType{
         case .changeVersion:return "changeVersion"
         case .updateOnline:return "updateOnline"
         case .checkAppStoreVersion:return "lookup"
+        case .resetPassword: return "resetPassword"
+        case .checkCode: return "checkCode"
+        case .updatePassword: return "updatePassword"
         }
     }
     
     
     var method: Moya.Method {
         switch self{
-        case .SignUp,.login,.logout,.submitForms,.createHouseMaterial,.changeVersion,.updateOnline:
+        case .SignUp,.login,.logout,.submitForms,.createHouseMaterial,.changeVersion,.updateOnline,.resetPassword,.checkCode,.updatePassword:
             return .post
         case .getCompanies,.getJob,.forms,.divisions,.getFormItems,.subContractors,.checkDatabase,.editSubmittedForm,.submittedForms,.formItemReasons,.getLists,.getHouseMaterials,.getSpecialList,.version,.checkAppStoreVersion:
             return .get
@@ -96,7 +103,7 @@ enum AppTarget:TargetType{
                 return .requestPlain
             }
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
-        case .SignUp,.login,.logout,.createHouseMaterial,.changeVersion,.updateOnline:
+        case .SignUp,.login,.logout,.createHouseMaterial,.changeVersion,.updateOnline,.resetPassword,.checkCode,.updatePassword:
             return .requestParameters(parameters: param, encoding: URLEncoding.httpBody)
         case .getJob,.getFormItems,.editSubmittedForm,.checkDatabase,.submittedForms,.getHouseMaterials,.getSpecialList,.checkAppStoreVersion:
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
@@ -120,7 +127,7 @@ enum AppTarget:TargetType{
                     }
                 }
             } catch {
-
+                
             }
             return .uploadMultipart(formData)
         }
@@ -133,7 +140,7 @@ enum AppTarget:TargetType{
         case .submittedForms,.getCompanies,.getJob,
                 .forms,.divisions,.getFormItems,.subContractors,.logout,
                 .submitForms,.checkDatabase,.editSubmittedForm,
-                .formItemReasons,.getLists,.getHouseMaterials,.createHouseMaterial,.getSpecialList,.updateOnline:
+                .formItemReasons,.getLists,.getHouseMaterials,.createHouseMaterial,.getSpecialList,.updateOnline,.updatePassword:
             do {
                 let token = try KeychainWrapper.get(key: AppData.email) ?? ""
                 return ["Authorization":token ,"Accept":"application/json","Accept-Language":"en"]
@@ -141,7 +148,7 @@ enum AppTarget:TargetType{
             catch{
                 return ["Accept":"application/json","Accept-Language":"en"]
             }
-        case .SignUp,.login,.version,.changeVersion,.checkAppStoreVersion:
+        case .SignUp,.login,.version,.changeVersion,.checkAppStoreVersion,.resetPassword,.checkCode:
             return ["Accept":"application/json","Accept-Language":"en"]
         }
     }
@@ -170,11 +177,27 @@ enum AppTarget:TargetType{
             return ["normal":normal,"uuid":uuid,"form_type_id":form_type_id]
         case .editSubmittedForm(let submitted_form_id):
             return ["submitted_form_id": submitted_form_id]
-        case .checkDatabase(let uuid,let refresh):
-            if let refresh = refresh{
-                return ["uuid":uuid,"refresh":refresh]
+        case .checkDatabase(let uuid,let iosVersion,let deviceModel, let applicationVersion,let refresh):
+            var data:[String:Any] = [:]
+            
+            data["uuid"] = uuid
+            if let iosVersion = iosVersion{
+                data["ios_version"] = iosVersion
             }
-            return ["uuid":uuid]
+            
+            if let deviceModel = deviceModel{
+                data["device_model"] = deviceModel
+            }
+            
+            if let applicationVersion = applicationVersion{
+                data["application_version"] = applicationVersion
+            }
+            
+            if let refresh = refresh{
+                data["refresh"] = refresh
+            }
+            
+            return data
         case .submittedForms(let search):
             return ["search":search]
         case .getHouseMaterials(let company_id,let job_id,let phase,let special) :
@@ -202,13 +225,17 @@ enum AppTarget:TargetType{
             return body
         case .checkAppStoreVersion(let bundleId):
             return ["bundleId":bundleId,"unique_id":UUID().uuidString]
+        case .resetPassword(let email):
+            return ["email":email]
+        case .checkCode(let email, let code):
+            return ["email":email,"code":code]
+        case .updatePassword(let password, let passwordConfirmation):
+            return ["password":password,"password_confirmation":passwordConfirmation]
         default:
             return [ : ]
         }
         
     }
-    
-    
     
 }
 

@@ -25,7 +25,7 @@ import UIKit
         
         let attributes = [
             NSAttributedString.Key.foregroundColor: placeholderTextColor,
-            NSAttributedString.Key.font : UIFont(name: "Avenir", size: (self.font?.pointSize)!)  // Note the !
+            NSAttributedString.Key.font : UIFont(name: "Urbanist-Regular", size: (self.font?.pointSize)!)  // Note the !
         ]
         
         self.attributedPlaceholder = NSAttributedString(string:self.placeholder != nil ? self.placeholder! : "", attributes:attributes)

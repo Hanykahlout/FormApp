@@ -15,6 +15,7 @@ protocol FormTypeNoteCellDelegate{
     func updateNewBoxData(text:String,parentIndexPath:IndexPath,childIndex:Int)
     func addPicAction(indexPath:IndexPath)
     func updatePicStatus(indexPath:IndexPath,withPic:Bool)
+    func blockedAction()
 }
 
 typealias FormTypeCellDelegate = FormTypeNoteCellDelegate & UIViewController
@@ -44,6 +45,8 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
     @IBOutlet weak var addPicView: UIView!
     @IBOutlet weak var addPicButton: UIButton!
     @IBOutlet weak var addPicSwitch: UISwitch!
+    @IBOutlet weak var blockedView: UIView!
+    @IBOutlet weak var blockedButton: UIButton!
     
     
     weak var delegate:FormTypeCellDelegate?
@@ -65,7 +68,7 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
     func configureCell(obj:DataDetails,indexPath:IndexPath){
         self.indexPath = indexPath
         let system = obj.system
-        
+        blockedView.isHidden = obj.is_blocked != 1
         priceLabel.text = "Price: $\(obj.price ?? "0")"
         priceLabel.isHidden = obj.show_price != "1"
         formItemId = obj.id ?? -1
@@ -161,7 +164,19 @@ extension FormTypeNoteCell{
         reasonTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(reasonAction)))
         addPicButton.addTarget(self, action: #selector(addPicAction), for: .touchUpInside)
         addPicSwitch.addTarget(self, action: #selector(addPicSwitchAction), for: .valueChanged)
+        blockedButton.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
     }
+    
+    @objc private func bindingAction(_ sender:UIButton){
+        switch sender{
+        case blockedButton:
+            delegate?.blockedAction()
+        default:
+            break
+        }
+        
+    }
+    
     
     @objc private func formTypeStatusAction(){
         guard let indexPath = indexPath else { return }

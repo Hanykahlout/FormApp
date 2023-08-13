@@ -25,11 +25,14 @@ class HomePresenter{
     var data:[HomeAction] = [.Forms,.Materials]
     
     func checkDatabase(refresh:Bool? = nil){
+        var appVersion:String? = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        var iosVersion:String? = UIDevice.current.systemVersion
+        var deviceModel:String? = UIDevice.modelName
         if UserDefaults.standard.string(forKey: "ApplicationSessionUUID") == nil {
             UserDefaults.standard.set(UUID().uuidString, forKey: "ApplicationSessionUUID")
         }
         SVProgressHUD.show(withStatus: "Checking if there is data has not been fetched from the server")
-        AppManager.shared.checkDatabase(uuid: UserDefaults.standard.string(forKey: "ApplicationSessionUUID")!,refresh: refresh) { response in
+        AppManager.shared.checkDatabase(uuid: UserDefaults.standard.string(forKey: "ApplicationSessionUUID")!,iosVersion: iosVersion,deviceModel: deviceModel,applicationVersion: appVersion,refresh: refresh) { response in
             SVProgressHUD.dismiss()
             switch response{
             case let .success(response):
