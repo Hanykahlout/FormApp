@@ -43,7 +43,16 @@ extension Networkable{
                         window.rootViewController = nav
                         Alert.showError(title:"Unauthorized Access",message: "Please login", viewController: nav)
                     }
-                }else  if response.statusCode == 503 || response.statusCode == 500 {
+                }else if response.statusCode == 402{
+                    if let delegate = UIApplication.shared.delegate as? AppDelegate,
+                       let window = delegate.window {
+                        let vc = JobEntrySiginInVC.instantiate()
+                        vc.modalTransitionStyle = .crossDissolve
+                        vc.modalPresentationStyle = .overCurrentContext
+                        window.rootViewController?.present(vc, animated: true)
+                    }
+                    
+                } else  if response.statusCode == 503 || response.statusCode == 500 {
                     print(String(data: response.data, encoding: .utf8) ?? "Faild to Convert response to String")
                     SVProgressHUD.dismiss()
                     completion(.failure(MyError.serverError))

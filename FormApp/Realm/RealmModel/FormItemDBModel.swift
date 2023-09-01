@@ -49,3 +49,4 @@ class SideDBModel: Object {
     @Persisted var title:String?
     
 }
+

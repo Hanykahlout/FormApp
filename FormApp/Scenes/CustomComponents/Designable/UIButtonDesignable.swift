@@ -7,7 +7,7 @@
 
 import UIKit
 
-@IBDesignable
+
 class UIButtonDesignable: UIButton {
     
     @IBInspectable var startColor:   UIColor = .black { didSet { updateColors() }}

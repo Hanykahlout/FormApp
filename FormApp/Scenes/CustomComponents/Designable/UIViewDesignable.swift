@@ -7,7 +7,7 @@
 
 import UIKit
 
-@IBDesignable
+
 class UIViewDesignable: UIView {
     @IBInspectable var startColor:   UIColor = .black { didSet { updateColors() }}
     @IBInspectable var endColor:     UIColor = .white { didSet { updateColors() }}

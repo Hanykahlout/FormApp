@@ -11,16 +11,17 @@ class ForgetPasswordVC: UIViewController {
     
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var sendButton: UIButton!
-
+    
     // MARK: - Private Properties
     private let presenter = ForgetPasswordPresenter()
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.delegate = self
         binding()
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -35,7 +36,7 @@ class ForgetPasswordVC: UIViewController {
     // MARK: - Private Functions
     private func setUpNavigation(){
         navigationController?.setNavigationBarHidden(false, animated: true)
-
+        
         navigationItem.title = "Forget Password"
         
         let backButton = UIButton()
@@ -61,7 +62,7 @@ extension ForgetPasswordVC{
         switch sender{
         case sendButton:
             let email = emailTextField.text!
-
+            
             if email.hasSuffix("@cpnhinc.com") || email.hasSuffix("@coastaltradesupply.com"){
                 presenter.restPassword(email: email)
             }else{

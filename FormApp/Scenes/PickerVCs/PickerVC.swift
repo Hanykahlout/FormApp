@@ -17,11 +17,17 @@ class PickerVC: UIViewController {
     var index : Int = 0
     var delegate : ((_ name: String ,_ index:Int) -> Void)?
     var searchAction: ((_ searchText:String) -> Void)?
+    var newPageAction: ((_ currentPage:Int,_ search:String) -> Void)?
     var searchBarHiddenStatus:Bool=false
     var searchText = ""
     
+    var withPagination = false
+    var currentPage = 1
+    var totalPages = 1
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchBar.txtSearch.clearButtonMode = .always
         configGUI()
         searchBarMainView.isHidden = searchBarHiddenStatus
         searchBarStatus()
@@ -40,17 +46,14 @@ class PickerVC: UIViewController {
     
     func searchBarStatus(){
         if searchBarHiddenStatus == false{
-            setupSearchProperties()
+            searchBar.btnSearch.addTarget(self, action: #selector(searchActioon), for: .touchUpInside)
         }
-    }
-    
-    
-    func  setupSearchProperties(){
-        searchBar.btnSearch.addTarget(self, action: #selector(searchActioon), for: .touchUpInside)
     }
     
     @objc func searchActioon(_ sender : UIButton ) {
         searchBar.text = searchBar.text?.trimmingCharacters(in: .whitespaces)
+        searchText = searchBar.text!
+        currentPage = 1
         searchAction?(searchBar.text!)
     }
     
@@ -125,6 +128,11 @@ extension PickerVC : UIPickerViewDelegate, UIPickerViewDataSource {
         }
         pickerLabel?.text = arr_data[row]
         
+        if withPagination && arr_data.count - 1 == row && currentPage < totalPages{
+            currentPage += 1
+            newPageAction?(currentPage,searchBar.text!)
+        }
+
         
         return pickerLabel!
     }
@@ -152,9 +160,4 @@ extension PickerVC : UIPickerViewDelegate, UIPickerViewDataSource {
 
 extension PickerVC:Storyboarded{
     static var storyboardName: StoryboardName = .main
-    
 }
-
-
-
-

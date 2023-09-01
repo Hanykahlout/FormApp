@@ -26,9 +26,7 @@ class RealmManager: RealmManagerInterface {
                     
                     let uuid = UserDefaults.standard.string(forKey: "ApplicationSessionUUID") ?? ""
                     AppManager.shared.changeVersion(uuid: uuid, checkDatabase: true, model: "formItem") { result in }
-                    DispatchQueue.main.async {
-                        
-                    }
+
                 }
             }
         )

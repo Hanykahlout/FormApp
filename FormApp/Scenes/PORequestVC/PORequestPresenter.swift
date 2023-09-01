@@ -28,7 +28,7 @@ class PORequestPresenter{
     }
     
     func getJobsFromDB(companyID:String,search:String){
-        self.delegate?.getJobData(data: JobData(jobs: RealmController.shared.getFromDBModels(type:"jobs",companyId: companyID,searchText: search)))
+        self.delegate?.getJobData(data: JobData(jobs: RealmController.shared.getFromDBModels(type:"jobs",companyId: companyID,searchText: search), total_pages: 1))
     }
     
     func getDivisionFromDB(companyID:String,search:String){

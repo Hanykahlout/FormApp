@@ -127,6 +127,16 @@ extension UIViewController{
             })
         }
     }
+    
+    func showError(on textField:UITextField){
+        textField.rightViewMode = .always
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+        let image = UIImage(systemName: "info.circle.fill")
+        
+        textField.tintColor = .red
+        imageView.image = image
+        textField.rightView = imageView
+    }
 }
 
 

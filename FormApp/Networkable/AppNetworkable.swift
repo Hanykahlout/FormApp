@@ -16,15 +16,18 @@ protocol AppNetworkable:Networkable  {
     func changeVersion(uuid:String,checkDatabase:Bool,model:String,completion: @escaping (Result<BaseResponse<VersionModel>, Error>)-> ())
     func signUpUser(fname:String,lname:String,email:String,password:String,completion: @escaping (Result<BaseResponse<User>, Error>)-> ())
     func login(email:String,password:String,completion: @escaping (Result<BaseResponse<User>, Error>)-> ())
-    func getCompanies(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<CompaniesData>, Error>)-> ())
-    func getJob(normal: Int, uuid: String,companyId:String,search:String,completion: @escaping (Result<BaseResponse<JobData>, Error>)-> ())
-    func forms(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<FormsData>, Error>)-> ())
-    func division(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<DiviosnData>, Error>)-> ())
-    func subContractors(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<SubContractorsResponse>, Error>)-> ())
+    
+    func getCompanies(normal: Int?, uuid: String?,completion: @escaping (Result<BaseResponse<CompaniesData>, Error>)-> ())
+    func getJob(page:Int?,normal: Int?, uuid: String?,companyId:String,search:String,completion: @escaping (Result<BaseResponse<JobData>, Error>)-> ())
+    func forms(normal: Int?, uuid: String?,completion: @escaping (Result<BaseResponse<FormsData>, Error>)-> ())
+    func division(normal: Int?, uuid: String?,completion: @escaping (Result<BaseResponse<DiviosnData>, Error>)-> ())
+    func subContractors(normal: Int?, uuid: String?,completion: @escaping (Result<BaseResponse<SubContractorsResponse>, Error>)-> ())
+    func getFormItemReasons(normal: Int?, uuid: String?,completion: @escaping (Result<BaseResponse<FormItemReasons>, Error>)-> ())
+    func getFormItems(normal: Int?, uuid: String?,form_type_id:String,project:String?,completion: @escaping (Result<BaseResponse<FormItemData>, Error>)-> ())
     func logout(completion: @escaping (Result<BaseResponse<Empty>, Error>)-> ())
-    func getFormItems(normal: Int, uuid: String,form_type_id:String,completion: @escaping (Result<BaseResponse<FormItemData>, Error>)-> ())
+    
     func submitForms(formPurpose:FormPurpose,formsDetails:[String : Any],completion: @escaping (Result<BaseResponse<FormItemData>, Error>)-> ())
-    func getFormItemReasons(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<FormItemReasons>, Error>)-> ())
+    
     func getPhaseSpecial(completion: @escaping (Result<BaseResponse<PhasesBuilders>, Error>)-> ())
     func getHouseMaterials(company_id: Int, job_id: Int, phase: String, special: String,completion: @escaping (Result<BaseResponse<MaterialsData>, Error>)-> ())
     func createHouseMaterial(isEdit:Bool,houseMaterialData:[String:Any],completion: @escaping (Result<BaseResponse<Material>, Error>)-> ())
@@ -35,14 +38,17 @@ protocol AppNetworkable:Networkable  {
     func checkCode(email:String,code:String,completion: @escaping (Result<BaseResponse<CheckCodeData>, Error>)-> ())
     func updatePassword(password:String,passwordConfirmation:String,completion: @escaping (Result<BaseResponse<VersionModel>, Error>)-> ())
     
+    func getCities(search:String,state:String,completion: @escaping (Result<BaseResponse<CitiesData>, Error>)-> ())
+    func getZip(search:String,city:String,completion: @escaping (Result<BaseResponse<ZipData>, Error>)-> ())
     
+    func storeJob(data:[String:Any],completion: @escaping (Result<BaseResponse<VersionModel>, Error>)-> ())
+    func getBudgets(model:String,builder:String,completion: @escaping (Result<BaseResponse<BudgetResponse>, Error>)-> ())
     
     
 }
 
 
 class AppManager: AppNetworkable {
-   
     
     typealias targetType = AppTarget
     
@@ -68,33 +74,39 @@ class AppManager: AppNetworkable {
         request(target: .login(email: email, password: password), completion: completion)
     }
     
-    func getCompanies(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<CompaniesData>, Error>) -> ()) {
+    func getCompanies(normal: Int?, uuid: String?,completion: @escaping (Result<BaseResponse<CompaniesData>, Error>) -> ()) {
         request(target: .getCompanies(normal: normal, uuid: uuid), completion: completion)
     }
     
-    func getJob(normal: Int, uuid: String,companyId: String,search:String, completion: @escaping (Result<BaseResponse<JobData>, Error>) -> ()) {
-        request(target: .getJob(normal: normal, uuid: uuid,companyId: companyId,search:search), completion: completion)
+    func getJob(page:Int?,normal: Int?, uuid: String?,companyId: String,search:String, completion: @escaping (Result<BaseResponse<JobData>, Error>) -> ()) {
+        request(target: .getJob(page:page,normal: normal, uuid: uuid,companyId: companyId,search:search), completion: completion)
     }
     
-    func forms(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<FormsData>, Error>) -> ()) {
+    func forms(normal: Int?, uuid: String?,completion: @escaping (Result<BaseResponse<FormsData>, Error>) -> ()) {
         request(target: .forms(normal: normal, uuid: uuid), completion: completion)
     }
     
-    func division(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<DiviosnData>, Error>) -> ()) {
+    func division(normal: Int?, uuid: String?,completion: @escaping (Result<BaseResponse<DiviosnData>, Error>) -> ()) {
         request(target: .divisions(normal: normal, uuid: uuid), completion: completion)
     }
     
-    func subContractors(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<SubContractorsResponse>, Error>) -> ()) {
+    func subContractors(normal: Int?, uuid: String?,completion: @escaping (Result<BaseResponse<SubContractorsResponse>, Error>) -> ()) {
         request(target: .subContractors(normal: normal, uuid: uuid), completion: completion)
     }
+    
+    func getFormItems(normal: Int?, uuid: String?,form_type_id: String,project:String? ,completion: @escaping (Result<BaseResponse<FormItemData>, Error>) -> ()) {
+        request(target:.getFormItems(normal: normal, uuid: uuid,form_type_id: form_type_id,project:project), completion: completion)
+    }
+    
+    func getFormItemReasons(normal: Int?, uuid: String?,completion: @escaping (Result<BaseResponse<FormItemReasons>, Error>)-> ()) {
+        request(target: .formItemReasons(normal: normal, uuid: uuid), completion: completion)
+    }
+    
     
     func logout(completion: @escaping (Result<BaseResponse<Empty>, Error>) -> ()) {
         request(target: .logout, completion: completion)
     }
-    
-    func getFormItems(normal: Int, uuid: String,form_type_id: String, completion: @escaping (Result<BaseResponse<FormItemData>, Error>) -> ()) {
-        request(target:.getFormItems(normal: normal, uuid: uuid,form_type_id: form_type_id), completion: completion)
-    }
+
     
     func submitForms(formPurpose:FormPurpose,formsDetails: [String : Any], completion: @escaping (Result<BaseResponse<FormItemData>, Error>) -> ()) {
         request(target: .submitForms(formPurpose:formPurpose,formsDetails: formsDetails), completion: completion)
@@ -108,10 +120,7 @@ class AppManager: AppNetworkable {
         request(target: .submittedForms(search: searchText), completion: completion)
     }
     
-    func getFormItemReasons(normal: Int, uuid: String,completion: @escaping (Result<BaseResponse<FormItemReasons>, Error>)-> ()) {
-        request(target: .formItemReasons(normal: normal, uuid: uuid), completion: completion)
-    }
-    
+  
     func getPhaseSpecial(completion: @escaping (Result<BaseResponse<PhasesBuilders>, Error>)-> ()){
         request(target: .getLists, completion: completion)
     }
@@ -121,7 +130,7 @@ class AppManager: AppNetworkable {
         request(target: .getHouseMaterials(company_id: company_id, job_id: job_id, phase: phase, special: special), completion: completion)
     }
     
-               
+    
     func createHouseMaterial(isEdit:Bool,houseMaterialData: [String : Any], completion: @escaping (Result<BaseResponse<Material>, Error>) -> ()) {
         request(target: .createHouseMaterial(isEdit:isEdit,houseMaterialData: houseMaterialData), completion: completion)
     }
@@ -150,6 +159,29 @@ class AppManager: AppNetworkable {
         request(target: .updatePassword(password: password, passwordConfirmation: passwordConfirmation), completion: completion)
     }
     
+    func getApiLists(search:String? = nil,searchType:JobEntrySearchType,completion: @escaping (Result<BaseResponse<ApiListsData>, Error>) -> ()) {
+        request(target: .getApiLists(search: search, searchType: searchType), completion: completion)
+    }
+    
+    func getCities(search:String,state: String, completion: @escaping (Result<BaseResponse<CitiesData>, Error>) -> ()) {
+        request(target: .getCities(search:search,state: state), completion: completion)
+    }
+    
+    func getZip(search:String,city:String,completion: @escaping (Result<BaseResponse<ZipData>, Error>) -> ()) {
+        request(target: .getZIP(search:search,city: city), completion: completion)
+    }
+    
+    
+    func storeJob(data: [String : Any], completion: @escaping (Result<BaseResponse<VersionModel>, Error>) -> ()) {
+        request(target: .storeJob(data: data), completion: completion)
+    }
+    
+    
+    func getBudgets(model: String, builder: String, completion: @escaping (Result<BaseResponse<BudgetResponse>, Error>) -> ()) {
+        request(target: .getBudgets(model: model, builder: builder), completion: completion)
+    }
+    
+    
     func monitorNetwork(conectedAction:(()->Void)?,notConectedAction:(()->Void)?){
         let monitor = NWPathMonitor()
         monitor.pathUpdateHandler = { path in
@@ -164,4 +196,3 @@ class AppManager: AppNetworkable {
     }
     
 }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         

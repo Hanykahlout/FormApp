@@ -7,8 +7,6 @@
 
 import UIKit
 import SVProgressHUD
-import CoreTelephony
-import SystemConfiguration
 
 class HomeVC: UIViewController {
     //MARK: - Outlet
@@ -19,7 +17,7 @@ class HomeVC: UIViewController {
     @IBOutlet weak var refreshView: UIView!
     
     //MARK: - Properties
-    
+ 
     let presenter = HomePresenter()
     
     
@@ -31,6 +29,7 @@ class HomeVC: UIViewController {
         presenter.delegate = self
         tableView.delegate = self
         binding()
+        
     }
     
     
@@ -42,6 +41,7 @@ class HomeVC: UIViewController {
         }
         presenter.checkDatabase()
     }
+    
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -74,7 +74,6 @@ extension HomeVC{
     }
 }
 
-
 extension HomeVC:Storyboarded{
     static var storyboardName: StoryboardName = .main
 }
@@ -101,7 +100,7 @@ extension HomeVC:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let data = presenter.data[indexPath.row]
         switch data{
-            
+        
         case .Forms:
             let vc = SubmittedFormsVC.instantiate()
             navigationController?.pushViewController(vc, animated: true)
@@ -122,6 +121,10 @@ extension HomeVC:UITableViewDelegate,UITableViewDataSource{
             let vc = MaterialsVC.instantiate()
             navigationController?.pushViewController(vc, animated: true)
             
+        case .jobEntry:
+            let vc = JobEntryVC.instantiate()
+            navigationController?.pushViewController(vc, animated: true)
+            
         }
     }
 }
@@ -129,6 +132,14 @@ extension HomeVC:UITableViewDelegate,UITableViewDataSource{
 
 extension HomeVC:HomePresenterDelegate{
     func handleCheckDatabaseData(data: RequestsStatus) {
+        if let is_job_entry_available = data.is_job_entry_available,
+           is_job_entry_available == 1,!presenter.data.contains(where: { data in
+               return data == .jobEntry
+           }){
+            
+            presenter.data.append(.jobEntry)
+            tableView.reloadData()
+        }
         refreshView.isHidden = data.refreshButton ?? "" != "active"
     }
     

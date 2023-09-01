@@ -10,13 +10,24 @@ import UIKit
 class DatePickerVC: UIViewController {
 
     @IBOutlet weak var datePicker: UIDatePicker!
-    var dateSelected: ((_ date:String) -> Void)?
+    var dateSelected: ((_ stringDate:String,_ date:Date) -> Void)?
+    var dateFormat = "yyyy/MM/dd"
+    var selectedDate:Date?
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        if let date = selectedDate{
+            datePicker.date = date
+        }
+    }
+    
     
     
     @IBAction func cancelAction(_ sender: Any) {
@@ -27,10 +38,10 @@ class DatePickerVC: UIViewController {
     @IBAction func doneAction(_ sender: Any) {
         let date = datePicker.date
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy/MM/dd"
+        dateFormatter.dateFormat = dateFormat
         dateFormatter.locale = .init(identifier: "en")
         let dateString = dateFormatter.string(from: date)
-        dateSelected?(dateString)
+        dateSelected?(dateString,date)
         self.dismiss(animated: true)
     }
     

@@ -29,7 +29,6 @@ class AuthPresenter{
                 let shouldUpdate = self.isVersionShouldUpdate(currentVersion ?? "", lowerThan: response.results?.first?.version ?? "")
                 self.delegate?.changeApplicationUpdatedStatus(shouldUpdate: shouldUpdate)
                 
-                
             case .failure(_):
                 Alert.showErrorAlert(message: "Request Error: Faild to check the updates for the current version")
             }
@@ -53,4 +52,6 @@ class AuthPresenter{
         return components1.count < components2.count
     }
 }
+
+
 

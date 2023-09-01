@@ -12,6 +12,7 @@ enum HomeAction:String {
     case Forms="Forms"
     case PORequest="PO Request"
     case Materials="Material List"
+    case jobEntry="Job Entry"
 }
 
 protocol HomePresenterDelegate{
@@ -25,9 +26,9 @@ class HomePresenter{
     var data:[HomeAction] = [.Forms,.Materials]
     
     func checkDatabase(refresh:Bool? = nil){
-        var appVersion:String? = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
-        var iosVersion:String? = UIDevice.current.systemVersion
-        var deviceModel:String? = UIDevice.modelName
+        let appVersion:String? = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        let iosVersion:String? = UIDevice.current.systemVersion
+        let deviceModel:String? = UIDevice.modelName
         if UserDefaults.standard.string(forKey: "ApplicationSessionUUID") == nil {
             UserDefaults.standard.set(UUID().uuidString, forKey: "ApplicationSessionUUID")
         }
@@ -219,7 +220,7 @@ class HomePresenter{
     }
     
     private func getJobs(normal:Int,uuid:String,companyID:String,search:String,completion:@escaping(_ data:JobData?)->Void){
-        AppManager.shared.getJob(normal: normal, uuid: uuid,companyId:companyID,search:search ) { Response in
+        AppManager.shared.getJob(page:nil,normal: normal, uuid: uuid,companyId:companyID,search:search ) { Response in
             switch Response{
             case let .success(response):
                 if response.status == true{
@@ -288,7 +289,7 @@ class HomePresenter{
     }
     
     private func getFormItem(normal: Int, uuid: String,formTypeID:String,compltion:@escaping (_ data:FormItemData?)->Void){
-        AppManager.shared.getFormItems(normal: normal, uuid: uuid,form_type_id:formTypeID ){ Response in
+        AppManager.shared.getFormItems(normal: normal, uuid: uuid,form_type_id:formTypeID,project: nil ){ Response in
             switch Response{
             case let .success(response):
                 if response.status == true{
@@ -336,7 +337,7 @@ class HomePresenter{
                     Alert.showErrorAlert(message: response.message ?? "")
                 }
                 RealmManager.sharedInstance.removeObject(model)
-
+                
             case  .failure(let error):
                 DispatchQueue.main.async {
                     if UserDefaults.standard.bool(forKey: "internet_connection"){
@@ -350,7 +351,7 @@ class HomePresenter{
             Alert.showSuccessAlert(title:"Success",message: "All stored forms have been submitted successfully")
         }
     }
-  
+    
     
     func convertStringToDic(string: String) -> [String: Any] {
         if let data = string.data(using: .utf8) {
@@ -362,6 +363,8 @@ class HomePresenter{
         }
         return [:]
     }
-
+    
     
 }
+
+
