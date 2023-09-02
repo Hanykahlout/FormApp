@@ -13,6 +13,7 @@ protocol JobEntryPresenterDelegate{
     func updateZipField()
     func successStoreJob()
     func handelBuilderData(data:Budgets?)
+    func showSignInVC()
 }
 
 typealias JobEntryPresenterVCDelegate = JobEntryPresenterDelegate & UIViewController
@@ -27,6 +28,8 @@ class JobEntryPresenter{
     var selectedState = ""
     var selectedBuilder = ""
     var selectedModel = ""
+    var selectedProjectManager = ""
+    var selectedBusinessManager = ""
     
     func getApiList(search:String? = nil,searchType:JobEntrySearchType){
         
@@ -99,9 +102,20 @@ class JobEntryPresenter{
                 switch result {
                 case .success(let response):
                     if response.status ?? false{
-                        self.delegate?.successStoreJob()
+                        self.showAlert(title: "Success", message: response.message ?? "") {
+                            self.delegate?.successStoreJob()
+                        }
                     }else{
-                        Alert.showErrorAlert(message: response.message ?? "")
+                        self.showAlert( title: "Error", message: response.message ?? "") {
+                            if response.code == 402{
+                                self.delegate?.showSignInVC()
+                            }
+                            if let level =  data["level"] as? Int,
+                               level == -1{
+                                self.delegate?.successStoreJob()
+                            }
+                        }
+                        
                     }
                 case .failure(let error):
                     Alert.showErrorAlert(message: error.localizedDescription)
@@ -129,7 +143,14 @@ class JobEntryPresenter{
         }
     }
     
-    
+    private func showAlert(title:String,message:String, completion: @escaping () -> Void){
+        let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertVC.addAction(.init(title: "Cancel", style: .cancel, handler: { action in
+            completion()
+        }))
+        self.delegate?.present(alertVC, animated: true)
+        
+    }
 }
 
 enum JobEntrySearchType{
@@ -145,4 +166,4 @@ enum JobEntrySearchType{
          search_state,
          search_cost_code
 }
-                                                                                                                                                   
+

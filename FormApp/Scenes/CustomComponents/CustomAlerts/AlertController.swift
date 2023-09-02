@@ -95,6 +95,8 @@ public enum Alert {
             }
             .show()
     }
+    
+   
 
     public static func showAlertToEnableGps(viewController: UIViewController) {
         AlertBuilder(viewController: viewController)

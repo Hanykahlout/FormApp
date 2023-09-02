@@ -15,7 +15,7 @@ class JobEntrySiginInVC: UIViewController {
     @IBOutlet weak var signInButton: UIButtonDesignable!
     
     private let presenter = JobEntrySiginInPresenter()
-    
+    var setSignInData:((_ username:String,_ password:String)->Void)?
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.delegate = self
@@ -41,7 +41,7 @@ class JobEntrySiginInVC: UIViewController {
     
     private func signInAction(){
         if validation(){
-            NotificationCenter.default.post(name: .init("JobEntrySiginIn"), object: (username:usernameTextField.text!,password:passwordTextField.text!))
+            setSignInData?(usernameTextField.text!,passwordTextField.text!)
             dismiss(animated: true)
         }else{
             Alert.showErrorAlert(message: "Please fill in all fields before signing in")

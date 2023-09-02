@@ -86,7 +86,6 @@ class JobEntryVC: UIViewController {
     private var level = -1
     private var username:String?
     private var password:String?
-    private var observer:NSObjectProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,13 +104,11 @@ class JobEntryVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
-        setUpObservers()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
-        NotificationCenter.default.removeObserver(observer!)
     }
     
     // MARK: - Private Functions
@@ -166,14 +163,6 @@ class JobEntryVC: UIViewController {
         
     }
     
-    private func setUpObservers(){
-        observer = NotificationCenter.default.addObserver(forName: .init("JobEntrySiginIn"), object: nil, queue: .main) { notify in
-            guard let data = notify.object as? (username:String,password:String) else { return }
-            self.username = data.username
-            self.password = data.password
-            self.presenter.storeJob(data: self.getUIData())
-        }
-    }
     
     private func setUpBuilderPicker(){
         builderPickerVC = PickerVC.instantiate()
@@ -267,6 +256,7 @@ class JobEntryVC: UIViewController {
         
         businessManagerPickerVC!.delegate = {name , index in
             self.businessManagerTextField.text = name
+            self.presenter.selectedBusinessManager = self.presenter.data?.businessManagers?[index].first ?? ""
         }
         
         businessManagerPickerVC!.modalPresentationStyle = .overCurrentContext
@@ -283,6 +273,7 @@ class JobEntryVC: UIViewController {
         
         projectManagerPickerVC!.delegate = {name , index in
             self.projectManagerTextField.text = name
+            self.presenter.selectedProjectManager = self.presenter.data?.projectManagers?[index].first ?? ""
         }
         
         projectManagerPickerVC!.modalPresentationStyle = .overCurrentContext
@@ -424,6 +415,7 @@ class JobEntryVC: UIViewController {
                         self.level += 1
                         self.submitAction()
                     }else{
+                        self.level = 1
                         alertC.dismiss(animated: true)
                     }
                 }))
@@ -432,8 +424,7 @@ class JobEntryVC: UIViewController {
                 
                 present(alertC, animated: true)
             }else{
-                self.presenter.storeJob(data: self.getUIData())
-                self.level = 1
+                    self.presenter.storeJob(data: self.getUIData())
             }
         }else{
             Alert.showErrorAlert(message: "Please fill in all fields before submitting.")
@@ -447,13 +438,13 @@ class JobEntryVC: UIViewController {
             "job": jobTextField.text!,
             "description": descriptionTextField.text!,
             "project": projectTextField.text!,
-            "builder": builderTextField.text!,
+            "builder": presenter.selectedBuilder,
             "model": modelTextField.text!,
             "division": divisionTextField.text!,
             "company": companyTextField.text!,
-            "business_manager": businessManagerTextField.text!,
-            "project_manager": projectTextField.text!,
-            "prov_state": provStateTextField.text!,
+            "business_manager": presenter.selectedBusinessManager,
+            "project_manager": presenter.selectedProjectManager,
+            "prov_state": presenter.selectedState,
             "city": cityTextField.text!,
             "street_name": streetNameAndNumberTextField.text!,
             "zip": zipCodeTextField.text!,
@@ -879,8 +870,16 @@ extension JobEntryVC:JobEntryPresenterDelegate{
     }
     
     func successStoreJob() {
-        self.level += 1
-        self.submitAction()
+        if self.level == -1{
+            self.level = 1
+        }else{
+            self.level += 1
+        }
+        if level <= 4{
+            self.submitAction()
+        }else{
+            navigationController?.popViewController(animated: true)
+        }
         username = nil
         password = nil
     }
@@ -934,6 +933,19 @@ extension JobEntryVC:JobEntryPresenterDelegate{
         }
             
     }
+    
+    func showSignInVC() {
+        let vc = JobEntrySiginInVC.instantiate()
+        vc.setSignInData = { username , password in
+            self.username = username
+            self.password = password
+            self.presenter.storeJob(data: self.getUIData())
+        }
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .overCurrentContext
+        present(vc, animated: true)
+    }
+    
     
 }
 
