@@ -40,7 +40,30 @@ class JobEntryPresenter{
                 switch result {
                 case .success(let response):
                     if response.status ?? false{
-                        self.data = response.data
+                        
+                        switch searchType {
+                        case .none:
+                            self.data = response.data
+                        case .search_builder:
+                            self.data?.builders = response.data?.builders
+                        case .search_division:
+                            self.data?.division = response.data?.division
+                        case .search_company:
+                            self.data?.company = response.data?.company
+                        case .search_project_manager:
+                            self.data?.projectManagers = response.data?.projectManagers
+                        case .search_business_manager:
+                            self.data?.businessManagers = response.data?.businessManagers
+                        case .search_model:
+                            self.data?.models = response.data?.models
+                        case .search_project:
+                            self.data?.projects = response.data?.projects
+                        case .search_state:
+                            self.data?.states = response.data?.states
+                        case .search_cost_code:
+                            self.data?.costCode = response.data?.costCode
+                        }
+
                         self.delegate?.updateFieldData(searchType: searchType)
                     }else{
                         Alert.showErrorAlert(message: response.message ?? "")

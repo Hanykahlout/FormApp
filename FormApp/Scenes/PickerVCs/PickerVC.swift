@@ -12,7 +12,17 @@ class PickerVC: UIViewController {
     @IBOutlet weak var searchBar: SearchView!
     @IBOutlet weak var searchBarMainView: UIView!
     
-    var arr_data:[String] = []
+    
+    var arr_data:[String] = [] {
+        didSet{
+            index = 0
+            if !arr_data.isEmpty{
+                name = arr_data.first!
+                picker?.selectRow(0, inComponent: 0, animated: false)
+            }
+        }
+    }
+
     var name:String = ""
     var index : Int = 0
     var delegate : ((_ name: String ,_ index:Int) -> Void)?

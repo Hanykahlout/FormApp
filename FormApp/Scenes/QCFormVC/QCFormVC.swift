@@ -72,7 +72,6 @@ class QCFormVC: UIViewController {
     private var selectedJobProject = ""
     private var selectedCellIndexPath:IndexPath!
     private var formPurpose:FormPurpose = .create
-    private var jobsCurrentPage = 1
     
     var editData: FormInfo?
     var draftData: FormInfo?
@@ -326,7 +325,7 @@ class QCFormVC: UIViewController {
             }
         }
         self.companyID = Int(fromData.company_id ?? "-1")!
-        self.presenter.getJobsFromDB(page:jobsCurrentPage,companyID: "\(self.companyID)", search: "")
+        self.presenter.getJobsFromDB(companyID: "\(self.companyID)", search: "")
         self.presenter.getDivisionFromDB(companyID: "\(self.companyID)", search: "")
         self.presenter.getFormsFromDB(companyID: "\(self.companyID)", search: "")
         
@@ -382,7 +381,7 @@ class QCFormVC: UIViewController {
             self.jobData.text=""
             self.diviosnLeaderData.text = ""
             self.formTypeData.text = ""
-            self.presenter.getJobsFromDB(page:self.jobsCurrentPage,companyID: "\(self.companyID)", search: "")
+            self.presenter.getJobsFromDB(companyID: "\(self.companyID)", search: "")
             self.presenter.getDivisionFromDB(companyID: "\(self.companyID)", search: "")
             self.presenter.getFormsFromDB(companyID: "\(self.companyID)", search: "")
             self.presenter.getFormItemFromDB(project: self.selectedJobProject,
@@ -396,12 +395,10 @@ class QCFormVC: UIViewController {
     
     private func setUpJobPicker() {
         jobPickerVC = PickerVC.instantiate()
-        
-        jobPickerVC?.withPagination = true
+    
         jobPickerVC!.searchBarHiddenStatus = false
         jobPickerVC!.searchAction = { searchText in
-            self.jobsCurrentPage = 1
-            self.presenter.getJobsFromDB(page:self.jobsCurrentPage,companyID: String(self.companyID), search: searchText)
+            self.presenter.getJobsFromDB(companyID: String(self.companyID), search: searchText)
         }
 
         jobPickerVC!.delegate = {name , index in
@@ -416,8 +413,7 @@ class QCFormVC: UIViewController {
         }
         
         jobPickerVC?.newPageAction = { currentPage , search in
-            self.jobsCurrentPage = currentPage
-            self.presenter.getJobsFromDB(page:currentPage,companyID: "\(self.companyID)", search: search)
+            self.presenter.getJobsFromDB(companyID: "\(self.companyID)", search: search)
         }
         
         jobPickerVC!.modalPresentationStyle = .overCurrentContext

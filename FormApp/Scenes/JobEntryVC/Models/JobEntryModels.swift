@@ -9,12 +9,12 @@ import Foundation
 
 
 struct ApiListsData: Codable {
-    let division, company: [String]?
-    let builders: [[String]]?
-    let projectManagers: [[String]]?
-    let businessManagers: [[String]]?
-    let costCode, models, projects: [String]?
-    let states: [State]?
+    var division, company: [String]?
+    var builders: [[String]]?
+    var projectManagers: [[String]]?
+    var businessManagers: [[String]]?
+    var costCode, models, projects: [String]?
+    var states: [State]?
 
     enum CodingKeys: String, CodingKey {
         case division, company, builders

@@ -793,17 +793,17 @@ extension JobEntryVC:JobEntryPresenterDelegate{
         case .search_builder:
             updateBuilderPickerVC(data:data)
         case .search_division:
-            updateProjectPickerVC(data:data)
-        case .search_company:
-            updateModelPickerVC(data:data)
-        case .search_project_manager:
             updateDivisionPickerVC(data:data)
-        case .search_business_manager:
+        case .search_company:
             updateCompanyPickerVC(data:data)
-        case .search_model:
-            updateBusinessManagerPickerVC(data:data)
-        case .search_project:
+        case .search_project_manager:
             updateProjectManagerPickerVC(data:data)
+        case .search_business_manager:
+            updateBusinessManagerPickerVC(data:data)
+        case .search_model:
+            updateModelPickerVC(data:data)
+        case .search_project:
+            updateProjectPickerVC(data:data)
         case .search_state:
             updateProvStatePickerVC(data:data)
         case .search_cost_code:
