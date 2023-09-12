@@ -991,32 +991,3 @@ extension JobEntryVC:Storyboarded{
     static var storyboardName: StoryboardName = .main
 }
 
-
-//
-//if permitMaterialBudgetTextField.isEnabled{
-//    data["permit_material"] = permitMaterialBudgetTextField.text!
-//}
-//if SewerWaterHoursTextField.isEnabled{
-//    data["sewer_labor"] = SewerWaterHoursTextField.text!
-//}
-//if sewerWaterBudgetTextField.isEnabled{
-//    data["sewer_material"] = sewerWaterBudgetTextField.text!
-//}
-//if underslabHoursTextField.isEnabled{
-//    data["underslab_labor"] = underslabHoursTextField.text!
-//}
-//if underslabBudgetTextField.isEnabled{
-//    data["underslab_material"] = underslabBudgetTextField.text!
-//}
-//if roughHoursTextField.isEnabled{
-//    data["rough_labor"] = roughHoursTextField.text!
-//}
-//if roughBudgetTextField.isEnabled{
-//    data["rough_material"] = roughBudgetTextField.text!
-//}
-//if trimHoursTextField.isEnabled{
-//    data["trim_labor"] = trimHoursTextField.text!
-//}
-//if trimBudgetTextField.isEnabled{
-//    data["trim_material"] = trimBudgetTextField.text!
-//}

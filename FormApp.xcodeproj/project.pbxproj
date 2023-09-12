@@ -54,7 +54,17 @@
 		CE08C9A929BF6EEB002434EB /* FormItemDBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE08C9A829BF6EEB002434EB /* FormItemDBModel.swift */; };
 		CE0B92382A28E64500530977 /* NewBoxTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0B92362A28E64500530977 /* NewBoxTableViewCell.swift */; };
 		CE0B92392A28E64500530977 /* NewBoxTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE0B92372A28E64500530977 /* NewBoxTableViewCell.xib */; };
+		CE10643C2AA8D763003C9C88 /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE10643A2AA8D763003C9C88 /* HomeCollectionViewCell.swift */; };
+		CE10643D2AA8D763003C9C88 /* HomeCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE10643B2AA8D763003C9C88 /* HomeCollectionViewCell.xib */; };
 		CE118D622A607B7C00E0C117 /* SideBySideTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE118D602A607B7C00E0C117 /* SideBySideTableViewCell.swift */; };
+		CE1406CD2AAE46F300E81240 /* WarrantyFormVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1406CC2AAE46F300E81240 /* WarrantyFormVC.swift */; };
+		CE1406DD2AAF61D300E81240 /* SubmitWarrantyFormVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1406DC2AAF61D300E81240 /* SubmitWarrantyFormVC.swift */; };
+		CE1406E22AAF886A00E81240 /* AttachTypeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1406E12AAF886A00E81240 /* AttachTypeVC.swift */; };
+		CE1406E72AAF972600E81240 /* SelectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1406E52AAF972600E81240 /* SelectionCollectionViewCell.swift */; };
+		CE1406E82AAF972600E81240 /* SelectionCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE1406E62AAF972600E81240 /* SelectionCollectionViewCell.xib */; };
+		CE1406EB2AAF9CAA00E81240 /* WarrantyFormModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1406EA2AAF9CAA00E81240 /* WarrantyFormModels.swift */; };
+		CE1406ED2AAF9DD100E81240 /* WarrantyFormPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1406EC2AAF9DD100E81240 /* WarrantyFormPresenter.swift */; };
+		CE1406EF2AAFBA7100E81240 /* SubmitWarrantyFormPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1406EE2AAFBA7100E81240 /* SubmitWarrantyFormPresenter.swift */; };
 		CE3A79C529C70A0500413E0B /* FormTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A79C329C70A0500413E0B /* FormTableViewCell.swift */; };
 		CE3A79C629C70A0500413E0B /* FormTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE3A79C429C70A0500413E0B /* FormTableViewCell.xib */; };
 		CE3A79C829C71B3B00413E0B /* SubmittedFormsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A79C729C71B3B00413E0B /* SubmittedFormsVC.swift */; };
@@ -206,7 +216,17 @@
 		CE08C9A829BF6EEB002434EB /* FormItemDBModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormItemDBModel.swift; sourceTree = "<group>"; };
 		CE0B92362A28E64500530977 /* NewBoxTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBoxTableViewCell.swift; sourceTree = "<group>"; };
 		CE0B92372A28E64500530977 /* NewBoxTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewBoxTableViewCell.xib; sourceTree = "<group>"; };
+		CE10643A2AA8D763003C9C88 /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
+		CE10643B2AA8D763003C9C88 /* HomeCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeCollectionViewCell.xib; sourceTree = "<group>"; };
 		CE118D602A607B7C00E0C117 /* SideBySideTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBySideTableViewCell.swift; sourceTree = "<group>"; };
+		CE1406CC2AAE46F300E81240 /* WarrantyFormVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarrantyFormVC.swift; sourceTree = "<group>"; };
+		CE1406DC2AAF61D300E81240 /* SubmitWarrantyFormVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitWarrantyFormVC.swift; sourceTree = "<group>"; };
+		CE1406E12AAF886A00E81240 /* AttachTypeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachTypeVC.swift; sourceTree = "<group>"; };
+		CE1406E52AAF972600E81240 /* SelectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionCollectionViewCell.swift; sourceTree = "<group>"; };
+		CE1406E62AAF972600E81240 /* SelectionCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectionCollectionViewCell.xib; sourceTree = "<group>"; };
+		CE1406EA2AAF9CAA00E81240 /* WarrantyFormModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarrantyFormModels.swift; sourceTree = "<group>"; };
+		CE1406EC2AAF9DD100E81240 /* WarrantyFormPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarrantyFormPresenter.swift; sourceTree = "<group>"; };
+		CE1406EE2AAFBA7100E81240 /* SubmitWarrantyFormPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitWarrantyFormPresenter.swift; sourceTree = "<group>"; };
 		CE3A79C329C70A0500413E0B /* FormTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTableViewCell.swift; sourceTree = "<group>"; };
 		CE3A79C429C70A0500413E0B /* FormTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FormTableViewCell.xib; sourceTree = "<group>"; };
 		CE3A79C729C71B3B00413E0B /* SubmittedFormsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmittedFormsVC.swift; sourceTree = "<group>"; };
@@ -469,6 +489,61 @@
 			path = SideBySideTableViewCell;
 			sourceTree = "<group>";
 		};
+		CE1406CB2AAE46BB00E81240 /* WarrantyFormVC */ = {
+			isa = PBXGroup;
+			children = (
+				CE1406E02AAF885700E81240 /* AttachTypeVC */,
+				CE1406D72AAF5FD000E81240 /* WarrantyFormVC */,
+				CE1406DB2AAF61A600E81240 /* SubmitWarrantyFormVC */,
+			);
+			path = WarrantyFormVC;
+			sourceTree = "<group>";
+		};
+		CE1406D72AAF5FD000E81240 /* WarrantyFormVC */ = {
+			isa = PBXGroup;
+			children = (
+				CE1406E92AAF9C9B00E81240 /* Models */,
+				CE1406E42AAF96F900E81240 /* Cells */,
+				CE1406CC2AAE46F300E81240 /* WarrantyFormVC.swift */,
+				CE1406EC2AAF9DD100E81240 /* WarrantyFormPresenter.swift */,
+			);
+			path = WarrantyFormVC;
+			sourceTree = "<group>";
+		};
+		CE1406DB2AAF61A600E81240 /* SubmitWarrantyFormVC */ = {
+			isa = PBXGroup;
+			children = (
+				CE1406DC2AAF61D300E81240 /* SubmitWarrantyFormVC.swift */,
+				CE1406EE2AAFBA7100E81240 /* SubmitWarrantyFormPresenter.swift */,
+			);
+			path = SubmitWarrantyFormVC;
+			sourceTree = "<group>";
+		};
+		CE1406E02AAF885700E81240 /* AttachTypeVC */ = {
+			isa = PBXGroup;
+			children = (
+				CE1406E12AAF886A00E81240 /* AttachTypeVC.swift */,
+			);
+			path = AttachTypeVC;
+			sourceTree = "<group>";
+		};
+		CE1406E42AAF96F900E81240 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				CE1406E52AAF972600E81240 /* SelectionCollectionViewCell.swift */,
+				CE1406E62AAF972600E81240 /* SelectionCollectionViewCell.xib */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		CE1406E92AAF9C9B00E81240 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CE1406EA2AAF9CAA00E81240 /* WarrantyFormModels.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		CE42025A29B887F600517FCA /* Realm */ = {
 			isa = PBXGroup;
 			children = (
@@ -512,8 +587,12 @@
 		CE5D7EF029F1D70B00A7D212 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				CE5D7EF529F1D77600A7D212 /* HomeVC */,
+				CE5D7EF629F1D78000A7D212 /* QCFormVC */,
+				CEF2BB4D2A01A65A00D4DBA1 /* MaterialsVC */,
 				CEA4FD982AA1482B00B89E2F /* JobEntrySiginInVC */,
 				CEF9528C2A97974900D3155F /* JobEntryVC */,
+				CE1406CB2AAE46BB00E81240 /* WarrantyFormVC */,
 				CE95747C2A82967A005C693F /* SuccessAlertVC */,
 				CE96375C2A7E72C700538ABE /* CreateNewPassVC */,
 				CEEC1F452A7AF9F50014EA65 /* VerificationCodeVC */,
@@ -521,9 +600,6 @@
 				CE5D7EF229F1D75B00A7D212 /* AuthVC */,
 				CE5D7EF429F1D76F00A7D212 /* LoginVC */,
 				CE5D7EF329F1D76300A7D212 /* SignUpVC */,
-				CE5D7EF529F1D77600A7D212 /* HomeVC */,
-				CE5D7EF629F1D78000A7D212 /* QCFormVC */,
-				CEF2BB4D2A01A65A00D4DBA1 /* MaterialsVC */,
 				CECD94202A1E63BA007BEB65 /* CreateFormItemVC */,
 				CEA6F52D2A0A76BC00C6A7A0 /* MaterialsDetailsVC */,
 				CE5D7F0D29F1FC0500A7D212 /* Model */,
@@ -855,6 +931,8 @@
 			children = (
 				CEF2BB492A018EB400D4DBA1 /* HomeVCTableViewCell.swift */,
 				CEF2BB4A2A018EB400D4DBA1 /* HomeVCTableViewCell.xib */,
+				CE10643A2AA8D763003C9C88 /* HomeCollectionViewCell.swift */,
+				CE10643B2AA8D763003C9C88 /* HomeCollectionViewCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -999,6 +1077,7 @@
 				CE9637892A7E78C600538ABE /* Urbanist-SemiBold.ttf in Resources */,
 				CEA6F52C2A0A70CE00C6A7A0 /* MaterialTableViewCell.xib in Resources */,
 				CE9637832A7E78C600538ABE /* Urbanist-ExtraBoldItalic.ttf in Resources */,
+				CE10643D2AA8D763003C9C88 /* HomeCollectionViewCell.xib in Resources */,
 				CE9637952A7E78C600538ABE /* Urbanist-ExtraLight.ttf in Resources */,
 				CE0B92392A28E64500530977 /* NewBoxTableViewCell.xib in Resources */,
 				CE96377F2A7E78C600538ABE /* Urbanist-Regular.ttf in Resources */,
@@ -1022,6 +1101,7 @@
 				CE9637872A7E78C600538ABE /* Inter-Thin.ttf in Resources */,
 				CE96377D2A7E78C600538ABE /* Urbanist-Bold.ttf in Resources */,
 				277CABF9298199B7009C11CB /* FormTypeNoteCell.xib in Resources */,
+				CE1406E82AAF972600E81240 /* SelectionCollectionViewCell.xib in Resources */,
 				CE3A79C629C70A0500413E0B /* FormTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1075,6 +1155,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE1406EF2AAFBA7100E81240 /* SubmitWarrantyFormPresenter.swift in Sources */,
 				279404F929A2BA1700742AD9 /* CDAlertView.swift in Sources */,
 				CECD94222A1E63C7007BEB65 /* CreateFormItemVC.swift in Sources */,
 				CE9F7A0B2A02C7B400C04F40 /* MaterialsPrestner.swift in Sources */,
@@ -1109,7 +1190,9 @@
 				279404D329A0BCEF00742AD9 /* KeychainWrapper.swift in Sources */,
 				279404F729A2BA1700742AD9 /* ImageHelper.swift in Sources */,
 				CEF2BB4F2A01A68000D4DBA1 /* MaterialsVC.swift in Sources */,
+				CE1406ED2AAF9DD100E81240 /* WarrantyFormPresenter.swift in Sources */,
 				CE42025C29B8880900517FCA /* RealmManager.swift in Sources */,
+				CE1406DD2AAF61D300E81240 /* SubmitWarrantyFormVC.swift in Sources */,
 				CEA4FD962AA105DC00B89E2F /* MulitselectionCollectionViewCell.swift in Sources */,
 				CEA0B7C029F5757D00F7316C /* RealmController.swift in Sources */,
 				27CC17A229A4058B007BADC0 /* UIViewDesignable.swift in Sources */,
@@ -1131,12 +1214,16 @@
 				CEF9528E2A9797F800D3155F /* JobEntryVC.swift in Sources */,
 				272C869E29AE04C40028D1C1 /* PickerVC.swift in Sources */,
 				CE5D7F1229F1FD0300A7D212 /* SubmittedFormsModels.swift in Sources */,
+				CE10643C2AA8D763003C9C88 /* HomeCollectionViewCell.swift in Sources */,
 				CEF2BB352A018E3600D4DBA1 /* ViewCustomExtension.swift in Sources */,
+				CE1406EB2AAF9CAA00E81240 /* WarrantyFormModels.swift in Sources */,
 				279404F829A2BA1700742AD9 /* AlertController.swift in Sources */,
 				CE5D7F0929F1FB8400A7D212 /* User.swift in Sources */,
+				CE1406CD2AAE46F300E81240 /* WarrantyFormVC.swift in Sources */,
 				CE5D7F0C29F1FBE200A7D212 /* QCFormModels.swift in Sources */,
 				CEF2BB402A018E3600D4DBA1 /* UIImageViewDesignable.swift in Sources */,
 				CEF2BB4B2A018EB400D4DBA1 /* HomeVCTableViewCell.swift in Sources */,
+				CE1406E22AAF886A00E81240 /* AttachTypeVC.swift in Sources */,
 				CEF2BB432A018E3600D4DBA1 /* UILabelDesignable.swift in Sources */,
 				CE5CBB122A85676800579CC5 /* ForgetPasswordPresenter.swift in Sources */,
 				CE5D7EFF29F1E4C400A7D212 /* HomePresenter.swift in Sources */,
@@ -1157,6 +1244,7 @@
 				27CC17A429A4058B007BADC0 /* UIButtonDesignable.swift in Sources */,
 				279404CC29A0BC3F00742AD9 /* AppNetworkable.swift in Sources */,
 				279404DA29A0C86400742AD9 /* Networkable.swift in Sources */,
+				CE1406E72AAF972600E81240 /* SelectionCollectionViewCell.swift in Sources */,
 				27CC17A729A555BB007BADC0 /* Extensions.swift in Sources */,
 				CEA4FD9A2AA1484800B89E2F /* JobEntrySiginInVC.swift in Sources */,
 				CE56835F2A079E20002A2D01 /* CreateMaterialPresenter.swift in Sources */,
@@ -1323,8 +1411,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = XM9YMQACH6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FormApp/Configurations/Info.plist;
@@ -1363,8 +1452,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = XM9YMQACH6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FormApp/Configurations/Info.plist;

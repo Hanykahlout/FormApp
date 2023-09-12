@@ -11,13 +11,10 @@ import SVProgressHUD
 class HomeVC: UIViewController {
     //MARK: - Outlet
     
-    @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var refreshButton: UIButton!
-    @IBOutlet weak var refreshView: UIView!
+    @IBOutlet weak var collectionView: UICollectionView!
     
     //MARK: - Properties
- 
+    
     let presenter = HomePresenter()
     
     
@@ -25,10 +22,8 @@ class HomeVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpTableView()
+        setUpCollectionView()
         presenter.delegate = self
-        tableView.delegate = self
-        binding()
         
     }
     
@@ -55,57 +50,55 @@ class HomeVC: UIViewController {
         navigationItem.title = "Home"
     }
     
-    
+    private func setUpRefreshButton(){
+        let refreshButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshAction))
+        navigationItem.rightBarButtonItem = refreshButtonItem
+        
+    }
     
 }
 
 // MARK: - Binding
 extension HomeVC{
-    private func binding(){
-        refreshButton.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
-    }
-    
-    @objc private func bindingAction(_ sender:UIButton){
-        switch sender{
-        case refreshButton:
-            presenter.checkDatabase(refresh: true)
-        default:break
-        }
+    @objc private func refreshAction(){
+        presenter.checkDatabase(refresh: true)
     }
 }
 
-extension HomeVC:Storyboarded{
-    static var storyboardName: StoryboardName = .main
-}
 
+// MARK: - Collection View Delegate And DataSource
 
-extension HomeVC:UITableViewDelegate,UITableViewDataSource{
-    private func setUpTableView(){
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(.init(nibName: "HomeVCTableViewCell", bundle: nil), forCellReuseIdentifier: "HomeVCTableViewCell")
+extension HomeVC:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
+    
+    private func setUpCollectionView(){
+        
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(.init(nibName: "HomeCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "HomeCollectionViewCell")
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        tableViewHeight.constant = CGFloat(presenter.data.count * 50)
-        return presenter.data.count
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        presenter.data.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "HomeVCTableViewCell", for: indexPath) as! HomeVCTableViewCell
-        cell.titleLabel.text = presenter.data[indexPath.row].rawValue
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCollectionViewCell", for: indexPath) as! HomeCollectionViewCell
+        cell.setData(data:presenter.data[indexPath.row])
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let data = presenter.data[indexPath.row]
-        switch data{
         
+        switch data{
+            
         case .Forms:
+            
             let vc = SubmittedFormsVC.instantiate()
             navigationController?.pushViewController(vc, animated: true)
             
         case .PORequest:
+            
             let alertVC = UIAlertController(title: "Have you checked the dashboard/WIP to make sure the job is open?", message: "", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "Yes", style: .default,handler: { alert in
                 let vc = PORequestVC.instantiate()
@@ -117,6 +110,7 @@ extension HomeVC:UITableViewDelegate,UITableViewDataSource{
                 self.present(alertVC2, animated: true)
             }))
             self.present(alertVC, animated: true)
+            
         case .Materials:
             let vc = MaterialsVC.instantiate()
             navigationController?.pushViewController(vc, animated: true)
@@ -125,23 +119,69 @@ extension HomeVC:UITableViewDelegate,UITableViewDataSource{
             let vc = JobEntryVC.instantiate()
             navigationController?.pushViewController(vc, animated: true)
             
+        case .warrantyForm:
+            let vc = WarrantyFormVC.instantiate()
+            navigationController?.pushViewController(vc, animated: true)
+            
         }
+        
     }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return .init(width: (collectionView.bounds.width / 2) - 10, height: 100)
+    }
+    
+    
 }
 
-
 extension HomeVC:HomePresenterDelegate{
+    
     func handleCheckDatabaseData(data: RequestsStatus) {
-        if let is_job_entry_available = data.is_job_entry_available,
-           is_job_entry_available == 1,!presenter.data.contains(where: { data in
-               return data == .jobEntry
-           }){
+        presenter.data = [.Forms,.Materials]
+        
+        // Check if Job Entry is Available or not
+        if data.is_job_entry_available == 1,!presenter.data.contains(where: { data in
+            return data == .jobEntry
+        }){
             
             presenter.data.append(.jobEntry)
-            tableView.reloadData()
+            
+        }else if data.is_job_entry_available != 1{
+            presenter.data.removeAll(where: {$0 == .jobEntry})
         }
-        refreshView.isHidden = data.refreshButton ?? "" != "active"
+        
+        // Check if Warranty is Available or not
+        if data.is_warranty_available == 1,!presenter.data.contains(where: { data in
+            return data == .warrantyForm
+        }){
+            
+            presenter.data.append(.warrantyForm)
+            
+        }else if data.is_warranty_available != 1{
+            presenter.data.removeAll(where: {$0 == .warrantyForm})
+        }
+        
+        collectionView.reloadData()
+        
+        // Check if refresh button is Available or not
+        if data.refreshButton ?? "" == "active"{
+            setUpRefreshButton()
+        }else{
+            navigationItem.rightBarButtonItem = nil
+        }
+        
+        
     }
     
 }
+
+
+
+// MARK: - Set Storyboard
+
+extension HomeVC:Storyboarded{
+    static var storyboardName: StoryboardName = .main
+}
+
 

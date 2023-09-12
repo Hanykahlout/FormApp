@@ -46,6 +46,11 @@ enum AppTarget:TargetType{
     
     case storeJob(data:[String:Any])
     case getBudgets(model:String,builder:String)
+    
+    case getWarranties
+    case getWarranty(workOrderNumber:String)
+    case storeWarranty(data:[String:Any])
+    
     var baseURL: URL {
         switch self{
         case .checkAppStoreVersion:
@@ -94,6 +99,9 @@ enum AppTarget:TargetType{
         case .getZIP: return "getZIP"
         case .storeJob: return "storeJob"
         case .getBudgets: return "getBudgets"
+        case .getWarranties: return "getWarranties"
+        case .getWarranty: return "getWarranty"
+        case .storeWarranty: return "storeWarranty"
         }
     }
     
@@ -101,7 +109,7 @@ enum AppTarget:TargetType{
     var method: Moya.Method {
         switch self{
             
-        case .SignUp,.login,.logout,.submitForms,.createHouseMaterial,.changeVersion,.updateOnline,.resetPassword,.checkCode,.updatePassword,.storeJob:
+        case .SignUp,.login,.logout,.submitForms,.createHouseMaterial,.changeVersion,.updateOnline,.resetPassword,.checkCode,.updatePassword,.storeJob,.storeWarranty:
             return .post
             
         case .getCompanies,.getJob,.forms,
@@ -109,7 +117,7 @@ enum AppTarget:TargetType{
                 .checkDatabase,.editSubmittedForm,.submittedForms,
                 .formItemReasons,.getLists,.getHouseMaterials,
                 .getSpecialList,.version,.checkAppStoreVersion,
-                .getApiLists,.getCities,.getZIP,.getBudgets:
+                .getApiLists,.getCities,.getZIP,.getBudgets,.getWarranties,.getWarranty:
             
             return .get
         }
@@ -118,7 +126,7 @@ enum AppTarget:TargetType{
     
     var task: Task{
         switch self{
-        case .getLists,.version:
+        case .getLists,.version,.getWarranties:
             return .requestPlain
             
         case .getCompanies(let normal,_),.forms(let normal,_),.divisions(let normal,_),
@@ -139,7 +147,7 @@ enum AppTarget:TargetType{
         case .getJob,.getFormItems,.editSubmittedForm,
                 .checkDatabase,.submittedForms,.getHouseMaterials,
                 .getSpecialList,.checkAppStoreVersion,.getCities,
-                .getZIP,.getApiLists,.getBudgets:
+                .getZIP,.getApiLists,.getBudgets,.getWarranty:
             
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
             
@@ -169,10 +177,50 @@ enum AppTarget:TargetType{
             
             return .uploadMultipart(formData)
             
+        case .storeWarranty(let data):
+            var formData: [MultipartFormData] = []
+            do{
+                for (key,value) in data{
+                    
+                    if key == "isPhoto" {
+                        continue
+                    }else if key == "attachment"{
+                        if let url = value as? URL{
+                            
+                            if url.startAccessingSecurityScopedResource() {
+                                
+                                let fileData = try Data(contentsOf: url)
+                                
+                                if data["isPhoto"] as! Bool {
+                                    
+                                    let image = UIImage(data: fileData)
+                                    if let imageData = image!.jpegData(compressionQuality: 0.5){
+                                        formData.append(MultipartFormData(provider: .data(imageData), name: key, fileName: "\(Date.init().timeIntervalSince1970).\(url.pathExtension)", mimeType: url.mimeType()))
+                                    }
+                                    
+                                    
+                                }else{
+                                    
+                                    formData.append(MultipartFormData(provider: .data(fileData), name: key, fileName: "\(Date.init().timeIntervalSince1970).\(url.pathExtension)", mimeType: "application/octet-stream"))
+                                    
+                                }
+                            }
+                            url.stopAccessingSecurityScopedResource()
+                            
+                        }
+                    }else{
+                        formData.append(MultipartFormData(provider: .data((value as! String).data(using: .utf8) ?? Data()), name: key))
+                    }
+                }
+            } catch let error{
+                print("There is error here",error.localizedDescription)
+            }
+            
+            return .uploadMultipart(formData)
+            
         }
         
     }
-    
     
     var headers: [String : String]?{
         switch self{
@@ -183,15 +231,27 @@ enum AppTarget:TargetType{
                 .formItemReasons,.getLists,.getHouseMaterials,
                 .createHouseMaterial,.getSpecialList,.updateOnline,
                 .updatePassword,.getApiLists,.getCities,
-                .getZIP,.storeJob,.getBudgets:
+                .getZIP,.storeJob,.getBudgets,.getWarranties,.getWarranty:
             
             do {
                 let token = try KeychainWrapper.get(key: AppData.email) ?? ""
+                
                 return ["Authorization":token ,"Accept":"application/json","Accept-Language":"en"]
             }
             catch{
                 return ["Accept":"application/json","Accept-Language":"en"]
             }
+            
+        case .storeWarranty:
+            do {
+                let token = try KeychainWrapper.get(key: AppData.email) ?? ""
+                
+                return ["Authorization":token ,"Accept":"application/json","Accept-Language":"en","Content-type": "multipart/form-data"]
+            }
+            catch{
+                return ["Accept":"application/json","Accept-Language":"en","Content-type": "multipart/form-data"]
+            }
+            
             
         case .SignUp,.login,.version,
                 .changeVersion,.checkAppStoreVersion,.resetPassword,
@@ -340,6 +400,8 @@ enum AppTarget:TargetType{
             return data
         case .getBudgets(let model, let builder):
             return ["model":model,"builder":builder]
+        case .getWarranty(let workOrderNumber):
+            return ["work_order_number":workOrderNumber]
         default:
             return [ : ]
         }
@@ -347,4 +409,3 @@ enum AppTarget:TargetType{
     }
     
 }
-

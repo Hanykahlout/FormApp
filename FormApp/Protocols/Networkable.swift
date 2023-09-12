@@ -28,9 +28,11 @@ extension Networkable{
         } notConectedAction: {
             UserDefaults.standard.set(false, forKey: "internet_connection")
         }
+        print("Request Data:",target)
         provider.request(target) { result in
             switch result {
             case let .success(response):
+                print("Request Response:",String(data: response.data, encoding: .utf8) ?? "Faild to Convert response to String")
                 if  response.statusCode == 401 {
                     
                     if let app = UIApplication.shared.delegate as? AppDelegate, let window = app.window {
@@ -48,7 +50,7 @@ extension Networkable{
                     SVProgressHUD.dismiss()
                     completion(.failure(MyError.serverError))
                 } else {
-                    print(String(data: response.data, encoding: .utf8) ?? "Faild to Convert response to String")
+                    
                     do {
                         
                         let results = try JSONDecoder().decode(T.self, from: response.data)

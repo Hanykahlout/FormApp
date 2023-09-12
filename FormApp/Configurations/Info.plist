@@ -60,5 +60,7 @@
 	</dict>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>We need access to your photo library to select files.</string>
 </dict>
 </plist>

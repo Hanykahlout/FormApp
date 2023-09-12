@@ -20,7 +20,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         if let _delegate = UIApplication.shared.delegate as? AppDelegate {
             _delegate.window = window
+            
         }
+        
         
     }
     

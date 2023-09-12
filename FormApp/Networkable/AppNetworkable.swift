@@ -44,6 +44,9 @@ protocol AppNetworkable:Networkable  {
     func storeJob(data:[String:Any],completion: @escaping (Result<BaseResponse<VersionModel>, Error>)-> ())
     func getBudgets(model:String,builder:String,completion: @escaping (Result<BaseResponse<BudgetResponse>, Error>)-> ())
     
+    func getWarranties(completion: @escaping (Result<BaseResponse<WarrantiesResponse>, Error>)-> ())
+    func getWarranty(workOrderNumber:String,completion: @escaping (Result<BaseResponse<WarrantyResponse>, Error>)-> ())
+    func storeWarranty(data:[String:Any],completion: @escaping (Result<BaseResponse<VersionModel>, Error>)-> ())
     
 }
 
@@ -179,6 +182,18 @@ class AppManager: AppNetworkable {
     
     func getBudgets(model: String, builder: String, completion: @escaping (Result<BaseResponse<BudgetResponse>, Error>) -> ()) {
         request(target: .getBudgets(model: model, builder: builder), completion: completion)
+    }
+    
+    func getWarranties(completion: @escaping (Result<BaseResponse<WarrantiesResponse>, Error>) -> ()) {
+        request(target: .getWarranties, completion: completion)
+    }
+    
+    func getWarranty(workOrderNumber: String, completion: @escaping (Result<BaseResponse<WarrantyResponse>, Error>) -> ()) {
+        request(target: .getWarranty(workOrderNumber: workOrderNumber), completion: completion)
+    }
+    
+    func storeWarranty(data: [String : Any], completion: @escaping (Result<BaseResponse<VersionModel>, Error>) -> ()) {
+        request(target: .storeWarranty(data: data), completion: completion)
     }
     
     

@@ -14,7 +14,7 @@ import IQKeyboardManagerSwift
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
-   
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         let barAppearance = UINavigationBar.appearance()
@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enable = true
         
         RealmManager.sharedInstance.checkMigration()
-    
+        
         AppManager.shared.updateOnline(startDate: Date(), endDate: nil) { result in }
         
         return true

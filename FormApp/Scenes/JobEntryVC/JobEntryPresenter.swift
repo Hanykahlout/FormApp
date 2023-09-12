@@ -172,7 +172,6 @@ class JobEntryPresenter{
             completion()
         }))
         self.delegate?.present(alertVC, animated: true)
-        
     }
 }
 

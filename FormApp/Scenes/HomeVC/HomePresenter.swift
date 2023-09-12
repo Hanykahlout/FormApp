@@ -13,6 +13,7 @@ enum HomeAction:String {
     case PORequest="PO Request"
     case Materials="Material List"
     case jobEntry="Job Entry"
+    case warrantyForm = "Warranty Form"
 }
 
 protocol HomePresenterDelegate{
@@ -23,17 +24,21 @@ typealias HomeDelegate = HomePresenterDelegate & UIViewController
 
 class HomePresenter{
     weak var delegate: HomeDelegate?
-    var data:[HomeAction] = [.Forms,.Materials]
+    var data:[HomeAction] = []
     
     func checkDatabase(refresh:Bool? = nil){
-        let appVersion:String? = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
-        let iosVersion:String? = UIDevice.current.systemVersion
-        let deviceModel:String? = UIDevice.modelName
+        var appVersion:String?
+        var iosVersion:String?
+        var deviceModel:String?
         if UserDefaults.standard.string(forKey: "ApplicationSessionUUID") == nil {
+            appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+            iosVersion = UIDevice.current.systemVersion
+            deviceModel = UIDevice.modelName
             UserDefaults.standard.set(UUID().uuidString, forKey: "ApplicationSessionUUID")
         }
         SVProgressHUD.show(withStatus: "Checking if there is data has not been fetched from the server")
         AppManager.shared.checkDatabase(uuid: UserDefaults.standard.string(forKey: "ApplicationSessionUUID")!,iosVersion: iosVersion,deviceModel: deviceModel,applicationVersion: appVersion,refresh: refresh) { response in
+            
             SVProgressHUD.dismiss()
             switch response{
             case let .success(response):
