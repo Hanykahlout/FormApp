@@ -16,3 +16,4 @@ struct VersionModel:Decodable{
 struct AppStoreReponse:Decodable{
     var results:[VersionModel]?
 }
+                                                                                                                                                   

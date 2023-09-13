@@ -36,6 +36,7 @@ class WarrantyFormVC: UIViewController {
     private let presenter = WarrantyFormPresenter()
     private var warranties:[Warranty] = []
     private var selectedWorkOrderNumber = ""
+    private var warrantyData:WarrantyResponse?
     // MARK: - VC Life Cycle
     
     override func viewDidLoad() {
@@ -43,6 +44,7 @@ class WarrantyFormVC: UIViewController {
         presenter.delegate = self
         binding()
         setUpCollectionView()
+        presenter.getWarranties()
         // Do any additional setup after loading the view.
     }
     
@@ -51,7 +53,7 @@ class WarrantyFormVC: UIViewController {
         super.viewWillAppear(animated)
         
         setUpNavigation()
-        presenter.getWarranties()
+        
     }
     
     
@@ -93,6 +95,7 @@ extension WarrantyFormVC{
         case continueButton:
             let vc = SubmitWarrantyFormVC.instantiate()
             vc.workOrderNumber = selectedWorkOrderNumber
+            vc.warrantyData = warrantyData
             navigationController?.pushViewController(vc, animated: true)
         default:
             break
@@ -154,7 +157,7 @@ extension WarrantyFormVC:WarrantyFormPresenterDelegate{
     }
     
     func setWarrantyDetails(data: WarrantyResponse) {
-//        jobLabel.text = data.
+        warrantyData = data
         serviceDateLabel.text = data.serviceDate ?? "-----"
         customerLabel.text = data.builder ?? "-----"
         workOrderNumberLabel.text = data.workOrderNumber ?? "-----"

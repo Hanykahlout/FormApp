@@ -38,6 +38,7 @@ class SubmitWarrantyFormVC: UIViewController {
     
     // MAKR: - Public  Attributes
     var workOrderNumber = ""
+    var warrantyData:WarrantyResponse?
     // MAKR: - Private Attributes
     
     private var statusPickerVC:PickerVC!
@@ -61,6 +62,7 @@ class SubmitWarrantyFormVC: UIViewController {
         setUpDocumentPicker()
         setUpSegmentedControl(workmanshipIssueSegmentedControl)
         setUpSegmentedControl(billableSegmentedControl)
+        setWarrantyData()
 //        billableSegmentedControl.addTarget(self, action: #selector(billableAction), for: .valueChanged)
     }
     
@@ -101,6 +103,31 @@ class SubmitWarrantyFormVC: UIViewController {
         
         segmentedControl.setTitleTextAttributes(selectedTextAttributes, for: .selected)
         
+    }
+    
+    
+    private func setWarrantyData(){
+        if let warrany = warrantyData{
+            diagnosisTextField.text = warrany.diagnosis ?? ""
+            workPerformedTextField.text = warrany.workPerformed ?? ""
+            statusTextField.text = warrantyData?.status ?? ""
+            manufacturerDefectTextField.text = warrantyData?.manufacturer ?? ""
+            workmanshipIssueSegmentedControl.selectedSegmentIndex = warrantyData?.workmanship?.lowercased() == "yes" ? 1 : 0
+            totalPriceTextField.text = warrantyData?.totalPrice ?? ""
+            billableSegmentedControl.selectedSegmentIndex = warrantyData?.billable?.lowercased() == "yes" ? 1 : 0
+            billableToTextField.text = warrantyData?.billableTo ?? ""
+            if let attachment = warrany.attachment,
+               let url = URL(string: attachment){
+                attachStackView.isHidden = false
+                attachmentFileLabel.text = url.lastPathComponent
+                let path = url.pathExtension
+                if path == "png" || path == "jpeg"{
+                    selectedImageURL = url
+                }else{
+                    selectedFileURL = url
+                }
+            }
+        }
     }
     
     private func setUpTextFieldDelegates(){
@@ -187,6 +214,7 @@ class SubmitWarrantyFormVC: UIViewController {
             "status":statusTextField.text!,
             "work_performed":workPerformedTextField.text!,
             "diagnosis":diagnosisTextField.text!,
+            "total_price":totalPriceTextField.text!,
             
         ]
         
@@ -206,7 +234,6 @@ class SubmitWarrantyFormVC: UIViewController {
         let workPerformed = workPerformedTextField.text!
         let status = statusTextField.text!
         let manufacturerDefect = manufacturerDefectTextField.text!
-        let totalPrice = totalPriceTextField.text!
         let billableTo = billableToTextField.text!
         
         var isError = false
@@ -229,11 +256,6 @@ class SubmitWarrantyFormVC: UIViewController {
         if manufacturerDefect.isEmpty{
             isError = true
             showError(on: manufacturerDefectTextField)
-        }
-        
-        if totalPrice.isEmpty{
-            isError = true
-            showError(on: totalPriceTextField)
         }
         
         if billableTo.isEmpty{
