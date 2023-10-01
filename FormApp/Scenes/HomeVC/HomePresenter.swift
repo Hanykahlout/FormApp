@@ -18,6 +18,7 @@ enum HomeAction:String {
 
 protocol HomePresenterDelegate{
     func handleCheckDatabaseData(data:RequestsStatus)
+    
 }
 
 typealias HomeDelegate = HomePresenterDelegate & UIViewController
@@ -38,6 +39,7 @@ class HomePresenter{
         }
         SVProgressHUD.show(withStatus: "Checking if there is data has not been fetched from the server")
         AppManager.shared.checkDatabase(uuid: UserDefaults.standard.string(forKey: "ApplicationSessionUUID")!,iosVersion: iosVersion,deviceModel: deviceModel,applicationVersion: appVersion,refresh: refresh) { response in
+            
             
             SVProgressHUD.dismiss()
             switch response{
@@ -368,7 +370,7 @@ class HomePresenter{
         }
         return [:]
     }
-    
+
     
 }
 

@@ -12,5 +12,6 @@ target 'FormApp' do
   pod 'RealmSwift', '~> 10'
   pod 'SDWebImage', '~> 5.0'
   pod 'OTPFieldView'
-  
+  pod 'Firebase'
+  pod 'FirebaseMessaging'
 end

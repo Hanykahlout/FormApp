@@ -28,7 +28,7 @@ class SubmitWarrantyFormPresenter{
                 case .success(let response):
                     if response.status ?? false{
                         self.showAlert(title: "Success", message: response.message ?? "") {
-                            self.delegate?.navigationController?.popToRootViewController(animated: true)
+                            self.popToSecondVC()
                         }
                     }else{
                         Alert.showErrorAlert(message: response.message ?? "Unknow Error!!")
@@ -48,6 +48,16 @@ class SubmitWarrantyFormPresenter{
         self.delegate?.present(alertVC, animated: true)
     }
     
+    private func popToSecondVC(){
+        if let viewControllers = delegate?.navigationController?.viewControllers {
+            if viewControllers.count >= 2 {
+                
+                let secondVC = viewControllers[1]
+                
+                delegate?.navigationController?.popToViewController(secondVC, animated: true)
+            }
+        }
+    }
 }
 
 

@@ -9,7 +9,7 @@ import UIKit
 import SVProgressHUD
 
 class QCFormVC: UIViewController {
-
+    
     
     //MARK: - Outlet
     @IBOutlet weak var mainScrollView: UIScrollView!
@@ -40,6 +40,11 @@ class QCFormVC: UIViewController {
     @IBOutlet weak var jobData: UITextField!
     @IBOutlet weak var companiesData: UITextField!
     
+    @IBOutlet weak var selectUserSwitch: UISwitch!
+    @IBOutlet weak var userTopStackView: UIStackView!
+    @IBOutlet weak var userStackView: UIStackView!
+    @IBOutlet weak var userTextField: UITextField!
+    @IBOutlet weak var userButton: UIButton!
     
     @IBOutlet weak var submitBtn: UIButton!
     
@@ -54,17 +59,20 @@ class QCFormVC: UIViewController {
     private var formsItem:[(tag:String,data:[DataDetails])]=[]
     private var tags = [String]()
     private var subContractors:[SubContractor]=[]
+    private var users:[UserData] = []
+    private var selectedUser:UserData?
     
     private var companyID=0
     private var formTypeID=0
     private var jobID=0
     private var divisionID=0
     private var subContractorID=0
-
+    
     
     private var formData:[String : Any] = [:]
     private var requestSubmitted:Bool = false
     private var companyPickerVC: PickerVC?
+    private var userPickerVC: PickerVC?
     private var jobPickerVC: PickerVC?
     private var divitionPickerVC: PickerVC?
     private var formTypePickerVC: PickerVC?
@@ -72,15 +80,17 @@ class QCFormVC: UIViewController {
     private var selectedJobProject = ""
     private var selectedCellIndexPath:IndexPath!
     private var formPurpose:FormPurpose = .create
-    
-    var editData: FormInfo?
-    var draftData: FormInfo?
-    
+    private var forUserId:Int?
+    var formId:Int?
+    var isDraft:Bool?
+    var isForwardNotification = false
     
     //MARK: - Life cycle
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setUpPickerVCs()
         setupTableview()
         binding()
@@ -172,29 +182,30 @@ class QCFormVC: UIViewController {
                 })
             }
             
-            
             totalPriceLabel.text = String(price)
             totalQuantityLabel.text = String(qty)
         }
     }
     
     private func checkEditData(){
-        if let editData = editData{
+        if let isDraft = isDraft,!isDraft{
             hideSaveButton()
-            setFormData(fromData: editData)
-        }else if let draftData = draftData{
-            showSaveButton()
-            setFormData(fromData: draftData)
-            checkUnblockedItems()
         }else{
             showSaveButton()
+        }
+        if let formId = formId{
+            
+            
+            presenter.getSubmittedForm(submittedFromId: String(formId))
+            
         }
         
     }
     
-    private func setFormData(fromData:FormInfo){
+    func setFormData(fromData:FormInfo){
         
         navigationItem.title = fromData.form?.title ?? ""
+        
         
         companyID = fromData.company?.id ?? 0
         companyBtn.isEnabled = true
@@ -324,15 +335,31 @@ class QCFormVC: UIViewController {
                 
             }
         }
+        
         self.companyID = Int(fromData.company_id ?? "-1")!
         self.presenter.getJobsFromDB(companyID: "\(self.companyID)", search: "")
         self.presenter.getDivisionFromDB(companyID: "\(self.companyID)", search: "")
         self.presenter.getFormsFromDB(companyID: "\(self.companyID)", search: "")
         
+        
+        if let forUserId = fromData.for_user_id , !isForwardNotification{
+            self.forUserId = forUserId
+            userTopStackView.isHidden = false
+            selectUserSwitch.isOn = true
+            userStackView.isHidden = false
+            presenter.getUsers(search: "")
+        }else{
+            clearAllLocks()
+        }
+        
+        
+        
         let data = formsItem.flatMap{$0.data}
         formsItem = groupAndSortFormItems(data: data)
         formTypeNoteTableview.reloadData()
     }
+    
+    
     
     private func btnStatus(){
         formTypeBtn.isEnabled=false
@@ -361,6 +388,25 @@ class QCFormVC: UIViewController {
         setUpDivisionLeaderPicker()
         setUpFormTypePicker()
         setUpSubContractorPicker()
+        setUpUserPicker()
+    }
+    
+    private func setUpUserPicker(){
+        userPickerVC = PickerVC.instantiate()
+        
+        userPickerVC!.searchBarHiddenStatus = false
+        userPickerVC!.searchAction = { searchText in
+            self.presenter.getUsers(search: searchText)
+        }
+        
+        userPickerVC!.delegate = {name , index in
+            // Selection Action Here
+            self.userTextField.text = name
+            self.selectedUser = self.users[index]
+            
+        }
+        
+        userPickerVC!.modalPresentationStyle = .formSheet
     }
     
     private func setUpCompanyPicker() {
@@ -388,19 +434,18 @@ class QCFormVC: UIViewController {
                                              formTypeID:"\(self.formTypeID)" )
             
         }
-        
-        companyPickerVC!.modalPresentationStyle = .overCurrentContext
+        companyPickerVC!.modalPresentationStyle = .formSheet
     }
     
     
     private func setUpJobPicker() {
         jobPickerVC = PickerVC.instantiate()
-    
+        
         jobPickerVC!.searchBarHiddenStatus = false
         jobPickerVC!.searchAction = { searchText in
             self.presenter.getJobsFromDB(companyID: String(self.companyID), search: searchText)
         }
-
+        
         jobPickerVC!.delegate = {name , index in
             
             self.jobData.text = self.jobs[index].title ?? ""
@@ -416,7 +461,7 @@ class QCFormVC: UIViewController {
             self.presenter.getJobsFromDB(companyID: "\(self.companyID)", search: search)
         }
         
-        jobPickerVC!.modalPresentationStyle = .overCurrentContext
+        jobPickerVC!.modalPresentationStyle = .formSheet
     }
     
     
@@ -435,7 +480,7 @@ class QCFormVC: UIViewController {
             
         }
         
-        divitionPickerVC!.modalPresentationStyle = .overCurrentContext
+        divitionPickerVC!.modalPresentationStyle = .formSheet
     }
     
     
@@ -464,7 +509,7 @@ class QCFormVC: UIViewController {
             
         }
         
-        formTypePickerVC!.modalPresentationStyle = .overCurrentContext
+        formTypePickerVC!.modalPresentationStyle = .formSheet
     }
     
     
@@ -484,14 +529,18 @@ class QCFormVC: UIViewController {
             self.subContractorID = self.subContractors[index].id ?? 0
         }
         
-        subContractorPickerVC!.modalPresentationStyle = .overCurrentContext
+        subContractorPickerVC!.modalPresentationStyle = .formSheet
     }
     
     
     @objc private func saveAction(){
         SVProgressHUD.setBackgroundColor(.white)
         SVProgressHUD.show(withStatus: "please wait")
-        formPurpose = draftData == nil ? .draft : .updateDraft
+        formPurpose = formId == nil ? .draft : .updateDraft
+        if formPurpose == .draft && selectUserSwitch.isOn && selectedUser == nil{
+            Alert.showErrorAlert(message: "You have to select the user who will complete the form for you")
+            return
+        }
         self.presenter.submitFormData(formPurpose: formPurpose,formsDetails: self.formDetailsParameter())
     }
     
@@ -509,7 +558,7 @@ class QCFormVC: UIViewController {
                     if self.isAllFormItemsSelected(){
                         SVProgressHUD.setBackgroundColor(.white)
                         SVProgressHUD.show(withStatus: "please wait")
-                        self.formPurpose = self.editData != nil ? .edit : .create
+                        self.formPurpose = self.formId == nil ? .create : .edit
                         
                         self.presenter.submitFormData(formPurpose: self.formPurpose,formsDetails: self.formDetailsParameter())
                     }else{
@@ -534,13 +583,18 @@ class QCFormVC: UIViewController {
             formData["subContractor_id"] = "\(subContractorID)"
         }
         
-        if editData != nil{
-            formData["submitted_form_id"] = "\(editData!.id ?? -1)"
+        if let formId = formId,let isDraft = isDraft,!isDraft{
+            formData["submitted_form_id"] = "\(formId)"
         }
         
-        if draftData != nil{
-            formData["saved_form_id"] = "\(draftData!.id ?? -1)"
+        if let formId = formId,let isDraft = isDraft,isDraft{
+            formData["saved_form_id"] = "\(formId)"
         }
+        
+        if selectUserSwitch.isOn{
+            formData["for_user_id"] = String(selectedUser?.id ?? -1)
+        }
+        
         var _index = 0
         for item in formsItem {
             for index in 0 ..< item.data.count{
@@ -613,7 +667,6 @@ class QCFormVC: UIViewController {
     
     
     private func checkUnBlockedItemsFilled() -> Bool {
-        
         var numberOfAddedFields = 0
         for formItem in formsItem{
             
@@ -641,6 +694,23 @@ class QCFormVC: UIViewController {
         return numberOfAddedFields == formsItem.flatMap{$0.data}.count
     }
     
+    
+    private func checkAndClearAllLocks(){
+        if checkUnBlockedItemsFilled(){
+            clearAllLocks()
+        }
+        
+    }
+    
+    private func clearAllLocks(){
+        for i in 0..<formsItem.count{
+            for j in 0..<formsItem[i].data.count{
+                formsItem[i].data[j].is_blocked = 0
+            }
+        }
+        formTypeNoteTableview.reloadData()
+    }
+    
 }
 
 //MARK: - Binding
@@ -655,7 +725,8 @@ extension QCFormVC{
         divisionBtn.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
         formTypeBtn.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
         subContractorButton.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
-        
+        selectUserSwitch.addTarget(self, action: #selector(bindingAction), for: .valueChanged)
+        userButton.addTarget(self, action: #selector(bindingAction), for: .touchUpInside)
     }
     
     @objc private func backAction(){
@@ -715,7 +786,7 @@ extension QCFormVC{
         updateTotalView()
     }
     
-    @objc private func bindingAction(_ sender:UIButton){
+    @objc private func bindingAction(_ sender:UIView){
         switch sender{
         case submitBtn:
             submitAction()
@@ -754,9 +825,16 @@ extension QCFormVC{
             self.present(formTypePickerVC!, animated: true, completion: nil)
         case subContractorButton:
             self.present(subContractorPickerVC!, animated: true, completion: nil)
+        case selectUserSwitch:
+            userStackView.isHidden = !selectUserSwitch.isOn
+            submitBtn.isHidden = selectUserSwitch.isOn
+            
+        case userButton:
+            present(userPickerVC!, animated: true)
         default: break
         }
     }
+    
     
 }
 
@@ -913,7 +991,7 @@ extension QCFormVC:FormTypeNoteCellDelegate{
         vc.arr_data = data
         vc.searchBarHiddenStatus = true
         vc.isModalInPresentation = true
-        vc.modalPresentationStyle = .overFullScreen
+        vc.modalPresentationStyle = .formSheet
         vc.definesPresentationContext = true
         vc.delegate = {name , index in
             self.formsItem[indexPath.section].data[indexPath.row].status = name
@@ -932,7 +1010,7 @@ extension QCFormVC:FormTypeNoteCellDelegate{
         vc.arr_data = realmReasons.map{$0.title ?? "----"}
         vc.searchBarHiddenStatus = true
         vc.isModalInPresentation = true
-        vc.modalPresentationStyle = .overFullScreen
+        vc.modalPresentationStyle = .formSheet
         vc.definesPresentationContext = true
         vc.delegate = {name , index in
             self.formsItem[indexPath.section].data[indexPath.row].reason = name
@@ -955,7 +1033,7 @@ extension QCFormVC:FormTypeNoteCellDelegate{
     func showPickerVC(type: String,parentIndexPath:IndexPath,childIndex:Int) {
         if type == "Date" {
             let vc = DatePickerVC.instantiate()
-            vc.modalPresentationStyle = .overFullScreen
+            vc.modalPresentationStyle = .formSheet
             vc.dateSelected = { selectedDate , date in
                 self.formsItem[parentIndexPath.section].data[parentIndexPath.row].new_boxes?[childIndex].value = selectedDate
                 let parentCell = self.formTypeNoteTableview.cellForRow(at: parentIndexPath) as! FormTypeNoteCell
@@ -966,10 +1044,10 @@ extension QCFormVC:FormTypeNoteCellDelegate{
         }else{
             let selectionPickerVC = PickerVC.instantiate()
             selectionPickerVC.arr_data = ["Yes","No"]
+            
             selectionPickerVC.searchBarHiddenStatus = true
-            selectionPickerVC.isModalInPresentation = true
-            selectionPickerVC.modalPresentationStyle = .overFullScreen
-            selectionPickerVC.definesPresentationContext = true
+            selectionPickerVC.modalPresentationStyle = .formSheet
+            
             selectionPickerVC.delegate = { name , selectedIndex in
                 // Selection Action Here
                 self.formsItem[parentIndexPath.section].data[parentIndexPath.row].new_boxes?[childIndex].value = name
@@ -1003,9 +1081,9 @@ extension QCFormVC:UserFormItemDelegate{
             let selectionPickerVC = PickerVC.instantiate()
             selectionPickerVC.arr_data = type == .pass_fail ? ["Pass","Fail"] : ["Yes","No"]
             selectionPickerVC.searchBarHiddenStatus = true
-            selectionPickerVC.isModalInPresentation = true
-            selectionPickerVC.modalPresentationStyle = .overFullScreen
-            selectionPickerVC.definesPresentationContext = true
+            
+            selectionPickerVC.modalPresentationStyle = .formSheet
+            
             selectionPickerVC.delegate = { name , selectedIndex in
                 // Selection Action Here
                 self.formsItem[indexPath.section].data[indexPath.row].status = name
@@ -1015,7 +1093,7 @@ extension QCFormVC:UserFormItemDelegate{
             self.present(selectionPickerVC, animated: true, completion: nil)
         }else{
             let vc = DatePickerVC.instantiate()
-            vc.modalPresentationStyle = .overFullScreen
+            vc.modalPresentationStyle = .formSheet
             vc.dateSelected = { selectedDate , date in
                 self.formsItem[indexPath.section].data[indexPath.row].status = selectedDate
                 let cell = self.formTypeNoteTableview.cellForRow(at: indexPath) as! UserFormItemTableViewCell
@@ -1034,7 +1112,7 @@ extension QCFormVC:CustomFormItemDelegate{
     func selectionAction(indexPath: IndexPath,arr:[String],isDate:Bool) {
         if isDate {
             let vc = DatePickerVC.instantiate()
-            vc.modalPresentationStyle = .overFullScreen
+            vc.modalPresentationStyle = .formSheet
             vc.dateSelected = { selectedDate , date in
                 self.formsItem[indexPath.section].data[indexPath.row].status = selectedDate
                 let cell = self.formTypeNoteTableview.cellForRow(at: indexPath) as! CustomFormItemTableViewCell
@@ -1045,9 +1123,9 @@ extension QCFormVC:CustomFormItemDelegate{
             let selectionPickerVC = PickerVC.instantiate()
             selectionPickerVC.arr_data = arr
             selectionPickerVC.searchBarHiddenStatus = true
-            selectionPickerVC.isModalInPresentation = true
-            selectionPickerVC.modalPresentationStyle = .overFullScreen
-            selectionPickerVC.definesPresentationContext = true
+            
+            selectionPickerVC.modalPresentationStyle = .formSheet
+            
             selectionPickerVC.delegate = { name , selectedIndex in
                 // Selection Action Here
                 self.formsItem[indexPath.section].data[indexPath.row].status = name
@@ -1066,7 +1144,7 @@ extension QCFormVC:SideBySideCellDelegate{
     func selectionAction(indexPath: IndexPath, arr: [String], isDate: Bool, isFirstField: Bool) {
         if isDate {
             let vc = DatePickerVC.instantiate()
-            vc.modalPresentationStyle = .overFullScreen
+            vc.modalPresentationStyle = .formSheet
             vc.dateSelected = { selectedDate , date in
                 self.formsItem[indexPath.section].data[indexPath.row].status = selectedDate
                 let cell = self.formTypeNoteTableview.cellForRow(at: indexPath) as! SideBySideTableViewCell
@@ -1078,12 +1156,12 @@ extension QCFormVC:SideBySideCellDelegate{
             }
             self.present(vc, animated: true, completion: nil)
         }else{
+            
             let selectionPickerVC = PickerVC.instantiate()
             selectionPickerVC.arr_data = arr
             selectionPickerVC.searchBarHiddenStatus = true
-            selectionPickerVC.isModalInPresentation = true
-            selectionPickerVC.modalPresentationStyle = .overFullScreen
-            selectionPickerVC.definesPresentationContext = true
+            selectionPickerVC.modalPresentationStyle = .formSheet
+            
             selectionPickerVC.delegate = { name , selectedIndex in
                 // Selection Action Here
                 self.formsItem[indexPath.section].data[indexPath.row].status = name
@@ -1108,14 +1186,12 @@ extension QCFormVC:SideBySideCellDelegate{
 extension QCFormVC:QCFormPresenterDelegate{
     
     func checkUnblockedItems() {
-        if checkUnBlockedItemsFilled(){
-            for i in 0..<formsItem.count{
-                for j in 0..<formsItem[i].data.count{
-                    formsItem[i].data[j].is_blocked = 0
-                }
-            }
+        if selectUserSwitch.isOn{
+            navigationController?.popViewController(animated: true)
+            return
         }
-        formTypeNoteTableview.reloadData()
+        checkAndClearAllLocks()
+        
     }
     
     func clearFields(){
@@ -1132,7 +1208,7 @@ extension QCFormVC:QCFormPresenterDelegate{
         jobView.backgroundColor = .systemGray5
     }
     
-
+    
     func getCompanyData(data: CompaniesData) {
         companies=data.companies
         companyBtn.isEnabled=true
@@ -1145,7 +1221,7 @@ extension QCFormVC:QCFormPresenterDelegate{
         }
     }
     
-
+    
     func getJobData(data: JobData) {
         jobs=data.jobs
         jobBtn.isEnabled=true
@@ -1157,7 +1233,7 @@ extension QCFormVC:QCFormPresenterDelegate{
             }else{
                 jobPickerVC.arr_data.append(contentsOf: jobs.map{$0.title ?? ""})
             }
-                
+            
             jobPickerVC.index = 0
             jobPickerVC.picker?.reloadAllComponents()
             
@@ -1218,10 +1294,30 @@ extension QCFormVC:QCFormPresenterDelegate{
     
     func getFormItemsData(data: FormItemData) {
         formsItem = groupAndSortFormItems(data: data.formItems)
+        let isNoLockedItems = data.formItems.filter{$0.is_blocked == 1}.count == 0
+        userTopStackView.isHidden = isNoLockedItems || isForwardNotification
+        if !isNoLockedItems{
+            presenter.getUsers(search: "")
+        }
         formTypeNoteTableview.reloadData()
         
     }
     
+    func setUsers(users: [UserData]) {
+        self.users = users
+        
+        if let userPickerVC = self.userPickerVC{
+            userPickerVC.arr_data = users.map{"\($0.fname ?? "") \($0.lname ?? "")"}
+            userPickerVC.index = 0
+            userPickerVC.picker?.reloadAllComponents()
+        }
+        
+        if let forUserId = forUserId, let user = self.users.first(where: {$0.id == forUserId}),!isForwardNotification{
+            let firstName = user.fname ?? ""
+            let lastName = user.lname ?? ""
+            userTextField.text = "\(firstName) \(lastName)"
+        }
+    }
     
     func groupAndSortFormItems(data: [DataDetails]) -> [(tag: String, data: [DataDetails])] {
         // Step 1: Group the data by tag (assign empty string for nil tags)
@@ -1279,9 +1375,6 @@ extension QCFormVC:QCFormPresenterDelegate{
         let result = sortedGroupedData.map { (tag: $0.key, data: $0.value) }
         return result
     }
-    
-    
-
     
     
 }
@@ -1342,6 +1435,3 @@ extension String {
         return dateFormatter.date(from: self)
     }
 }
-
-
-

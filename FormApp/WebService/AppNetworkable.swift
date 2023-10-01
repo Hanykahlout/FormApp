@@ -47,6 +47,9 @@ protocol AppNetworkable:Networkable  {
     func getWarranties(completion: @escaping (Result<BaseResponse<WarrantiesResponse>, Error>)-> ())
     func getWarranty(workOrderNumber:String,completion: @escaping (Result<BaseResponse<WarrantyResponse>, Error>)-> ())
     func storeWarranty(data:[String:Any],completion: @escaping (Result<BaseResponse<VersionModel>, Error>)-> ())
+    func getUsers(search:String,completion: @escaping (Result<BaseResponse<UsersResponse>, Error>)-> ())
+    func getNotifications(completion: @escaping (Result<BaseResponse<NotificationResponse>, Error>)-> ())
+    func getSubmittedForm(submittedFromId:String,completion: @escaping (Result<BaseResponse<FormInfo>, Error>)-> ())
     
 }
 
@@ -120,7 +123,7 @@ class AppManager: AppNetworkable {
     }
     
     func getSubmittedForms(searchText:String,completion: @escaping (Result<BaseResponse<SubmittedFormData>, Error>) -> ()){
-        request(target: .submittedForms(search: searchText), completion: completion)
+        request(target: .newSubmittedForms(search: searchText), completion: completion)
     }
     
   
@@ -194,6 +197,18 @@ class AppManager: AppNetworkable {
     
     func storeWarranty(data: [String : Any], completion: @escaping (Result<BaseResponse<VersionModel>, Error>) -> ()) {
         request(target: .storeWarranty(data: data), completion: completion)
+    }
+    
+    func getUsers(search: String, completion: @escaping (Result<BaseResponse<UsersResponse>, Error>) -> ()) {
+        request(target: .getUsers(search: search), completion: completion)
+    }
+    
+    func getNotifications(completion: @escaping (Result<BaseResponse<NotificationResponse>, Error>) -> ()) {
+        request(target: .pushNotifications, completion: completion)
+    }
+    
+    func getSubmittedForm(submittedFromId: String, completion: @escaping (Result<BaseResponse<FormInfo>, Error>) -> ()) {
+        request(target: .getSubmittedForm(submittedFormId: submittedFromId), completion: completion)
     }
     
     

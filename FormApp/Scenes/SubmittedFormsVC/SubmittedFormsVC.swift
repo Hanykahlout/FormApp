@@ -17,14 +17,17 @@ class SubmittedFormsVC: UIViewController {
     @IBOutlet weak var emptyDataStackView: UIStackView!
     @IBOutlet weak var airplaneNoteLabel: UILabel!
     
+    // MARK: - Private Attributes
     private let presnter = SubmittedFormsPresenter()
-    private var data = [FormInfo]()
+    private var data = [NewFormData]()
     private var formsData:SubmittedFormData?
     private var refreshControl = UIRefreshControl()
     private var optionsPicker:PickerVC?
     private var selectedOptionIndex = 0
+    
+    
     // MARK: - Life Cycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         presnter.delegate = self
@@ -38,6 +41,7 @@ class SubmittedFormsVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         setUpNavigation()
         SVProgressHUD.show()
         presnter.getSubmittedForms(search: "")
@@ -91,13 +95,14 @@ class SubmittedFormsVC: UIViewController {
         navigationItem.rightBarButtonItem = .init(customView: rightButton)
         
     }
+    
     private func optionsAction() {
         optionsPicker = PickerVC.instantiate()
         optionsPicker!.index = selectedOptionIndex
-        optionsPicker!.arr_data = ["Completed Passed Forms","Uncompleted Failed Forms","Fixture Forms","Drafts"]
+        optionsPicker!.arr_data = ["Completed Passed Forms","Uncompleted Failed Forms","Fixture Forms","Drafts","Forward Forms"]
         optionsPicker!.searchBarHiddenStatus = true
         optionsPicker!.isModalInPresentation = true
-        optionsPicker!.modalPresentationStyle = .overFullScreen
+        optionsPicker!.modalPresentationStyle = .formSheet
         optionsPicker!.definesPresentationContext = true
         optionsPicker!.delegate = {name , index in
             self.optionLabel.text = name
@@ -201,10 +206,13 @@ extension SubmittedFormsVC:UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = QCFormVC.instantiate()
-        if selectedOptionIndex == 3{
-            vc.draftData = data[indexPath.row]
+        if selectedOptionIndex == 3 || selectedOptionIndex == 4{
+            vc.isForwardNotification = selectedOptionIndex == 4
+            vc.formId = data[indexPath.row].id
+            vc.isDraft = true
         }else{
-            vc.editData = data[indexPath.row]
+            vc.formId = data[indexPath.row].id
+            vc.isDraft = false
         }
         
         navigationController?.pushViewController(vc, animated: true)
@@ -229,6 +237,7 @@ extension SubmittedFormsVC:Storyboarded{
 
 extension SubmittedFormsVC:SubmittedFormsPresenterDelegate{
     func getSubmittedFormsData(data: SubmittedFormData) {
+        
         formsData = data
         switch selectedOptionIndex{
         case 0:
@@ -239,6 +248,8 @@ extension SubmittedFormsVC:SubmittedFormsPresenterDelegate{
             self.data = data.fixtureForms
         case 3:
             self.data = data.drafts
+        case 4:
+            self.data = data.forwardForms
         default:break
         }
         self.tableView.reloadData()
@@ -246,6 +257,8 @@ extension SubmittedFormsVC:SubmittedFormsPresenterDelegate{
         if refreshControl.isRefreshing{
             refreshControl.endRefreshing()
         }
+        
+      
     }
     
 }

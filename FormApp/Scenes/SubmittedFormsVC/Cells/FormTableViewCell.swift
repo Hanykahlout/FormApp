@@ -24,9 +24,10 @@ class FormTableViewCell: UITableViewCell ,NibLoadableView{
         // Configure the view for the selected state
     }
     
-    func setData(data:FormInfo){
-        jobNameLabel.text = data.job?.title ?? "----"
-        formTypeLabel.text = data.form?.title ?? "----"
+    func setData(data:NewFormData){
+        jobNameLabel.text = data.jobTitle ?? "----"
+        formTypeLabel.text = data.formTitle ?? "----"
+        
     }
 
     

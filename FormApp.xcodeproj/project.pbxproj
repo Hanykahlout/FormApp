@@ -60,11 +60,11 @@
 		CE1406CD2AAE46F300E81240 /* WarrantyFormVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1406CC2AAE46F300E81240 /* WarrantyFormVC.swift */; };
 		CE1406DD2AAF61D300E81240 /* SubmitWarrantyFormVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1406DC2AAF61D300E81240 /* SubmitWarrantyFormVC.swift */; };
 		CE1406E22AAF886A00E81240 /* AttachTypeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1406E12AAF886A00E81240 /* AttachTypeVC.swift */; };
-		CE1406E72AAF972600E81240 /* SelectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1406E52AAF972600E81240 /* SelectionCollectionViewCell.swift */; };
-		CE1406E82AAF972600E81240 /* SelectionCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE1406E62AAF972600E81240 /* SelectionCollectionViewCell.xib */; };
 		CE1406EB2AAF9CAA00E81240 /* WarrantyFormModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1406EA2AAF9CAA00E81240 /* WarrantyFormModels.swift */; };
 		CE1406ED2AAF9DD100E81240 /* WarrantyFormPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1406EC2AAF9DD100E81240 /* WarrantyFormPresenter.swift */; };
 		CE1406EF2AAFBA7100E81240 /* SubmitWarrantyFormPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1406EE2AAFBA7100E81240 /* SubmitWarrantyFormPresenter.swift */; };
+		CE14DC212AC83614000F87A4 /* WarrantyModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE14DC202AC83614000F87A4 /* WarrantyModels.swift */; };
+		CE14DC232AC83F0D000F87A4 /* WarrantyListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE14DC222AC83F0D000F87A4 /* WarrantyListPresenter.swift */; };
 		CE3A79C529C70A0500413E0B /* FormTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A79C329C70A0500413E0B /* FormTableViewCell.swift */; };
 		CE3A79C629C70A0500413E0B /* FormTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE3A79C429C70A0500413E0B /* FormTableViewCell.xib */; };
 		CE3A79C829C71B3B00413E0B /* SubmittedFormsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A79C729C71B3B00413E0B /* SubmittedFormsVC.swift */; };
@@ -89,11 +89,20 @@
 		CE5D7F0C29F1FBE200A7D212 /* QCFormModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5D7F0B29F1FBE200A7D212 /* QCFormModels.swift */; };
 		CE5D7F0F29F1FC1200A7D212 /* HomeModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5D7F0E29F1FC1200A7D212 /* HomeModels.swift */; };
 		CE5D7F1229F1FD0300A7D212 /* SubmittedFormsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5D7F1129F1FD0300A7D212 /* SubmittedFormsModels.swift */; };
+		CE5F5EF62AB7449900B9192F /* WarrantyListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5F5EF52AB7449900B9192F /* WarrantyListVC.swift */; };
+		CE5F5EFA2AB74CCE00B9192F /* WarrantyListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5F5EF82AB74CCE00B9192F /* WarrantyListTableViewCell.swift */; };
+		CE5F5EFB2AB74CCE00B9192F /* WarrantyListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE5F5EF92AB74CCE00B9192F /* WarrantyListTableViewCell.xib */; };
 		CE6AED5C2A30CE2A00BC24A4 /* VersionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6AED5B2A30CE2A00BC24A4 /* VersionModel.swift */; };
 		CE75CEB82A4B7ED200C5F59E /* AuthPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE75CEB72A4B7ED200C5F59E /* AuthPresenter.swift */; };
+		CE7A85552ABB6BBD0090AC73 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE7A85542ABB6BBD0090AC73 /* GoogleService-Info.plist */; };
 		CE8169E02A05852800CBF0AD /* CreateMaterialVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8169DF2A05852800CBF0AD /* CreateMaterialVC.swift */; };
 		CE8372D72A9BC114008287E3 /* JobEntryModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8372D62A9BC114008287E3 /* JobEntryModels.swift */; };
 		CE8372D92A9BC3C9008287E3 /* JobEntryPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8372D82A9BC3C9008287E3 /* JobEntryPresenter.swift */; };
+		CE86ECD62ABE3C1F008976A2 /* NotificaitonVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE86ECD52ABE3C1F008976A2 /* NotificaitonVC.swift */; };
+		CE86ECD82ABE44BD008976A2 /* NotificaitonPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE86ECD72ABE44BD008976A2 /* NotificaitonPresenter.swift */; };
+		CE86ECDB2ABE46B9008976A2 /* NotificationModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE86ECDA2ABE46B9008976A2 /* NotificationModels.swift */; };
+		CE86ECDF2ABE4A4C008976A2 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE86ECDD2ABE4A4C008976A2 /* NotificationTableViewCell.swift */; };
+		CE86ECE02ABE4A4C008976A2 /* NotificationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE86ECDE2ABE4A4C008976A2 /* NotificationTableViewCell.xib */; };
 		CE95747E2A82968D005C693F /* SuccessAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE95747D2A82968D005C693F /* SuccessAlertVC.swift */; };
 		CE96375E2A7E72DD00538ABE /* CreateNewPassVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE96375D2A7E72DD00538ABE /* CreateNewPassVC.swift */; };
 		CE96377D2A7E78C600538ABE /* Urbanist-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE9637602A7E78C600538ABE /* Urbanist-Bold.ttf */; };
@@ -222,11 +231,11 @@
 		CE1406CC2AAE46F300E81240 /* WarrantyFormVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarrantyFormVC.swift; sourceTree = "<group>"; };
 		CE1406DC2AAF61D300E81240 /* SubmitWarrantyFormVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitWarrantyFormVC.swift; sourceTree = "<group>"; };
 		CE1406E12AAF886A00E81240 /* AttachTypeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachTypeVC.swift; sourceTree = "<group>"; };
-		CE1406E52AAF972600E81240 /* SelectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionCollectionViewCell.swift; sourceTree = "<group>"; };
-		CE1406E62AAF972600E81240 /* SelectionCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectionCollectionViewCell.xib; sourceTree = "<group>"; };
 		CE1406EA2AAF9CAA00E81240 /* WarrantyFormModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarrantyFormModels.swift; sourceTree = "<group>"; };
 		CE1406EC2AAF9DD100E81240 /* WarrantyFormPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarrantyFormPresenter.swift; sourceTree = "<group>"; };
 		CE1406EE2AAFBA7100E81240 /* SubmitWarrantyFormPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitWarrantyFormPresenter.swift; sourceTree = "<group>"; };
+		CE14DC202AC83614000F87A4 /* WarrantyModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarrantyModels.swift; sourceTree = "<group>"; };
+		CE14DC222AC83F0D000F87A4 /* WarrantyListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarrantyListPresenter.swift; sourceTree = "<group>"; };
 		CE3A79C329C70A0500413E0B /* FormTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTableViewCell.swift; sourceTree = "<group>"; };
 		CE3A79C429C70A0500413E0B /* FormTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FormTableViewCell.xib; sourceTree = "<group>"; };
 		CE3A79C729C71B3B00413E0B /* SubmittedFormsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmittedFormsVC.swift; sourceTree = "<group>"; };
@@ -251,11 +260,21 @@
 		CE5D7F0B29F1FBE200A7D212 /* QCFormModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCFormModels.swift; sourceTree = "<group>"; };
 		CE5D7F0E29F1FC1200A7D212 /* HomeModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModels.swift; sourceTree = "<group>"; };
 		CE5D7F1129F1FD0300A7D212 /* SubmittedFormsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmittedFormsModels.swift; sourceTree = "<group>"; };
+		CE5F5EF52AB7449900B9192F /* WarrantyListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarrantyListVC.swift; sourceTree = "<group>"; };
+		CE5F5EF82AB74CCE00B9192F /* WarrantyListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarrantyListTableViewCell.swift; sourceTree = "<group>"; };
+		CE5F5EF92AB74CCE00B9192F /* WarrantyListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WarrantyListTableViewCell.xib; sourceTree = "<group>"; };
 		CE6AED5B2A30CE2A00BC24A4 /* VersionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionModel.swift; sourceTree = "<group>"; };
 		CE75CEB72A4B7ED200C5F59E /* AuthPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPresenter.swift; sourceTree = "<group>"; };
+		CE7A85532ABB6AE30090AC73 /* FormApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FormApp.entitlements; sourceTree = "<group>"; };
+		CE7A85542ABB6BBD0090AC73 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CE8169DF2A05852800CBF0AD /* CreateMaterialVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMaterialVC.swift; sourceTree = "<group>"; };
 		CE8372D62A9BC114008287E3 /* JobEntryModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobEntryModels.swift; sourceTree = "<group>"; };
 		CE8372D82A9BC3C9008287E3 /* JobEntryPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobEntryPresenter.swift; sourceTree = "<group>"; };
+		CE86ECD52ABE3C1F008976A2 /* NotificaitonVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificaitonVC.swift; sourceTree = "<group>"; };
+		CE86ECD72ABE44BD008976A2 /* NotificaitonPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificaitonPresenter.swift; sourceTree = "<group>"; };
+		CE86ECDA2ABE46B9008976A2 /* NotificationModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationModels.swift; sourceTree = "<group>"; };
+		CE86ECDD2ABE4A4C008976A2 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
+		CE86ECDE2ABE4A4C008976A2 /* NotificationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NotificationTableViewCell.xib; sourceTree = "<group>"; };
 		CE95747D2A82968D005C693F /* SuccessAlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessAlertVC.swift; sourceTree = "<group>"; };
 		CE96375D2A7E72DD00538ABE /* CreateNewPassVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewPassVC.swift; sourceTree = "<group>"; };
 		CE9637602A7E78C600538ABE /* Urbanist-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Urbanist-Bold.ttf"; sourceTree = "<group>"; };
@@ -370,13 +389,15 @@
 		277CABCB29813969009C11CB /* FormApp */ = {
 			isa = PBXGroup;
 			children = (
+				CE7A85542ABB6BBD0090AC73 /* GoogleService-Info.plist */,
+				CE7A85532ABB6AE30090AC73 /* FormApp.entitlements */,
 				CE96375F2A7E78C600538ABE /* Fonts */,
 				CEF2BB242A018E3600D4DBA1 /* Extenstions+Designables */,
 				CE5D7F1529F1FD6200A7D212 /* Resources */,
 				CE5D7F1429F1FD3400A7D212 /* Configurations */,
 				CE5D7F0629F1FAA300A7D212 /* AppDelegate */,
 				CE42025A29B887F600517FCA /* Realm */,
-				279404C829A0BBFD00742AD9 /* Networkable */,
+				279404C829A0BBFD00742AD9 /* WebService */,
 				277CABFA2981A0E4009C11CB /* Protocols */,
 				CE5D7EF029F1D70B00A7D212 /* Scenes */,
 				CE5D7F0529F1F9E200A7D212 /* Storyboards */,
@@ -435,7 +456,7 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
-		279404C829A0BBFD00742AD9 /* Networkable */ = {
+		279404C829A0BBFD00742AD9 /* WebService */ = {
 			isa = PBXGroup;
 			children = (
 				279404CE29A0BC9A00742AD9 /* AppConfig.swift */,
@@ -444,7 +465,7 @@
 				279404DD29A0C89C00742AD9 /* BaseResponse.swift */,
 				CE6AED5B2A30CE2A00BC24A4 /* VersionModel.swift */,
 			);
-			path = Networkable;
+			path = WebService;
 			sourceTree = "<group>";
 		};
 		279404EB29A2BA0600742AD9 /* CustomAlerts */ = {
@@ -492,6 +513,7 @@
 		CE1406CB2AAE46BB00E81240 /* WarrantyFormVC */ = {
 			isa = PBXGroup;
 			children = (
+				CE5F5EF42AB7446700B9192F /* WarrantyListVC */,
 				CE1406E02AAF885700E81240 /* AttachTypeVC */,
 				CE1406D72AAF5FD000E81240 /* WarrantyFormVC */,
 				CE1406DB2AAF61A600E81240 /* SubmitWarrantyFormVC */,
@@ -503,7 +525,6 @@
 			isa = PBXGroup;
 			children = (
 				CE1406E92AAF9C9B00E81240 /* Models */,
-				CE1406E42AAF96F900E81240 /* Cells */,
 				CE1406CC2AAE46F300E81240 /* WarrantyFormVC.swift */,
 				CE1406EC2AAF9DD100E81240 /* WarrantyFormPresenter.swift */,
 			);
@@ -527,19 +548,18 @@
 			path = AttachTypeVC;
 			sourceTree = "<group>";
 		};
-		CE1406E42AAF96F900E81240 /* Cells */ = {
-			isa = PBXGroup;
-			children = (
-				CE1406E52AAF972600E81240 /* SelectionCollectionViewCell.swift */,
-				CE1406E62AAF972600E81240 /* SelectionCollectionViewCell.xib */,
-			);
-			path = Cells;
-			sourceTree = "<group>";
-		};
 		CE1406E92AAF9C9B00E81240 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				CE1406EA2AAF9CAA00E81240 /* WarrantyFormModels.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		CE14DC1F2AC835FB000F87A4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CE14DC202AC83614000F87A4 /* WarrantyModels.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -587,7 +607,9 @@
 		CE5D7EF029F1D70B00A7D212 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				CE86ECD42ABE3C0B008976A2 /* NotificaitonVC */,
 				CE5D7EF529F1D77600A7D212 /* HomeVC */,
+				CE5D7EF729F1D78B00A7D212 /* SubmittedFormsVC */,
 				CE5D7EF629F1D78000A7D212 /* QCFormVC */,
 				CEF2BB4D2A01A65A00D4DBA1 /* MaterialsVC */,
 				CEA4FD982AA1482B00B89E2F /* JobEntrySiginInVC */,
@@ -605,7 +627,6 @@
 				CE5D7F0D29F1FC0500A7D212 /* Model */,
 				CE8169DE2A05850C00CBF0AD /* CreateMaterialVC */,
 				CE5D7EF929F1D79A00A7D212 /* PORequestVC */,
-				CE5D7EF729F1D78B00A7D212 /* SubmittedFormsVC */,
 				CE5D7EF129F1D75100A7D212 /* PickerVCs */,
 				277CABEC29814FB5009C11CB /* CustomComponents */,
 			);
@@ -765,6 +786,26 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		CE5F5EF42AB7446700B9192F /* WarrantyListVC */ = {
+			isa = PBXGroup;
+			children = (
+				CE14DC1F2AC835FB000F87A4 /* Models */,
+				CE5F5EF72AB74CAF00B9192F /* Cells */,
+				CE5F5EF52AB7449900B9192F /* WarrantyListVC.swift */,
+				CE14DC222AC83F0D000F87A4 /* WarrantyListPresenter.swift */,
+			);
+			path = WarrantyListVC;
+			sourceTree = "<group>";
+		};
+		CE5F5EF72AB74CAF00B9192F /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				CE5F5EF82AB74CCE00B9192F /* WarrantyListTableViewCell.swift */,
+				CE5F5EF92AB74CCE00B9192F /* WarrantyListTableViewCell.xib */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		CE8169DE2A05850C00CBF0AD /* CreateMaterialVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -781,6 +822,34 @@
 				CEFC0D882AA285EB002FF9ED /* BudgetResponse.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		CE86ECD42ABE3C0B008976A2 /* NotificaitonVC */ = {
+			isa = PBXGroup;
+			children = (
+				CE86ECDC2ABE4A23008976A2 /* Cells */,
+				CE86ECD92ABE4697008976A2 /* Model */,
+				CE86ECD52ABE3C1F008976A2 /* NotificaitonVC.swift */,
+				CE86ECD72ABE44BD008976A2 /* NotificaitonPresenter.swift */,
+			);
+			path = NotificaitonVC;
+			sourceTree = "<group>";
+		};
+		CE86ECD92ABE4697008976A2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CE86ECDA2ABE46B9008976A2 /* NotificationModels.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		CE86ECDC2ABE4A23008976A2 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				CE86ECDD2ABE4A4C008976A2 /* NotificationTableViewCell.swift */,
+				CE86ECDE2ABE4A4C008976A2 /* NotificationTableViewCell.xib */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		CE95747C2A82967A005C693F /* SuccessAlertVC */ = {
@@ -1059,12 +1128,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE9637842A7E78C600538ABE /* Urbanist-Thin.ttf in Resources */,
+				CE7A85552ABB6BBD0090AC73 /* GoogleService-Info.plist in Resources */,
 				CE9637922A7E78C600538ABE /* Urbanist-ExtraBold.ttf in Resources */,
 				CE9637862A7E78C600538ABE /* FontsFree-Net-SFProDisplay-Medium.ttf in Resources */,
 				277CABD92981396A009C11CB /* LaunchScreen.storyboard in Resources */,
 				CEAC3CA82A19291B009774AD /* UserFormItemTableViewCell.xib in Resources */,
 				CE9637802A7E78C600538ABE /* Urbanist-LightItalic.ttf in Resources */,
 				CE9637992A7E78C600538ABE /* Inter-SemiBold.ttf in Resources */,
+				CE86ECE02ABE4A4C008976A2 /* NotificationTableViewCell.xib in Resources */,
 				CECD94292A1EB478007BEB65 /* CustomFormItemTableViewCell.xib in Resources */,
 				CE9637972A7E78C600538ABE /* Inter-Black.ttf in Resources */,
 				CE9637932A7E78C600538ABE /* Inter-ExtraLight.ttf in Resources */,
@@ -1093,6 +1164,7 @@
 				CE52B52C2A717CBD0092A2DF /* SideBySideTableViewCell.xib in Resources */,
 				CE9637962A7E78C600538ABE /* Urbanist-ThinItalic.ttf in Resources */,
 				CE9637902A7E78C600538ABE /* Inter-ExtraBold.ttf in Resources */,
+				CE5F5EFB2AB74CCE00B9192F /* WarrantyListTableViewCell.xib in Resources */,
 				CE96378A2A7E78C600538ABE /* Urbanist-Italic.ttf in Resources */,
 				277CABD429813969009C11CB /* Main.storyboard in Resources */,
 				CE96378D2A7E78C600538ABE /* Urbanist-BlackItalic.ttf in Resources */,
@@ -1101,7 +1173,6 @@
 				CE9637872A7E78C600538ABE /* Inter-Thin.ttf in Resources */,
 				CE96377D2A7E78C600538ABE /* Urbanist-Bold.ttf in Resources */,
 				277CABF9298199B7009C11CB /* FormTypeNoteCell.xib in Resources */,
-				CE1406E82AAF972600E81240 /* SelectionCollectionViewCell.xib in Resources */,
 				CE3A79C629C70A0500413E0B /* FormTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1159,6 +1230,7 @@
 				279404F929A2BA1700742AD9 /* CDAlertView.swift in Sources */,
 				CECD94222A1E63C7007BEB65 /* CreateFormItemVC.swift in Sources */,
 				CE9F7A0B2A02C7B400C04F40 /* MaterialsPrestner.swift in Sources */,
+				CE14DC232AC83F0D000F87A4 /* WarrantyListPresenter.swift in Sources */,
 				CEA6F5302A0A76D400C6A7A0 /* MaterialsDetailsVC.swift in Sources */,
 				279404CA29A0BC2B00742AD9 /* AppTarget.swift in Sources */,
 				CE54B76829BDCE2C00C9C9F1 /* RequestModel.swift in Sources */,
@@ -1188,6 +1260,7 @@
 				CEF2BB3F2A018E3600D4DBA1 /* UIImageViewCustomCornerRadius.swift in Sources */,
 				277CABE729814E6F009C11CB /* LoginVC.swift in Sources */,
 				279404D329A0BCEF00742AD9 /* KeychainWrapper.swift in Sources */,
+				CE86ECD82ABE44BD008976A2 /* NotificaitonPresenter.swift in Sources */,
 				279404F729A2BA1700742AD9 /* ImageHelper.swift in Sources */,
 				CEF2BB4F2A01A68000D4DBA1 /* MaterialsVC.swift in Sources */,
 				CE1406ED2AAF9DD100E81240 /* WarrantyFormPresenter.swift in Sources */,
@@ -1204,6 +1277,7 @@
 				279404CF29A0BC9A00742AD9 /* AppConfig.swift in Sources */,
 				CEA798542A46F05E00813277 /* SubContractorsDBModel.swift in Sources */,
 				CE5D7F0129F1F22F00A7D212 /* QCFormPresenter.swift in Sources */,
+				CE5F5EFA2AB74CCE00B9192F /* WarrantyListTableViewCell.swift in Sources */,
 				CE5D7EEF29F1D48F00A7D212 /* PORequestVC.swift in Sources */,
 				CE3A79C529C70A0500413E0B /* FormTableViewCell.swift in Sources */,
 				27CC17A129A4058B007BADC0 /* CheckBox.swift in Sources */,
@@ -1233,6 +1307,7 @@
 				279404DE29A0C89C00742AD9 /* BaseResponse.swift in Sources */,
 				277CABFC2981A151009C11CB /* NibLoadableView.swift in Sources */,
 				CEC08E6A29E0A51A00FC8CBF /* DatePickerVC.swift in Sources */,
+				CE86ECDF2ABE4A4C008976A2 /* NotificationTableViewCell.swift in Sources */,
 				CE8169E02A05852800CBF0AD /* CreateMaterialVC.swift in Sources */,
 				279404F329A2BA1700742AD9 /* LayoutConstraintsExtension.swift in Sources */,
 				CE3A79C829C71B3B00413E0B /* SubmittedFormsVC.swift in Sources */,
@@ -1244,7 +1319,6 @@
 				27CC17A429A4058B007BADC0 /* UIButtonDesignable.swift in Sources */,
 				279404CC29A0BC3F00742AD9 /* AppNetworkable.swift in Sources */,
 				279404DA29A0C86400742AD9 /* Networkable.swift in Sources */,
-				CE1406E72AAF972600E81240 /* SelectionCollectionViewCell.swift in Sources */,
 				27CC17A729A555BB007BADC0 /* Extensions.swift in Sources */,
 				CEA4FD9A2AA1484800B89E2F /* JobEntrySiginInVC.swift in Sources */,
 				CE56835F2A079E20002A2D01 /* CreateMaterialPresenter.swift in Sources */,
@@ -1256,9 +1330,13 @@
 				CE59C00F29DC5C0B0002C1F8 /* FormItemReason.swift in Sources */,
 				CECD94252A1E9F85007BEB65 /* FormItemNewBox.swift in Sources */,
 				279404F529A2BA1700742AD9 /* CDAlertViewType.swift in Sources */,
+				CE86ECD62ABE3C1F008976A2 /* NotificaitonVC.swift in Sources */,
+				CE14DC212AC83614000F87A4 /* WarrantyModels.swift in Sources */,
 				CE8372D72A9BC114008287E3 /* JobEntryModels.swift in Sources */,
 				CE9F7A092A02BA0700C04F40 /* UIPaddedTextField.swift in Sources */,
 				CEF2BB3A2A018E3600D4DBA1 /*  GraidentButton.swift in Sources */,
+				CE5F5EF62AB7449900B9192F /* WarrantyListVC.swift in Sources */,
+				CE86ECDB2ABE46B9008976A2 /* NotificationModels.swift in Sources */,
 				CEF2BB362A018E3600D4DBA1 /* UIViewCustomCornerRadiusWithGraidentView.swift in Sources */,
 				277CABCF29813969009C11CB /* SceneDelegate.swift in Sources */,
 				279404D529A0BCEF00742AD9 /* KeychainOperations.swift in Sources */,
@@ -1410,6 +1488,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = FormApp/FormApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -1451,6 +1530,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = FormApp/FormApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;

@@ -63,7 +63,7 @@ class SubmitWarrantyFormVC: UIViewController {
         setUpSegmentedControl(workmanshipIssueSegmentedControl)
         setUpSegmentedControl(billableSegmentedControl)
         setWarrantyData()
-//        billableSegmentedControl.addTarget(self, action: #selector(billableAction), for: .valueChanged)
+        //        billableSegmentedControl.addTarget(self, action: #selector(billableAction), for: .valueChanged)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -131,14 +131,14 @@ class SubmitWarrantyFormVC: UIViewController {
     }
     
     private func setUpTextFieldDelegates(){
-    
+        
         diagnosisTextField.delegate = self
         workPerformedTextField.delegate = self
         statusTextField.delegate = self
         manufacturerDefectTextField.delegate = self
         totalPriceTextField.delegate = self
         billableToTextField.delegate = self
-                
+        
     }
     
     
@@ -199,6 +199,21 @@ class SubmitWarrantyFormVC: UIViewController {
         }
         
         manufacturerDefectPickerVC!.modalPresentationStyle = .overCurrentContext
+    }
+    
+    private func attachFileAction(){
+        let vc = AttachTypeVC.instantiate()
+        vc.selectAction = { isPhoto in
+            
+            if isPhoto{
+                self.setImageBy(source: .photoLibrary)
+            }else{
+                self.present(self.documentPickerController, animated: true, completion: nil)
+            }
+            
+        }
+        vc.modalPresentationStyle = .formSheet
+        present(vc, animated: true)
     }
     
     
@@ -298,18 +313,7 @@ extension SubmitWarrantyFormVC{
         case manufacturerDefectButton:
             present(manufacturerDefectPickerVC, animated: true)
         case attachButton:
-            let vc = AttachTypeVC.instantiate()
-            vc.selectAction = { isPhoto in
-                
-                if isPhoto{
-                    self.setImageBy(source: .photoLibrary)
-                }else{
-                    self.present(self.documentPickerController, animated: true, completion: nil)
-                }
-                
-            }
-            vc.modalPresentationStyle = .overCurrentContext
-            present(vc, animated: true)
+            attachFileAction()
         case deleteAttchmentButton:
             selectedImageURL = nil
             selectedFileURL = nil
@@ -387,9 +391,6 @@ extension SubmitWarrantyFormVC:UIDocumentPickerDelegate{
         
         
     }
-     
-
-    
     
     func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
         dismiss(animated: true)

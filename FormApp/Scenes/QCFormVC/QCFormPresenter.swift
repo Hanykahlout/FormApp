@@ -17,6 +17,8 @@ protocol QCFormPresenterDelegate{
     func getSubContractors(data: SubContractorsResponse)
     func getFormItemsData(data: FormItemData)
     func checkUnblockedItems()
+    func setUsers(users:[UserData])
+    func setFormData(fromData:FormInfo)
 }
 
 
@@ -43,14 +45,13 @@ class QCFormPresenter{
     
     
     func getDivisionFromDB(companyID:String,search:String){
-       
-            self.delegate?.getDivition(data: DiviosnData(divisions: RealmController.shared.getFromDBModels(type:"divisions",companyId: companyID,searchText: search)))
-
+        
+        self.delegate?.getDivition(data: DiviosnData(divisions: RealmController.shared.getFromDBModels(type:"divisions",companyId: companyID,searchText: search)))
+        
     }
     
     func getSubContractorsDBModel(search:String){
-            self.delegate?.getSubContractors(data: SubContractorsResponse(subContractors: RealmController.shared.getSubContractorsDBModel(searchText: search)))
-        
+        self.delegate?.getSubContractors(data: SubContractorsResponse(subContractors: RealmController.shared.getSubContractorsDBModel(searchText: search)))
     }
     
     
@@ -107,6 +108,40 @@ class QCFormPresenter{
         request.email = (try? KeychainWrapper.get(key: "email")) ?? ""
         RealmManager.sharedInstance.saveObject(request)
         Alert.showSuccessAlert(title:"The submission succeeded",message: "It is sent when connected to the Internet")
+    }
+    
+    func getUsers(search:String){
+        SVProgressHUD.show()
+        AppManager.shared.getUsers(search: search) { result in
+            SVProgressHUD.dismiss()
+            switch result{
+            case let .success(response):
+                if let data = response.data?.users, response.status ?? false{
+                    self.delegate?.setUsers(users: data)
+                }else{
+                    Alert.showErrorAlert(message: response.message ?? "")
+                }
+            case  .failure(let error):
+                Alert.showErrorAlert(message: error.localizedDescription)
+            }
+        }
+    }
+    
+    func getSubmittedForm(submittedFromId:String){
+        SVProgressHUD.show()
+        AppManager.shared.getSubmittedForm(submittedFromId: submittedFromId) { result in
+            SVProgressHUD.dismiss()
+            switch result{
+            case let .success(response):
+                if let data = response.data ,response.status ?? false{
+                    self.delegate?.setFormData(fromData: data)
+                }else{
+                    Alert.showErrorAlert(message: response.message ?? "")
+                }
+            case  .failure(let error):
+                Alert.showErrorAlert(message: error.localizedDescription)
+            }
+        }
     }
     
     

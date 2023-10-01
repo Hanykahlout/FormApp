@@ -25,7 +25,8 @@ enum AppTarget:TargetType{
     case submitForms(formPurpose:FormPurpose,formsDetails:[String : Any])
     case checkDatabase(uuid:String,iosVersion:String?,deviceModel:String?,applicationVersion:String?,refresh:Bool?)
     case editSubmittedForm(submitted_form_id:String)
-    case submittedForms(search:String)
+    case newSubmittedForms(search:String)
+    case getSubmittedForm(submittedFormId:String)
     
     case getLists
     case getSpecialList(job_id:String,builder:String)
@@ -50,6 +51,9 @@ enum AppTarget:TargetType{
     case getWarranties
     case getWarranty(workOrderNumber:String)
     case storeWarranty(data:[String:Any])
+    case getUsers(search:String)
+    
+    case pushNotifications
     
     var baseURL: URL {
         switch self{
@@ -81,7 +85,7 @@ enum AppTarget:TargetType{
             }
         case .checkDatabase:return "checkDatabase"
         case .editSubmittedForm:return "editSubmittedForm"
-        case .submittedForms:return "submittedForms"
+        case .newSubmittedForms:return "newSubmittedForms"
         case .formItemReasons:return "failReasons"
         case .getLists:return "getLists"
         case .getSpecialList:return "getSpecialList"
@@ -102,6 +106,9 @@ enum AppTarget:TargetType{
         case .getWarranties: return "getWarranties"
         case .getWarranty: return "getWarranty"
         case .storeWarranty: return "storeWarranty"
+        case .getUsers: return "getUsers"
+        case .pushNotifications: return "pushNotifications"
+        case .getSubmittedForm: return "getSubmittedForm"
         }
     }
     
@@ -114,10 +121,12 @@ enum AppTarget:TargetType{
             
         case .getCompanies,.getJob,.forms,
                 .divisions,.getFormItems,.subContractors,
-                .checkDatabase,.editSubmittedForm,.submittedForms,
+                .checkDatabase,.editSubmittedForm,.newSubmittedForms,
                 .formItemReasons,.getLists,.getHouseMaterials,
                 .getSpecialList,.version,.checkAppStoreVersion,
-                .getApiLists,.getCities,.getZIP,.getBudgets,.getWarranties,.getWarranty:
+                .getApiLists,.getCities,.getZIP,.getBudgets,
+                .getWarranties,.getWarranty,.getUsers,
+                .pushNotifications,.getSubmittedForm:
             
             return .get
         }
@@ -126,7 +135,7 @@ enum AppTarget:TargetType{
     
     var task: Task{
         switch self{
-        case .getLists,.version,.getWarranties:
+        case .getLists,.version,.getWarranties,.pushNotifications:
             return .requestPlain
             
         case .getCompanies(let normal,_),.forms(let normal,_),.divisions(let normal,_),
@@ -145,9 +154,9 @@ enum AppTarget:TargetType{
             return .requestParameters(parameters: param, encoding: URLEncoding.httpBody)
             
         case .getJob,.getFormItems,.editSubmittedForm,
-                .checkDatabase,.submittedForms,.getHouseMaterials,
+                .checkDatabase,.newSubmittedForms,.getHouseMaterials,
                 .getSpecialList,.checkAppStoreVersion,.getCities,
-                .getZIP,.getApiLists,.getBudgets,.getWarranty:
+                .getZIP,.getApiLists,.getBudgets,.getWarranty,.getUsers,.getSubmittedForm:
             
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
             
@@ -225,13 +234,14 @@ enum AppTarget:TargetType{
     var headers: [String : String]?{
         switch self{
             
-        case .submittedForms,.getCompanies,.getJob,
+        case .newSubmittedForms,.getCompanies,.getJob,
                 .forms,.divisions,.getFormItems,.subContractors,.logout,
                 .submitForms,.checkDatabase,.editSubmittedForm,
                 .formItemReasons,.getLists,.getHouseMaterials,
                 .createHouseMaterial,.getSpecialList,.updateOnline,
                 .updatePassword,.getApiLists,.getCities,
-                .getZIP,.storeJob,.getBudgets,.getWarranties,.getWarranty:
+                .getZIP,.storeJob,.getBudgets,.getWarranties,
+                .getWarranty,.getUsers,.pushNotifications,.getSubmittedForm:
             
             do {
                 let token = try KeychainWrapper.get(key: AppData.email) ?? ""
@@ -266,9 +276,13 @@ enum AppTarget:TargetType{
     var param: [String : Any]{
         switch self {
         case .SignUp(let fname,let lname,let email,let password):
-            return ["fname":fname,"lname":lname,"email":email,"password":password]
+            let fcm = try? KeychainWrapper.get(key: "FCMTOKEN")
+            return ["fname":fname,"lname":lname,"email":email,"password":password,"fcm_token":fcm ?? ""]
+            
         case .login(let email,let password):
-            return ["email":email,"password":password]
+            let fcm = try? KeychainWrapper.get(key: "FCMTOKEN")
+            return ["email":email,"password":password,"fcm_token":fcm ?? ""]
+            
         case .getJob(let page,let normal,let uuid,let companyId,let search):
             
             var data:[String:Any] = [:]
@@ -334,7 +348,7 @@ enum AppTarget:TargetType{
             }
             
             return data
-        case .submittedForms(let search):
+        case .newSubmittedForms(let search):
             return ["search":search]
         case .getHouseMaterials(let company_id,let job_id,let phase,let special) :
             return ["company_id":company_id,"job_id":job_id,"phase":phase,"special":special]
@@ -402,6 +416,10 @@ enum AppTarget:TargetType{
             return ["model":model,"builder":builder]
         case .getWarranty(let workOrderNumber):
             return ["work_order_number":workOrderNumber]
+        case .getUsers(let search):
+            return ["search":search]
+        case .getSubmittedForm(let submittedFormId):
+            return ["submitted_form_id":submittedFormId]
         default:
             return [ : ]
         }

@@ -10,9 +10,7 @@ import UIKit
 
 class WarrantyFormVC: UIViewController {
     
-    @IBOutlet weak var collectionView: UICollectionView!
     
-    @IBOutlet weak var jobLabel: UILabel!
     @IBOutlet weak var serviceDateLabel: UILabel!
     @IBOutlet weak var customerLabel: UILabel!
     @IBOutlet weak var workOrderNumberLabel: UILabel!
@@ -30,6 +28,11 @@ class WarrantyFormVC: UIViewController {
     @IBOutlet weak var specialLabel: UILabel!
     
     @IBOutlet weak var continueButton: UIButton!
+    @IBOutlet weak var serviceTimeFromLabel: UILabel!
+    @IBOutlet weak var serviceTimeToLabel: UILabel!
+    
+    // MARK: - Public Attributes
+    var workOrderNumber = ""
     
     // MARK: - Private Attributes
     
@@ -43,9 +46,7 @@ class WarrantyFormVC: UIViewController {
         super.viewDidLoad()
         presenter.delegate = self
         binding()
-        setUpCollectionView()
-        presenter.getWarranties()
-        // Do any additional setup after loading the view.
+        presenter.getWarrantyData(workOrderNumber: workOrderNumber)
     }
     
     
@@ -94,7 +95,7 @@ extension WarrantyFormVC{
         switch sender{
         case continueButton:
             let vc = SubmitWarrantyFormVC.instantiate()
-            vc.workOrderNumber = selectedWorkOrderNumber
+            vc.workOrderNumber = workOrderNumber
             vc.warrantyData = warrantyData
             navigationController?.pushViewController(vc, animated: true)
         default:
@@ -109,52 +110,10 @@ extension WarrantyFormVC{
     
 }
 
-
-// MARK: - Set Up Collection View
-
-extension WarrantyFormVC:UICollectionViewDelegate,UICollectionViewDataSource{
-    
-    private func setUpCollectionView(){
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(.init(nibName: "SelectionCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "SelectionCollectionViewCell")
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return warranties.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SelectionCollectionViewCell", for: indexPath) as! SelectionCollectionViewCell
-        cell.setData(data: warranties[indexPath.row])
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        for i in 0..<warranties.count{
-            warranties[i].isSelected = i == indexPath.row
-        }
-        collectionView.reloadData()
-        presenter.getWarrantyData(workOrderNumber: warranties[indexPath.row].workOrderNumber ?? "")
-        selectedWorkOrderNumber = warranties[indexPath.row].workOrderNumber ?? ""
-    }
-    
-}
-
 // MARK: - Presenter Delegate
 
 extension WarrantyFormVC:WarrantyFormPresenterDelegate{
-    
-    func setWarrantiesData(data: [Warranty]) {
-        warranties = data
-        if !warranties.isEmpty{
-            warranties[0].isSelected = true
-            selectedWorkOrderNumber = warranties[0].workOrderNumber ?? ""
-            presenter.getWarrantyData(workOrderNumber: warranties[0].workOrderNumber ?? "")
-        }
-        collectionView.reloadData()
-        
-    }
+   
     
     func setWarrantyDetails(data: WarrantyResponse) {
         warrantyData = data
@@ -173,8 +132,8 @@ extension WarrantyFormVC:WarrantyFormPresenterDelegate{
         customerPOLabel.text = data.customerPo ?? "-----"
         reportedProblemLabel.text = data.reportedProblem ?? "-----"
         specialLabel.text = data.specialInstructions ?? "-----"
-        
     }
+    
     
 }
 
@@ -187,4 +146,5 @@ extension WarrantyFormVC:Storyboarded{
     static var storyboardName: StoryboardName = .main
     
 }
+
 

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22138.1" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22113"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Urbanist-Bold.ttf">
+            <string>Urbanist-Bold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="83" id="KGk-i7-Jjw" customClass="NotificationTableViewCell" customModule="FormApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="366" height="83"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="366" height="83"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tdk-lW-3Ly">
+                        <rect key="frame" x="0.0" y="10" width="366" height="63"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="notification" translatesAutoresizingMaskIntoConstraints="NO" id="Cu2-eg-ZSr">
+                                <rect key="frame" x="5" y="5" width="50" height="53"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="gQQ-QE-ySw"/>
+                                </constraints>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="JBr-ew-p0N">
+                                <rect key="frame" x="70" y="5" width="286" height="53"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="SQj-Hs-jFO">
+                                        <rect key="frame" x="0.0" y="0.0" width="218" height="53"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wEy-oH-hyD">
+                                                <rect key="frame" x="0.0" y="0.0" width="218" height="28.333333333333332"/>
+                                                <fontDescription key="fontDescription" name="Urbanist-Bold" family="Urbanist" pointSize="16"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S6a-b2-6KM">
+                                                <rect key="frame" x="0.0" y="36.333333333333336" width="218" height="16.666666666666664"/>
+                                                <fontDescription key="fontDescription" name="Urbanist-Bold" family="Urbanist" pointSize="14"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KgE-NI-wy3">
+                                        <rect key="frame" x="226" y="0.0" width="60" height="53"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="60" id="Osk-cH-gLr"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Urbanist-Bold" family="Urbanist" pointSize="14"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.21176470589999999" green="0.21176470589999999" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="JBr-ew-p0N" secondAttribute="bottom" constant="5" id="GYo-wy-VXg"/>
+                            <constraint firstItem="Cu2-eg-ZSr" firstAttribute="top" secondItem="tdk-lW-3Ly" secondAttribute="top" constant="5" id="IC3-OX-rOY"/>
+                            <constraint firstItem="JBr-ew-p0N" firstAttribute="top" secondItem="tdk-lW-3Ly" secondAttribute="top" constant="5" id="g3c-H5-9ub"/>
+                            <constraint firstItem="Cu2-eg-ZSr" firstAttribute="leading" secondItem="tdk-lW-3Ly" secondAttribute="leading" constant="5" id="l21-xi-hAR"/>
+                            <constraint firstAttribute="bottom" secondItem="Cu2-eg-ZSr" secondAttribute="bottom" constant="5" id="v2w-3U-MGI"/>
+                            <constraint firstItem="JBr-ew-p0N" firstAttribute="leading" secondItem="Cu2-eg-ZSr" secondAttribute="trailing" constant="15" id="yqQ-fk-8A2"/>
+                            <constraint firstAttribute="trailing" secondItem="JBr-ew-p0N" secondAttribute="trailing" constant="10" id="yuH-UE-8RD"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <integer key="value" value="10"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="tdk-lW-3Ly" secondAttribute="bottom" constant="10" id="1fO-og-LED"/>
+                    <constraint firstAttribute="trailing" secondItem="tdk-lW-3Ly" secondAttribute="trailing" id="2Ep-DS-xxG"/>
+                    <constraint firstItem="tdk-lW-3Ly" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="5nz-r3-wfL"/>
+                    <constraint firstItem="tdk-lW-3Ly" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="VRW-vO-owz"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="dateLabel" destination="KgE-NI-wy3" id="yGK-5y-stc"/>
+                <outlet property="subTitleLabel" destination="S6a-b2-6KM" id="yKZ-Ug-0CS"/>
+                <outlet property="titleLabel" destination="wEy-oH-hyD" id="y9n-n7-ldn"/>
+            </connections>
+            <point key="canvasLocation" x="242.74809160305344" y="18.661971830985916"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="notification" width="170.66667175292969" height="170.66667175292969"/>
+    </resources>
+</document>

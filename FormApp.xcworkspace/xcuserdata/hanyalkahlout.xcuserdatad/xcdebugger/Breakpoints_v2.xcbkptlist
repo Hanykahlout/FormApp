@@ -3,4 +3,99 @@
    uuid = "C1BEB139-09A0-4254-8167-FDCB632B9DEB"
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "40A8D227-27E2-4879-A329-32AB9DECFB5D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FormApp/AppDelegate/AppDelegate.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
+            landmarkName = "userNotificationCenter(_:didReceive:withCompletionHandler:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "40A8D227-27E2-4879-A329-32AB9DECFB5D - c8e43b8886a3ef5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FormApp.AppDelegate.userNotificationCenter(_: __C.UNUserNotificationCenter, didReceive: __C.UNNotificationResponse, withCompletionHandler: () -&gt; ()) -&gt; ()"
+                  moduleName = "FormApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hanyalkahlout/Desktop/Upwork%20Projects/Bryan%20Porject/FormApp/FormApp/AppDelegate/AppDelegate.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "112"
+                  endingLineNumber = "112"
+                  offsetFromSymbolStart = "380">
+               </Location>
+               <Location
+                  uuid = "40A8D227-27E2-4879-A329-32AB9DECFB5D - c8e43b8886a3ef5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FormApp.AppDelegate.userNotificationCenter(_: __C.UNUserNotificationCenter, didReceive: __C.UNNotificationResponse, withCompletionHandler: () -&gt; ()) -&gt; ()"
+                  moduleName = "FormApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hanyalkahlout/Desktop/Upwork%20Projects/Bryan%20Porject/FormApp/FormApp/AppDelegate/AppDelegate.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "112"
+                  endingLineNumber = "112"
+                  offsetFromSymbolStart = "620">
+               </Location>
+               <Location
+                  uuid = "40A8D227-27E2-4879-A329-32AB9DECFB5D - c8e43b8886a3ef5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FormApp.AppDelegate.userNotificationCenter(_: __C.UNUserNotificationCenter, didReceive: __C.UNNotificationResponse, withCompletionHandler: () -&gt; ()) -&gt; ()"
+                  moduleName = "FormApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hanyalkahlout/Desktop/Upwork%20Projects/Bryan%20Porject/FormApp/FormApp/AppDelegate/AppDelegate.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "112"
+                  endingLineNumber = "112"
+                  offsetFromSymbolStart = "704">
+               </Location>
+               <Location
+                  uuid = "40A8D227-27E2-4879-A329-32AB9DECFB5D - c8e43b8886a3ef5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FormApp.AppDelegate.userNotificationCenter(_: __C.UNUserNotificationCenter, didReceive: __C.UNNotificationResponse, withCompletionHandler: () -&gt; ()) -&gt; ()"
+                  moduleName = "FormApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hanyalkahlout/Desktop/Upwork%20Projects/Bryan%20Porject/FormApp/FormApp/AppDelegate/AppDelegate.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "112"
+                  endingLineNumber = "112"
+                  offsetFromSymbolStart = "376">
+               </Location>
+               <Location
+                  uuid = "40A8D227-27E2-4879-A329-32AB9DECFB5D - c8e43b8886a3ef5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FormApp.AppDelegate.userNotificationCenter(_: __C.UNUserNotificationCenter, didReceive: __C.UNNotificationResponse, withCompletionHandler: () -&gt; ()) -&gt; ()"
+                  moduleName = "FormApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hanyalkahlout/Desktop/Upwork%20Projects/Bryan%20Porject/FormApp/FormApp/AppDelegate/AppDelegate.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "112"
+                  endingLineNumber = "112"
+                  offsetFromSymbolStart = "616">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

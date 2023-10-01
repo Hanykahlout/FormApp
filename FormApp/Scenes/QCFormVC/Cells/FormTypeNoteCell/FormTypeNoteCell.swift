@@ -66,6 +66,7 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
     
     
     func configureCell(obj:DataDetails,indexPath:IndexPath){
+        
         self.indexPath = indexPath
         let system = obj.system
         blockedView.isHidden = obj.is_blocked != 1
@@ -102,6 +103,9 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
             dateView.isHidden = true
             
             statusWithoutSelectionTextField.text = obj.status ?? ""
+            if statusWithoutSelectionTextField.text!.isEmpty{
+                statusWithoutSelectionTextField.text = "0"
+            }
             statusWithoutSelectionTextField.placeholder = "Quantity"
             statusWithoutSelectionTextField.keyboardType = .numberPad
             statusWithoutSelectionLabel.text = "Enter your Quantity"
@@ -133,6 +137,7 @@ class FormTypeNoteCell: UITableViewCell,NibLoadableView {
         default:
             break
         }
+        
     }
     
     

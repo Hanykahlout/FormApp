@@ -8,11 +8,24 @@
 import Foundation
 
 struct SubmittedFormData:Decodable{
-    let passForms:[FormInfo]
-    let failForms:[FormInfo]
-    let fixtureForms:[FormInfo]
-    let drafts:[FormInfo]
     
+    let passForms:[NewFormData]
+    let failForms:[NewFormData]
+    let fixtureForms:[NewFormData]
+    let drafts:[NewFormData]
+    let forwardForms:[NewFormData]
+    
+}
+
+struct NewFormData: Codable {
+    let id: Int?
+    let jobTitle, formTitle: String?
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case jobTitle = "job_title"
+        case formTitle = "form_title"
+    }
 }
 
 
@@ -26,6 +39,7 @@ struct FormInfo:Decodable{
     var form_type_id:String?
     var created_at:String?
     var updated_at:String?
+    var for_user_id:Int?
     var company:DataDetails?
     var job:DataDetails?
     var division:DataDetails?
@@ -48,6 +62,7 @@ struct FormInfo:Decodable{
         case form
         case items
         case sub_contractor
+        case for_user_id
     }
     
     init(from decoder: Decoder) throws {
@@ -60,6 +75,10 @@ struct FormInfo:Decodable{
 
         if let value = try? container.decode(SubContractor.self, forKey:.sub_contractor) {
             sub_contractor = value
+        }
+        
+        if let value = try? container.decode(Int.self, forKey:.for_user_id) {
+            for_user_id = value
         }
         
         if let value = try? container.decode(String.self, forKey:.user_id) {

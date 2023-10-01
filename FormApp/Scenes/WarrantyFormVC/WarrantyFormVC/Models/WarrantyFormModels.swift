@@ -8,23 +8,20 @@
 import Foundation
 
 // MARK: - WarrantiesResponse
-struct WarrantiesResponse: Decodable {
-    var warranties: [Warranty]?
+struct WarrantiesResponse: Codable {
+    let submitted: [Warranty]?
+    let pending: [Warranty]?
 }
 
 // MARK: - Warranty
-struct Warranty: Decodable {
-    let workOrderNumber, builder, newConstruction: String?
-    let company: Int?
-    let division: String?
-    let dispatcher, serviceTech: String?
-    var isSelected = false
+struct Warranty: Codable {
+    let workOrderNumber, workAddress, builder, reportedProblem: String?
+
     enum CodingKeys: String, CodingKey {
         case workOrderNumber = "work_order_number"
+        case workAddress = "work_address"
         case builder
-        case newConstruction = "new_construction"
-        case company, division, dispatcher
-        case serviceTech = "service_tech"
+        case reportedProblem = "reported_problem"
     }
 }
 
@@ -47,7 +44,12 @@ struct WarrantyResponse: Codable {
     let diagnosis: String?
     let dispatcher: Dispatcher?
     let serviceTech: ServiceTech?
-
+    
+    let serviceTimeFrom, costCode, serviceTimeTo: String?
+    
+    
+    
+    
     enum CodingKeys: String, CodingKey {
         case id
         case workOrderNumber = "work_order_number"
@@ -73,6 +75,9 @@ struct WarrantyResponse: Codable {
         case workPerformed = "work_performed"
         case diagnosis, dispatcher
         case serviceTech = "service_tech"
+        case serviceTimeFrom = "service_time_from"
+        case costCode = "cost_code"
+        case serviceTimeTo = "service_time_to"
     }
 }
 
@@ -81,7 +86,7 @@ struct Dispatcher: Codable {
     let id: Int?
     let name, email, status, createdAt: String?
     let apiUsername: String?
-
+    
     enum CodingKeys: String, CodingKey {
         case id, name, email, status
         case createdAt = "created_at"
@@ -99,7 +104,7 @@ struct ServiceTech: Codable {
     let apiUsername: String?
     let jobEntry: String?
     let isOnline: Bool?
-
+    
     enum CodingKeys: String, CodingKey {
         case id, fname, lname, email, status
         case apiToken = "api_token"

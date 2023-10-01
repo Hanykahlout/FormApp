@@ -16,9 +16,10 @@ class HomeVC: UIViewController {
     //MARK: - Properties
     
     let presenter = HomePresenter()
+    var draftId:Int?
+    var workOrderId:String?
     
-    
-    //MARK: - Life cycle
+    //MARK: - VC Life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +31,21 @@ class HomeVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.navigationBar.barTintColor = UIColor.clear
+        if let draftId = draftId{
+            
+            let vc = QCFormVC.instantiate()
+            vc.formId = draftId
+            vc.isDraft = true
+            navigationController?.pushViewController(vc, animated: true)
+            
+        }else if let workOrderId = workOrderId{
+            
+            let vc = WarrantyFormVC.instantiate()
+            vc.workOrderNumber = workOrderId
+            navigationController?.pushViewController(vc, animated: true)
+            
+        }
         setUpNavigation()
         Timer.scheduledTimer(withTimeInterval: 300, repeats: true) { timer in
             self.presenter.checkDatabase()
@@ -41,18 +57,26 @@ class HomeVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
+        draftId = nil
+        workOrderId = nil
     }
+    
+    
     
     // MARK: - Private Functions
     
     private func setUpNavigation(){
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationItem.title = "Home"
+        
+        let notificationButtonItem = UIBarButtonItem(image: UIImage(systemName: "bell.fill"), style: .plain, target: self, action: #selector(notificationAction))
+        notificationButtonItem.tintColor = .orange
+        navigationItem.rightBarButtonItems = [notificationButtonItem]
     }
     
     private func setUpRefreshButton(){
         let refreshButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshAction))
-        navigationItem.rightBarButtonItem = refreshButtonItem
+        navigationItem.rightBarButtonItems?.append(refreshButtonItem)
         
     }
     
@@ -62,6 +86,11 @@ class HomeVC: UIViewController {
 extension HomeVC{
     @objc private func refreshAction(){
         presenter.checkDatabase(refresh: true)
+    }
+    
+    @objc private func notificationAction(){
+        let vc = NotificaitonVC.instantiate()
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -120,7 +149,7 @@ extension HomeVC:UICollectionViewDelegate,UICollectionViewDataSource,UICollectio
             navigationController?.pushViewController(vc, animated: true)
             
         case .warrantyForm:
-            let vc = WarrantyFormVC.instantiate()
+            let vc = WarrantyListVC.instantiate()
             navigationController?.pushViewController(vc, animated: true)
             
         }
@@ -136,6 +165,7 @@ extension HomeVC:UICollectionViewDelegate,UICollectionViewDataSource,UICollectio
 }
 
 extension HomeVC:HomePresenterDelegate{
+    
     
     func handleCheckDatabaseData(data: RequestsStatus) {
         presenter.data = [.Forms,.Materials]
