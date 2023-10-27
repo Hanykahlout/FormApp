@@ -84,7 +84,7 @@ class QCFormVC: UIViewController {
     var formId:Int?
     var isDraft:Bool?
     var isForwardNotification = false
-    
+    var canUpdateSubmit = true
     //MARK: - Life cycle
     
     
@@ -158,6 +158,8 @@ class QCFormVC: UIViewController {
         
     }
     
+    
+    
     private func hideSaveButton(){
         navigationItem.rightBarButtonItem = nil
     }
@@ -188,13 +190,12 @@ class QCFormVC: UIViewController {
     }
     
     private func checkEditData(){
-        if let isDraft = isDraft,!isDraft{
+        if isForwardNotification{
             hideSaveButton()
         }else{
             showSaveButton()
         }
         if let formId = formId{
-            
             
             presenter.getSubmittedForm(submittedFromId: String(formId))
             
@@ -558,7 +559,7 @@ class QCFormVC: UIViewController {
                     if self.isAllFormItemsSelected(){
                         SVProgressHUD.setBackgroundColor(.white)
                         SVProgressHUD.show(withStatus: "please wait")
-                        self.formPurpose = self.formId == nil ? .create : .edit
+                        self.formPurpose = self.formId == nil || !self.canUpdateSubmit ? .create : .edit
                         
                         self.presenter.submitFormData(formPurpose: self.formPurpose,formsDetails: self.formDetailsParameter())
                     }else{
@@ -1320,7 +1321,7 @@ extension QCFormVC:QCFormPresenterDelegate{
     }
     
     func groupAndSortFormItems(data: [DataDetails]) -> [(tag: String, data: [DataDetails])] {
-        // Step 1: Group the data by tag (assign empty string for nil tags)
+        
         var groupedData: [String: [DataDetails]] = [:]
         for item in data {
             let tag = item.tag ?? ""
@@ -1332,10 +1333,10 @@ extension QCFormVC:QCFormPresenterDelegate{
             }
         }
         
-        // Step 2: Sort the data alphabetically by tag
+        
         var sortedGroupedData = groupedData.sorted(by: { $0.key < $1.key })
         
-        // Step 3: Custom sorting function for tag groups
+        
         func compareTagGroups(group1: (key: String, value: [DataDetails]), group2: (key: String, value: [DataDetails])) -> Bool {
             let hasPinnedItems1 = group1.value.contains { $0.pin != nil }
             let hasPinnedItems2 = group2.value.contains { $0.pin != nil }
@@ -1353,10 +1354,10 @@ extension QCFormVC:QCFormPresenterDelegate{
             return false
         }
         
-        // Step 4: Sort the data alphabetically by tag and move pinned items to the top
+        
         sortedGroupedData.sort(by: compareTagGroups)
         
-        // Step 3: Sort the data within each tag group by pin date in descending order
+        
         for (tag, _) in sortedGroupedData {
             if let index = sortedGroupedData.firstIndex(where: { $0.key == tag }) {
                 let groupData = groupedData[tag] ?? []
@@ -1371,7 +1372,7 @@ extension QCFormVC:QCFormPresenterDelegate{
             }
         }
         
-        // Step 5: Convert to the final format and return
+        
         let result = sortedGroupedData.map { (tag: $0.key, data: $0.value) }
         return result
     }
@@ -1435,3 +1436,4 @@ extension String {
         return dateFormatter.date(from: self)
     }
 }
+

@@ -208,8 +208,10 @@ extension SubmittedFormsVC:UITableViewDelegate,UITableViewDataSource{
         let vc = QCFormVC.instantiate()
         if selectedOptionIndex == 3 || selectedOptionIndex == 4{
             vc.isForwardNotification = selectedOptionIndex == 4
+            vc.canUpdateSubmit = false
             vc.formId = data[indexPath.row].id
             vc.isDraft = true
+            
         }else{
             vc.formId = data[indexPath.row].id
             vc.isDraft = false

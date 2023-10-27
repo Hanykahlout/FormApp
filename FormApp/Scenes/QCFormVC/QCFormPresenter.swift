@@ -142,9 +142,7 @@ class QCFormPresenter{
                 Alert.showErrorAlert(message: error.localizedDescription)
             }
         }
-    }
-    
-    
+    }    
     
     
 }

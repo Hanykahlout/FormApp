@@ -40,6 +40,7 @@ struct FormInfo:Decodable{
     var created_at:String?
     var updated_at:String?
     var for_user_id:Int?
+    var user_name:String?
     var company:DataDetails?
     var job:DataDetails?
     var division:DataDetails?
@@ -63,6 +64,7 @@ struct FormInfo:Decodable{
         case items
         case sub_contractor
         case for_user_id
+        case user_name
     }
     
     init(from decoder: Decoder) throws {
@@ -71,6 +73,10 @@ struct FormInfo:Decodable{
         
         if let value = try? container.decode(Int.self, forKey:.id) {
             id = value
+        }
+        
+        if let value = try? container.decode(String.self, forKey:.user_name) {
+            user_name = value
         }
 
         if let value = try? container.decode(SubContractor.self, forKey:.sub_contractor) {

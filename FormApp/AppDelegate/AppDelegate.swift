@@ -119,6 +119,7 @@ extension AppDelegate:UNUserNotificationCenterDelegate{
             }else if type == "form" {
                 if let id = Int(userInfo["gcm.notification.model_id"] as? String ?? "0") {
                     vc.draftId = id
+                    
                 }
                 
             }

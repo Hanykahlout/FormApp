@@ -35,6 +35,7 @@ class HomeVC: UIViewController {
         if let draftId = draftId{
             
             let vc = QCFormVC.instantiate()
+            vc.isForwardNotification = true
             vc.formId = draftId
             vc.isDraft = true
             navigationController?.pushViewController(vc, animated: true)
